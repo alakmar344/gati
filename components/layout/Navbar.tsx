@@ -59,12 +59,17 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-6 py-3 transition-all">
-        <div className="max-w-7xl mx-auto flex items-center justify-between glass-panel rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-white/80">
+      <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-6 py-2.5 transition-all">
+        {/* Top Tiranga Accent Line */}
+        <div className="max-w-7xl mx-auto mb-1 rounded-full overflow-hidden shadow-xs">
+          <div className="tiranga-top-bar" />
+        </div>
+
+        <div className="max-w-7xl mx-auto flex items-center justify-between glass-panel rounded-full px-4 sm:px-5 py-2 shadow-sm border border-white/80">
           
-          {/* Brand Logo */}
+          {/* Brand Logo with India-Centric Sovereign Emblem */}
           <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-sky-600 flex items-center justify-center text-white shadow-md shadow-emerald-700/20 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-saffron-500 via-ashoka-700 to-indiaGreen-700 flex items-center justify-center text-white shadow-md shadow-slate-900/10 group-hover:scale-105 transition-transform">
               <span className="font-mono font-black text-base tracking-tighter">G</span>
             </div>
             <div className="flex flex-col">
@@ -72,12 +77,12 @@ export const Navbar: React.FC = () => {
                 <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900">
                   GATI
                 </span>
-                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded-md">
+                <span className="text-[10px] font-bold text-saffron-700 bg-saffron-50 border border-saffron-200 px-1.5 py-0.2 rounded-md">
                   गति
                 </span>
               </div>
-              <span className="text-[9px] font-medium text-slate-500 tracking-wider uppercase leading-none mt-0.5">
-                Indian Mobility OS
+              <span className="text-[9px] font-semibold text-slate-500 tracking-wider uppercase leading-none mt-0.5">
+                Indian Mobility OS • भारत
               </span>
             </div>
           </Link>
