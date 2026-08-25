@@ -100,7 +100,7 @@ export default function HomePage() {
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.08] max-w-4xl mb-6">
             Indian vehicle services. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-saffron-600 via-ashoka-700 to-indiaGreen-700">
-              Radically simpler & 10x faster.
+              for all your needs on road!
             </span>
           </h1>
 
