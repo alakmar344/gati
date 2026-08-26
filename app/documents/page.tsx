@@ -20,13 +20,13 @@ import { DigitalDrivingLicenceCard } from '@/components/documents/DigitalDriving
 import { VipAllotmentOrder } from '@/components/documents/VipAllotmentOrder';
 import { DigitalPermitDocument } from '@/components/documents/DigitalPermitDocument';
 
-type Tone = 'slate' | 'emerald' | 'sky' | 'amber' | 'rose' | 'violet';
+type Tone = 'olive' | 'saffron' | 'ashoka' | 'india' | 'rose' | 'slate';
 
 const TYPE_META: Record<string, { badge: string; tone: Tone }> = {
-  'vehicle-licensing': { badge: 'RC', tone: 'emerald' },
-  'fancy-numbers': { badge: 'VIP', tone: 'amber' },
-  'driver-licence': { badge: 'DL', tone: 'sky' },
-  'vehicle-permit': { badge: 'Permit', tone: 'violet' },
+  'vehicle-licensing': { badge: 'RC', tone: 'olive' },
+  'fancy-numbers': { badge: 'VIP', tone: 'saffron' },
+  'driver-licence': { badge: 'DL', tone: 'ashoka' },
+  'vehicle-permit': { badge: 'Permit', tone: 'india' },
 };
 
 export default function DocumentsPage() {
@@ -152,7 +152,7 @@ export default function DocumentsPage() {
                   {/* Top Badges */}
                   <div className="flex items-center justify-between mb-4">
                     <Pill tone={meta.tone}>{meta.badge}</Pill>
-                    <Pill tone={isActive ? 'emerald' : 'amber'}>
+                    <Pill tone={isActive ? 'olive' : 'saffron'}>
                       <ShieldCheck className="w-3 h-3" />
                       {isActive ? 'VALID' : 'IN REVIEW'}
                     </Pill>

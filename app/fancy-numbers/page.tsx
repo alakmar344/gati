@@ -265,7 +265,7 @@ export default function FancyNumbersPage() {
               {/* Right Details & Fast Booking Action */}
               <div className="lg:col-span-5 space-y-4">
                 <div className="flex items-center justify-between gap-3">
-                  <Pill tone="amber">{selectedNumber.category}</Pill>
+                  <Pill tone="saffron">{selectedNumber.category}</Pill>
                   <span className="text-[11px] font-medium text-olive-700/70 flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5 text-amber-600" />
                     Ends in {selectedNumber.auctionEndsIn}
@@ -286,7 +286,7 @@ export default function FancyNumbersPage() {
                     <span className="text-[11px] uppercase font-bold tracking-wide text-amber-700/80 block">Reserve Price / Buy Now</span>
                     <span className="text-2xl font-black text-olive-950 font-mono">{formatINR(selectedNumber.price)}</span>
                   </div>
-                  <Pill tone="emerald">{selectedNumber.bidsCount} Active Bids</Pill>
+                  <Pill tone="olive">{selectedNumber.bidsCount} Active Bids</Pill>
                 </div>
 
                 {/* Target Vehicle Input */}
@@ -334,7 +334,7 @@ export default function FancyNumbersPage() {
             {/* Category Filter Chips */}
             <Field label="Pattern category">
               <OptionGrid
-                tone="amber"
+                tone="saffron"
                 columns="grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
                 options={CATEGORY_OPTIONS}
                 value={selectedCategory}
@@ -345,7 +345,7 @@ export default function FancyNumbersPage() {
             {/* Numerology Lucky Sum Filter */}
             <Field label="Lucky sum" hint="Numerology total of the digits">
               <OptionGrid
-                tone="amber"
+                tone="saffron"
                 columns="grid-cols-3 sm:grid-cols-5"
                 options={SUM_OPTIONS}
                 value={selectedSum === null ? 'ALL' : String(selectedSum)}
@@ -371,7 +371,7 @@ export default function FancyNumbersPage() {
                   <div>
                     {/* Top Row: Category & Sum */}
                     <div className="flex items-center justify-between gap-2 mb-4">
-                      <Pill tone="amber">{item.category}</Pill>
+                      <Pill tone="saffron">{item.category}</Pill>
                       <div className="flex items-center gap-2 text-[11px] text-olive-700/70">
                         <span className="font-mono font-bold text-amber-700">Sum {item.numerologySum}</span>
                         <span className="text-olive-400">•</span>

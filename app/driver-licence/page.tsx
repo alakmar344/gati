@@ -197,7 +197,7 @@ export default function DriverLicencePage() {
       {/* Header */}
       <div className="mb-8 animate-rise">
         <div className="flex justify-center mb-3">
-          <Pill tone="sky">
+          <Pill tone="ashoka">
             <CreditCard className="w-3.5 h-3.5" />
             <span>Driver Licensing & Slot Booking</span>
           </Pill>
@@ -282,7 +282,7 @@ export default function DriverLicencePage() {
               hint="Determines the applicable statutory fee and whether a driving test slot is required."
             >
               <OptionGrid
-                tone="sky"
+                tone="ashoka"
                 columns="grid-cols-2 sm:grid-cols-4"
                 value={licenceType}
                 onChange={(v) => setLicenceType(v as any)}
@@ -302,7 +302,7 @@ export default function DriverLicencePage() {
             >
               <OptionGrid
                 multi
-                tone="sky"
+                tone="ashoka"
                 columns="grid-cols-1 sm:grid-cols-3"
                 selectedValues={vehicleClasses}
                 onChange={(v) => toggleClass(v)}
@@ -383,7 +383,7 @@ export default function DriverLicencePage() {
                   <div className="text-[11px] text-olive-700/70 font-mono">Aadhaar: {currentUser.aadhaarMasked} (e-KYC Linked)</div>
                 </div>
               </div>
-              <Pill tone="emerald">Auto-Verified</Pill>
+              <Pill tone="olive">Auto-Verified</Pill>
             </div>
 
             {/* Autofill banner */}
@@ -540,7 +540,7 @@ export default function DriverLicencePage() {
               adornment={<Clock className="w-3.5 h-3.5 text-ashoka-600" />}
             >
               <OptionGrid
-                tone="sky"
+                tone="ashoka"
                 columns="grid-cols-1 sm:grid-cols-2"
                 value={selectedTimeSlot}
                 onChange={setSelectedTimeSlot}

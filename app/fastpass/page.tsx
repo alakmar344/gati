@@ -152,7 +152,7 @@ export default function FastPassPage() {
         <div className="card p-8 sm:p-10 space-y-7 animate-dialog-in max-w-xl mx-auto">
 
           <div className="text-center space-y-3">
-            <Pill tone="emerald" className="mx-auto">
+            <Pill tone="olive" className="mx-auto">
               <Zap className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
               Minted in {completedPass.elapsedSeconds} seconds
             </Pill>

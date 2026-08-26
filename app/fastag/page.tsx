@@ -89,7 +89,7 @@ export default function FastagPage() {
                 </span>
               </div>
             </div>
-            <Pill tone={lowBalance ? 'amber' : 'emerald'} className="bg-white/10 border-white/15 text-white">
+            <Pill tone={lowBalance ? 'saffron' : 'india'} className="bg-white/10 border-white/15 text-white">
               {lowBalance ? 'LOW BALANCE' : 'ACTIVE NETC'}
             </Pill>
           </div>
@@ -99,7 +99,7 @@ export default function FastagPage() {
             {mounted ? (
               <div
                 className={`font-display text-5xl sm:text-6xl font-extrabold tracking-tight mt-2 ${
-                  lowBalance ? 'text-amber-300' : 'text-olive-400'
+                  lowBalance ? 'text-saffron-300' : 'text-indiaGreen-400'
                 }`}
               >
                 {formatINR(fastag.walletBalance)}
@@ -216,7 +216,7 @@ export default function FastagPage() {
                 </div>
 
                 <div className="flex items-center justify-between pt-3 border-t border-olive-100">
-                  <Pill tone="emerald">{route.fastagDiscountPercent}% FASTag CashPass</Pill>
+                  <Pill tone="india">{route.fastagDiscountPercent}% FASTag CashPass</Pill>
                   <span className="font-mono font-extrabold text-olive-950 text-sm">
                     {formatINR(route.totalTollCost)}
                   </span>
@@ -230,7 +230,7 @@ export default function FastagPage() {
         <div className="rounded-2xl bg-olive-50 border border-olive-200 p-5 space-y-4">
           <div className="flex items-center justify-between gap-3">
             <span className="font-bold text-olive-950 text-sm">{selectedRoute.name}</span>
-            <Pill tone="sky">Selected route</Pill>
+            <Pill tone="ashoka">Selected route</Pill>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

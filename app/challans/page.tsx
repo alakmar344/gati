@@ -79,7 +79,7 @@ export default function ChallansPage() {
     .reduce((acc, curr) => acc + curr.amount, 0);
 
   const statusPill = (status: ChallanRecord['status']) => {
-    if (status === 'PAID') return <Pill tone="emerald">PAID</Pill>;
+    if (status === 'PAID') return <Pill tone="olive">PAID</Pill>;
     if (status === 'DISPUTED') return <Pill tone="slate">DISPUTED</Pill>;
     return <Pill tone="rose">PENDING</Pill>;
   };

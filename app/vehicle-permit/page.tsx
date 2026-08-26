@@ -237,7 +237,7 @@ export default function VehiclePermitPage() {
               hint="Choose the statutory category that matches your vehicle and operation. Fees and route rights adapt automatically."
             >
               <OptionGrid
-                tone="teal"
+                tone="india"
                 columns="grid-cols-1 sm:grid-cols-2"
                 value={permitCategory}
                 onChange={(v) => setPermitCategory(v as any)}
@@ -417,7 +417,7 @@ export default function VehiclePermitPage() {
               hint="Select one or more corridors — at least one is required. Pan-India coverage includes every state, UT, and border checkpost."
             >
               <OptionGrid
-                tone="teal"
+                tone="india"
                 multi
                 columns="grid-cols-1"
                 selectedValues={selectedCorridors}

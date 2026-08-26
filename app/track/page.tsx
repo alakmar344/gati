@@ -109,7 +109,7 @@ function TrackContent() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 hairline border-b">
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-2">
-                <Pill tone="emerald">{activeApp.serviceType.replace('-', ' ')}</Pill>
+                <Pill tone="olive">{activeApp.serviceType.replace('-', ' ')}</Pill>
                 <span className="font-mono text-xs text-ashoka-700 font-bold">
                   {activeApp.referenceNumber}
                 </span>

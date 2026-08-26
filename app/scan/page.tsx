@@ -159,7 +159,7 @@ export default function ScanPage() {
                 <Camera className="w-4 h-4 text-olive-600" />
                 <span>Camera / OCR Viewport</span>
               </span>
-              <Pill tone="emerald">Live Ready</Pill>
+              <Pill tone="olive">Live Ready</Pill>
             </div>
 
             {/* Viewfinder Screen */}
@@ -273,7 +273,7 @@ export default function ScanPage() {
                     {activeResult.docType === 'PLATE' && 'HSRP Plate Telemetry Match'}
                   </h3>
                 </div>
-                <Pill tone="emerald" className="font-mono shrink-0">
+                <Pill tone="olive" className="font-mono shrink-0">
                   {activeResult.confidence}% Match
                 </Pill>
               </div>

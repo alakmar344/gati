@@ -169,7 +169,7 @@ export default function LoginPage() {
         <div className="lg:col-span-7 space-y-5">
           <div className="flex items-center justify-between px-1">
             <span className="eyebrow text-olive-700/70">Demo profiles</span>
-            <Pill tone="emerald">{DEMO_USERS.length} personas</Pill>
+            <Pill tone="olive">{DEMO_USERS.length} personas</Pill>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 stagger">
@@ -215,7 +215,7 @@ export default function LoginPage() {
                       <MapPin className="w-3.5 h-3.5 text-olive-500/80" />
                       {user.city}
                     </span>
-                    <Pill tone={isSelected ? 'emerald' : 'slate'}>
+                    <Pill tone={isSelected ? 'olive' : 'slate'}>
                       <Car className="w-3 h-3" />
                       {user.vehiclesCount} {user.vehiclesCount === 1 ? 'vehicle' : 'vehicles'}
                     </Pill>

@@ -222,7 +222,7 @@ export default function VehicleLicensingPage() {
             <p className="eyebrow text-olive-700">
               Step {currentStep} of 5 — {WIZARD_STEPS[currentStep - 1].label}
             </p>
-            <Pill tone="emerald">Paperless FastTrack</Pill>
+            <Pill tone="olive">Paperless FastTrack</Pill>
           </div>
 
           <div className="flex items-start">
@@ -418,7 +418,7 @@ export default function VehicleLicensingPage() {
                 </div>
               </div>
 
-              <Pill tone="emerald">Paperless FastTrack</Pill>
+            <Pill tone="olive">Paperless FastTrack</Pill>
             </div>
 
             <div className="flex justify-between pt-2">

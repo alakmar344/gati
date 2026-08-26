@@ -254,7 +254,7 @@ export default function InterstateNocPage() {
           <div className="p-6 bg-white rounded-2xl border border-olive-200 text-xs space-y-3 text-olive-800">
             <div className="flex items-center justify-between border-b border-olive-100 pb-3">
               <span className="font-bold text-olive-950">Form 28 No-Objection Certificate (NOC)</span>
-              <Pill tone="emerald">Digitally Signed</Pill>
+              <Pill tone="olive">Digitally Signed</Pill>
             </div>
             <div className="flex justify-between border-b border-olive-100 pb-3">
               <span>Vehicle Registration</span>
