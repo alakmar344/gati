@@ -1,24 +1,54 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { Search, CornerDownLeft, ArrowUp, ArrowDown, Command as CmdIcon } from 'lucide-react';
-import { CORE_SERVICES, SPEED_TOOLS, ACCOUNT_LINKS, NavItem } from '@/lib/nav';
+import {
+  Search,
+  CornerDownLeft,
+  ArrowUp,
+  ArrowDown,
+  Command as CmdIcon,
+  Sparkles,
+  Wand2,
+  Zap,
+} from 'lucide-react';
+import { parseIntent, Suggestion, IntentRun } from '@/lib/intent';
+import { computeInsights, ActionItem } from '@/lib/insights';
+import {
+  getCurrentUser,
+  getAllChallans,
+  getFastagAccount,
+  getApplicationsForUser,
+} from '@/lib/storage';
+import { useQuickAction } from '@/components/copilot/useQuickAction';
 
-const GROUPS: { label: string; items: NavItem[] }[] = [
-  { label: 'Services', items: CORE_SERVICES },
-  { label: 'Speed Tools', items: SPEED_TOOLS },
-  { label: 'Account', items: ACCOUNT_LINKS },
+const EXAMPLES = [
+  'pay all my challans',
+  'top up fastag 1000',
+  'renew my licence',
+  'register a new EV',
+  'scan my RC',
+  'book an ADTT slot',
 ];
 
+type Row =
+  | { type: 'suggestion'; data: Suggestion }
+  | { type: 'insight'; data: ActionItem };
+
 export function CommandPalette() {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
+  const [exampleIdx, setExampleIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const run = useQuickAction();
 
-  // Global keyboard + custom-event triggers
+  // rotating placeholder
+  useEffect(() => {
+    if (!open) return;
+    const t = setInterval(() => setExampleIdx((i) => (i + 1) % EXAMPLES.length), 2600);
+    return () => clearInterval(t);
+  }, [open]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -27,23 +57,26 @@ export function CommandPalette() {
       }
       if (e.key === 'Escape') setOpen(false);
     };
-    const onOpen = () => setOpen(true);
+    const onOpen = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.q) setQuery(String(detail.q));
+      setOpen(true);
+    };
     window.addEventListener('keydown', onKey);
-    window.addEventListener('gati_open_command', onOpen);
+    window.addEventListener('gati_open_command', onOpen as EventListener);
     return () => {
       window.removeEventListener('keydown', onKey);
-      window.removeEventListener('gati_open_command', onOpen);
+      window.removeEventListener('gati_open_command', onOpen as EventListener);
     };
   }, []);
 
   useEffect(() => {
     if (open) {
-      setQuery('');
       setActive(0);
-      // focus after paint
       requestAnimationFrame(() => inputRef.current?.focus());
       document.body.style.overflow = 'hidden';
     } else {
+      setQuery('');
       document.body.style.overflow = '';
     }
     return () => {
@@ -51,55 +84,117 @@ export function CommandPalette() {
     };
   }, [open]);
 
-  const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    const groups = GROUPS.map((g) => ({
-      ...g,
-      items: g.items.filter((it) => {
-        if (!q) return true;
-        return (
-          it.name.toLowerCase().includes(q) ||
-          it.desc.toLowerCase().includes(q) ||
-          (it.keywords || '').includes(q)
-        );
+  // live context for smarter labels + proactive suggestions
+  const ctx = useMemo(() => {
+    if (!open) return { insights: [] as ActionItem[], pendingTotal: 0, pendingCount: 0, balance: 0 };
+    const user = getCurrentUser();
+    const challans = getAllChallans();
+    const fastag = getFastagAccount();
+    const apps = getApplicationsForUser(user.id);
+    const pending = challans.filter((c) => c.status === 'PENDING');
+    return {
+      insights: computeInsights({ user, challans, fastag, apps }),
+      pendingTotal: pending.reduce((s, c) => s + c.amount, 0),
+      pendingCount: pending.length,
+      balance: fastag.walletBalance,
+    };
+    // recompute whenever opened or query changes (cheap)
+  }, [open, query]);
+
+  const suggestions = useMemo(
+    () =>
+      parseIntent(query, {
+        pendingChallanTotal: ctx.pendingTotal,
+        pendingChallanCount: ctx.pendingCount,
+        fastagBalance: ctx.balance,
       }),
-    })).filter((g) => g.items.length > 0);
-    return groups;
-  }, [query]);
+    [query, ctx]
+  );
 
-  const flat = useMemo(() => results.flatMap((g) => g.items), [results]);
+  const rows: Row[] = useMemo(() => {
+    if (query.trim()) return suggestions.map((s) => ({ type: 'suggestion', data: s }));
+    // empty query → proactive: top insights first
+    return ctx.insights.slice(0, 5).map((i) => ({ type: 'insight', data: i }));
+  }, [query, suggestions, ctx.insights]);
 
-  const go = useCallback(
-    (item?: NavItem) => {
-      const target = item || flat[active];
-      if (target) {
-        setOpen(false);
-        router.push(target.href);
-      }
+  const execute = useCallback(
+    (row?: Row) => {
+      const r = row || rows[active];
+      if (!r) return;
+      const action = r.type === 'suggestion' ? r.data.run : r.data.action;
+      const inline = run(action as IntentRun);
+      setOpen(false);
     },
-    [flat, active, router]
+    [rows, active, run]
   );
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActive((a) => Math.min(a + 1, flat.length - 1));
+      setActive((a) => Math.min(a + 1, rows.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setActive((a) => Math.max(a - 1, 0));
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      go();
+      execute();
     }
   };
 
+  useEffect(() => setActive(0), [query]);
+
   if (!open) return null;
 
-  let runningIndex = -1;
+  const doNow = rows.filter((r) => (r.type === 'suggestion' ? r.data.group === 'Do it now' : false));
+  const goTo = rows.filter((r) => r.type === 'suggestion' && r.data.group === 'Go to');
+  const insightRows = rows.filter((r) => r.type === 'insight');
+
+  let idxCounter = -1;
+  const renderRow = (r: Row) => {
+    idxCounter++;
+    const idx = idxCounter;
+    const isActive = idx === active;
+    const Icon = r.type === 'suggestion' ? r.data.icon : r.data.icon;
+    const title = r.type === 'suggestion' ? r.data.title : r.data.title;
+    const hint = r.type === 'suggestion' ? r.data.hint : r.data.subtitle;
+    const tint = r.type === 'suggestion' ? r.data.tint : 'text-emerald-700 bg-emerald-100';
+    const canRunInline =
+      r.type === 'suggestion'
+        ? r.data.run.kind !== 'nav'
+        : r.data.action.kind !== 'nav' && r.data.action.kind !== 'resume';
+    return (
+      <button
+        key={r.type + (r.type === 'suggestion' ? r.data.id : r.data.id)}
+        onMouseEnter={() => setActive(idx)}
+        onClick={() => execute(r)}
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left transition-colors ${
+          isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100/70'
+        }`}
+      >
+        <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${isActive ? 'bg-white/15 text-white' : tint}`}>
+          <Icon className="w-[18px] h-[18px]" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className={`block text-sm font-bold ${isActive ? 'text-white' : 'text-slate-900'}`}>{title}</span>
+          {hint && <span className={`block text-xs truncate ${isActive ? 'text-white/70' : 'text-slate-500'}`}>{hint}</span>}
+        </span>
+        {canRunInline && (
+          <span
+            className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0 ${
+              isActive ? 'bg-emerald-500/30 text-emerald-100' : 'bg-emerald-100 text-emerald-700'
+            }`}
+          >
+            <Zap className="w-3 h-3 inline -mt-0.5" /> run
+          </span>
+        )}
+        {isActive && <CornerDownLeft className="w-4 h-4 text-white/70 shrink-0" />}
+      </button>
+    );
+  };
 
   return (
     <div
-      className="fixed inset-0 z-[90] flex items-start justify-center pt-[12vh] px-4 bg-slate-950/40 backdrop-blur-md animate-overlay-in"
+      className="fixed inset-0 z-[90] flex items-start justify-center pt-[11vh] px-4 bg-slate-950/45 backdrop-blur-md animate-overlay-in"
       onClick={() => setOpen(false)}
     >
       <div
@@ -110,16 +205,13 @@ export function CommandPalette() {
       >
         {/* Search field */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100">
-          <Search className="w-5 h-5 text-slate-400 shrink-0" />
+          <Wand2 className="w-5 h-5 text-emerald-600 shrink-0" />
           <input
             ref={inputRef}
             value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setActive(0);
-            }}
+            onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Search services & tools…"
+            placeholder={`Ask Gati to “${EXAMPLES[exampleIdx]}”`}
             className="flex-1 bg-transparent text-[15px] font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none"
           />
           <kbd className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-slate-400 bg-slate-100 border border-slate-200 rounded-md px-1.5 py-0.5">
@@ -128,50 +220,21 @@ export function CommandPalette() {
         </div>
 
         {/* Results */}
-        <div className="max-h-[52vh] overflow-y-auto p-2">
-          {flat.length === 0 ? (
-            <div className="px-4 py-10 text-center text-sm text-slate-400">
-              No results for &ldquo;{query}&rdquo;
+        <div className="max-h-[54vh] overflow-y-auto p-2">
+          {rows.length === 0 ? (
+            <div className="px-4 py-8 text-center">
+              <p className="text-sm text-slate-400">
+                {query.trim() ? `No match for “${query}”. Try a service name or an action.` : 'Type what you need done.'}
+              </p>
             </div>
           ) : (
-            results.map((group) => (
-              <div key={group.label} className="mb-1.5 last:mb-0">
-                <div className="px-3 pt-2 pb-1 eyebrow text-slate-400">{group.label}</div>
-                {group.items.map((item) => {
-                  runningIndex++;
-                  const idx = runningIndex;
-                  const Icon = item.icon;
-                  const isActive = idx === active;
-                  return (
-                    <button
-                      key={item.href}
-                      onMouseEnter={() => setActive(idx)}
-                      onClick={() => go(item)}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left transition-colors ${
-                        isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100/70'
-                      }`}
-                    >
-                      <span
-                        className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                          isActive ? 'bg-white/15 text-white' : item.tint
-                        }`}
-                      >
-                        <Icon className="w-4.5 h-4.5 w-[18px] h-[18px]" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className={`block text-sm font-bold ${isActive ? 'text-white' : 'text-slate-900'}`}>
-                          {item.name}
-                        </span>
-                        <span className={`block text-xs truncate ${isActive ? 'text-white/70' : 'text-slate-500'}`}>
-                          {item.desc}
-                        </span>
-                      </span>
-                      {isActive && <CornerDownLeft className="w-4 h-4 text-white/70 shrink-0" />}
-                    </button>
-                  );
-                })}
-              </div>
-            ))
+            <>
+              {insightRows.length > 0 && (
+                <Group label="Suggested for you">{insightRows.map(renderRow)}</Group>
+              )}
+              {doNow.length > 0 && <Group label="Do it now">{doNow.map(renderRow)}</Group>}
+              {goTo.length > 0 && <Group label="Go to">{goTo.map(renderRow)}</Group>}
+            </>
           )}
         </div>
 
@@ -180,18 +243,26 @@ export function CommandPalette() {
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
               <ArrowUp className="w-3 h-3" />
-              <ArrowDown className="w-3 h-3" />
-              navigate
+              <ArrowDown className="w-3 h-3" /> navigate
             </span>
             <span className="flex items-center gap-1">
-              <CornerDownLeft className="w-3 h-3" /> open
+              <CornerDownLeft className="w-3 h-3" /> run
             </span>
           </div>
           <span className="flex items-center gap-1 font-semibold">
-            <CmdIcon className="w-3 h-3" /> K
+            <Sparkles className="w-3 h-3 text-emerald-500" /> Gati Copilot
           </span>
         </div>
       </div>
+    </div>
+  );
+}
+
+function Group({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="mb-1.5 last:mb-0">
+      <div className="px-3 pt-2 pb-1 eyebrow text-slate-400">{label}</div>
+      {children}
     </div>
   );
 }

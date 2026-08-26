@@ -8,9 +8,9 @@ import {
   X,
   ArrowRight,
   ChevronDown,
-  Search,
   Command as CmdIcon,
   LayoutDashboard,
+  Wand2,
 } from 'lucide-react';
 import { DemoUser } from '@/lib/types';
 import { getCurrentUser } from '@/lib/storage';
@@ -121,12 +121,12 @@ export const Navbar: React.FC = () => {
             {/* Command search */}
             <button
               onClick={openCommand}
-              className="hidden md:flex items-center gap-2 pl-3 pr-2 py-2 rounded-full bg-white/70 hover:bg-white border border-slate-200 text-slate-400 hover:text-slate-600 text-xs font-medium transition-all"
-              title="Search (⌘K)"
+              className="hidden md:flex items-center gap-2 pl-3 pr-2 py-2 rounded-full bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-semibold transition-all"
+              title="Ask Gati (⌘K)"
             >
-              <Search className="w-4 h-4" />
-              <span className="hidden xl:inline">Search…</span>
-              <kbd className="hidden xl:inline-flex items-center gap-0.5 text-[10px] font-bold text-slate-400 bg-slate-100 border border-slate-200 rounded px-1 py-0.5">
+              <Wand2 className="w-4 h-4" />
+              <span className="hidden xl:inline">Ask Gati</span>
+              <kbd className="hidden xl:inline-flex items-center gap-0.5 text-[10px] font-bold text-emerald-600 bg-white border border-emerald-200 rounded px-1 py-0.5">
                 <CmdIcon className="w-2.5 h-2.5" />K
               </kbd>
             </button>
@@ -176,10 +176,10 @@ export const Navbar: React.FC = () => {
                 setIsMobileMenuOpen(false);
                 openCommand();
               }}
-              className="w-full flex items-center gap-2 px-3.5 py-3 rounded-2xl bg-slate-100 text-slate-500 text-sm font-medium mb-3"
+              className="w-full flex items-center gap-2 px-3.5 py-3 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-semibold mb-3"
             >
-              <Search className="w-4 h-4" />
-              Search services & tools…
+              <Wand2 className="w-4 h-4" />
+              Ask Gati to do something…
             </button>
 
             <MobileGroup title="Services" items={CORE_SERVICES} pathname={pathname} onNav={() => setIsMobileMenuOpen(false)} />

@@ -427,9 +427,9 @@ export const MOCK_CHALLANS: ChallanRecord[] = [
 export const MOCK_FASTAG: FastagAccount = {
   tagId: '34161FA8209418290481',
   vehicleNumber: 'KA 01 EK 4920',
-  walletBalance: 1450,
+  walletBalance: 190,
   issuingBank: 'ICICI Bank NETC FASTag',
-  status: 'ACTIVE',
+  status: 'LOW_BALANCE',
   recentTolls: [
     { plazaName: 'Navayuga Electronic City Elevated Toll Plaza', date: '25 Aug 08:30 AM', amount: 95, lane: 'Lane 04 FASTag FastPass' },
     { plazaName: 'Attibele Border Toll Plaza (KA-TN)', date: '24 Aug 06:15 PM', amount: 130, lane: 'Lane 02 Dedicated ETC' },

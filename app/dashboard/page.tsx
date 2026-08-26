@@ -24,6 +24,7 @@ import { PersonaSwitcherModal } from '@/components/layout/PersonaSwitcherModal';
 import { Skeleton } from '@/components/ui/Primitives';
 import { useMounted } from '@/components/ui/Toast';
 import { CORE_SERVICES } from '@/lib/nav';
+import { ActionFeed } from '@/components/copilot/ActionFeed';
 
 type Tab = 'applications' | 'garage' | 'payments';
 
@@ -126,6 +127,9 @@ export default function DashboardPage() {
           })}
         </div>
       </div>
+
+      {/* ===== Autopilot feed ===== */}
+      <ActionFeed limit={4} />
 
       {/* ===== Quick launch ===== */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
