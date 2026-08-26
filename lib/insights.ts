@@ -213,11 +213,29 @@ function formatShort(n: number): string {
 
 export const URGENCY_STYLES: Record<
   Urgency,
-  { chip: string; dot: string; label: string; ring: string }
+  { chip: string; dot: string; label: string; ring: string; badge: string }
 > = {
-  critical: { chip: 'bg-rose-50 text-rose-700 border-rose-200', dot: 'bg-rose-500', label: 'Needs you now', ring: 'ring-rose-500/20' },
-  soon: { chip: 'bg-saffron-50 text-saffron-800 border-saffron-200', dot: 'bg-saffron-500', label: 'Coming up', ring: 'ring-saffron-500/20' },
-  ok: { chip: 'bg-olive-50 text-olive-800 border-olive-200', dot: 'bg-olive-600', label: 'Suggested', ring: 'ring-olive-500/15' },
+  critical: {
+    chip: 'bg-rose-100 text-rose-700 dark:bg-rose-950/70 dark:text-rose-400 border-rose-200 dark:border-rose-800/80',
+    dot: 'bg-rose-500',
+    label: 'Action Required',
+    ring: 'ring-rose-500/20',
+    badge: 'bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-800',
+  },
+  soon: {
+    chip: 'bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-400 border-amber-200 dark:border-amber-800/80',
+    dot: 'bg-amber-500',
+    label: 'Coming Up',
+    ring: 'ring-amber-500/20',
+    badge: 'bg-amber-50 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-800',
+  },
+  ok: {
+    chip: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/80',
+    dot: 'bg-emerald-500',
+    label: 'Recommended',
+    ring: 'ring-emerald-500/15',
+    badge: 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
+  },
 };
 
 export const QUICK_ICONS = { AlertTriangle, Radio, FileClock, ShieldAlert, Sparkles, CreditCard, RefreshCw, Wallet };
