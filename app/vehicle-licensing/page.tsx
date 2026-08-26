@@ -272,14 +272,12 @@ export default function VehicleLicensingPage() {
       )}
 
       {/* Step Content Container */}
-      <div className="animate-rise">
-
-        {/* ================= STEP 1: VEHICLE PROFILE ================= */}
+      <div className="animate-rise">        {/* ================= STEP 1: VEHICLE TYPE ================= */}
         {currentStep === 1 && (
-          <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
+          <div className="clay-card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Vehicle Specifications</h2>
-              <p className="text-sm text-slate-500 mt-1">Select the registration type and vehicle details.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Vehicle Specifications</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Select the registration type and vehicle details.</p>
             </div>
 
             {/* Registration Category */}
@@ -348,8 +346,8 @@ export default function VehicleLicensingPage() {
 
             {/* EV Incentive Highlight Banner */}
             {isEV && (
-              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-[13px] text-emerald-900 flex items-start gap-3">
-                <Zap className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-[13px] text-emerald-900 dark:text-emerald-200 flex items-start gap-3">
+                <Zap className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                 <div className="leading-relaxed">
                   <strong className="font-bold block">Green Mobility Incentive Applied</strong>
                   Under State Clean Vehicle Policy, electric vehicles receive <strong>0% Road Tax</strong> and exemption from green cess.
@@ -357,11 +355,11 @@ export default function VehicleLicensingPage() {
               </div>
             )}
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-2 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleNext}
-                className="btn btn-brand px-7 py-3 text-sm"
+                className="clay-btn clay-btn-primary min-h-[44px] px-7 py-3 text-sm text-white"
               >
                 <span>Continue to RTO Selection</span>
                 <ArrowRight className="w-4 h-4" />
@@ -372,10 +370,10 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 2: STATE & RTO ================= */}
         {currentStep === 2 && (
-          <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
+          <div className="clay-card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">State & RTO Jurisdiction</h2>
-              <p className="text-sm text-slate-500 mt-1">Select the transport office under whose jurisdiction the vehicle will be registered.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">State & RTO Jurisdiction</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Select the transport office under whose jurisdiction the vehicle will be registered.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -407,25 +405,25 @@ export default function VehicleLicensingPage() {
             </div>
 
             {/* Selected RTO Preview Card */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-xs">
+                <div className="w-11 h-11 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 flex items-center justify-center font-mono font-bold text-xs">
                   {currentRto.code}
                 </div>
                 <div>
-                  <div className="font-bold text-sm text-slate-900">{currentRto.name}</div>
-                  <div className="text-[11px] text-slate-500">{stateData.name} State Transport Department</div>
+                  <div className="font-bold text-sm text-slate-900 dark:text-white">{currentRto.name}</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400">{stateData.name} State Transport Department</div>
                 </div>
               </div>
 
               <Pill tone="emerald">Paperless FastTrack</Pill>
             </div>
 
-            <div className="flex justify-between pt-2">
+            <div className="flex justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleBack}
-                className="btn btn-ghost px-6 py-3 text-sm"
+                className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -433,7 +431,7 @@ export default function VehicleLicensingPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="btn btn-brand px-7 py-3 text-sm"
+                className="clay-btn clay-btn-primary min-h-[44px] px-7 py-2.5 text-sm text-white"
               >
                 <span>Continue to Owner Details</span>
                 <ArrowRight className="w-4 h-4" />
@@ -444,16 +442,16 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 3: OWNER & SPECS ================= */}
         {currentStep === 3 && (
-          <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
+          <div className="clay-card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Ownership & VIN Specs</h2>
-              <p className="text-sm text-slate-500 mt-1">Owner details are pre-filled from your verified Aadhaar & DigiLocker — just confirm.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Ownership & VIN Specs</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Owner details are pre-filled from your verified Aadhaar & DigiLocker — just confirm.</p>
             </div>
 
             {/* Autofill banner */}
-            <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-sky-50 border border-sky-200">
-              <div className="flex items-center gap-2.5 text-[13px] text-sky-900">
-                <ShieldCheck className="w-5 h-5 text-sky-600 shrink-0" />
+            <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60">
+              <div className="flex items-center gap-2.5 text-[13px] text-sky-900 dark:text-sky-200">
+                <ShieldCheck className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0" />
                 <span><strong className="font-bold">Autofilled from your Gati profile.</strong> Edit any field if it differs from your papers.</span>
               </div>
               <button
@@ -464,7 +462,7 @@ export default function VehicleLicensingPage() {
                   setAddress(`${currentUser.city}, ${currentUser.state}`);
                   toast({ title: 'Reset to profile', variant: 'info' });
                 }}
-                className="text-xs font-bold text-sky-700 hover:text-sky-800 shrink-0"
+                className="clay-btn min-h-[36px] px-3.5 py-1.5 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sky-700 dark:text-sky-300 shrink-0"
               >
                 Reset
               </button>
@@ -483,7 +481,7 @@ export default function VehicleLicensingPage() {
                 label="Chassis / VIN Number"
                 hint="17-character VIN, laser-etched on the chassis plate."
                 adornment={
-                  <span className={chassisNumber.replace(/\s/g, '').length === 17 ? 'text-emerald-600 font-bold' : ''}>
+                  <span className={chassisNumber.replace(/\s/g, '').length === 17 ? 'text-emerald-600 dark:text-emerald-400 font-bold' : ''}>
                     {chassisNumber.replace(/\s/g, '').length}/17
                   </span>
                 }
@@ -496,7 +494,7 @@ export default function VehicleLicensingPage() {
                   maxLength={17}
                   placeholder="MAT629482NZ91024"
                   suffix={
-                    <Link href="/scan" className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors" title="Scan with Smart Lens">
+                    <Link href="/scan" className="p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 transition-colors" title="Scan with Smart Lens">
                       <ScanLine className="w-4 h-4" />
                     </Link>
                   }
@@ -512,9 +510,9 @@ export default function VehicleLicensingPage() {
               </Field>
             </div>
 
-            {/* Document Checklist Checklist */}
+            {/* Document Checklist */}
             <div className="pt-1">
-              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-2.5">
+              <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wide block mb-2.5">
                 DigiLocker Auto-Attached Documents
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -524,19 +522,19 @@ export default function VehicleLicensingPage() {
                   { key: 'form21', label: 'Roadworthiness Cert' },
                   { key: 'aadhaarKyc', label: 'Aadhaar e-KYC Pass' }
                 ].map((doc) => (
-                  <div key={doc.key} className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200 text-emerald-900 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <div key={doc.key} className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-200 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     <span className="text-[11px] font-semibold truncate">{doc.label}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="flex justify-between pt-2">
+            <div className="flex justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleBack}
-                className="btn btn-ghost px-6 py-3 text-sm"
+                className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -544,7 +542,7 @@ export default function VehicleLicensingPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="btn btn-brand px-7 py-3 text-sm"
+                className="clay-btn clay-btn-primary min-h-[44px] px-7 py-2.5 text-sm text-white"
               >
                 <span>Continue to Fee Review</span>
                 <ArrowRight className="w-4 h-4" />
@@ -555,59 +553,59 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 4: TAX & REVIEW ================= */}
         {currentStep === 4 && (
-          <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
+          <div className="clay-card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Statutory Fee Breakdown & Review</h2>
-              <p className="text-sm text-slate-500 mt-1">Transparent calculation with zero hidden government surcharges.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Statutory Fee Breakdown & Review</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Transparent calculation with zero hidden government surcharges.</p>
             </div>
 
             {/* Application Summary Card */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-[13px]">
-              <div className="flex justify-between gap-3 border-b border-slate-200 pb-2.5">
-                <span className="text-slate-500">Applicant / Owner</span>
-                <span className="font-bold text-slate-900 text-right">{ownerName}</span>
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-3 text-[13px]">
+              <div className="flex justify-between gap-3 border-b border-slate-200 dark:border-slate-700 pb-2.5">
+                <span className="text-slate-500 dark:text-slate-400">Applicant / Owner</span>
+                <span className="font-bold text-slate-900 dark:text-white text-right">{ownerName}</span>
               </div>
-              <div className="flex justify-between gap-3 border-b border-slate-200 pb-2.5">
-                <span className="text-slate-500">Vehicle Model</span>
-                <span className="font-bold text-slate-900 text-right">{maker} {model} ({fuelType})</span>
+              <div className="flex justify-between gap-3 border-b border-slate-200 dark:border-slate-700 pb-2.5">
+                <span className="text-slate-500 dark:text-slate-400">Vehicle Model</span>
+                <span className="font-bold text-slate-900 dark:text-white text-right">{maker} {model} ({fuelType})</span>
               </div>
-              <div className="flex justify-between gap-3 border-b border-slate-200 pb-2.5">
-                <span className="text-slate-500">RTO Jurisdiction</span>
-                <span className="font-bold text-slate-900 text-right">{currentRto.code} - {currentRto.name}</span>
+              <div className="flex justify-between gap-3 border-b border-slate-200 dark:border-slate-700 pb-2.5">
+                <span className="text-slate-500 dark:text-slate-400">RTO Jurisdiction</span>
+                <span className="font-bold text-slate-900 dark:text-white text-right">{currentRto.code} - {currentRto.name}</span>
               </div>
               <div className="flex justify-between gap-3">
-                <span className="text-slate-500">Ex-Showroom Price</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(invoiceValue)}</span>
+                <span className="text-slate-500 dark:text-slate-400">Ex-Showroom Price</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(invoiceValue)}</span>
               </div>
             </div>
 
             {/* Fee Table — highlighted summary */}
-            <div className="space-y-3 p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200 text-[13px]">
-              <div className="eyebrow text-emerald-700 mb-1">Statutory Fee Summary</div>
-              <div className="flex justify-between gap-3 text-slate-700">
+            <div className="space-y-3 p-5 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-[13px]">
+              <div className="eyebrow text-emerald-700 dark:text-emerald-400 mb-1">Statutory Fee Summary</div>
+              <div className="flex justify-between gap-3 text-slate-700 dark:text-slate-300">
                 <span>State Motor Vehicle Road Tax ({isEV ? '0% EV Policy' : '14% Standard'})</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(roadTax)}</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(roadTax)}</span>
               </div>
-              <div className="flex justify-between gap-3 text-slate-700">
+              <div className="flex justify-between gap-3 text-slate-700 dark:text-slate-300">
                 <span>Green Environment Cess</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(greenCess)}</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(greenCess)}</span>
               </div>
-              <div className="flex justify-between gap-3 text-slate-700">
+              <div className="flex justify-between gap-3 text-slate-700 dark:text-slate-300">
                 <span>Microchip Smart Card & User Fee</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(smartCardFee)}</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(smartCardFee)}</span>
               </div>
-              <div className="flex justify-between items-center gap-3 pt-3 border-t border-emerald-200">
-                <span className="text-sm font-extrabold text-emerald-950">Total Statutory Amount</span>
-                <span className="font-display font-extrabold text-2xl text-emerald-700">{formatINR(totalFee)}</span>
+              <div className="flex justify-between items-center gap-3 pt-3 border-t border-emerald-200 dark:border-emerald-800/60">
+                <span className="text-sm font-extrabold text-emerald-950 dark:text-emerald-200">Total Statutory Amount</span>
+                <span className="font-display font-extrabold text-2xl text-emerald-700 dark:text-emerald-400">{formatINR(totalFee)}</span>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex justify-between pt-2">
+            <div className="flex justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleBack}
-                className="btn btn-ghost px-6 py-3 text-sm"
+                className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -615,7 +613,7 @@ export default function VehicleLicensingPage() {
               <button
                 type="button"
                 onClick={handleProceedToPayment}
-                className="btn btn-brand px-8 py-3.5 text-sm"
+                className="clay-btn clay-btn-saffron min-h-[44px] px-8 py-3 text-sm text-white"
               >
                 <CreditCard className="w-4 h-4" />
                 <span>Pay {formatINR(totalFee)} & Issue Smart RC</span>
@@ -626,16 +624,16 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 5: COMPLETED SMART RC ================= */}
         {currentStep === 5 && completedApplication && (
-          <div className="card p-6 sm:p-8 space-y-8 animate-dialog-in">
+          <div className="clay-card p-6 sm:p-8 space-y-8 animate-dialog-in">
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
+              <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-3 shadow-inner">
                 <CheckCircle className="w-9 h-9" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 Vehicle Registration Successful!
               </h2>
-              <p className="text-sm text-slate-600 mt-2">
-                Ref No: <strong className="font-mono text-sky-700">{completedApplication.referenceNumber}</strong>
+              <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
+                Ref No: <strong className="font-mono text-sky-700 dark:text-sky-400">{completedApplication.referenceNumber}</strong>
               </p>
             </div>
 
@@ -643,16 +641,16 @@ export default function VehicleLicensingPage() {
             <DigitalRcSmartCard data={completedApplication} />
 
             {/* Next Links */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <Link href="/dashboard" className="btn btn-primary px-6 py-2.5 text-sm">
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <Link href="/dashboard" className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm text-white">
                 Go to Dashboard
               </Link>
-              <Link href={`/track?ref=${completedApplication.referenceNumber}`} className="btn btn-ghost px-6 py-2.5 text-sm">
+              <Link href={`/track?ref=${completedApplication.referenceNumber}`} className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">
                 Track Live Status
               </Link>
               <Link
                 href="/documents"
-                className="btn px-6 py-2.5 text-sm bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100"
+                className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300"
               >
                 View in GatiLocker
               </Link>

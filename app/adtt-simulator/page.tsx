@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { 
-  Gamepad2, 
   RotateCcw, 
   CheckCircle, 
   AlertTriangle, 
@@ -16,7 +15,6 @@ import {
   Volume2,
   VolumeX,
   Award,
-  Sparkles,
   FileCheck2,
   ChevronRight,
   Info
@@ -702,37 +700,37 @@ export default function AdttSimulatorPage() {
     <div className="min-h-screen py-10 px-4 sm:px-8 max-w-5xl mx-auto space-y-8">
       
       {/* Sovereign Header with Tiranga Accent */}
-      <div className="text-center max-w-xl mx-auto space-y-2">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full tiranga-badge text-xs font-bold uppercase tracking-wider">
-          <Gamepad2 className="w-3.5 h-3.5 text-saffron-600" />
-          <span className="text-slate-800">Automated Driving Test Track (ADTT) Simulator</span>
+      <div className="text-center max-w-2xl mx-auto space-y-2.5">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full tiranga-badge text-xs font-bold uppercase tracking-wider shadow-xs">
+          <ShieldCheck className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
+          <span className="text-slate-800 dark:text-slate-200">Online ADTT Competency Assessment · CMVR Rule 15</span>
         </div>
-        <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          RTO Sensor Track Practice
+        <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Automated Driving Test Track (ADTT) Assessment
         </h1>
-        <p className="text-sm text-slate-600">
-          Master the official Indian automated sensor test track maneuvers (8-Figure, Parallel Parking, Reverse S & Hill Gradient) before your live RTO appointment.
+        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          Official MoRTH Automated Driving Test Track (ADTT) sensor simulation. Complete standard test track maneuvers (8-Figure, Parallel Bay Parking, Reverse S-Bend, and Hill Gradient Hold) under real-time sensor radar.
         </p>
       </div>
 
       {/* Track Selector & Live Telemetry HUD */}
-      <div className="glass-panel p-4 sm:p-6 rounded-3xl border border-white/80 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="clay-card p-4 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
         
         {/* Track Selector Buttons */}
         <div className="flex flex-wrap items-center gap-2 text-xs font-bold w-full md:w-auto">
           {[
-            { id: 'eight', label: '♾️ 8-Figure Maneuver' },
-            { id: 'parking', label: '🅿️ Parallel Parking' },
+            { id: 'eight', label: '♾️ 8-Figure Track' },
+            { id: 'parking', label: '🅿️ Parallel Bay Parking' },
             { id: 'reverse_s', label: '🔄 Reverse S-Bend' },
-            { id: 'gradient', label: '⛰️ Hill Gradient Hold' },
+            { id: 'gradient', label: '⛰️ 15° Hill Gradient Hold' },
           ].map((t) => (
             <button
               key={t.id}
               onClick={() => startTrack(t.id as TrackType)}
-              className={`px-3.5 py-2 rounded-full transition-all flex-1 md:flex-none flex items-center justify-center gap-1.5 ${
+              className={`min-h-[44px] px-4 py-2 rounded-2xl transition-all flex-1 md:flex-none flex items-center justify-center gap-1.5 text-xs font-bold ${
                 selectedTrack === t.id
-                  ? 'bg-slate-900 text-white shadow-md'
-                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                  ? 'clay-btn-navy text-white shadow-md'
+                  : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60'
               }`}
             >
               {t.label}
@@ -741,40 +739,42 @@ export default function AdttSimulatorPage() {
         </div>
 
         {/* Live HUD Telemetry */}
-        <div className="flex items-center gap-3 text-xs font-mono shrink-0">
-          <div className="p-2 px-3 rounded-xl bg-slate-100 border border-slate-200">
-            <span className="text-[11px] text-slate-500 block uppercase font-sans">Stopwatch</span>
-            <span className="font-bold text-slate-900">{timeElapsed}s</span>
+        <div className="flex items-center gap-2.5 text-xs font-mono shrink-0 flex-wrap justify-center">
+          <div className="p-2 px-3 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 min-h-[44px] flex flex-col justify-center">
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 block uppercase font-sans font-bold">Stopwatch</span>
+            <span className="font-bold text-slate-900 dark:text-white">{timeElapsed}s</span>
           </div>
 
-          <div className="p-2 px-3 rounded-xl bg-slate-100 border border-slate-200">
-            <span className="text-[11px] text-slate-500 block uppercase font-sans">Checkpoints</span>
-            <span className="font-bold text-saffron-600">
+          <div className="p-2 px-3 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 min-h-[44px] flex flex-col justify-center">
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 block uppercase font-sans font-bold">Gates</span>
+            <span className="font-bold text-saffron-600 dark:text-saffron-400">
               {currentCheckpointIndex} / {checkpoints.length}
             </span>
           </div>
 
-          <div className="p-2 px-3 rounded-xl bg-slate-100 border border-slate-200">
-            <span className="text-[11px] text-slate-500 block uppercase font-sans">Sensor Score</span>
-            <span className={`font-bold ${score >= 80 ? 'text-emerald-700' : (score >= 70 ? 'text-amber-600' : 'text-rose-600')}`}>
+          <div className="p-2 px-3 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 min-h-[44px] flex flex-col justify-center">
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 block uppercase font-sans font-bold">Sensor Score</span>
+            <span className={`font-bold ${score >= 80 ? 'text-emerald-700 dark:text-emerald-400' : (score >= 70 ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400')}`}>
               {score} / 100
             </span>
           </div>
 
           <button
             onClick={toggleSound}
-            className={`p-2.5 rounded-full border transition-colors ${
-              isMuted ? 'bg-rose-50 border-rose-200 text-rose-600' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+            className={`w-11 h-11 rounded-2xl border flex items-center justify-center transition-colors ${
+              isMuted ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400' : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700'
             }`}
-            title={isMuted ? 'Unmute SFX' : 'Mute SFX'}
+            title={isMuted ? 'Unmute Audio Telemetry' : 'Mute Audio Telemetry'}
+            aria-label="Audio mute toggle"
           >
             {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
           </button>
 
           <button
             onClick={() => startTrack(selectedTrack)}
-            className="p-2.5 rounded-full bg-slate-100 border border-slate-200 hover:bg-slate-200 text-slate-700 transition-colors"
-            title="Restart Track"
+            className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center transition-colors"
+            title="Reset Maneuver Track"
+            aria-label="Reset track"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -783,7 +783,7 @@ export default function AdttSimulatorPage() {
       </div>
 
       {/* Interactive Simulator Screen */}
-      <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/80 shadow-2xl flex flex-col items-center justify-center space-y-6">
+      <div className="clay-card p-6 sm:p-8 flex flex-col items-center justify-center space-y-6">
         
         {/* Canvas Area with Responsive Sizing */}
         <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-800 bg-slate-950 w-full max-w-[600px]">
@@ -796,33 +796,33 @@ export default function AdttSimulatorPage() {
 
           {/* Overlay Result Badge: PASSED */}
           {isPassed && (
-            <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 text-white animate-dialog-in">
+            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-6 text-white animate-dialog-in">
               <div className="w-16 h-16 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mb-3 shadow-lg shadow-emerald-500/30">
-                <Trophy className="w-8 h-8" />
+                <ShieldCheck className="w-8 h-8" />
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
-                ADTT Track Cleared!
+                ADTT Competency Cleared!
               </h3>
-              <p className="text-xs text-emerald-300 font-mono mt-1">
-                Score: {score}/100 • Completed in {timeElapsed}s • Minimum RTO Standard (80) Achieved
+              <p className="text-xs text-emerald-300 font-mono mt-1 max-w-md">
+                Telemetry Score: {score}/100 • Elapsed: {timeElapsed}s • Rule 15 Statutory Passing Standard (80/100) Achieved
               </p>
               <div className="flex flex-wrap gap-2.5 mt-5 text-xs font-bold justify-center">
                 <button
                   onClick={() => setShowCertificate(true)}
-                  className="px-4 py-2.5 rounded-full bg-saffron-500 text-white hover:bg-saffron-600 shadow-md flex items-center gap-1.5"
+                  className="clay-btn clay-btn-saffron min-h-[44px] px-5 py-2.5 text-white flex items-center gap-1.5"
                 >
                   <Award className="w-4 h-4" />
                   <span>View RTO Certificate</span>
                 </button>
                 <button
                   onClick={() => startTrack(selectedTrack)}
-                  className="px-4 py-2.5 rounded-full bg-white text-slate-900 hover:bg-slate-100"
+                  className="clay-btn min-h-[44px] px-4 py-2.5 bg-white text-slate-900 hover:bg-slate-100"
                 >
-                  Retry Track
+                  Re-test Maneuver
                 </button>
                 <Link
                   href="/driver-licence"
-                  className="px-4 py-2.5 rounded-full bg-emerald-500 text-slate-950 hover:bg-emerald-400 font-bold"
+                  className="clay-btn clay-btn-primary min-h-[44px] px-5 py-2.5 text-white font-bold"
                 >
                   Book Official Slot
                 </Link>
@@ -832,19 +832,19 @@ export default function AdttSimulatorPage() {
 
           {/* Overlay Result Badge: FAILED */}
           {isFailed && (
-            <div className="absolute inset-0 bg-rose-950/90 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 text-white animate-dialog-in">
+            <div className="absolute inset-0 bg-rose-950/92 backdrop-blur-md flex flex-col items-center justify-center text-center p-6 text-white animate-dialog-in">
               <div className="w-16 h-16 rounded-full bg-rose-600 text-white flex items-center justify-center mb-3 shadow-lg shadow-rose-600/30">
                 <AlertTriangle className="w-8 h-8" />
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
-                Track Clearance Failed
+                Competency Assessment Incomplete
               </h3>
-              <p className="text-xs text-rose-300 font-mono mt-1">
-                Score dropped below statutory threshold (70/100) due to multiple kerb/sensor faults.
+              <p className="text-xs text-rose-300 font-mono mt-1 max-w-md">
+                Score dropped below statutory threshold (70/100) due to multiple sensor perimeter infractions.
               </p>
               <button
                 onClick={() => startTrack(selectedTrack)}
-                className="mt-4 px-5 py-2.5 rounded-full bg-white text-rose-900 hover:bg-rose-50 text-xs font-bold shadow-md"
+                className="mt-4 clay-btn min-h-[44px] px-6 py-2.5 bg-white text-rose-900 hover:bg-rose-50 text-xs font-bold shadow-md"
               >
                 Retry Maneuver
               </button>
@@ -853,16 +853,16 @@ export default function AdttSimulatorPage() {
         </div>
 
         {/* Checkpoint Progress Banner */}
-        <div className="w-full max-w-lg bg-slate-100 p-3 rounded-2xl border border-slate-200 flex items-center justify-between text-xs">
+        <div className="w-full max-w-lg bg-slate-100 dark:bg-slate-800/90 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <Info className="w-4 h-4 text-saffron-600 shrink-0" />
-            <span className="text-slate-700 font-medium">
+            <Info className="w-4 h-4 text-saffron-600 dark:text-saffron-400 shrink-0" />
+            <span className="text-slate-700 dark:text-slate-200 font-medium">
               {currentCheckpointIndex < checkpoints.length 
                 ? `Next Target: ${checkpoints[currentCheckpointIndex]?.label}`
                 : 'All Checkpoints Cleared! Proceed to Finish Gate.'}
             </span>
           </div>
-          <span className="font-mono font-bold text-slate-900 shrink-0">
+          <span className="font-mono font-bold text-slate-900 dark:text-white shrink-0">
             {Math.round((currentCheckpointIndex / (checkpoints.length || 1)) * 100)}%
           </span>
         </div>
@@ -870,32 +870,32 @@ export default function AdttSimulatorPage() {
         {/* Controls Guide & Responsive D-Pad */}
         <div className="w-full max-w-lg flex flex-col sm:flex-row items-center justify-between gap-6 text-xs">
           
-          <div className="space-y-1.5 text-slate-600 text-center sm:text-left">
-            <span className="font-bold text-slate-900 block">Keyboard & Mouse Controls:</span>
-            <div className="flex items-center gap-1.5 justify-center sm:justify-start">
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">▲</kbd>
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">W</kbd>
-              <span className="text-slate-500">Accelerate Forward</span>
+          <div className="space-y-2 text-slate-600 dark:text-slate-300 text-center sm:text-left">
+            <span className="font-bold text-slate-900 dark:text-white block uppercase tracking-wide text-[11px]">
+              Keyboard & Touch Telemetry Controls:
+            </span>
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
+              <kbd className="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 font-mono font-bold text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-600">▲ / W</kbd>
+              <span className="text-slate-500 dark:text-slate-400">Accelerate Forward</span>
             </div>
-            <div className="flex items-center gap-1.5 justify-center sm:justify-start">
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">◀</kbd>
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">▶</kbd>
-              <span className="text-slate-500">Steer Left / Right</span>
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
+              <kbd className="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 font-mono font-bold text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-600">◀ ▶ / A D</kbd>
+              <span className="text-slate-500 dark:text-slate-400">Steer Trajectory</span>
             </div>
-            <div className="flex items-center gap-1.5 justify-center sm:justify-start">
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">▼</kbd>
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">S</kbd>
-              <span className="text-slate-500">Brake / Reverse</span>
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
+              <kbd className="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 font-mono font-bold text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-600">▼ / S</kbd>
+              <span className="text-slate-500 dark:text-slate-400">Brake / Reverse</span>
             </div>
           </div>
 
-          {/* On-screen touch & pointer D-Pad */}
+          {/* On-screen touch & pointer D-Pad (Normalized 48px touch targets) */}
           <div className="flex flex-col items-center gap-1.5 select-none shrink-0">
             <button
               onPointerDown={(e) => { e.preventDefault(); setControlKey('ArrowUp', true); }}
               onPointerUp={() => setControlKey('ArrowUp', false)}
               onPointerLeave={() => setControlKey('ArrowUp', false)}
-              className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 text-slate-800 text-sm touch-none"
+              className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white text-base touch-none"
+              aria-label="Forward throttle"
             >
               ▲
             </button>
@@ -904,7 +904,8 @@ export default function AdttSimulatorPage() {
                 onPointerDown={(e) => { e.preventDefault(); setControlKey('ArrowLeft', true); }}
                 onPointerUp={() => setControlKey('ArrowLeft', false)}
                 onPointerLeave={() => setControlKey('ArrowLeft', false)}
-                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 text-slate-800 text-sm touch-none"
+                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white text-base touch-none"
+                aria-label="Steer left"
               >
                 ◀
               </button>
@@ -912,7 +913,8 @@ export default function AdttSimulatorPage() {
                 onPointerDown={(e) => { e.preventDefault(); setControlKey('ArrowDown', true); }}
                 onPointerUp={() => setControlKey('ArrowDown', false)}
                 onPointerLeave={() => setControlKey('ArrowDown', false)}
-                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 text-slate-800 text-sm touch-none"
+                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white text-base touch-none"
+                aria-label="Brake and reverse"
               >
                 ▼
               </button>
@@ -920,7 +922,8 @@ export default function AdttSimulatorPage() {
                 onPointerDown={(e) => { e.preventDefault(); setControlKey('ArrowRight', true); }}
                 onPointerUp={() => setControlKey('ArrowRight', false)}
                 onPointerLeave={() => setControlKey('ArrowRight', false)}
-                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 text-slate-800 text-sm touch-none"
+                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white text-base touch-none"
+                aria-label="Steer right"
               >
                 ▶
               </button>
@@ -931,10 +934,10 @@ export default function AdttSimulatorPage() {
 
         {/* Live Fault Logs */}
         {faults.length > 0 && (
-          <div className="w-full max-w-lg p-3 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1 animate-overlay-in">
-            <span className="font-bold flex items-center gap-1">
-              <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-              Sensor Penalties Recorded:
+          <div className="w-full max-w-lg p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 text-xs text-rose-900 dark:text-rose-200 space-y-1 animate-overlay-in">
+            <span className="font-bold flex items-center gap-1.5">
+              <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+              Sensor Telemetry Penalties Recorded:
             </span>
             {faults.map((f, i) => (
               <div key={i} className="text-[11px] font-mono">• {f}</div>
@@ -949,89 +952,89 @@ export default function AdttSimulatorPage() {
           ========================================== */}
       {showCertificate && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-4 border-slate-800 relative space-y-6 animate-dialog-in">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-700 relative space-y-6 animate-dialog-in">
             
             {/* Top Tiranga Stripe */}
             <div className="tiranga-top-bar absolute top-0 left-0 right-0 rounded-t-2xl" />
 
             {/* Certificate Header */}
             <div className="text-center pt-2 space-y-1">
-              <div className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
+              <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                 GOVERNMENT OF INDIA • MINISTRY OF ROAD TRANSPORT & HIGHWAYS
               </div>
-              <h2 className="text-xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
                 ADTT SENSOR TRACK CLEARANCE CERTIFICATE
               </h2>
-              <div className="inline-block px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[11px] uppercase">
-                Statutory Motor Vehicles Act Compliance
+              <div className="inline-block px-3 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold text-[11px] uppercase">
+                Central Motor Vehicles Rules (CMVR) Rule 15 Compliance
               </div>
             </div>
 
             {/* Candidate & Test Telemetry Breakdown */}
-            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-2">
+            <div className="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-3 text-xs">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Candidate Name:</span>
-                  <span className="font-bold text-slate-900">{currentUser.name}</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Candidate Name:</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{currentUser.name}</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Application Ref:</span>
-                  <span className="font-mono font-bold text-slate-900">DL-ADTT-{Date.now().toString().slice(-6)}</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Application Ref:</span>
+                  <span className="font-mono font-bold text-slate-900 dark:text-white">DL-ADTT-{Date.now().toString().slice(-6)}</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Vehicle Class:</span>
-                  <span className="font-bold text-slate-900">LMV (Light Motor Vehicle)</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Vehicle Class:</span>
+                  <span className="font-bold text-slate-900 dark:text-white">LMV (Light Motor Vehicle)</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Maneuver Track:</span>
-                  <span className="font-bold text-slate-900 uppercase">{selectedTrack.replace('_', ' ')}</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Maneuver Track:</span>
+                  <span className="font-bold text-slate-900 dark:text-white uppercase">{selectedTrack.replace('_', ' ')}</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Completion Time:</span>
-                  <span className="font-mono font-bold text-slate-900">{timeElapsed} Seconds</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Completion Time:</span>
+                  <span className="font-mono font-bold text-slate-900 dark:text-white">{timeElapsed} Seconds</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Sensor Score:</span>
-                  <span className="font-mono font-bold text-emerald-700">{score} / 100 (PASSED)</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Sensor Score:</span>
+                  <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">{score} / 100 (PASSED)</span>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px]">
-                <span className="text-slate-500">RTO Jurisdiction:</span>
-                <span className="font-semibold text-slate-800">RTO {currentUser.city}, {currentUser.state}</span>
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-[11px]">
+                <span className="text-slate-500 dark:text-slate-400">RTO Jurisdiction:</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200">RTO {currentUser.city}, {currentUser.state}</span>
               </div>
             </div>
 
             {/* Verification QR & Digital Stamp */}
-            <div className="flex items-center justify-between gap-4 p-3 bg-emerald-50/50 rounded-2xl border border-emerald-200">
+            <div className="flex items-center justify-between gap-4 p-3.5 bg-emerald-50/60 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-800/60">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white border border-emerald-300 flex items-center justify-center p-1 shadow-xs">
-                  <QrCode className="w-10 h-10 text-slate-900" />
+                <div className="w-12 h-12 rounded-xl bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-700 flex items-center justify-center p-1 shadow-xs shrink-0">
+                  <QrCode className="w-10 h-10 text-slate-900 dark:text-white" />
                 </div>
                 <div>
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-800">
-                    PARIVAHAN DIGILOCKER VERIFIED
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300">
+                    PARIVAHAN SARATHI VERIFIED
                   </div>
-                  <div className="text-[11px] text-slate-600">
-                    Digitally signed by RTO ADTT Telemetry Engine
+                  <div className="text-[11px] text-slate-600 dark:text-slate-400">
+                    Digitally validated by Automated Sensor Telemetry Engine
                   </div>
                 </div>
               </div>
-              <ShieldCheck className="w-8 h-8 text-emerald-600 shrink-0" />
+              <ShieldCheck className="w-8 h-8 text-emerald-600 dark:text-emerald-400 shrink-0" />
             </div>
 
             {/* Actions */}
             <div className="flex gap-3 text-xs font-bold">
               <button
                 onClick={() => window.print()}
-                className="flex-1 py-3 rounded-full bg-slate-900 text-white hover:bg-slate-800 flex items-center justify-center gap-1.5 shadow-md"
+                className="flex-1 min-h-[44px] rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 flex items-center justify-center gap-1.5 shadow-md"
               >
                 <Printer className="w-4 h-4" />
                 <span>Print / Download PDF</span>
               </button>
               <button
                 onClick={() => setShowCertificate(false)}
-                className="px-5 py-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700"
+                className="min-h-[44px] px-6 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200"
               >
                 Close
               </button>

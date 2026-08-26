@@ -100,14 +100,14 @@ export default function DashboardPage() {
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setIsSwitcherOpen(true)}
-              className="clay-btn bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2 text-xs"
+              className="clay-btn min-h-[44px] bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2 text-xs"
             >
               <User className="w-4 h-4 text-olive-700 dark:text-olive-400" />
               <span className="hidden sm:inline">{t('switchPersona')}</span>
             </button>
             <Link
               href="/vehicle-licensing"
-              className="clay-btn clay-btn-primary px-5 py-2 text-xs text-white"
+              className="clay-btn clay-btn-primary min-h-[44px] px-5 py-2.5 text-xs text-white"
             >
               <Plus className="w-4 h-4 text-saffron-300" /> {t('newApplication')}
             </Link>
@@ -214,7 +214,7 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-2 self-end md:self-center">
                     <Link
                       href={issued ? '/documents' : `/${app.serviceType}`}
-                      className="clay-btn clay-btn-primary px-4 py-2 text-xs text-white"
+                      className="clay-btn clay-btn-primary min-h-[40px] px-4 py-2 text-xs text-white"
                     >
                       <span>{issued ? 'View Smart Card' : 'Continue'}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -299,7 +299,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="flex items-center gap-4 shrink-0">
                     <span className="text-base font-extrabold text-slate-900 dark:text-white font-mono">{formatINR(p.totalPaid)}</span>
-                    <button onClick={() => setSelectedReceipt(p)} className="clay-btn bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3.5 py-1.5 text-xs">
+                    <button onClick={() => setSelectedReceipt(p)} className="clay-btn min-h-[38px] bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3.5 py-1.5 text-xs">
                       <Receipt className="w-3.5 h-3.5" /> Receipt
                     </button>
                   </div>

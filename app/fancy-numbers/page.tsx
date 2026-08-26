@@ -214,11 +214,11 @@ export default function FancyNumbersPage() {
         <div className="space-y-10">
           
           {/* ================= INTERACTIVE PLATE STUDIO HERO ================= */}
-          <div className="card p-6 sm:p-8 ring-1 ring-amber-500/10 animate-rise">
+          <div className="clay-card p-6 sm:p-8 animate-rise">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
               {/* Left Plate Display */}
-              <div className="lg:col-span-7 flex flex-col items-center justify-center p-6 sm:p-10 bg-slate-900 rounded-2xl text-white shadow-2xl relative overflow-hidden border border-slate-800">
+              <div className="lg:col-span-7 flex flex-col items-center justify-center p-6 sm:p-10 bg-slate-900 dark:bg-slate-950 rounded-3xl text-white shadow-2xl relative overflow-hidden border border-slate-800">
                 <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
                 {/* Plate Style Toggle Pills */}
@@ -233,7 +233,7 @@ export default function FancyNumbersPage() {
                     <button
                       key={thm.id}
                       onClick={() => setSelectedPlateTheme(thm.id as any)}
-                      className={`px-3 py-1.5 rounded-full border transition-all ${
+                      className={`min-h-[36px] px-3.5 py-1.5 rounded-full border transition-all ${
                         selectedPlateTheme === thm.id
                           ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-sm'
                           : 'bg-white/10 text-slate-300 border-white/10 hover:bg-white/20'
@@ -266,25 +266,25 @@ export default function FancyNumbersPage() {
               <div className="lg:col-span-5 space-y-4">
                 <div className="flex items-center justify-between gap-3">
                   <Pill tone="amber">{selectedNumber.category}</Pill>
-                  <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-amber-600" />
+                  <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                     Ends in {selectedNumber.auctionEndsIn}
                   </span>
                 </div>
 
-                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                   {selectedNumber.fullPlateText}
                 </h3>
 
-                <p className="text-sm text-slate-500 leading-relaxed">
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                   High-profile allocation in {selectedNumber.rto}. Immediate reserve deposit locks the number for vehicle registration.
                 </p>
 
                 {/* Price Display */}
-                <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/70 flex items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl bg-amber-50/60 dark:bg-amber-950/40 border border-amber-200/70 dark:border-amber-800/60 flex items-center justify-between gap-3">
                   <div>
-                    <span className="text-[11px] uppercase font-bold tracking-wide text-amber-700/80 block">Reserve Price / Buy Now</span>
-                    <span className="text-2xl font-black text-slate-900 font-mono">{formatINR(selectedNumber.price)}</span>
+                    <span className="text-[11px] uppercase font-bold tracking-wide text-amber-700/80 dark:text-amber-400 block">Reserve Price / Buy Now</span>
+                    <span className="text-2xl font-black text-slate-900 dark:text-white font-mono">{formatINR(selectedNumber.price)}</span>
                   </div>
                   <Pill tone="emerald">{selectedNumber.bidsCount} Active Bids</Pill>
                 </div>
@@ -307,7 +307,7 @@ export default function FancyNumbersPage() {
                 <button
                   type="button"
                   onClick={() => handleSelectToBuy(selectedNumber)}
-                  className="btn w-full py-3.5 text-sm bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-lg shadow-amber-500/20"
+                  className="clay-btn clay-btn-saffron w-full min-h-[44px] py-3 text-sm text-white shadow-lg"
                 >
                   <CreditCard className="w-4 h-4" />
                   <span>Reserve {selectedNumber.number} for {formatINR(selectedNumber.price)}</span>
@@ -319,9 +319,9 @@ export default function FancyNumbersPage() {
           </div>
 
           {/* ================= SEARCH & CATEGORY FILTER BAR ================= */}
-          <div className="card p-5 sm:p-6 space-y-6">
+          <div className="clay-card p-5 sm:p-6 space-y-6">
 
-            {/* Search Box — kept prominent, full width */}
+            {/* Search Box */}
             <Field label="Search plates" hint="Search by number, series, or RTO">
               <TextInput
                 value={searchQuery}
@@ -362,9 +362,9 @@ export default function FancyNumbersPage() {
                 <div
                   key={item.id}
                   onClick={() => setSelectedNumber(item)}
-                  className={`card ${isSelected ? '' : 'card-hover'} p-6 cursor-pointer flex flex-col justify-between group ${
+                  className={`clay-card clay-card-interactive p-6 cursor-pointer flex flex-col justify-between group ${
                     isSelected
-                      ? 'border-amber-500 ring-2 ring-amber-500/20 bg-amber-50/40'
+                      ? 'border-amber-500 ring-2 ring-amber-500/30 bg-amber-50/40 dark:bg-amber-950/30'
                       : ''
                   }`}
                 >
@@ -372,9 +372,9 @@ export default function FancyNumbersPage() {
                     {/* Top Row: Category & Sum */}
                     <div className="flex items-center justify-between gap-2 mb-4">
                       <Pill tone="amber">{item.category}</Pill>
-                      <div className="flex items-center gap-2 text-[11px] text-slate-500">
-                        <span className="font-mono font-bold text-amber-700">Sum {item.numerologySum}</span>
-                        <span className="text-slate-300">•</span>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+                        <span className="font-mono font-bold text-amber-700 dark:text-amber-400">Sum {item.numerologySum}</span>
+                        <span className="text-slate-300 dark:text-slate-600">•</span>
                         <span>{item.state.split(' ')[0]}</span>
                       </div>
                     </div>
@@ -390,17 +390,17 @@ export default function FancyNumbersPage() {
                     </div>
 
                     <div className="text-center mt-4">
-                      <div className="font-display text-lg font-extrabold tracking-tight text-slate-900">{item.fullPlateText}</div>
-                      <div className="text-sm font-medium text-slate-600 mt-1">{item.tag}</div>
-                      <div className="text-[11px] text-slate-400 mt-0.5">{item.rto}</div>
+                      <div className="font-display text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">{item.fullPlateText}</div>
+                      <div className="text-sm font-medium text-slate-600 dark:text-slate-300 mt-1">{item.tag}</div>
+                      <div className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">{item.rto}</div>
                     </div>
                   </div>
 
                   {/* Bottom: Price & Quick Action */}
-                  <div className="mt-6 pt-4 hairline border-t flex items-center justify-between gap-2">
+                  <div className="mt-6 pt-4 hairline border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
                     <div>
-                      <span className="text-[11px] uppercase tracking-wide text-slate-400 block font-bold">Reserve Price</span>
-                      <span className="text-base font-extrabold text-slate-900 font-mono">{formatINR(item.price)}</span>
+                      <span className="text-[11px] uppercase tracking-wide text-slate-400 dark:text-slate-500 block font-bold">Reserve Price</span>
+                      <span className="text-base font-extrabold text-slate-900 dark:text-white font-mono">{formatINR(item.price)}</span>
                     </div>
 
                     <button
@@ -409,7 +409,7 @@ export default function FancyNumbersPage() {
                         e.stopPropagation();
                         handleSelectToBuy(item);
                       }}
-                      className="btn px-4 py-2 text-xs bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white shadow-sm"
+                      className="clay-btn min-h-[40px] px-4 py-2 text-xs bg-slate-900 hover:bg-amber-500 hover:text-slate-950 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-amber-400 text-white shadow-sm font-bold"
                     >
                       <span>Reserve</span>
                       <ArrowRight className="w-3.5 h-3.5" />

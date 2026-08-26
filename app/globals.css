@@ -91,52 +91,72 @@ body {
 }
 
 /* ------------------------------------------------------------
-   CLAYMORPHISM 3D DESIGN SYSTEM
+   CLAYMORPHISM 3D DESIGN SYSTEM — Tactile & Modern Civic-Tech
    ------------------------------------------------------------ */
 .clay-card {
   background: var(--surface);
   border-radius: 1.5rem;
-  border: 1px solid rgba(227, 235, 224, 0.85);
+  border: 1px solid rgba(227, 235, 224, 0.9);
   box-shadow:
     6px 8px 20px rgba(49, 68, 39, 0.08),
     -5px -5px 16px rgba(255, 255, 255, 0.95),
     inset 1.5px 1.5px 2px rgba(255, 255, 255, 0.9),
     inset -1.5px -1.5px 2px rgba(49, 68, 39, 0.04);
-  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+  transition: transform 0.22s var(--ease), box-shadow 0.22s var(--ease), border-color 0.22s var(--ease);
 }
 
 .clay-card-interactive {
-  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+  transition: transform 0.22s var(--ease), box-shadow 0.22s var(--ease), border-color 0.22s var(--ease);
 }
 .clay-card-interactive:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2.5px);
   box-shadow:
     8px 14px 28px rgba(49, 68, 39, 0.12),
     -6px -6px 18px rgba(255, 255, 255, 0.95),
     inset 2px 2px 3px rgba(255, 255, 255, 0.95),
     inset -2px -2px 3px rgba(49, 68, 39, 0.06);
-  border-color: rgba(66, 90, 53, 0.35);
+  border-color: rgba(66, 90, 53, 0.4);
 }
 
 .clay-btn {
+  min-height: 44px;
   border-radius: 1rem;
   font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
   transition: all 0.18s var(--ease-out);
   box-shadow:
     4px 5px 12px rgba(49, 68, 39, 0.14),
     -3px -3px 8px rgba(255, 255, 255, 0.8),
     inset 1px 1px 1.5px rgba(255, 255, 255, 0.7),
     inset -1px -1px 1.5px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  user-select: none;
+}
+
+.clay-btn-sm {
+  min-height: 38px;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+.clay-btn-lg {
+  min-height: 50px;
+  padding: 0.875rem 1.75rem;
+  font-size: 0.95rem;
+  border-radius: 1.25rem;
 }
 
 .clay-btn:hover {
   transform: translateY(-1.5px);
   box-shadow:
-    5px 7px 16px rgba(49, 68, 39, 0.18),
+    5px 8px 16px rgba(49, 68, 39, 0.18),
     -3px -3px 10px rgba(255, 255, 255, 0.9),
     inset 1px 1px 2px rgba(255, 255, 255, 0.8),
     inset -1px -1px 2px rgba(0, 0, 0, 0.15);
@@ -150,14 +170,18 @@ body {
 }
 
 .clay-btn-primary {
-  background: linear-gradient(135deg, #425a35 0%, #2f4325 100%);
+  background: linear-gradient(135deg, #166534 0%, #14532d 100%);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow:
-    4px 6px 14px rgba(47, 67, 37, 0.32),
+    4px 6px 14px rgba(20, 83, 45, 0.35),
     -2px -2px 6px rgba(255, 255, 255, 0.6),
     inset 1px 1px 1.5px rgba(255, 255, 255, 0.35),
     inset -1px -1px 1.5px rgba(0, 0, 0, 0.3);
+}
+
+.clay-btn-primary:hover {
+  background: linear-gradient(135deg, #15803d 0%, #166534 100%);
 }
 
 .clay-btn-saffron {
@@ -165,14 +189,35 @@ body {
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow:
-    4px 6px 14px rgba(234, 88, 12, 0.32),
+    4px 6px 14px rgba(234, 88, 12, 0.35),
     -2px -2px 6px rgba(255, 255, 255, 0.6),
     inset 1px 1px 1.5px rgba(255, 255, 255, 0.4),
     inset -1px -1px 1.5px rgba(0, 0, 0, 0.25);
 }
 
+.clay-btn-saffron:hover {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+}
+
+.clay-btn-navy {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    4px 6px 14px rgba(15, 23, 42, 0.35),
+    -2px -2px 6px rgba(255, 255, 255, 0.6),
+    inset 1px 1px 1.5px rgba(255, 255, 255, 0.35),
+    inset -1px -1px 1.5px rgba(0, 0, 0, 0.3);
+}
+
 .clay-pill {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
   border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
   box-shadow:
     2px 3px 6px rgba(49, 68, 39, 0.08),
     -2px -2px 5px rgba(255, 255, 255, 0.85),
@@ -180,6 +225,7 @@ body {
 }
 
 .clay-input {
+  min-height: 44px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 1rem;
@@ -319,53 +365,70 @@ body {
 }
 
 /* ------------------------------------------------------------
-   Buttons — one consistent interaction language
+   Buttons — one consistent interaction language (44px min touch)
    ------------------------------------------------------------ */
 .btn {
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.625rem 1.25rem;
   border-radius: 9999px;
   transition: transform 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out),
     background-color 0.18s var(--ease-out), color 0.18s var(--ease-out);
   white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+.btn-sm {
+  min-height: 38px;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.75rem;
+}
+.btn-lg {
+  min-height: 50px;
+  padding: 0.875rem 1.75rem;
+  font-size: 0.95rem;
 }
 .btn:active {
   transform: translateY(1px) scale(0.99);
 }
 .btn-primary {
-  background: linear-gradient(180deg, #1c2b1e, #121d14);
+  background: linear-gradient(180deg, #166534, #14532d);
   color: #fff;
   box-shadow: var(--shadow);
 }
 .btn-primary:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-lg);
-  background: linear-gradient(180deg, #243627, #172419);
+  background: linear-gradient(180deg, #15803d, #166534);
 }
 .btn-brand {
-  background: linear-gradient(180deg, #4d693e, #3a502e);
+  background: linear-gradient(180deg, #166534, #14532d);
   color: #fff;
-  box-shadow: 0 8px 20px -8px rgba(66, 90, 53, 0.55);
+  box-shadow: 0 8px 20px -8px rgba(22, 101, 52, 0.55);
 }
 .btn-brand:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 28px -8px rgba(66, 90, 53, 0.65);
-  background: linear-gradient(180deg, #577647, #415a34);
+  box-shadow: 0 14px 28px -8px rgba(22, 101, 52, 0.65);
+  background: linear-gradient(180deg, #15803d, #166534);
 }
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--line-strong);
   color: var(--ink-soft);
 }
 .btn-ghost:hover {
   background: #fff;
   color: var(--ink);
-  border-color: var(--line-strong);
+  border-color: var(--brand);
 }
 .glass-button {
+  min-height: 44px;
   transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
 }
 .glass-button:hover {

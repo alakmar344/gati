@@ -268,12 +268,12 @@ export default function DriverLicencePage() {
 
         {/* ================= STEP 1: LICENCE CATEGORY ================= */}
         {currentStep === 1 && (
-          <div className="card p-6 sm:p-8 space-y-6 animate-rise">
+          <div className="clay-card p-6 sm:p-8 space-y-6 animate-rise">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 Select service &amp; vehicle classes
               </h2>
-              <p className="text-sm text-slate-500 mt-1">Choose your application type and authorized vehicle classes.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Choose your application type and authorized vehicle classes.</p>
             </div>
 
             {/* Service Type */}
@@ -346,11 +346,11 @@ export default function DriverLicencePage() {
               </Field>
             </div>
 
-            <div className="flex justify-end pt-2 hairline border-t">
+            <div className="flex justify-end pt-2 hairline border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleNext}
-                className="btn btn-primary px-6 py-3 text-sm mt-4"
+                className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm mt-4 text-white"
               >
                 <span>Continue to Health &amp; KYC</span>
                 <ArrowRight className="w-4 h-4" />
@@ -361,40 +361,40 @@ export default function DriverLicencePage() {
 
         {/* ================= STEP 2: APPLICANT & HEALTH ================= */}
         {currentStep === 2 && (
-          <div className="card p-6 sm:p-8 space-y-6 animate-rise">
+          <div className="clay-card p-6 sm:p-8 space-y-6 animate-rise">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 Applicant information &amp; medical declaration
               </h2>
-              <p className="text-sm text-slate-500 mt-1">Form 1A statutory self-health certification and biometric verification.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Form 1A statutory self-health certification and biometric verification.</p>
             </div>
 
             {/* Autofill user pill */}
-            <div className="p-4 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-between gap-3">
+            <div className="p-4 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold text-xs">
                   {currentUser.avatar}
                 </div>
                 <div>
-                  <div className="font-bold text-sm text-slate-900 flex items-center gap-2">
+                  <div className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
                     {currentUser.name}
                     <VerifiedChip label="From Aadhaar" />
                   </div>
-                  <div className="text-[11px] text-slate-500 font-mono">Aadhaar: {currentUser.aadhaarMasked} (e-KYC Linked)</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Aadhaar: {currentUser.aadhaarMasked} (e-KYC Linked)</div>
                 </div>
               </div>
               <Pill tone="emerald">Auto-Verified</Pill>
             </div>
 
             {/* Autofill banner */}
-            <div className="p-3.5 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-between gap-3">
-              <p className="text-xs text-sky-900 leading-snug">
+            <div className="p-3.5 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 flex items-center justify-between gap-3">
+              <p className="text-xs text-sky-900 dark:text-sky-200 leading-snug">
                 <span className="font-bold">Autofilled from your Gati profile</span> — edit any field below if it differs.
               </p>
               <button
                 type="button"
                 onClick={resetHealthToProfile}
-                className="btn btn-ghost px-3 py-1.5 text-xs shrink-0"
+                className="clay-btn min-h-[36px] px-3.5 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 Reset
               </button>
@@ -423,7 +423,7 @@ export default function DriverLicencePage() {
                   type="date"
                   value={dob}
                   onChange={(e) => setDob(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
+                  className="clay-input w-full px-4 py-2.5 text-sm font-medium text-slate-900 dark:text-white font-mono"
                 />
               </Field>
             </div>
@@ -431,17 +431,17 @@ export default function DriverLicencePage() {
             {/* Organ Donor Pledge */}
             <div
               onClick={() => setOrganDonor(!organDonor)}
-              className={`p-4 rounded-2xl border cursor-pointer flex items-center justify-between gap-3 transition-all ${
-                organDonor ? 'bg-rose-50 border-rose-300 ring-2 ring-rose-500/20' : 'bg-white border-slate-200 hover:border-slate-300'
+              className={`p-4 rounded-2xl border cursor-pointer flex items-center justify-between gap-3 transition-all min-h-[48px] ${
+                organDonor ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-800 ring-2 ring-rose-500/20' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300'
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-xl bg-rose-100 dark:bg-rose-900/60 text-rose-600 dark:text-rose-300 flex items-center justify-center shrink-0">
                   <Heart className="w-5 h-5 fill-rose-500" />
                 </div>
                 <div>
-                  <div className="font-bold text-sm text-rose-950">Organ Donor Pledge</div>
-                  <div className="text-[11px] text-rose-700">Pledge to donate organs in event of emergency (Badge on Smart DL)</div>
+                  <div className="font-bold text-sm text-rose-950 dark:text-rose-200">Organ Donor Pledge</div>
+                  <div className="text-[11px] text-rose-700 dark:text-rose-400">Pledge to donate organs in event of emergency (Badge on Smart DL)</div>
                 </div>
               </div>
               <input
@@ -455,8 +455,8 @@ export default function DriverLicencePage() {
             {/* Form 1A Check */}
             <div
               onClick={() => setMedicalFormDeclared(!medicalFormDeclared)}
-              className={`p-4 rounded-2xl border cursor-pointer flex items-start gap-3 text-xs transition-all ${
-                medicalFormDeclared ? 'bg-sky-50 border-sky-300 ring-2 ring-sky-500/20' : 'bg-white border-slate-200 hover:border-slate-300'
+              className={`p-4 rounded-2xl border cursor-pointer flex items-start gap-3 text-xs transition-all min-h-[48px] ${
+                medicalFormDeclared ? 'bg-sky-50 dark:bg-sky-950/40 border-sky-300 dark:border-sky-800 ring-2 ring-sky-500/20' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300'
               }`}
             >
               <input
@@ -465,17 +465,17 @@ export default function DriverLicencePage() {
                 onChange={() => {}}
                 className="w-4 h-4 text-sky-600 rounded mt-0.5 shrink-0"
               />
-              <div className="text-slate-600 leading-relaxed">
-                <strong className="text-slate-900 block font-semibold mb-0.5 text-[13px]">Form 1A Medical Self-Declaration</strong>
+              <div className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                <strong className="text-slate-900 dark:text-white block font-semibold mb-0.5 text-[13px]">Form 1A Medical Self-Declaration</strong>
                 I hereby declare that I do not suffer from epilepsy, night blindness, or loss of consciousness, and possess standard visual acuity.
               </div>
             </div>
 
-            <div className="flex justify-between pt-2 hairline border-t">
+            <div className="flex justify-between pt-2 hairline border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleBack}
-                className="btn btn-ghost px-5 py-3 text-sm mt-4"
+                className="clay-btn min-h-[44px] px-5 py-2.5 text-sm mt-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -483,7 +483,7 @@ export default function DriverLicencePage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="btn btn-primary px-6 py-3 text-sm mt-4"
+                className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm mt-4 text-white"
               >
                 <span>Continue to Track Slot</span>
                 <ArrowRight className="w-4 h-4" />
@@ -494,26 +494,26 @@ export default function DriverLicencePage() {
 
         {/* ================= STEP 3: ADTT SENSOR TRACK SLOT ================= */}
         {currentStep === 3 && (
-          <div className="card p-6 sm:p-8 space-y-6 animate-rise">
+          <div className="clay-card p-6 sm:p-8 space-y-6 animate-rise">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
-                Book your ADTT sensor track slot
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                Book your Online ADTT sensor track slot
               </h2>
-              <p className="text-sm text-slate-500 mt-1">Pick a convenient sensor test track slot with real-time biometric turnstile check-in.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Pick a convenient sensor test track slot with real-time biometric turnstile check-in.</p>
             </div>
 
             {/* Test Track Location */}
             <div>
-              <label className="eyebrow text-slate-500 block mb-2.5">
+              <label className="eyebrow text-slate-500 dark:text-slate-400 block mb-2.5">
                 Automated Sensor Track Facility
               </label>
-              <div className="p-4 rounded-2xl bg-sky-50 border border-sky-200 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
+              <div className="p-4 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 flex items-center justify-center shrink-0">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-bold text-sm text-slate-900">{selectedTrack}</div>
-                  <div className="text-slate-500 text-[11px]">{currentRto.name}, {stateData.name}</div>
+                  <div className="font-bold text-sm text-slate-900 dark:text-white">{selectedTrack}</div>
+                  <div className="text-slate-500 dark:text-slate-400 text-[11px]">{currentRto.name}, {stateData.name}</div>
                 </div>
               </div>
             </div>
@@ -522,14 +522,14 @@ export default function DriverLicencePage() {
             <Field
               label="Preferred Test Date"
               hint="Choose any working day — turnstile check-in opens 30 minutes before your slot."
-              adornment={<Calendar className="w-3.5 h-3.5 text-sky-600" />}
+              adornment={<Calendar className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />}
               className="max-w-xs"
             >
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
+                className="clay-input w-full px-4 py-2.5 text-sm font-medium text-slate-900 dark:text-white font-mono"
               />
             </Field>
 
@@ -537,7 +537,7 @@ export default function DriverLicencePage() {
             <Field
               label="Time Window"
               hint="Each slot is a one-hour biometric check-in window at the automated track."
-              adornment={<Clock className="w-3.5 h-3.5 text-sky-600" />}
+              adornment={<Clock className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />}
             >
               <OptionGrid
                 tone="sky"
@@ -554,19 +554,19 @@ export default function DriverLicencePage() {
             </Field>
 
             {/* Instant Track Pass Info */}
-            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+            <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs text-emerald-900 dark:text-emerald-200 flex items-start gap-3">
+              <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <div className="leading-relaxed">
                 <strong className="font-bold block text-[13px]">Instant Digital Entry Pass Included</strong>
                 Upon checkout, you will receive an encrypted QR entry pass for contactless entry at the RTO automated sensor gates.
               </div>
             </div>
 
-            <div className="flex justify-between pt-2 hairline border-t">
+            <div className="flex justify-between pt-2 hairline border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleBack}
-                className="btn btn-ghost px-5 py-3 text-sm mt-4"
+                className="clay-btn min-h-[44px] px-5 py-2.5 text-sm mt-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -574,7 +574,7 @@ export default function DriverLicencePage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="btn btn-primary px-6 py-3 text-sm mt-4"
+                className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm mt-4 text-white"
               >
                 <span>Continue to Review</span>
                 <ArrowRight className="w-4 h-4" />
@@ -585,55 +585,55 @@ export default function DriverLicencePage() {
 
         {/* ================= STEP 4: REVIEW & PAYMENT ================= */}
         {currentStep === 4 && (
-          <div className="card p-6 sm:p-8 space-y-6 animate-rise">
+          <div className="clay-card p-6 sm:p-8 space-y-6 animate-rise">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 Review &amp; statutory fee
               </h2>
-              <p className="text-sm text-slate-500 mt-1">Government prescribed smart card and driving test fees.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Government prescribed smart card and driving test fees.</p>
             </div>
 
             {/* Summary */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-[13px]">
-              <div className="flex justify-between border-b border-slate-200 pb-2.5">
-                <span className="text-slate-500">Applicant Name</span>
-                <span className="font-bold text-slate-900">{currentUser.name}</span>
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-3 text-[13px]">
+              <div className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2.5">
+                <span className="text-slate-500 dark:text-slate-400">Applicant Name</span>
+                <span className="font-bold text-slate-900 dark:text-white">{currentUser.name}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-200 pb-2.5">
-                <span className="text-slate-500">Service Category</span>
-                <span className="font-bold text-slate-900">{licenceType}</span>
+              <div className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2.5">
+                <span className="text-slate-500 dark:text-slate-400">Service Category</span>
+                <span className="font-bold text-slate-900 dark:text-white">{licenceType}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-200 pb-2.5">
-                <span className="text-slate-500">Authorized Classes</span>
-                <span className="font-bold text-sky-700 font-mono">{vehicleClasses.map(c => c.split(' ')[0]).join(' + ')}</span>
+              <div className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2.5">
+                <span className="text-slate-500 dark:text-slate-400">Authorized Classes</span>
+                <span className="font-bold text-sky-700 dark:text-sky-400 font-mono">{vehicleClasses.map(c => c.split(' ')[0]).join(' + ')}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">ADTT Slot</span>
-                <span className="font-semibold text-slate-900">{selectedDate} ({selectedTimeSlot})</span>
+                <span className="text-slate-500 dark:text-slate-400">ADTT Slot</span>
+                <span className="font-semibold text-slate-900 dark:text-white">{selectedDate} ({selectedTimeSlot})</span>
               </div>
             </div>
 
             {/* Fee Breakdown */}
-            <div className="space-y-2.5 p-5 rounded-2xl bg-sky-50 border border-sky-200 text-[13px]">
-              <div className="flex justify-between text-slate-700">
+            <div className="space-y-2.5 p-5 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 text-[13px]">
+              <div className="flex justify-between text-slate-700 dark:text-slate-300">
                 <span>Form 2 Statutory Application &amp; Test Fee</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(totalFee - 350)}</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(totalFee - 350)}</span>
               </div>
-              <div className="flex justify-between text-slate-700">
+              <div className="flex justify-between text-slate-700 dark:text-slate-300">
                 <span>Cryptographic Smart PVC Card Fee</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(350)}</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(350)}</span>
               </div>
-              <div className="flex justify-between pt-3 border-t border-sky-200 text-sm font-extrabold text-sky-950">
+              <div className="flex justify-between pt-3 border-t border-sky-200 dark:border-sky-800/60 text-sm font-extrabold text-sky-950 dark:text-sky-200">
                 <span>Total Amount Payable</span>
-                <span className="font-mono text-lg text-sky-700">{formatINR(totalFee)}</span>
+                <span className="font-mono text-lg text-sky-700 dark:text-sky-400">{formatINR(totalFee)}</span>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-between gap-3 pt-2 hairline border-t">
+            <div className="flex flex-col sm:flex-row justify-between gap-3 pt-2 hairline border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleBack}
-                className="btn btn-ghost px-5 py-3 text-sm order-2 sm:order-1 mt-0 sm:mt-4"
+                className="clay-btn min-h-[44px] px-5 py-2.5 text-sm order-2 sm:order-1 mt-0 sm:mt-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -641,7 +641,7 @@ export default function DriverLicencePage() {
               <button
                 type="button"
                 onClick={() => setIsPaymentOpen(true)}
-                className="btn px-7 py-3.5 text-sm bg-sky-600 hover:bg-sky-700 text-white shadow-lg shadow-sky-600/30 order-1 sm:order-2 mt-4"
+                className="clay-btn clay-btn-saffron min-h-[44px] px-7 py-3 text-sm text-white order-1 sm:order-2 mt-4"
               >
                 <CreditCard className="w-4 h-4" />
                 <span>Pay {formatINR(totalFee)} &amp; Mint DL</span>
@@ -652,16 +652,16 @@ export default function DriverLicencePage() {
 
         {/* ================= STEP 5: GENERATED DIGITAL DL ================= */}
         {currentStep === 5 && completedApplication && (
-          <div className="card p-6 sm:p-8 space-y-8 animate-rise">
+          <div className="clay-card p-6 sm:p-8 space-y-8 animate-rise">
             <div className="text-center">
-              <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
+              <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-3 shadow-inner">
                 <CheckCircle className="w-8 h-8" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 Driving Licence issued successfully
               </h2>
-              <p className="text-sm text-slate-600 mt-1.5">
-                Ref No: <strong className="font-mono text-sky-700">{completedApplication.referenceNumber}</strong>
+              <p className="text-sm text-slate-600 dark:text-slate-300 mt-1.5">
+                Ref No: <strong className="font-mono text-sky-700 dark:text-sky-400">{completedApplication.referenceNumber}</strong>
               </p>
             </div>
 
@@ -670,22 +670,22 @@ export default function DriverLicencePage() {
             <p className="text-center text-[11px] text-slate-400 -mt-3">Tap the card to flip and view the reverse side.</p>
 
             {/* Next Links */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2 hairline border-t">
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2 hairline border-t border-slate-100 dark:border-slate-800">
               <Link
                 href="/dashboard"
-                className="btn btn-primary px-6 py-2.5 text-sm mt-6"
+                className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm mt-6 text-white"
               >
                 Go to Dashboard
               </Link>
               <Link
                 href={`/track?ref=${completedApplication.referenceNumber}`}
-                className="btn btn-ghost px-6 py-2.5 text-sm mt-6"
+                className="clay-btn min-h-[44px] px-6 py-2.5 text-sm mt-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 Track Live Status
               </Link>
               <Link
                 href="/documents"
-                className="btn px-6 py-2.5 text-sm bg-sky-50 border border-sky-200 text-sky-800 hover:bg-sky-100 mt-6"
+                className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 text-sky-800 dark:text-sky-300 mt-6"
               >
                 View in GatiLocker
               </Link>

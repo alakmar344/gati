@@ -216,7 +216,7 @@ export function CommandPalette() {
       >
         {/* Search field */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 dark:border-slate-800">
-          <Wand2 className="w-5 h-5 text-saffron-600 dark:text-saffron-400 shrink-0" />
+          <Search className="w-5 h-5 text-olive-700 dark:text-olive-400 shrink-0" />
           <input
             ref={inputRef}
             value={query}
@@ -257,11 +257,11 @@ export function CommandPalette() {
               <ArrowDown className="w-3 h-3" /> navigate
             </span>
             <span className="flex items-center gap-1">
-              <CornerDownLeft className="w-3 h-3" /> run
+              <CornerDownLeft className="w-3 h-3" /> execute
             </span>
           </div>
-          <span className="flex items-center gap-1 font-semibold">
-            <Sparkles className="w-3 h-3 text-saffron-500" /> Gati Copilot
+          <span className="flex items-center gap-1 font-semibold text-olive-800 dark:text-olive-300">
+            <Zap className="w-3 h-3 text-saffron-500" /> FastTrack Instant Execution
           </span>
         </div>
       </div>
