@@ -2,6 +2,7 @@
 
 import { DemoUser, AnyApplication, StoredDocument, PaymentReceipt, ChallanRecord, FastagAccount } from './types';
 import { DEMO_USERS, INITIAL_SEED_APPLICATIONS, MOCK_CHALLANS, MOCK_FASTAG } from './mockData';
+import { generateUTR, generateTransactionId } from './utils';
 
 const USER_STORAGE_KEY = 'gati_current_user_v1';
 const APPLICATIONS_STORAGE_KEY = 'gati_applications_v1';
@@ -166,6 +167,44 @@ export function updateChallanStatus(challanId: string, status: 'PAID' | 'DISPUTE
   } catch (e) {
     console.error('Error updating challan:', e);
   }
+}
+
+/** One-tap challan settlement — mints a receipt, marks PAID, and persists. */
+export function settleChallan(challanId: string, payer?: DemoUser): PaymentReceipt | null {
+  const all = getAllChallans();
+  const challan = all.find((c) => c.id === challanId);
+  if (!challan || challan.status === 'PAID') return null;
+  const user = payer || getCurrentUser();
+  const receipt: PaymentReceipt = {
+    transactionId: generateTransactionId(),
+    utrNumber: generateUTR(),
+    date: new Date().toISOString(),
+    amount: challan.amount,
+    convenienceFee: 0,
+    gst: 0,
+    totalPaid: challan.amount,
+    paymentMethod: 'UPI',
+    paymentGateway: 'GatiPay NPCI FastTrack (Simulated)',
+    serviceType: 'challans',
+    serviceTitle: `E-Challan ${challan.challanNumber} — ${challan.violationType}`,
+    applicationNumber: challan.challanNumber,
+    status: 'SUCCESS',
+    payerName: user.name,
+    payerEmail: user.email,
+  };
+  savePayment(receipt);
+  updateChallanStatus(challanId, 'PAID', receipt.transactionId);
+  return receipt;
+}
+
+/** Batch settle multiple challans in one action. */
+export function settleAllChallans(ids: string[], payer?: DemoUser): PaymentReceipt[] {
+  const receipts: PaymentReceipt[] = [];
+  ids.forEach((id) => {
+    const r = settleChallan(id, payer);
+    if (r) receipts.push(r);
+  });
+  return receipts;
 }
 
 export function getFastagAccount(): FastagAccount {

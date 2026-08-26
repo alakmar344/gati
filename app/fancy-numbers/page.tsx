@@ -24,8 +24,29 @@ import { getCurrentUser, saveApplication, saveDocument } from '@/lib/storage';
 import { formatINR, generateReferenceNumber } from '@/lib/utils';
 import { GatiPayModal } from '@/components/payment/GatiPayModal';
 import { VipAllotmentOrder } from '@/components/documents/VipAllotmentOrder';
+import { SectionHeading, Pill } from '@/components/ui/Primitives';
+import { Field, TextInput, OptionGrid } from '@/components/ui/Form';
+import { useToast } from '@/components/ui/Toast';
+
+const CATEGORY_OPTIONS = [
+  { value: 'ALL', label: 'All Patterns' },
+  { value: 'Super VIP', label: '👑 Super VIP' },
+  { value: 'Quad Mirror', label: '✨ Quad Mirrors' },
+  { value: 'Auspicious', label: '🕊️ Auspicious' },
+  { value: 'Sequence', label: '📈 Sequence' },
+  { value: 'Milestone', label: '🎯 Milestone' },
+];
+
+const SUM_OPTIONS = [
+  { value: 'ALL', label: 'All sums' },
+  { value: '1', label: 'Sum 1' },
+  { value: '3', label: 'Sum 3' },
+  { value: '7', label: 'Sum 7' },
+  { value: '9', label: 'Sum 9' },
+];
 
 export default function FancyNumbersPage() {
+  const { toast } = useToast();
   const [currentUser] = useState(getCurrentUser());
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
@@ -132,58 +153,57 @@ export default function FancyNumbersPage() {
     });
 
     setCompletedApplication(newApp);
+
+    toast({
+      title: 'VIP number allotted',
+      description: `${selectedNumber.fullPlateText} reserved — certificate saved to GatiLocker.`,
+      variant: 'success',
+    });
   };
 
   return (
     <div className="min-h-screen py-10 px-4 sm:px-8 max-w-7xl mx-auto">
       
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-10">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-wider mb-2">
-          <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-          <span>E-Auction & Priority Number Allocations</span>
-        </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          VIP & Choice Plate Marketplace
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-600 mt-2">
-          Discover, simulate, and reserve prestigious Indian registration series with instant allotment certificate generation.
-        </p>
-      </div>
+      <SectionHeading
+        eyebrow="E-Auction & Priority Allocations"
+        icon={<Sparkles className="w-3.5 h-3.5 text-amber-600" />}
+        title="VIP & Choice Plate Studio"
+        subtitle="Discover, simulate, and reserve prestigious Indian registration series with instant allotment certificate generation."
+        className="mb-10 animate-rise"
+      />
 
       {completedApplication ? (
         /* Completed Allotment View */
-        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-white/80 shadow-2xl max-w-3xl mx-auto space-y-8 animate-in zoom-in-95 duration-400">
+        <div className="card p-8 sm:p-12 max-w-3xl mx-auto space-y-8 animate-rise">
           <div className="text-center">
-            <div className="w-14 h-14 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-3 shadow-inner">
+            <div className="w-14 h-14 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-4 shadow-inner">
               <Sparkles className="w-8 h-8" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-              VIP Number Allocated Successfully!
+            <div className="eyebrow text-amber-700">Allotment Confirmed</div>
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-1.5">
+              VIP Number Allocated Successfully
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
+            <p className="text-sm text-slate-500 mt-2">
               Allotment ID: <strong className="font-mono text-amber-700">{completedApplication.allotmentCertificate?.allotmentId}</strong>
             </p>
           </div>
 
           <VipAllotmentOrder data={completedApplication} />
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-4 text-xs font-semibold">
+          <div className="hairline border-t pt-6 flex flex-wrap items-center justify-center gap-3 text-sm">
             <button
               onClick={() => setCompletedApplication(null)}
-              className="px-6 py-2.5 rounded-full bg-slate-900 text-white hover:bg-slate-800 transition-all"
+              className="btn btn-primary px-6 py-2.5 text-sm"
             >
               Browse More Numbers
             </button>
-            <Link
-              href="/dashboard"
-              className="px-6 py-2.5 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-all"
-            >
+            <Link href="/dashboard" className="btn btn-ghost px-6 py-2.5 text-sm">
               Go to Dashboard
             </Link>
             <Link
               href="/documents"
-              className="px-6 py-2.5 rounded-full bg-amber-50 border border-amber-200 text-amber-900 hover:bg-amber-100 transition-all"
+              className="btn px-6 py-2.5 text-sm bg-amber-50 border border-amber-200 text-amber-900 hover:bg-amber-100"
             >
               View in GatiLocker
             </Link>
@@ -194,16 +214,16 @@ export default function FancyNumbersPage() {
         <div className="space-y-10">
           
           {/* ================= INTERACTIVE PLATE STUDIO HERO ================= */}
-          <div className="glass-panel p-6 sm:p-10 rounded-3xl border border-white/80 shadow-xl bg-gradient-to-br from-white/90 via-slate-50/70 to-amber-50/40">
+          <div className="card p-6 sm:p-8 ring-1 ring-amber-500/10 animate-rise">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              
+
               {/* Left Plate Display */}
-              <div className="lg:col-span-7 flex flex-col items-center justify-center p-6 sm:p-10 bg-slate-900 rounded-3xl text-white shadow-2xl relative overflow-hidden border border-slate-700">
+              <div className="lg:col-span-7 flex flex-col items-center justify-center p-6 sm:p-10 bg-slate-900 rounded-2xl text-white shadow-2xl relative overflow-hidden border border-slate-800">
                 <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-                
+
                 {/* Plate Style Toggle Pills */}
-                <div className="flex items-center gap-2 mb-6 z-10 text-[10px] font-bold">
-                  <span className="text-slate-400 uppercase tracking-widest mr-1 hidden sm:inline">Theme:</span>
+                <div className="flex flex-wrap items-center justify-center gap-2 mb-6 z-10 text-[11px] font-bold">
+                  <span className="text-slate-400 uppercase tracking-widest mr-1 hidden sm:inline">Theme</span>
                   {[
                     { id: 'luxury', label: 'Luxury Black' },
                     { id: 'private', label: 'White Private' },
@@ -213,7 +233,7 @@ export default function FancyNumbersPage() {
                     <button
                       key={thm.id}
                       onClick={() => setSelectedPlateTheme(thm.id as any)}
-                      className={`px-3 py-1 rounded-full border transition-all ${
+                      className={`px-3 py-1.5 rounded-full border transition-all ${
                         selectedPlateTheme === thm.id
                           ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-sm'
                           : 'bg-white/10 text-slate-300 border-white/10 hover:bg-white/20'
@@ -235,65 +255,59 @@ export default function FancyNumbersPage() {
                 </div>
 
                 {/* Sub-bar */}
-                <div className="flex items-center justify-between w-full max-w-sm mt-6 pt-4 border-t border-white/10 text-[11px] text-slate-400 z-10">
-                  <span>State: <strong className="text-slate-200">{selectedNumber.state}</strong></span>
-                  <span>Numerology Sum: <strong className="text-amber-400 font-mono text-xs">#{selectedNumber.numerologySum}</strong></span>
-                  <span>Tag: <strong className="text-emerald-400">{selectedNumber.tag}</strong></span>
+                <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 w-full max-w-sm mt-6 pt-4 border-t border-white/10 text-[11px] text-slate-400 z-10">
+                  <span>State <strong className="text-slate-200">{selectedNumber.state}</strong></span>
+                  <span>Sum <strong className="text-amber-400 font-mono">#{selectedNumber.numerologySum}</strong></span>
+                  <span>Tag <strong className="text-emerald-400">{selectedNumber.tag}</strong></span>
                 </div>
               </div>
 
               {/* Right Details & Fast Booking Action */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full uppercase tracking-wider">
-                    {selectedNumber.category}
-                  </span>
-                  <span className="text-xs font-medium text-slate-500 flex items-center gap-1">
+                <div className="flex items-center justify-between gap-3">
+                  <Pill tone="amber">{selectedNumber.category}</Pill>
+                  <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5 text-amber-600" />
                     Ends in {selectedNumber.auctionEndsIn}
                   </span>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                   {selectedNumber.fullPlateText}
                 </h3>
 
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-500 leading-relaxed">
                   High-profile allocation in {selectedNumber.rto}. Immediate reserve deposit locks the number for vehicle registration.
                 </p>
 
                 {/* Price Display */}
-                <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between">
+                <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/70 flex items-center justify-between gap-3">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block">Reserve Price / Buy Now</span>
+                    <span className="text-[11px] uppercase font-bold tracking-wide text-amber-700/80 block">Reserve Price / Buy Now</span>
                     <span className="text-2xl font-black text-slate-900 font-mono">{formatINR(selectedNumber.price)}</span>
                   </div>
-                  <div className="text-right">
-                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
-                      {selectedNumber.bidsCount} Active Bids
-                    </span>
-                  </div>
+                  <Pill tone="emerald">{selectedNumber.bidsCount} Active Bids</Pill>
                 </div>
 
                 {/* Target Vehicle Input */}
-                <div>
-                  <label className="text-[11px] font-bold text-slate-700 block mb-1">
-                    Target Vehicle Model / VIN for Allocation
-                  </label>
-                  <input
-                    type="text"
+                <Field
+                  label="Target Vehicle for Allocation"
+                  hint="The vehicle this plate will be assigned to"
+                >
+                  <TextInput
                     value={targetVehicle}
-                    onChange={(e) => setTargetVehicle(e.target.value)}
-                    className="w-full glass-input px-3.5 py-2 rounded-xl text-xs font-medium text-slate-900"
-                    placeholder="e.g. BMW M340i, Tata Safari, Porsche 911"
+                    onValue={setTargetVehicle}
+                    transform="upper"
+                    mono
+                    placeholder="e.g. KA 01 AB 1234"
                   />
-                </div>
+                </Field>
 
                 {/* Action CTA */}
                 <button
                   type="button"
                   onClick={() => handleSelectToBuy(selectedNumber)}
-                  className="w-full py-3.5 rounded-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 hover:scale-[1.01] transition-all"
+                  className="btn w-full py-3.5 text-sm bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-lg shadow-amber-500/20"
                 >
                   <CreditCard className="w-4 h-4" />
                   <span>Reserve {selectedNumber.number} for {formatINR(selectedNumber.price)}</span>
@@ -305,103 +319,62 @@ export default function FancyNumbersPage() {
           </div>
 
           {/* ================= SEARCH & CATEGORY FILTER BAR ================= */}
-          <div className="space-y-4">
-            <div className="flex flex-col md:flex-row gap-3 items-center justify-between">
-              
-              {/* Search Box */}
-              <div className="relative w-full md:w-80">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search numbers e.g. 0001, 786, 9999..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-full glass-input text-xs font-medium text-slate-900 placeholder:text-slate-400"
-                />
-              </div>
+          <div className="card p-5 sm:p-6 space-y-6">
 
-              {/* Numerology Lucky Sum Filter Pills */}
-              <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 text-xs">
-                <span className="text-[11px] font-bold text-slate-500 mr-1 flex items-center gap-1 shrink-0">
-                  <Hash className="w-3.5 h-3.5 text-amber-600" />
-                  Lucky Sum:
-                </span>
-                <button
-                  onClick={() => setSelectedSum(null)}
-                  className={`px-2.5 py-1 rounded-full text-xs font-semibold shrink-0 transition-all ${
-                    selectedSum === null 
-                      ? 'bg-slate-900 text-white' 
-                      : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  All
-                </button>
-                {[1, 3, 7, 9].map((num) => (
-                  <button
-                    key={num}
-                    onClick={() => setSelectedSum(num === selectedSum ? null : num)}
-                    className={`w-7 h-7 rounded-full text-xs font-mono font-bold shrink-0 transition-all ${
-                      selectedSum === num 
-                        ? 'bg-amber-500 text-slate-950 font-black ring-2 ring-amber-300' 
-                        : 'bg-white border border-slate-200 text-slate-700 hover:bg-amber-50'
-                    }`}
-                  >
-                    {num}
-                  </button>
-                ))}
-              </div>
-            </div>
+            {/* Search Box — kept prominent, full width */}
+            <Field label="Search plates" hint="Search by number, series, or RTO">
+              <TextInput
+                value={searchQuery}
+                onValue={setSearchQuery}
+                prefix={<Search className="w-4 h-4" />}
+                placeholder="e.g. 0001, 786, 9999..."
+              />
+            </Field>
 
-            {/* Category Filter Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-semibold">
-              {[
-                { id: 'ALL', label: 'All Patterns' },
-                { id: 'Super VIP', label: '👑 Super VIP' },
-                { id: 'Quad Mirror', label: '✨ Quad Mirrors' },
-                { id: 'Auspicious', label: '🕊️ Auspicious' },
-                { id: 'Sequence', label: '📈 Sequence' },
-                { id: 'Milestone', label: '🎯 Milestone' },
-              ].map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                    selectedCategory === cat.id
-                      ? 'bg-slate-900 text-white shadow-sm'
-                      : 'glass-panel text-slate-600 hover:text-slate-900 border-slate-200'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
+            {/* Category Filter Chips */}
+            <Field label="Pattern category">
+              <OptionGrid
+                tone="amber"
+                columns="grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
+                options={CATEGORY_OPTIONS}
+                value={selectedCategory}
+                onChange={setSelectedCategory}
+              />
+            </Field>
+
+            {/* Numerology Lucky Sum Filter */}
+            <Field label="Lucky sum" hint="Numerology total of the digits">
+              <OptionGrid
+                tone="amber"
+                columns="grid-cols-3 sm:grid-cols-5"
+                options={SUM_OPTIONS}
+                value={selectedSum === null ? 'ALL' : String(selectedSum)}
+                onChange={(v) => setSelectedSum(v === 'ALL' ? null : Number(v))}
+              />
+            </Field>
           </div>
 
           {/* ================= NUMBERS CARDS GRID ================= */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
             {filteredNumbers.map((item) => {
               const isSelected = selectedNumber.id === item.id;
               return (
                 <div
                   key={item.id}
                   onClick={() => setSelectedNumber(item)}
-                  className={`glass-panel p-6 rounded-3xl border transition-all duration-300 cursor-pointer flex flex-col justify-between group ${
+                  className={`card ${isSelected ? '' : 'card-hover'} p-6 cursor-pointer flex flex-col justify-between group ${
                     isSelected
-                      ? 'border-amber-500 ring-2 ring-amber-500/20 shadow-lg bg-amber-50/30'
-                      : 'border-white/80 hover:border-amber-400 hover:shadow-md'
+                      ? 'border-amber-500 ring-2 ring-amber-500/20 bg-amber-50/40'
+                      : ''
                   }`}
                 >
                   <div>
                     {/* Top Row: Category & Sum */}
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">
-                        {item.category}
-                      </span>
-                      <div className="flex items-center gap-2 text-[10px] text-slate-500">
-                        <span className="font-mono font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
-                          Sum: {item.numerologySum}
-                        </span>
-                        <span>•</span>
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <Pill tone="amber">{item.category}</Pill>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                        <span className="font-mono font-bold text-amber-700">Sum {item.numerologySum}</span>
+                        <span className="text-slate-300">•</span>
                         <span>{item.state.split(' ')[0]}</span>
                       </div>
                     </div>
@@ -416,16 +389,17 @@ export default function FancyNumbersPage() {
                       />
                     </div>
 
-                    <div className="text-center mt-3">
-                      <span className="text-xs font-semibold text-slate-700">{item.tag}</span>
-                      <div className="text-[11px] text-slate-500 mt-0.5">{item.rto}</div>
+                    <div className="text-center mt-4">
+                      <div className="font-display text-lg font-extrabold tracking-tight text-slate-900">{item.fullPlateText}</div>
+                      <div className="text-sm font-medium text-slate-600 mt-1">{item.tag}</div>
+                      <div className="text-[11px] text-slate-400 mt-0.5">{item.rto}</div>
                     </div>
                   </div>
 
                   {/* Bottom: Price & Quick Action */}
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <div className="mt-6 pt-4 hairline border-t flex items-center justify-between gap-2">
                     <div>
-                      <span className="text-[9px] uppercase tracking-wider text-slate-400 block font-bold">Reserve Price</span>
+                      <span className="text-[11px] uppercase tracking-wide text-slate-400 block font-bold">Reserve Price</span>
                       <span className="text-base font-extrabold text-slate-900 font-mono">{formatINR(item.price)}</span>
                     </div>
 
@@ -435,7 +409,7 @@ export default function FancyNumbersPage() {
                         e.stopPropagation();
                         handleSelectToBuy(item);
                       }}
-                      className="px-4 py-2 rounded-full bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
+                      className="btn px-4 py-2 text-xs bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white shadow-sm"
                     >
                       <span>Reserve</span>
                       <ArrowRight className="w-3.5 h-3.5" />

@@ -2,15 +2,15 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { 
-  Zap, 
-  Clock, 
-  CheckCircle, 
-  ShieldCheck, 
-  Download, 
-  Printer, 
-  QrCode, 
-  ArrowRight, 
+import {
+  Zap,
+  Clock,
+  CheckCircle,
+  ShieldCheck,
+  Download,
+  Printer,
+  QrCode,
+  ArrowRight,
   Sparkles,
   Flame,
   FileCheck2
@@ -18,9 +18,12 @@ import {
 import confetti from 'canvas-confetti';
 import { getCurrentUser, saveDocument } from '@/lib/storage';
 import { formatINR } from '@/lib/utils';
+import { SectionHeading, Pill } from '@/components/ui/Primitives';
+import { useToast } from '@/components/ui/Toast';
 
 export default function FastPassPage() {
   const currentUser = getCurrentUser();
+  const { toast } = useToast();
   const [selectedService, setSelectedService] = useState<'interstate' | 'duplicate_rc' | 'green_fleet'>('interstate');
   const [vehicleNumber, setVehicleNumber] = useState('KA 01 EK 4920');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -82,6 +85,7 @@ export default function FastPassPage() {
       setIsProcessing(false);
 
       const passId = `FP-${Date.now().toString().slice(-6)}`;
+      const elapsedSeconds = Number(((Date.now() - startTime) / 1000).toFixed(1));
       const newPass = {
         passId,
         title: currentServiceObj.title,
@@ -90,7 +94,7 @@ export default function FastPassPage() {
         amount: currentServiceObj.fee,
         issueDate: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(),
         validTill: '24-SEP-2026',
-        elapsedSeconds: Number(((Date.now() - startTime) / 1000).toFixed(1)),
+        elapsedSeconds,
         qrData: `GATI-FASTPASS:${passId}:${vehicleNumber}:VALID`
       };
 
@@ -122,38 +126,40 @@ export default function FastPassPage() {
         });
       } catch (e) {}
 
+      toast({
+        title: `FastPass minted in ${elapsedSeconds}s`,
+        description: `${passId} · ${currentServiceObj.title}`,
+        variant: 'success',
+      });
+
     }, 3800); // Super fast 3.8s simulated issuance!
   };
 
   return (
     <div className="min-h-screen py-10 px-4 sm:px-8 max-w-4xl mx-auto space-y-8">
-      
+
       {/* Header */}
-      <div className="text-center max-w-xl mx-auto">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-wider mb-2">
-          <Zap className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
-          <span>Zero-Friction 10-Second Issuance</span>
-        </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Gati FastPass 10s
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-600 mt-1">
-          Instant pre-authorized public mobility passes minted in under 10 seconds flat.
-        </p>
-      </div>
+      <SectionHeading
+        eyebrow="Zero-Friction 10-Second Issuance"
+        icon={<Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />}
+        title="Gati FastPass 10s"
+        subtitle="Instant pre-authorized public mobility passes minted in under 10 seconds flat."
+        className="animate-rise"
+      />
 
       {completedPass ? (
         /* Completed FastPass Card */
-        <div className="glass-panel p-8 sm:p-10 rounded-3xl border border-white/80 shadow-2xl space-y-6 animate-in zoom-in-95 duration-300 max-w-xl mx-auto">
-          
-          <div className="text-center">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold font-mono mb-2">
-              ⚡ Minted in {completedPass.elapsedSeconds} seconds!
-            </div>
-            <h2 className="text-2xl font-black text-slate-900">
-              FastPass Active & Verified
+        <div className="card p-8 sm:p-10 space-y-7 animate-dialog-in max-w-xl mx-auto">
+
+          <div className="text-center space-y-3">
+            <Pill tone="emerald" className="mx-auto">
+              <Zap className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+              Minted in {completedPass.elapsedSeconds} seconds
+            </Pill>
+            <h2 className="font-display text-2xl font-extrabold tracking-tight text-slate-900">
+              FastPass Active &amp; Verified
             </h2>
-            <p className="text-xs text-slate-500 font-mono mt-0.5">
+            <p className="text-[11px] text-slate-500 font-mono">
               PASS ID: <strong className="text-emerald-700">{completedPass.passId}</strong>
             </p>
           </div>
@@ -162,138 +168,141 @@ export default function FastPassPage() {
           <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white shadow-xl border border-emerald-500/40 relative overflow-hidden space-y-4">
             <div className="flex items-center justify-between border-b border-white/15 pb-3">
               <div>
-                <span className="text-[9px] uppercase tracking-widest text-emerald-400 font-bold block">NATIONAL MOBILITY FASTPASS</span>
-                <div className="font-bold text-sm text-white">{completedPass.title}</div>
+                <span className="text-[11px] uppercase tracking-widest text-emerald-400 font-bold block">National Mobility FastPass</span>
+                <div className="font-bold text-sm text-white mt-0.5">{completedPass.title}</div>
               </div>
-              <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-2 py-0.5 rounded border border-emerald-500/30">
+              <span className="text-[11px] bg-emerald-500/20 text-emerald-300 font-bold px-2 py-0.5 rounded border border-emerald-500/30">
                 ACTIVE PASS
               </span>
             </div>
 
             <div className="grid grid-cols-12 gap-3 text-xs">
-              <div className="col-span-8 space-y-2">
+              <div className="col-span-8 space-y-3">
                 <div>
-                  <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Vehicle Registration</span>
+                  <span className="text-[11px] text-slate-400 uppercase tracking-wider block">Vehicle Registration</span>
                   <span className="font-mono font-black text-sm text-amber-300">{completedPass.vehicleNumber}</span>
                 </div>
                 <div>
-                  <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Authorized Holder</span>
+                  <span className="text-[11px] text-slate-400 uppercase tracking-wider block">Authorized Holder</span>
                   <span className="font-semibold text-slate-100">{completedPass.holderName}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <span className="text-[8px] text-slate-400 uppercase block">Issue Date</span>
-                    <span className="font-mono text-slate-200 text-[10px]">{completedPass.issueDate}</span>
+                    <span className="text-[11px] text-slate-400 uppercase block">Issue Date</span>
+                    <span className="font-mono text-slate-200 text-[11px]">{completedPass.issueDate}</span>
                   </div>
                   <div>
-                    <span className="text-[8px] text-slate-400 uppercase block">Valid Upto</span>
-                    <span className="font-mono text-emerald-400 font-bold text-[10px]">{completedPass.validTill}</span>
+                    <span className="text-[11px] text-slate-400 uppercase block">Valid Upto</span>
+                    <span className="font-mono text-emerald-400 font-bold text-[11px]">{completedPass.validTill}</span>
                   </div>
                 </div>
               </div>
 
               <div className="col-span-4 flex flex-col items-center justify-center bg-white rounded-xl p-2 text-slate-950">
                 <QrCode className="w-16 h-16" />
-                <span className="text-[7px] font-mono font-bold mt-1 text-slate-700">FASTPASS AUTH</span>
+                <span className="text-[11px] font-mono font-bold mt-1 text-slate-700">AUTH</span>
               </div>
             </div>
 
-            <div className="text-[8px] text-slate-400 text-center border-t border-white/10 pt-2 uppercase">
-              DEMO • NOT AN OFFICIAL GOVERNMENT DOCUMENT • GATI MOBILITY OS
+            <div className="text-[11px] text-slate-400 text-center border-t border-white/10 pt-2 uppercase tracking-wide">
+              Demo • Not an official government document • Gati Mobility OS
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-3 justify-center pt-2 text-xs font-semibold">
+          <div className="flex flex-col sm:flex-row items-center gap-3 justify-center pt-1">
             <button
               onClick={() => window.print()}
-              className="px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 flex items-center gap-1.5 shadow-xs"
+              className="btn btn-ghost px-5 py-2.5 text-sm w-full sm:w-auto"
             >
-              <Printer className="w-3.5 h-3.5 text-slate-500" />
+              <Printer className="w-4 h-4 text-slate-500" />
               <span>Print Pass</span>
             </button>
 
             <button
               onClick={() => setCompletedPass(null)}
-              className="px-5 py-2.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white flex items-center gap-1.5 shadow-sm"
+              className="btn btn-primary px-5 py-2.5 text-sm w-full sm:w-auto"
             >
               <span>Mint Another FastPass</span>
-              <ArrowRight className="w-3.5 h-3.5 text-emerald-400" />
+              <ArrowRight className="w-4 h-4 text-emerald-400" />
             </button>
           </div>
         </div>
       ) : (
         /* FastPass Launchpad */
-        <div className="glass-panel p-6 sm:p-10 rounded-3xl border border-white/80 shadow-xl space-y-6">
-          
-          <div>
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-3">
-              Select 10-Second Instant Service
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {services.map((s) => (
-                <div
-                  key={s.id}
-                  onClick={() => setSelectedService(s.id as any)}
-                  className={`p-4 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between ${
-                    selectedService === s.id
-                      ? 'bg-amber-50/80 border-amber-500 ring-2 ring-amber-500/20 shadow-sm'
-                      : 'bg-white/80 border-slate-200 hover:bg-white'
-                  }`}
-                >
-                  <div>
-                    <div className="text-2xl mb-2">{s.icon}</div>
-                    <div className="font-bold text-xs text-slate-900 leading-tight mb-1">{s.title}</div>
-                    <p className="text-[11px] text-slate-500 leading-relaxed">{s.desc}</p>
-                  </div>
+        <div className="card p-6 sm:p-10 space-y-8">
 
-                  <div className="flex items-center justify-between pt-3 mt-3 border-t border-slate-100 text-xs">
-                    <span className="text-[10px] bg-slate-100 font-semibold px-2 py-0.5 rounded text-slate-700">
-                      {s.tag}
-                    </span>
-                    <span className="font-mono font-bold text-slate-900">
-                      {s.fee === 0 ? 'FREE' : formatINR(s.fee)}
-                    </span>
-                  </div>
-                </div>
-              ))}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="eyebrow text-amber-600">Select 10-Second Instant Service</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger">
+              {services.map((s) => {
+                const active = selectedService === s.id;
+                return (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => setSelectedService(s.id as any)}
+                    aria-pressed={active}
+                    className={`card text-left p-4 flex flex-col justify-between transition-all ${
+                      active
+                        ? 'ring-2 ring-amber-500/40 border-amber-400 bg-amber-50/60'
+                        : 'card-hover'
+                    }`}
+                  >
+                    <div>
+                      <div className="text-2xl mb-2">{s.icon}</div>
+                      <div className="font-bold text-sm text-slate-900 leading-tight mb-1.5">{s.title}</div>
+                      <p className="text-[11px] text-slate-500 leading-relaxed">{s.desc}</p>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-3 mt-3 border-t hairline">
+                      <Pill tone={active ? 'amber' : 'slate'}>{s.tag}</Pill>
+                      <span className="font-mono font-bold text-sm text-slate-900">
+                        {s.fee === 0 ? 'FREE' : formatINR(s.fee)}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           {/* Vehicle Input */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">Target Vehicle Number</label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700 block">Target Vehicle Number</label>
               <input
                 type="text"
                 value={vehicleNumber}
                 onChange={(e) => setVehicleNumber(e.target.value)}
-                className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-mono font-bold text-slate-900 uppercase"
+                className="field w-full px-4 py-2.5 text-sm font-mono font-bold text-slate-900 uppercase"
               />
             </div>
 
-            <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">Applicant Name</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700 block">Applicant Name</label>
               <input
                 type="text"
                 disabled
                 value={currentUser.name}
-                className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-600 bg-slate-100"
+                className="field w-full px-4 py-2.5 text-sm font-medium text-slate-600 bg-slate-100"
               />
             </div>
           </div>
 
           {/* 1-Tap Trigger Button */}
-          <div className="pt-4 border-t border-slate-100">
+          <div className="pt-6 border-t hairline">
             {isProcessing ? (
-              <div className="p-6 rounded-2xl bg-slate-900 text-white flex flex-col items-center justify-center text-center space-y-3">
-                <div className="text-3xl font-black font-mono text-amber-400">
-                  {countdown}s
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col items-center justify-center text-center space-y-4">
+                <div className="font-display text-6xl sm:text-7xl font-extrabold tracking-tight text-amber-400 tabular-nums">
+                  {countdown}<span className="text-3xl text-amber-500/80">s</span>
                 </div>
-                <div className="text-xs font-semibold text-slate-300 animate-pulse">
-                  Pre-authorizing DigiLocker handshake & minting FastPass...
+                <div className="text-sm font-semibold text-slate-300 animate-pulse-subtle">
+                  Pre-authorizing DigiLocker handshake &amp; minting FastPass...
                 </div>
-                <div className="w-48 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div className="w-56 h-1.5 bg-slate-700/60 rounded-full overflow-hidden">
                   <div className="h-full bg-amber-400 rounded-full animate-pulse w-3/4" />
                 </div>
               </div>
@@ -301,7 +310,7 @@ export default function FastPassPage() {
               <button
                 type="button"
                 onClick={handleStartFastPass}
-                className="w-full py-4 rounded-full bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-600 hover:to-amber-600 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-xl shadow-amber-500/20 hover:scale-[1.01] transition-all"
+                className="btn w-full py-4 text-base bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-600 hover:to-amber-600 text-slate-950 font-extrabold shadow-xl shadow-amber-500/20"
               >
                 <Zap className="w-5 h-5 fill-slate-950" />
                 <span>1-Tap Mint FastPass ({currentServiceObj.fee === 0 ? 'FREE' : formatINR(currentServiceObj.fee)})</span>
