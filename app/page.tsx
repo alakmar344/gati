@@ -193,13 +193,27 @@ export default function HomePage() {
 
             {/* Quick Transport Service Chips */}
             <div className="flex flex-wrap items-center justify-center gap-2 mt-4 max-w-xl animate-rise" style={{ animationDelay: '0.11s' }}>
+              <Link
+                href="/challans"
+                className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-rose-500/20 hover:bg-rose-500/30 border border-rose-400/40 text-rose-200 transition-colors backdrop-blur-sm min-h-[34px] flex items-center gap-1.5 shadow-sm"
+              >
+                <CreditCard className="w-3.5 h-3.5 text-rose-400" />
+                <span>Pay Challans</span>
+              </Link>
+
+              <Link
+                href="/fastag"
+                className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/40 text-sky-200 transition-colors backdrop-blur-sm min-h-[34px] flex items-center gap-1.5 shadow-sm"
+              >
+                <Zap className="w-3.5 h-3.5 text-sky-400" />
+                <span>Recharge FASTag</span>
+              </Link>
+
               {[
                 { label: 'Smart RC', href: '/vehicle-licensing' },
                 { label: 'Online ADTT Test', href: '/adtt-simulator' },
-                { label: 'E-Challans', href: '/challans' },
-                { label: 'FASTag Hub', href: '/fastag' },
                 { label: 'VIP Number Studio', href: '/fancy-numbers' },
-                { label: 'FastPass', href: '/fastpass' },
+                { label: 'FastPass 10s', href: '/fastpass' },
               ].map((chip) => (
                 <Link
                   key={chip.href}
@@ -227,6 +241,11 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* ================= ACTIVE COMPLIANCE RADAR ================= */}
+      <section className="px-4 sm:px-8 max-w-6xl mx-auto w-full">
+        <ActionFeed />
       </section>
 
       {/* ================= CENTRALIZED UNIFIED SERVICE MATRIX ================= */}
@@ -303,96 +322,6 @@ export default function HomePage() {
                 <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
                   <span className="font-mono text-slate-400 dark:text-slate-500 font-medium">
                     {item.category === 'VEHICLE' ? 'MoRTH • VAHAN' : item.category === 'DRIVER' ? 'MoRTH • SARATHI' : item.category === 'TOLLS' ? 'NPCI • NETC' : 'Gati Platform'}
-                  </span>
-                  <span className="font-semibold text-olive-700 dark:text-olive-400">
-                    Instant FastTrack
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ================= ACTIVE COMPLIANCE RADAR ================= */}
-      <section className="px-4 sm:px-8 max-w-6xl mx-auto w-full">
-        <ActionFeed />
-      </section>
-
-      {/* ================= CENTRALIZED UNIFIED SERVICE MATRIX ================= */}
-      <section className="px-4 sm:px-8 max-w-6xl mx-auto w-full">
-        {/* Category Filter Tabs */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
-            <h2 className="font-display text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              {t('allActions')}
-            </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              All statutory vehicle registrations, driver credentials, and instant mobility tools in one centralized hub.
-            </p>
-          </div>
-
-          {/* Centralized Category Switcher Pills */}
-          <div className="flex items-center gap-1.5 p-1 rounded-full bg-slate-200/60 dark:bg-slate-800/80 w-fit self-start sm:self-auto overflow-x-auto max-w-full">
-            {[
-              { id: 'ALL', label: t('allActions'), icon: Layers },
-              { id: 'VEHICLE', label: t('vehicleRc'), icon: Car },
-              { id: 'DRIVER', label: t('driverLicence'), icon: CreditCard },
-              { id: 'TOLLS', label: t('tollsPasses'), icon: Truck },
-              { id: 'TOOLS', label: t('instantTools'), icon: Zap },
-            ].map((cat) => {
-              const Icon = cat.icon;
-              const isActive = activeCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id as ServiceCategory)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 ${
-                    isActive
-                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-900 dark:text-olive-300 shadow-sm'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                  }`}
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Clean, Decluttered Clay Cards Matrix */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="clay-card clay-card-interactive p-5 group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center ${item.tint} group-hover:scale-105 transition-transform shadow-xs`}>
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-[11px] font-bold text-slate-400 group-hover:text-olive-700 dark:group-hover:text-olive-400 flex items-center gap-1 transition-colors">
-                      <span>{t('startNow')}</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                    </span>
-                  </div>
-
-                  <h3 className="font-display font-extrabold text-[15px] text-slate-900 dark:text-white tracking-tight">
-                    {item.name}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
-                  <span className="font-mono text-slate-400 dark:text-slate-500 font-medium">
-                    {item.category === 'VEHICLE' ? 'MoRTH • VAHAN' : item.category === 'DRIVER' ? 'MoRTH • SARATHI' : item.category === 'TOLLS' ? 'NPCI • NETC' : 'Gati Engine'}
                   </span>
                   <span className="font-semibold text-olive-700 dark:text-olive-400">
                     Instant FastTrack
