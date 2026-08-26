@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { User, Check, X, Shield, MapPin, Car, FileText, ArrowRight } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { User, Check, X, MapPin, Car } from 'lucide-react';
 import { DemoUser } from '@/lib/types';
 import { DEMO_USERS } from '@/lib/mockData';
 import { getCurrentUser, setCurrentUser } from '@/lib/storage';
@@ -17,6 +17,17 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
   onClose,
   onSelectUser,
 }) => {
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const currentUser = getCurrentUser();
@@ -28,8 +39,14 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[88vh]">
+    <div
+      className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-md animate-overlay-in"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[88vh] animate-dialog-in"
+      >
         
         {/* Header */}
         <div className="p-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white relative flex-shrink-0">
