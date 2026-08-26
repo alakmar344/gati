@@ -26,6 +26,8 @@ import { GatiPayModal } from '@/components/payment/GatiPayModal';
 import { DigitalRcSmartCard } from '@/components/documents/DigitalRcSmartCard';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { useToast } from '@/components/ui/Toast';
+import { Field, TextInput, MoneyInput, OptionGrid, SelectInput, VerifiedChip, amountInWords } from '@/components/ui/Form';
+import { ScanLine } from 'lucide-react';
 
 const WIZARD_STEPS = [
   { num: 1, label: 'Vehicle Specs' },
@@ -281,118 +283,67 @@ export default function VehicleLicensingPage() {
             </div>
 
             {/* Registration Category */}
-            <div>
-              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-2.5">
-                Registration Category
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {[
-                  'New Private Vehicle',
-                  'Ownership Transfer',
-                  'Commercial Green Fleet',
-                  'Vintage / Classic'
-                ].map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setRegistrationCategory(cat as any)}
-                    className={`p-3.5 rounded-2xl border text-[13px] font-semibold text-left transition-all ${
-                      registrationCategory === cat
-                        ? 'bg-emerald-50 border-emerald-500 text-emerald-900 ring-2 ring-emerald-500/20'
-                        : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <Field label="Registration Category" hint="Pick the transaction type — this determines which forms and fees apply.">
+              <OptionGrid
+                value={registrationCategory}
+                onChange={(v) => setRegistrationCategory(v as any)}
+                options={[
+                  { value: 'New Private Vehicle', label: 'New Private', desc: 'First registration' },
+                  { value: 'Ownership Transfer', label: 'Transfer', desc: 'Change of owner' },
+                  { value: 'Commercial Green Fleet', label: 'Green Fleet', desc: 'Commercial EV' },
+                  { value: 'Vintage / Classic', label: 'Vintage', desc: 'Period plate' },
+                ]}
+              />
+            </Field>
 
             {/* Vehicle Type */}
-            <div>
-              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-2.5">
-                Vehicle Type
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {[
-                  { label: '2W Motorcycle / Scooter', icon: '🛵' },
-                  { label: '4W Passenger Car', icon: '🚗' },
-                  { label: 'Electric Vehicle (EV)', icon: '⚡' },
-                  { label: 'Heavy Commercial', icon: '🚚' }
-                ].map((t) => (
-                  <button
-                    key={t.label}
-                    type="button"
-                    onClick={() => {
-                      setVehicleType(t.label as any);
-                      if (t.label === 'Electric Vehicle (EV)') {
-                        setFuelType('Electric');
-                      }
-                    }}
-                    className={`p-3.5 rounded-2xl border text-[13px] font-semibold flex items-center gap-2 transition-all ${
-                      vehicleType === t.label
-                        ? 'bg-emerald-50 border-emerald-500 text-emerald-900 ring-2 ring-emerald-500/20'
-                        : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
-                    }`}
-                  >
-                    <span className="text-lg">{t.icon}</span>
-                    <span>{t.label.split(' ')[0]}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            <Field label="Vehicle Type">
+              <OptionGrid
+                value={vehicleType}
+                onChange={(v) => {
+                  setVehicleType(v as any);
+                  if (v === 'Electric Vehicle (EV)') setFuelType('Electric');
+                }}
+                options={[
+                  { value: '2W Motorcycle / Scooter', label: '2-Wheeler', icon: '🛵' },
+                  { value: '4W Passenger Car', label: '4-Wheeler', icon: '🚗' },
+                  { value: 'Electric Vehicle (EV)', label: 'Electric', icon: '⚡', badge: '0% tax' },
+                  { value: 'Heavy Commercial', label: 'Commercial', icon: '🚚' },
+                ]}
+              />
+            </Field>
 
             {/* Make / Model / Fuel / Invoice Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Manufacturer / Make</label>
-                <input
-                  type="text"
-                  value={maker}
-                  onChange={(e) => setMaker(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
-                  placeholder="e.g. Tata Motors, Hyundai, Ather"
-                />
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5 pt-1">
+              <Field label="Manufacturer / Make" hint="As printed on the Form 21 sale invoice.">
+                <TextInput value={maker} onValue={setMaker} placeholder="e.g. Tata Motors, Ather" />
+              </Field>
 
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Model & Variant</label>
-                <input
-                  type="text"
-                  value={model}
-                  onChange={(e) => setModel(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
-                  placeholder="e.g. Nexon EV Empowered+"
-                />
-              </div>
+              <Field label="Model & Variant" hint="Include the exact trim (e.g. LR, ZX+).">
+                <TextInput value={model} onValue={setModel} placeholder="e.g. Nexon EV Empowered+" />
+              </Field>
 
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Fuel Type</label>
-                <select
-                  value={fuelType}
-                  onChange={(e) => setFuelType(e.target.value as any)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
-                >
-                  <option value="Electric">⚡ Electric (100% Tax Exemption)</option>
+              <Field label="Fuel Type" hint={isEV ? 'Electric vehicles are road-tax exempt.' : 'Determines road tax & green cess.'}>
+                <SelectInput value={fuelType} onValue={(v) => setFuelType(v as any)}>
+                  <option value="Electric">⚡ Electric — 100% tax exemption</option>
                   <option value="Petrol">Petrol</option>
                   <option value="Diesel">Diesel</option>
                   <option value="Strong Hybrid">Strong Hybrid</option>
                   <option value="CNG">CNG</option>
-                </select>
-              </div>
+                </SelectInput>
+              </Field>
 
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">
-                  Ex-Showroom Invoice Value (₹)
-                </label>
-                <input
-                  type="number"
+              <Field
+                label="Ex-Showroom Invoice Value"
+                hint={invoiceValue > 0 ? <span className="capitalize">{amountInWords(invoiceValue)}</span> : 'Price before taxes, insurance & accessories.'}
+              >
+                <MoneyInput
                   value={invoiceValue}
-                  onChange={(e) => setInvoiceValue(Number(e.target.value))}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
-                  step="10000"
+                  onValue={setInvoiceValue}
+                  presets={[850000, 1850000, 4500000]}
+                  quickAdd={[100000, 500000]}
                 />
-              </div>
+              </Field>
             </div>
 
             {/* EV Incentive Highlight Banner */}
@@ -428,40 +379,31 @@ export default function VehicleLicensingPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">State / Union Territory</label>
-                <select
+              <Field label="State / Union Territory" hint="Defaults to your profile state.">
+                <SelectInput
                   value={selectedState}
-                  onChange={(e) => {
-                    const st = e.target.value;
+                  onValue={(st) => {
                     setSelectedState(st);
-                    const firstRto = STATES_AND_RTOS[st]?.rtos[0]?.code || 'KA-01';
-                    setSelectedRtoCode(firstRto);
+                    setSelectedRtoCode(STATES_AND_RTOS[st]?.rtos[0]?.code || 'KA-01');
                   }}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                 >
                   {Object.entries(STATES_AND_RTOS).map(([code, s]) => (
                     <option key={code} value={code}>
                       {s.name} ({code})
                     </option>
                   ))}
-                </select>
-              </div>
+                </SelectInput>
+              </Field>
 
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Assigned RTO Office</label>
-                <select
-                  value={selectedRtoCode}
-                  onChange={(e) => setSelectedRtoCode(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
-                >
+              <Field label="Assigned RTO Office" hint={`${rtoList.length} offices available in ${stateData.name}.`}>
+                <SelectInput value={selectedRtoCode} onValue={setSelectedRtoCode}>
                   {rtoList.map((rto) => (
                     <option key={rto.code} value={rto.code}>
-                      {rto.code} - {rto.name}
+                      {rto.code} — {rto.name}
                     </option>
                   ))}
-                </select>
-              </div>
+                </SelectInput>
+              </Field>
             </div>
 
             {/* Selected RTO Preview Card */}
@@ -505,59 +447,69 @@ export default function VehicleLicensingPage() {
           <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Ownership & VIN Specs</h2>
-              <p className="text-sm text-slate-500 mt-1">Pre-filled with your verified Aadhaar and DigiLocker credentials.</p>
+              <p className="text-sm text-slate-500 mt-1">Owner details are pre-filled from your verified Aadhaar & DigiLocker — just confirm.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Registered Owner Name</label>
-                <input
-                  type="text"
-                  value={ownerName}
-                  onChange={(e) => setOwnerName(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
-                />
+            {/* Autofill banner */}
+            <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-sky-50 border border-sky-200">
+              <div className="flex items-center gap-2.5 text-[13px] text-sky-900">
+                <ShieldCheck className="w-5 h-5 text-sky-600 shrink-0" />
+                <span><strong className="font-bold">Autofilled from your Gati profile.</strong> Edit any field if it differs from your papers.</span>
               </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setOwnerName(currentUser.name);
+                  setOwnerPhone(currentUser.phone);
+                  setAddress(`${currentUser.city}, ${currentUser.state}`);
+                  toast({ title: 'Reset to profile', variant: 'info' });
+                }}
+                className="text-xs font-bold text-sky-700 hover:text-sky-800 shrink-0"
+              >
+                Reset
+              </button>
+            </div>
 
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Mobile (Linked to Aadhaar)</label>
-                <input
-                  type="text"
-                  value={ownerPhone}
-                  onChange={(e) => setOwnerPhone(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
-                />
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
+              <Field label="Registered Owner Name" adornment={ownerName === currentUser.name ? <VerifiedChip label="From Aadhaar" /> : undefined}>
+                <TextInput value={ownerName} onValue={setOwnerName} autoComplete="name" />
+              </Field>
 
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Chassis / VIN Number</label>
-                <input
-                  type="text"
+              <Field label="Mobile (Linked to Aadhaar)" hint="OTP-verified · +91 format" adornment={ownerPhone === currentUser.phone ? <VerifiedChip /> : undefined}>
+                <TextInput value={ownerPhone} onValue={setOwnerPhone} mono inputMode="tel" autoComplete="tel" />
+              </Field>
+
+              <Field
+                label="Chassis / VIN Number"
+                hint="17-character VIN, laser-etched on the chassis plate."
+                adornment={
+                  <span className={chassisNumber.replace(/\s/g, '').length === 17 ? 'text-emerald-600 font-bold' : ''}>
+                    {chassisNumber.replace(/\s/g, '').length}/17
+                  </span>
+                }
+              >
+                <TextInput
                   value={chassisNumber}
-                  onChange={(e) => setChassisNumber(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono uppercase"
+                  onValue={setChassisNumber}
+                  transform="upper"
+                  mono
+                  maxLength={17}
+                  placeholder="MAT629482NZ91024"
+                  suffix={
+                    <Link href="/scan" className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors" title="Scan with Smart Lens">
+                      <ScanLine className="w-4 h-4" />
+                    </Link>
+                  }
                 />
-              </div>
+              </Field>
 
-              <div>
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Engine / Motor Serial</label>
-                <input
-                  type="text"
-                  value={engineNumber}
-                  onChange={(e) => setEngineNumber(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono uppercase"
-                />
-              </div>
+              <Field label="Engine / Motor Serial" hint="Stamped on the engine or EV motor casing.">
+                <TextInput value={engineNumber} onValue={setEngineNumber} transform="upper" mono placeholder="EV40KWH928104" />
+              </Field>
 
-              <div className="sm:col-span-2">
-                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Residential Registration Address</label>
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
-                />
-              </div>
+              <Field className="sm:col-span-2" label="Residential Registration Address" hint="Where the RC smart card will be posted; must match address proof.">
+                <TextInput value={address} onValue={setAddress} autoComplete="street-address" />
+              </Field>
             </div>
 
             {/* Document Checklist Checklist */}

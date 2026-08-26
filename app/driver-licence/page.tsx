@@ -23,6 +23,7 @@ import { formatINR, generateReferenceNumber } from '@/lib/utils';
 import { GatiPayModal } from '@/components/payment/GatiPayModal';
 import { DigitalDrivingLicenceCard } from '@/components/documents/DigitalDrivingLicenceCard';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
+import { Field, TextInput, MoneyInput, OptionGrid, SelectInput, VerifiedChip, amountInWords } from '@/components/ui/Form';
 import { useToast } from '@/components/ui/Toast';
 
 const STEPS = [
@@ -44,8 +45,17 @@ export default function DriverLicencePage() {
     'LMV (Light Motor Vehicle)'
   ]);
   const [bloodGroup, setBloodGroup] = useState('O+ve');
+  const [dob, setDob] = useState('1998-05-14');
   const [organDonor, setOrganDonor] = useState(true);
   const [medicalFormDeclared, setMedicalFormDeclared] = useState(true);
+
+  // Profile-sourced defaults for the applicant/health step (used by the autofill Reset)
+  const resetHealthToProfile = () => {
+    setBloodGroup('O+ve');
+    setDob('1998-05-14');
+    setOrganDonor(true);
+    setMedicalFormDeclared(true);
+  };
 
   const [selectedState, setSelectedState] = useState('MH');
   const [selectedRtoCode, setSelectedRtoCode] = useState('MH-12');
@@ -267,103 +277,73 @@ export default function DriverLicencePage() {
             </div>
 
             {/* Service Type */}
-            <div>
-              <label className="eyebrow text-slate-500 block mb-2.5">
-                Licence Service Type
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                {[
-                  'Learner Licence (LL)',
-                  'Permanent DL (New)',
-                  'DL Renewal',
-                  'International Driving Permit (IDP)'
-                ].map((type) => (
-                  <button
-                    key={type}
-                    type="button"
-                    onClick={() => setLicenceType(type as any)}
-                    className={`p-3.5 rounded-2xl border text-[13px] font-semibold text-left transition-all ${
-                      licenceType === type
-                        ? 'bg-sky-50 border-sky-500 text-sky-900 ring-2 ring-sky-500/30'
-                        : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <Field
+              label="Licence Service Type"
+              hint="Determines the applicable statutory fee and whether a driving test slot is required."
+            >
+              <OptionGrid
+                tone="sky"
+                columns="grid-cols-2 sm:grid-cols-4"
+                value={licenceType}
+                onChange={(v) => setLicenceType(v as any)}
+                options={[
+                  { value: 'Learner Licence (LL)', label: 'Learner Licence (LL)' },
+                  { value: 'Permanent DL (New)', label: 'Permanent DL (New)' },
+                  { value: 'DL Renewal', label: 'DL Renewal' },
+                  { value: 'International Driving Permit (IDP)', label: 'International Driving Permit (IDP)' },
+                ]}
+              />
+            </Field>
 
             {/* Vehicle Classes (Multi-select) */}
-            <div>
-              <label className="eyebrow text-slate-500 block mb-2.5">
-                Authorised Vehicle Classes (COV)
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {[
-                  { id: 'MCWG (Motorcycle with Gear)', desc: 'Two-wheelers with manual or auto transmission', icon: '🏍️' },
-                  { id: 'LMV (Light Motor Vehicle)', desc: 'Private passenger cars, SUVs, and sedans', icon: '🚗' },
-                  { id: 'TRANS (Transport Goods/Pass)', desc: 'Commercial taxis, logistics delivery vans', icon: '🚐' }
-                ].map((item) => {
-                  const isChecked = vehicleClasses.includes(item.id as any);
-                  return (
-                    <div
-                      key={item.id}
-                      onClick={() => toggleClass(item.id)}
-                      className={`p-4 rounded-2xl border cursor-pointer transition-all ${
-                        isChecked
-                          ? 'bg-sky-50 border-sky-500 ring-2 ring-sky-500/30'
-                          : 'bg-white border-slate-200 hover:border-slate-300'
-                      }`}
-                    >
-                      <div className="flex items-start justify-between">
-                        <span className="text-2xl mb-1">{item.icon}</span>
-                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                          isChecked ? 'bg-sky-600 border-sky-600 text-white' : 'border-slate-300'
-                        }`}>
-                          {isChecked && <CheckCircle className="w-3.5 h-3.5" />}
-                        </div>
-                      </div>
-                      <div className="font-bold text-sm text-slate-900 mt-1">{item.id.split(' ')[0]}</div>
-                      <div className="text-[11px] text-slate-500 leading-snug mt-0.5">{item.desc}</div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            <Field
+              label="Authorised Vehicle Classes (COV)"
+              hint="Select every class of vehicle you want endorsed on your licence — at least one is required."
+            >
+              <OptionGrid
+                multi
+                tone="sky"
+                columns="grid-cols-1 sm:grid-cols-3"
+                selectedValues={vehicleClasses}
+                onChange={(v) => toggleClass(v)}
+                options={[
+                  { value: 'MCWG (Motorcycle with Gear)', label: 'MCWG', icon: '🏍️', desc: 'Two-wheelers with manual or auto transmission' },
+                  { value: 'LMV (Light Motor Vehicle)', label: 'LMV', icon: '🚗', desc: 'Private passenger cars, SUVs, and sedans' },
+                  { value: 'TRANS (Transport Goods/Pass)', label: 'TRANS', icon: '🚐', desc: 'Commercial taxis, logistics delivery vans' },
+                ]}
+              />
+            </Field>
 
             {/* RTO State */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-              <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5">State / UT Jurisdiction</label>
-                <select
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5 pt-1">
+              <Field
+                label="State / UT Jurisdiction"
+                hint="Where your licence will be registered and issued."
+              >
+                <SelectInput
                   value={selectedState}
-                  onChange={(e) => {
-                    const st = e.target.value;
+                  onValue={(st) => {
                     setSelectedState(st);
                     const firstRto = STATES_AND_RTOS[st]?.rtos[0]?.code || 'MH-12';
                     setSelectedRtoCode(firstRto);
                   }}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                 >
                   {Object.entries(STATES_AND_RTOS).map(([code, s]) => (
                     <option key={code} value={code}>{s.name}</option>
                   ))}
-                </select>
-              </div>
+                </SelectInput>
+              </Field>
 
-              <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5">Issuing Authority RTO</label>
-                <select
-                  value={selectedRtoCode}
-                  onChange={(e) => setSelectedRtoCode(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
-                >
+              <Field
+                label="Issuing Authority RTO"
+                hint="The Regional Transport Office that will process your application."
+              >
+                <SelectInput value={selectedRtoCode} onValue={setSelectedRtoCode}>
                   {rtoList.map((rto) => (
                     <option key={rto.code} value={rto.code}>{rto.code} - {rto.name}</option>
                   ))}
-                </select>
-              </div>
+                </SelectInput>
+              </Field>
             </div>
 
             <div className="flex justify-end pt-2 hairline border-t">
@@ -396,36 +376,56 @@ export default function DriverLicencePage() {
                   {currentUser.avatar}
                 </div>
                 <div>
-                  <div className="font-bold text-sm text-slate-900">{currentUser.name}</div>
+                  <div className="font-bold text-sm text-slate-900 flex items-center gap-2">
+                    {currentUser.name}
+                    <VerifiedChip label="From Aadhaar" />
+                  </div>
                   <div className="text-[11px] text-slate-500 font-mono">Aadhaar: {currentUser.aadhaarMasked} (e-KYC Linked)</div>
                 </div>
               </div>
               <Pill tone="emerald">Auto-Verified</Pill>
             </div>
 
+            {/* Autofill banner */}
+            <div className="p-3.5 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-between gap-3">
+              <p className="text-xs text-sky-900 leading-snug">
+                <span className="font-bold">Autofilled from your Gati profile</span> — edit any field below if it differs.
+              </p>
+              <button
+                type="button"
+                onClick={resetHealthToProfile}
+                className="btn btn-ghost px-3 py-1.5 text-xs shrink-0"
+              >
+                Reset
+              </button>
+            </div>
+
             {/* Health & Blood Group Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5">Blood Group</label>
-                <select
-                  value={bloodGroup}
-                  onChange={(e) => setBloodGroup(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
-                >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
+              <Field
+                label="Blood Group"
+                hint="Printed on your DL for use by first responders in a medical emergency."
+                adornment={<VerifiedChip label="From profile" />}
+              >
+                <SelectInput value={bloodGroup} onValue={setBloodGroup}>
                   {['O+ve', 'O-ve', 'A+ve', 'A-ve', 'B+ve', 'B-ve', 'AB+ve', 'AB-ve'].map(bg => (
                     <option key={bg} value={bg}>{bg}</option>
                   ))}
-                </select>
-              </div>
+                </SelectInput>
+              </Field>
 
-              <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5">Date of Birth</label>
+              <Field
+                label="Date of Birth"
+                hint="Must match your Aadhaar; you must be 18+ (16+ for a gearless two-wheeler LL)."
+                adornment={<VerifiedChip label="From profile" />}
+              >
                 <input
                   type="date"
-                  defaultValue="1998-05-14"
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
                   className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
                 />
-              </div>
+              </Field>
             </div>
 
             {/* Organ Donor Pledge */}
@@ -519,35 +519,39 @@ export default function DriverLicencePage() {
             </div>
 
             {/* Date Selector */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5 flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-sky-600" /> Preferred Test Date
-                </label>
-                <input
-                  type="date"
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
-                />
-              </div>
+            <Field
+              label="Preferred Test Date"
+              hint="Choose any working day — turnstile check-in opens 30 minutes before your slot."
+              adornment={<Calendar className="w-3.5 h-3.5 text-sky-600" />}
+              className="max-w-xs"
+            >
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
+              />
+            </Field>
 
-              <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-sky-600" /> Time Window
-                </label>
-                <select
-                  value={selectedTimeSlot}
-                  onChange={(e) => setSelectedTimeSlot(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
-                >
-                  <option value="09:30 AM - 10:30 AM">09:30 AM - 10:30 AM (Morning Slot A)</option>
-                  <option value="10:30 AM - 11:30 AM">10:30 AM - 11:30 AM (Morning Slot B)</option>
-                  <option value="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM (Afternoon Slot C)</option>
-                  <option value="03:30 PM - 04:30 PM">03:30 PM - 04:30 PM (Evening Slot D)</option>
-                </select>
-              </div>
-            </div>
+            {/* Time Window */}
+            <Field
+              label="Time Window"
+              hint="Each slot is a one-hour biometric check-in window at the automated track."
+              adornment={<Clock className="w-3.5 h-3.5 text-sky-600" />}
+            >
+              <OptionGrid
+                tone="sky"
+                columns="grid-cols-1 sm:grid-cols-2"
+                value={selectedTimeSlot}
+                onChange={setSelectedTimeSlot}
+                options={[
+                  { value: '09:30 AM - 10:30 AM', label: '09:30 AM - 10:30 AM', desc: 'Morning Slot A' },
+                  { value: '10:30 AM - 11:30 AM', label: '10:30 AM - 11:30 AM', desc: 'Morning Slot B' },
+                  { value: '02:00 PM - 03:00 PM', label: '02:00 PM - 03:00 PM', desc: 'Afternoon Slot C' },
+                  { value: '03:30 PM - 04:30 PM', label: '03:30 PM - 04:30 PM', desc: 'Evening Slot D' },
+                ]}
+              />
+            </Field>
 
             {/* Instant Track Pass Info */}
             <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-start gap-3">

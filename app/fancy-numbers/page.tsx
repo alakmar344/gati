@@ -25,7 +25,25 @@ import { formatINR, generateReferenceNumber } from '@/lib/utils';
 import { GatiPayModal } from '@/components/payment/GatiPayModal';
 import { VipAllotmentOrder } from '@/components/documents/VipAllotmentOrder';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
+import { Field, TextInput, OptionGrid } from '@/components/ui/Form';
 import { useToast } from '@/components/ui/Toast';
+
+const CATEGORY_OPTIONS = [
+  { value: 'ALL', label: 'All Patterns' },
+  { value: 'Super VIP', label: '👑 Super VIP' },
+  { value: 'Quad Mirror', label: '✨ Quad Mirrors' },
+  { value: 'Auspicious', label: '🕊️ Auspicious' },
+  { value: 'Sequence', label: '📈 Sequence' },
+  { value: 'Milestone', label: '🎯 Milestone' },
+];
+
+const SUM_OPTIONS = [
+  { value: 'ALL', label: 'All sums' },
+  { value: '1', label: 'Sum 1' },
+  { value: '3', label: 'Sum 3' },
+  { value: '7', label: 'Sum 7' },
+  { value: '9', label: 'Sum 9' },
+];
 
 export default function FancyNumbersPage() {
   const { toast } = useToast();
@@ -272,18 +290,18 @@ export default function FancyNumbersPage() {
                 </div>
 
                 {/* Target Vehicle Input */}
-                <div>
-                  <label className="text-[11px] font-bold text-slate-700 block mb-1.5">
-                    Target Vehicle Model / VIN for Allocation
-                  </label>
-                  <input
-                    type="text"
+                <Field
+                  label="Target Vehicle for Allocation"
+                  hint="The vehicle this plate will be assigned to"
+                >
+                  <TextInput
                     value={targetVehicle}
-                    onChange={(e) => setTargetVehicle(e.target.value)}
-                    className="field w-full px-3.5 py-2.5 text-sm font-medium text-slate-900"
-                    placeholder="e.g. BMW M340i, Tata Safari, Porsche 911"
+                    onValue={setTargetVehicle}
+                    transform="upper"
+                    mono
+                    placeholder="e.g. KA 01 AB 1234"
                   />
-                </div>
+                </Field>
 
                 {/* Action CTA */}
                 <button
@@ -301,76 +319,39 @@ export default function FancyNumbersPage() {
           </div>
 
           {/* ================= SEARCH & CATEGORY FILTER BAR ================= */}
-          <div className="card p-4 sm:p-5 space-y-4">
-            <div className="flex flex-col md:flex-row gap-3 md:items-center justify-between">
+          <div className="card p-5 sm:p-6 space-y-6">
 
-              {/* Search Box */}
-              <div className="relative w-full md:w-80">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search numbers e.g. 0001, 786, 9999..."
-                  className="field w-full pl-10 pr-4 py-2.5 text-sm font-medium text-slate-900 placeholder:text-slate-400"
-                />
-              </div>
-
-              {/* Numerology Lucky Sum Filter Pills */}
-              <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-0.5">
-                <span className="text-[11px] font-bold text-slate-500 flex items-center gap-1 shrink-0">
-                  <Hash className="w-3.5 h-3.5 text-amber-600" />
-                  Lucky Sum
-                </span>
-                <button
-                  onClick={() => setSelectedSum(null)}
-                  className={`px-3 py-1.5 rounded-full text-[11px] font-semibold shrink-0 border transition-all ${
-                    selectedSum === null
-                      ? 'bg-slate-900 text-white border-slate-900'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  All
-                </button>
-                {[1, 3, 7, 9].map((num) => (
-                  <button
-                    key={num}
-                    onClick={() => setSelectedSum(num === selectedSum ? null : num)}
-                    className={`w-8 h-8 rounded-full text-xs font-mono font-bold shrink-0 border transition-all ${
-                      selectedSum === num
-                        ? 'bg-amber-500 text-slate-950 border-amber-400 ring-2 ring-amber-300'
-                        : 'bg-white border-slate-200 text-slate-600 hover:bg-amber-50'
-                    }`}
-                  >
-                    {num}
-                  </button>
-                ))}
-              </div>
-            </div>
+            {/* Search Box — kept prominent, full width */}
+            <Field label="Search plates" hint="Search by number, series, or RTO">
+              <TextInput
+                value={searchQuery}
+                onValue={setSearchQuery}
+                prefix={<Search className="w-4 h-4" />}
+                placeholder="e.g. 0001, 786, 9999..."
+              />
+            </Field>
 
             {/* Category Filter Chips */}
-            <div className="hairline border-t pt-4 flex items-center gap-2 overflow-x-auto pb-0.5 text-[11px] font-semibold">
-              {[
-                { id: 'ALL', label: 'All Patterns' },
-                { id: 'Super VIP', label: '👑 Super VIP' },
-                { id: 'Quad Mirror', label: '✨ Quad Mirrors' },
-                { id: 'Auspicious', label: '🕊️ Auspicious' },
-                { id: 'Sequence', label: '📈 Sequence' },
-                { id: 'Milestone', label: '🎯 Milestone' },
-              ].map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full whitespace-nowrap border transition-all ${
-                    selectedCategory === cat.id
-                      ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
-                      : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900 hover:border-amber-300'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
+            <Field label="Pattern category">
+              <OptionGrid
+                tone="amber"
+                columns="grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
+                options={CATEGORY_OPTIONS}
+                value={selectedCategory}
+                onChange={setSelectedCategory}
+              />
+            </Field>
+
+            {/* Numerology Lucky Sum Filter */}
+            <Field label="Lucky sum" hint="Numerology total of the digits">
+              <OptionGrid
+                tone="amber"
+                columns="grid-cols-3 sm:grid-cols-5"
+                options={SUM_OPTIONS}
+                value={selectedSum === null ? 'ALL' : String(selectedSum)}
+                onChange={(v) => setSelectedSum(v === 'ALL' ? null : Number(v))}
+              />
+            </Field>
           </div>
 
           {/* ================= NUMBERS CARDS GRID ================= */}

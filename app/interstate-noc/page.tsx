@@ -19,6 +19,7 @@ import { formatINR } from '@/lib/utils';
 import { getCurrentUser } from '@/lib/storage';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { useToast } from '@/components/ui/Toast';
+import { Field, TextInput, MoneyInput, SelectInput, VerifiedChip, amountInWords } from '@/components/ui/Form';
 
 export default function InterstateNocPage() {
   const currentUser = getCurrentUser();
@@ -84,62 +85,81 @@ export default function InterstateNocPage() {
       <div className="card p-6 sm:p-8 space-y-8 animate-rise">
 
         {/* Journey: Origin → Destination */}
-        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-end gap-4">
-          <div>
-            <label className="eyebrow text-teal-700 block mb-1.5">Origin State (Current Registration)</label>
-            <select
-              value={originState}
-              onChange={(e) => setOriginState(e.target.value as any)}
-              className="field w-full"
-            >
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-start gap-4">
+          <Field
+            label="Origin State"
+            adornment="Current registration"
+            hint="Where the vehicle is currently registered — its RTO issues the NOC and the pro-rata road-tax refund."
+          >
+            <SelectInput value={originState} onValue={(v) => setOriginState(v as any)}>
               {Object.entries(stateTaxRates).map(([k, v]) => (
                 <option key={k} value={k}>{v.name} ({k}) — {(v.rate * 100).toFixed(0)}% Tax</option>
               ))}
-            </select>
-          </div>
+            </SelectInput>
+          </Field>
 
-          <div className="hidden sm:flex items-center justify-center pb-2.5 text-teal-500">
+          <div className="hidden sm:flex items-center justify-center pt-9 text-teal-500">
             <ArrowRight className="w-5 h-5" />
           </div>
 
-          <div>
-            <label className="eyebrow text-teal-700 block mb-1.5">Destination State (Relocation Target)</label>
-            <select
-              value={destState}
-              onChange={(e) => setDestState(e.target.value as any)}
-              className="field w-full"
-            >
+          <Field
+            label="Destination State"
+            adornment="Relocation target"
+            hint="Where the vehicle is being newly registered — its rate sets the fresh road tax payable."
+          >
+            <SelectInput value={destState} onValue={(v) => setDestState(v as any)}>
               {Object.entries(stateTaxRates).map(([k, v]) => (
                 <option key={k} value={k}>{v.name} ({k}) — {(v.rate * 100).toFixed(0)}% Tax</option>
               ))}
-            </select>
-          </div>
+            </SelectInput>
+          </Field>
         </div>
 
         {/* Vehicle particulars */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="eyebrow text-slate-500 block mb-1.5">Vehicle Age in Months</label>
-            <input
-              type="number"
-              value={vehicleAgeMonths}
-              onChange={(e) => setVehicleAgeMonths(Number(e.target.value))}
-              min={1}
-              max={160}
-              className="field w-full font-mono"
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
+          <Field
+            label="Vehicle Registration Number"
+            adornment={<VerifiedChip label="From profile" />}
+            hint="Appears on the generated Form 28 (NOC) and Form 27 (Re-Registration)."
+          >
+            <TextInput
+              value={vehicleNumber}
+              onValue={setVehicleNumber}
+              transform="upper"
+              mono
+              placeholder="KA 01 EK 4920"
             />
-          </div>
+          </Field>
 
-          <div>
-            <label className="eyebrow text-slate-500 block mb-1.5">Original Invoice Value (₹)</label>
-            <input
-              type="number"
-              value={invoiceValue}
-              onChange={(e) => setInvoiceValue(Number(e.target.value))}
-              step={50000}
-              className="field w-full font-mono"
+          <Field
+            label="Vehicle Age"
+            adornment="Months"
+            hint="Used to pro-rate the refund over the 180-month (15-year) tax lifespan and to depreciate the valuation."
+          >
+            <TextInput
+              value={vehicleAgeMonths ? String(vehicleAgeMonths) : ''}
+              onValue={(v) => setVehicleAgeMonths(Number(v.replace(/[^0-9]/g, '')) || 0)}
+              inputMode="numeric"
+              mono
+              suffix={<span className="text-[11px] font-semibold text-slate-400 pr-1">mo</span>}
+              placeholder="24"
             />
-          </div>
+          </Field>
+
+          <Field
+            label="Original Invoice Value"
+            className="sm:col-span-2"
+            hint={amountInWords(invoiceValue)
+              ? amountInWords(invoiceValue).charAt(0).toUpperCase() + amountInWords(invoiceValue).slice(1)
+              : 'Ex-showroom purchase price — depreciated to value the new-state tax.'}
+          >
+            <MoneyInput
+              value={invoiceValue}
+              onValue={setInvoiceValue}
+              presets={[800000, 1600000, 2500000, 4000000]}
+              quickAdd={[100000, 500000]}
+            />
+          </Field>
         </div>
 
         <div className="hairline" />

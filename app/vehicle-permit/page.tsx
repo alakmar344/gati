@@ -20,7 +20,8 @@ import { getCurrentUser, saveApplication, saveDocument } from '@/lib/storage';
 import { formatINR, generateReferenceNumber } from '@/lib/utils';
 import { GatiPayModal } from '@/components/payment/GatiPayModal';
 import { DigitalPermitDocument } from '@/components/documents/DigitalPermitDocument';
-import { SectionHeading, Pill } from '@/components/ui/Primitives';
+import { SectionHeading } from '@/components/ui/Primitives';
+import { Field, TextInput, OptionGrid, SelectInput } from '@/components/ui/Form';
 import { useToast } from '@/components/ui/Toast';
 
 export default function VehiclePermitPage() {
@@ -231,88 +232,71 @@ export default function VehiclePermitPage() {
               <p className="text-sm text-slate-500 mt-1">Unified under Central Motor Vehicles Rules 1989 (Rule 85-B).</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                {
-                  id: 'All India Tourist Permit (AITP)',
-                  desc: 'Unrestricted passenger transit across all 28 States & 8 UTs with zero border taxes',
-                  tag: 'Most Popular'
-                },
-                {
-                  id: 'National Goods Carrier',
-                  desc: 'Interstate commercial freight transport for heavy trucks and multi-axle trailers',
-                  tag: 'Freight'
-                },
-                {
-                  id: 'Interstate Stage Carriage',
-                  desc: 'Scheduled route bus permit between designated origin and destination stations',
-                  tag: 'Public Transit'
-                },
-                {
-                  id: 'Temporary Interstate Pass (30 Days)',
-                  desc: 'Short-term corridor authorization for temporary event or project deployment',
-                  tag: 'Short Term'
-                }
-              ].map((p) => {
-                const isSelected = permitCategory === p.id;
-                return (
-                  <button
-                    key={p.id}
-                    type="button"
-                    onClick={() => setPermitCategory(p.id as any)}
-                    className={`text-left p-5 rounded-2xl border transition-all flex flex-col justify-between ${
-                      isSelected
-                        ? 'bg-teal-50 border-teal-500 ring-2 ring-teal-500/25 shadow-sm'
-                        : 'bg-white border-slate-200 hover:border-teal-300 hover:bg-slate-50'
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-between gap-2 mb-1.5">
-                        <span className="text-sm font-bold text-slate-900">{p.id}</span>
-                        {isSelected
-                          ? <CheckCircle className="w-4 h-4 text-teal-600 shrink-0" />
-                          : <span className="w-4 h-4 rounded-full border border-slate-300 shrink-0" />}
-                      </div>
-                      <p className="text-[11px] text-slate-500 leading-relaxed mb-3">{p.desc}</p>
-                      <Pill tone={isSelected ? 'emerald' : 'slate'}>{p.tag}</Pill>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+            <Field
+              label="Permit Classification"
+              hint="Choose the statutory category that matches your vehicle and operation. Fees and route rights adapt automatically."
+            >
+              <OptionGrid
+                tone="teal"
+                columns="grid-cols-1 sm:grid-cols-2"
+                value={permitCategory}
+                onChange={(v) => setPermitCategory(v as any)}
+                options={[
+                  {
+                    value: 'All India Tourist Permit (AITP)',
+                    label: 'All India Tourist Permit (AITP)',
+                    desc: 'Unrestricted passenger transit across all 28 States & 8 UTs with zero border taxes',
+                    badge: 'Most Popular',
+                  },
+                  {
+                    value: 'National Goods Carrier',
+                    label: 'National Goods Carrier',
+                    desc: 'Interstate commercial freight transport for heavy trucks and multi-axle trailers',
+                    badge: 'Freight',
+                  },
+                  {
+                    value: 'Interstate Stage Carriage',
+                    label: 'Interstate Stage Carriage',
+                    desc: 'Scheduled route bus permit between designated origin and destination stations',
+                    badge: 'Public Transit',
+                  },
+                  {
+                    value: 'Temporary Interstate Pass (30 Days)',
+                    label: 'Temporary Interstate Pass (30 Days)',
+                    desc: 'Short-term corridor authorization for temporary event or project deployment',
+                    badge: 'Short Term',
+                  },
+                ]}
+              />
+            </Field>
 
             {/* Jurisdiction */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div>
-                <label className="eyebrow text-slate-500 block mb-1.5">Origin State Authority</label>
-                <select
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5 pt-2">
+              <Field label="Origin State Authority" hint="State whose Transport Authority issues the permit.">
+                <SelectInput
                   value={selectedState}
-                  onChange={(e) => {
-                    const st = e.target.value;
+                  onValue={(st) => {
                     setSelectedState(st);
                     const firstRto = STATES_AND_RTOS[st]?.rtos[0]?.code || 'DL-01';
                     setSelectedRtoCode(firstRto);
                   }}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                 >
                   {Object.entries(STATES_AND_RTOS).map(([code, s]) => (
                     <option key={code} value={code}>{s.name}</option>
                   ))}
-                </select>
-              </div>
+                </SelectInput>
+              </Field>
 
-              <div>
-                <label className="eyebrow text-slate-500 block mb-1.5">State Transport Authority (STA)</label>
-                <select
+              <Field label="State Transport Authority (STA)" hint="Regional office (RTO) processing your single-window clearance.">
+                <SelectInput
                   value={selectedRtoCode}
-                  onChange={(e) => setSelectedRtoCode(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
+                  onValue={(v) => setSelectedRtoCode(v)}
                 >
                   {rtoList.map((rto) => (
                     <option key={rto.code} value={rto.code}>{rto.code} - {rto.name}</option>
                   ))}
-                </select>
-              </div>
+                </SelectInput>
+              </Field>
             </div>
 
             <div className="flex justify-end pt-2">
@@ -337,49 +321,50 @@ export default function VehiclePermitPage() {
               <p className="text-sm text-slate-500 mt-1">Automated validation with National Vehicle Registry (Vahan OS).</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="eyebrow text-slate-500 block mb-1.5">Vehicle Registration Number</label>
-                <input
-                  type="text"
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
+              <Field label="Vehicle Registration Number" hint="Format e.g. DL 01 AA 9481 — as issued by the RTO.">
+                <TextInput
                   value={vehicleRegNumber}
-                  onChange={(e) => setVehicleRegNumber(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono uppercase"
+                  onValue={setVehicleRegNumber}
+                  transform="upper"
+                  mono
+                  placeholder="DL 01 AA 9481"
                 />
-              </div>
+              </Field>
 
-              <div>
-                <label className="eyebrow text-slate-500 block mb-1.5">Seating / Body Configuration</label>
-                <input
-                  type="text"
+              <Field label="Seating / Body Configuration" hint="Passenger seating layout or goods body type, matching the fitness certificate.">
+                <TextInput
                   value={seatingOrPayload}
-                  onChange={(e) => setSeatingOrPayload(e.target.value)}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
+                  onValue={setSeatingOrPayload}
+                  placeholder="42 Seater Luxury AC Sleeper Coach"
                 />
-              </div>
+              </Field>
 
-              <div>
-                <label className="eyebrow text-slate-500 block mb-1.5">Gross Vehicle Weight (GVW in KG)</label>
-                <input
-                  type="number"
-                  value={grossVehicleWeightKg}
-                  onChange={(e) => setGrossVehicleWeightKg(Number(e.target.value))}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
+              <Field
+                label="Gross Vehicle Weight (GVW)"
+                adornment="in kg"
+                hint="Gross Vehicle Weight in kg, from the fitness certificate."
+              >
+                <TextInput
+                  value={grossVehicleWeightKg ? String(grossVehicleWeightKg) : ''}
+                  onValue={(v) => setGrossVehicleWeightKg(Number(v.replace(/[^0-9]/g, '')) || 0)}
+                  inputMode="numeric"
+                  mono
+                  suffix={<span className="text-[11px] font-semibold text-slate-400 pr-1">kg</span>}
+                  placeholder="16200"
                 />
-              </div>
+              </Field>
 
-              <div>
-                <label className="eyebrow text-slate-500 block mb-1.5">Permit Validity Term</label>
-                <select
-                  value={permitPeriodYears}
-                  onChange={(e) => setPermitPeriodYears(Number(e.target.value))}
-                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
+              <Field label="Permit Validity Term" hint="Longer terms reduce renewal frequency; 5 years is the standard national term.">
+                <SelectInput
+                  value={String(permitPeriodYears)}
+                  onValue={(v) => setPermitPeriodYears(Number(v))}
                 >
                   <option value={5}>5 Years (Recommended National Term)</option>
                   <option value={3}>3 Years</option>
                   <option value={1}>1 Year Annual</option>
-                </select>
-              </div>
+                </SelectInput>
+              </Field>
             </div>
 
             {/* Compliance Badge Row */}
@@ -388,7 +373,8 @@ export default function VehiclePermitPage() {
                 <CheckCircle className="w-4 h-4 text-emerald-600" />
                 <span>Real-Time Statutory Compliance Verification</span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] text-emerald-900">
+              <p className="text-[11px] text-emerald-700/80">Auto-verified from Vahan OS — dates are as printed on each certificate.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-emerald-900">
                 <div>Fitness: <span className="font-semibold">Valid (Aug 2027)</span></div>
                 <div>Insurance: <span className="font-semibold">Active Comprehensive</span></div>
                 <div>PUCC: <span className="font-semibold">Emission Green Pass</span></div>
@@ -425,41 +411,25 @@ export default function VehiclePermitPage() {
               <p className="text-sm text-slate-500 mt-1">Select high-speed expressway corridors or pan-India single window coverage.</p>
             </div>
 
-            <div className="space-y-3">
-              {[
-                { name: 'All Indian States & UTs (National Green Corridor)', desc: 'Complete unrestricted transit across all National Highways, expressways, and border checkposts' },
-                { name: 'Delhi - Mumbai Expressway Freight Corridor', desc: 'Fast-track priority electronic toll pass for the NE-4 expressway corridor' },
-                { name: 'Golden Quadrilateral Transit Belt', desc: 'Connecting Delhi, Mumbai, Chennai, and Kolkata arterial industrial corridors' },
-                { name: 'Western Coastal Tourist Highway', desc: 'Mumbai, Goa, Mangalore, Kochi coastal tourist route coverage' },
-              ].map((c) => {
-                const isSelected = selectedCorridors.includes(c.name);
-                return (
-                  <button
-                    key={c.name}
-                    type="button"
-                    onClick={() => toggleCorridor(c.name)}
-                    className={`w-full text-left p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${
-                      isSelected
-                        ? 'bg-teal-50 border-teal-500 ring-2 ring-teal-500/25'
-                        : 'bg-white border-slate-200 hover:border-teal-300 hover:bg-slate-50'
-                    }`}
-                  >
-                    <div>
-                      <div className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                        <MapPin className={`w-4 h-4 shrink-0 ${isSelected ? 'text-teal-600' : 'text-slate-400'}`} />
-                        <span>{c.name}</span>
-                      </div>
-                      <div className="text-[11px] text-slate-500 mt-1 pl-6">{c.desc}</div>
-                    </div>
-                    <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
-                      isSelected ? 'bg-teal-600 border-teal-600 text-white' : 'border-slate-300'
-                    }`}>
-                      {isSelected && <CheckCircle className="w-4 h-4" />}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+            <Field
+              label="Authorized Route Corridors"
+              adornment={`${selectedCorridors.length} selected`}
+              hint="Select one or more corridors — at least one is required. Pan-India coverage includes every state, UT, and border checkpost."
+            >
+              <OptionGrid
+                tone="teal"
+                multi
+                columns="grid-cols-1"
+                selectedValues={selectedCorridors}
+                onChange={toggleCorridor}
+                options={[
+                  { value: 'All Indian States & UTs (National Green Corridor)', label: 'All Indian States & UTs (National Green Corridor)', icon: <MapPin className="w-4 h-4" />, desc: 'Complete unrestricted transit across all National Highways, expressways, and border checkposts' },
+                  { value: 'Delhi - Mumbai Expressway Freight Corridor', label: 'Delhi - Mumbai Expressway Freight Corridor', icon: <MapPin className="w-4 h-4" />, desc: 'Fast-track priority electronic toll pass for the NE-4 expressway corridor' },
+                  { value: 'Golden Quadrilateral Transit Belt', label: 'Golden Quadrilateral Transit Belt', icon: <MapPin className="w-4 h-4" />, desc: 'Connecting Delhi, Mumbai, Chennai, and Kolkata arterial industrial corridors' },
+                  { value: 'Western Coastal Tourist Highway', label: 'Western Coastal Tourist Highway', icon: <MapPin className="w-4 h-4" />, desc: 'Mumbai, Goa, Mangalore, Kochi coastal tourist route coverage' },
+                ]}
+              />
+            </Field>
 
             <div className="flex justify-between pt-2">
               <button
