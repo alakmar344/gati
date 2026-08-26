@@ -15,7 +15,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ receipt, isOpen, onC
   if (!isOpen || !receipt) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-overlay-in">
       <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
         
         {/* Top Header */}
@@ -47,7 +47,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ receipt, isOpen, onC
             <div className="text-3xl font-black text-emerald-700 font-mono tracking-tight mt-0.5">
               {formatINR(receipt.totalPaid)}
             </div>
-            <span className="text-[10px] text-emerald-600 font-medium bg-emerald-100 px-2 py-0.5 rounded-full inline-block mt-1">
+            <span className="text-[11px] text-emerald-600 font-medium bg-emerald-100 px-2 py-0.5 rounded-full inline-block mt-1">
               STATUS: SUCCESS (SETTLED)
             </span>
           </div>
@@ -83,7 +83,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ receipt, isOpen, onC
           {/* QR & Disclaimer */}
           <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
             <QrCode className="w-12 h-12 text-slate-800 shrink-0" />
-            <div className="text-[10px] text-slate-500 leading-tight">
+            <div className="text-[11px] text-slate-500 leading-tight">
               Cryptographically signed by Gati FastTrack Gateway.
               <span className="block font-semibold text-slate-700 mt-0.5">
                 DEMO • NOT AN OFFICIAL GOVERNMENT TAX RECEIPT

@@ -129,9 +129,14 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
-        
+    <div
+      className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-md animate-overlay-in"
+      onClick={() => !isProcessing && onClose()}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-dialog-in"
+      >
         {/* Modal Header */}
         <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-6 relative">
           <button 
@@ -197,7 +202,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                 ))}
               </div>
 
-              <div className="mt-6 text-[10px] text-slate-400 uppercase tracking-wider font-mono">
+              <div className="mt-6 text-[11px] text-slate-400 uppercase tracking-wider font-mono">
                 SIMULATED RBI / NPCI FASTPAY PROTOCOL • ZERO ACTUAL CHARGE
               </div>
             </div>
@@ -248,7 +253,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                 <div className="p-4 bg-emerald-50/60 rounded-2xl border border-emerald-100 space-y-4">
                   <div className="flex items-center justify-between text-xs text-emerald-950 font-medium">
                     <span>Select Simulated UPI App:</span>
-                    <span className="text-[10px] text-emerald-700 bg-emerald-200/60 px-2 py-0.5 rounded-full font-bold">
+                    <span className="text-[11px] text-emerald-700 bg-emerald-200/60 px-2 py-0.5 rounded-full font-bold">
                       Zero Surcharge
                     </span>
                   </div>
@@ -271,7 +276,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                         }`}
                       >
                         <div className="h-6 flex items-center justify-center">{app.icon}</div>
-                        <span className="text-[10px] font-semibold text-slate-700 mt-1">{app.label}</span>
+                        <span className="text-[11px] font-semibold text-slate-700 mt-1">{app.label}</span>
                       </button>
                     ))}
                   </div>
@@ -284,7 +289,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                       <div className="text-xs">
                         <div className="font-bold text-slate-900">Scan via any UPI App</div>
                         <div className="text-slate-500 text-[11px]">Instant 1-click authorization ready</div>
-                        <div className="font-mono text-[10px] text-emerald-700 font-semibold mt-0.5">gati.rto@npci.simulated</div>
+                        <div className="font-mono text-[11px] text-emerald-700 font-semibold mt-0.5">gati.rto@npci.simulated</div>
                       </div>
                     </div>
                   )}
@@ -295,14 +300,14 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
                   <div className="text-xs font-semibold text-slate-800">Pre-filled Demo Test Card:</div>
                   <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-3 rounded-xl text-xs space-y-1 shadow-inner">
-                    <div className="flex justify-between items-center text-[10px] text-slate-400">
+                    <div className="flex justify-between items-center text-[11px] text-slate-400">
                       <span>RuPay Platinum Debit</span>
                       <span className="text-amber-400 font-bold">NPCI TEST</span>
                     </div>
                     <div className="font-mono text-sm tracking-wider font-bold text-sky-200">
                       4532 •••• •••• 9821
                     </div>
-                    <div className="flex justify-between text-[9px] text-slate-300 pt-1">
+                    <div className="flex justify-between text-[11px] text-slate-300 pt-1">
                       <span>{payerName}</span>
                       <span>EXP: 12/29</span>
                     </div>
@@ -341,26 +346,18 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
 
               {/* Action Buttons */}
               <div className="flex items-center gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="w-1/3 py-3 rounded-full border border-slate-300 text-slate-700 font-semibold text-xs hover:bg-slate-100 transition-colors"
-                >
+                <button type="button" onClick={onClose} className="btn btn-ghost w-1/3 py-3 text-xs">
                   Cancel
                 </button>
-                <button
-                  type="button"
-                  onClick={handleStartPayment}
-                  className="w-2/3 py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
-                >
-                  <span>Authorize Simulated {formatINR(totalAmount)}</span>
+                <button type="button" onClick={handleStartPayment} className="btn btn-brand w-2/3 py-3 text-xs">
+                  <span>Authorize {formatINR(totalAmount)}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
 
               <div className="text-center">
-                <span className="text-[10px] text-slate-400 font-medium">
-                  🔒 100% Mock Sandbox Transaction • No real charges will occur
+                <span className="text-[11px] text-slate-400 font-medium">
+                  🔒 100% mock sandbox transaction • no real charges will occur
                 </span>
               </div>
             </div>

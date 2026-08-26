@@ -707,10 +707,10 @@ export default function AdttSimulatorPage() {
           <Gamepad2 className="w-3.5 h-3.5 text-saffron-600" />
           <span className="text-slate-800">Automated Driving Test Track (ADTT) Simulator</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
           RTO Sensor Track Practice
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600">
+        <p className="text-sm text-slate-600">
           Master the official Indian automated sensor test track maneuvers (8-Figure, Parallel Parking, Reverse S & Hill Gradient) before your live RTO appointment.
         </p>
       </div>
@@ -743,19 +743,19 @@ export default function AdttSimulatorPage() {
         {/* Live HUD Telemetry */}
         <div className="flex items-center gap-3 text-xs font-mono shrink-0">
           <div className="p-2 px-3 rounded-xl bg-slate-100 border border-slate-200">
-            <span className="text-[10px] text-slate-500 block uppercase font-sans">Stopwatch</span>
+            <span className="text-[11px] text-slate-500 block uppercase font-sans">Stopwatch</span>
             <span className="font-bold text-slate-900">{timeElapsed}s</span>
           </div>
 
           <div className="p-2 px-3 rounded-xl bg-slate-100 border border-slate-200">
-            <span className="text-[10px] text-slate-500 block uppercase font-sans">Checkpoints</span>
+            <span className="text-[11px] text-slate-500 block uppercase font-sans">Checkpoints</span>
             <span className="font-bold text-saffron-600">
               {currentCheckpointIndex} / {checkpoints.length}
             </span>
           </div>
 
           <div className="p-2 px-3 rounded-xl bg-slate-100 border border-slate-200">
-            <span className="text-[10px] text-slate-500 block uppercase font-sans">Sensor Score</span>
+            <span className="text-[11px] text-slate-500 block uppercase font-sans">Sensor Score</span>
             <span className={`font-bold ${score >= 80 ? 'text-emerald-700' : (score >= 70 ? 'text-amber-600' : 'text-rose-600')}`}>
               {score} / 100
             </span>
@@ -796,7 +796,7 @@ export default function AdttSimulatorPage() {
 
           {/* Overlay Result Badge: PASSED */}
           {isPassed && (
-            <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 text-white animate-in zoom-in-95 duration-300">
+            <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 text-white animate-dialog-in">
               <div className="w-16 h-16 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mb-3 shadow-lg shadow-emerald-500/30">
                 <Trophy className="w-8 h-8" />
               </div>
@@ -832,7 +832,7 @@ export default function AdttSimulatorPage() {
 
           {/* Overlay Result Badge: FAILED */}
           {isFailed && (
-            <div className="absolute inset-0 bg-rose-950/90 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 text-white animate-in zoom-in-95 duration-300">
+            <div className="absolute inset-0 bg-rose-950/90 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 text-white animate-dialog-in">
               <div className="w-16 h-16 rounded-full bg-rose-600 text-white flex items-center justify-center mb-3 shadow-lg shadow-rose-600/30">
                 <AlertTriangle className="w-8 h-8" />
               </div>
@@ -931,7 +931,7 @@ export default function AdttSimulatorPage() {
 
         {/* Live Fault Logs */}
         {faults.length > 0 && (
-          <div className="w-full max-w-lg p-3 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1 animate-in fade-in">
+          <div className="w-full max-w-lg p-3 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1 animate-overlay-in">
             <span className="font-bold flex items-center gap-1">
               <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
               Sensor Penalties Recorded:
@@ -949,20 +949,20 @@ export default function AdttSimulatorPage() {
           ========================================== */}
       {showCertificate && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-4 border-slate-800 relative space-y-6 animate-in zoom-in-95 duration-200">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-4 border-slate-800 relative space-y-6 animate-dialog-in">
             
             {/* Top Tiranga Stripe */}
             <div className="tiranga-top-bar absolute top-0 left-0 right-0 rounded-t-2xl" />
 
             {/* Certificate Header */}
             <div className="text-center pt-2 space-y-1">
-              <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500">
+              <div className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
                 GOVERNMENT OF INDIA • MINISTRY OF ROAD TRANSPORT & HIGHWAYS
               </div>
               <h2 className="text-xl font-black text-slate-900 tracking-tight">
                 ADTT SENSOR TRACK CLEARANCE CERTIFICATE
               </h2>
-              <div className="inline-block px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px] uppercase">
+              <div className="inline-block px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[11px] uppercase">
                 Statutory Motor Vehicles Act Compliance
               </div>
             </div>
@@ -971,27 +971,27 @@ export default function AdttSimulatorPage() {
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 text-xs">
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <span className="text-[10px] text-slate-500 block">Candidate Name:</span>
+                  <span className="text-[11px] text-slate-500 block">Candidate Name:</span>
                   <span className="font-bold text-slate-900">{currentUser.name}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 block">Application Ref:</span>
+                  <span className="text-[11px] text-slate-500 block">Application Ref:</span>
                   <span className="font-mono font-bold text-slate-900">DL-ADTT-{Date.now().toString().slice(-6)}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 block">Vehicle Class:</span>
+                  <span className="text-[11px] text-slate-500 block">Vehicle Class:</span>
                   <span className="font-bold text-slate-900">LMV (Light Motor Vehicle)</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 block">Maneuver Track:</span>
+                  <span className="text-[11px] text-slate-500 block">Maneuver Track:</span>
                   <span className="font-bold text-slate-900 uppercase">{selectedTrack.replace('_', ' ')}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 block">Completion Time:</span>
+                  <span className="text-[11px] text-slate-500 block">Completion Time:</span>
                   <span className="font-mono font-bold text-slate-900">{timeElapsed} Seconds</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 block">Sensor Score:</span>
+                  <span className="text-[11px] text-slate-500 block">Sensor Score:</span>
                   <span className="font-mono font-bold text-emerald-700">{score} / 100 (PASSED)</span>
                 </div>
               </div>
@@ -1009,10 +1009,10 @@ export default function AdttSimulatorPage() {
                   <QrCode className="w-10 h-10 text-slate-900" />
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-800">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-800">
                     PARIVAHAN DIGILOCKER VERIFIED
                   </div>
-                  <div className="text-[10px] text-slate-600">
+                  <div className="text-[11px] text-slate-600">
                     Digitally signed by RTO ADTT Telemetry Engine
                   </div>
                 </div>

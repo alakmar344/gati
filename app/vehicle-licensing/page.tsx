@@ -274,7 +274,7 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 1: VEHICLE PROFILE ================= */}
         {currentStep === 1 && (
-          <div className="card p-6 sm:p-8 space-y-7 animate-in fade-in duration-300">
+          <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Vehicle Specifications</h2>
               <p className="text-sm text-slate-500 mt-1">Select the registration type and vehicle details.</p>
@@ -421,7 +421,7 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 2: STATE & RTO ================= */}
         {currentStep === 2 && (
-          <div className="card p-6 sm:p-8 space-y-7 animate-in fade-in duration-300">
+          <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">State & RTO Jurisdiction</h2>
               <p className="text-sm text-slate-500 mt-1">Select the transport office under whose jurisdiction the vehicle will be registered.</p>
@@ -502,7 +502,7 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 3: OWNER & SPECS ================= */}
         {currentStep === 3 && (
-          <div className="card p-6 sm:p-8 space-y-7 animate-in fade-in duration-300">
+          <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Ownership & VIN Specs</h2>
               <p className="text-sm text-slate-500 mt-1">Pre-filled with your verified Aadhaar and DigiLocker credentials.</p>
@@ -603,7 +603,7 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 4: TAX & REVIEW ================= */}
         {currentStep === 4 && (
-          <div className="card p-6 sm:p-8 space-y-7 animate-in fade-in duration-300">
+          <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Statutory Fee Breakdown & Review</h2>
               <p className="text-sm text-slate-500 mt-1">Transparent calculation with zero hidden government surcharges.</p>
@@ -674,7 +674,7 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 5: COMPLETED SMART RC ================= */}
         {currentStep === 5 && completedApplication && (
-          <div className="card p-6 sm:p-8 space-y-8 animate-in zoom-in-95 duration-500">
+          <div className="card p-6 sm:p-8 space-y-8 animate-dialog-in">
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
                 <CheckCircle className="w-9 h-9" />
