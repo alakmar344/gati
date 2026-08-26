@@ -135,21 +135,20 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-dialog-in"
+        className="relative w-full max-w-lg clay-card dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[92vh] animate-dialog-in"
       >
-        {/* Modal Header */}
-        <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-6 relative">
+        {/* Secure Top Header */}
+        <div className="p-6 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white relative flex-shrink-0">
           <button 
             onClick={onClose}
-            disabled={isProcessing}
-            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 transition-colors disabled:opacity-30"
+            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
 
-          <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold tracking-wider uppercase mb-1">
+          <div className="flex items-center gap-2 text-olive-400 text-xs font-semibold tracking-wider uppercase mb-1">
             <ShieldCheck className="w-4 h-4" />
-            <span>GatiPay 1-Click FastTrack (Simulated)</span>
+            <span>Encrypted Treasury Gateway • Bharat e-Pay</span>
           </div>
 
           <h3 className="text-xl font-bold tracking-tight text-white">
@@ -157,8 +156,8 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
           </h3>
 
           <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/10 text-xs text-slate-300">
-            <span>Ref: <strong className="font-mono text-sky-300">{applicationNumber}</strong></span>
-            <span className="text-sm font-black text-emerald-400 font-mono">
+            <span>Ref: <strong className="font-mono text-ashoka-300">{applicationNumber}</strong></span>
+            <span className="text-sm font-black text-olive-400 font-mono">
               Total: {formatINR(totalAmount)}
             </span>
           </div>
@@ -171,22 +170,22 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
             <div className="py-8 flex flex-col items-center justify-center text-center">
               {processingStage < 3 ? (
                 <div className="relative mb-6">
-                  <div className="w-20 h-20 rounded-full border-4 border-emerald-100 border-t-emerald-600 animate-spin flex items-center justify-center" />
+                  <div className="w-20 h-20 rounded-full border-4 border-olive-100 dark:border-olive-900/40 border-t-olive-600 animate-spin flex items-center justify-center" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Lock className="w-7 h-7 text-emerald-600 animate-pulse" />
+                    <Lock className="w-7 h-7 text-olive-600 animate-pulse" />
                   </div>
                 </div>
               ) : (
-                <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-6 animate-bounce">
+                <div className="w-20 h-20 rounded-full bg-olive-100 dark:bg-olive-950/60 text-olive-600 dark:text-olive-400 flex items-center justify-center mb-6 animate-bounce">
                   <CheckCircle2 className="w-12 h-12" />
                 </div>
               )}
 
-              <h4 className="text-lg font-bold text-slate-900 mb-2">
+              <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                 {processingStage < 3 ? 'Securing Transaction...' : 'Payment Successful!'}
               </h4>
 
-              <p className="text-xs text-slate-600 font-medium max-w-xs transition-all duration-300 h-10 flex items-center justify-center">
+              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium max-w-xs transition-all duration-300 h-10 flex items-center justify-center">
                 {stages[processingStage]}
               </p>
 
@@ -196,13 +195,13 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   <div
                     key={step}
                     className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                      processingStage >= step ? 'bg-emerald-600 scale-110' : 'bg-slate-200'
+                      processingStage >= step ? 'bg-olive-600 scale-110' : 'bg-slate-200 dark:bg-slate-800'
                     }`}
                   />
                 ))}
               </div>
 
-              <div className="mt-6 text-[11px] text-slate-400 uppercase tracking-wider font-mono">
+              <div className="mt-6 text-[11px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-mono">
                 SIMULATED RBI / NPCI FASTPAY PROTOCOL • ZERO ACTUAL CHARGE
               </div>
             </div>
@@ -210,13 +209,13 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
             /* Payment Method Selection Screen */
             <div className="space-y-5">
               {/* Method Selector Tabs */}
-              <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 rounded-2xl">
+              <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl">
                 <button
                   onClick={() => setMethod('UPI')}
                   className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
                     method === 'UPI'
-                      ? 'bg-white text-olive-800 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-800 dark:text-olive-300 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <Smartphone className="w-4 h-4 mb-1" />
@@ -227,8 +226,8 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   onClick={() => setMethod('RuPay Card')}
                   className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
                     method === 'RuPay Card'
-                      ? 'bg-white text-olive-800 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-800 dark:text-olive-300 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <CreditCard className="w-4 h-4 mb-1" />
@@ -239,8 +238,8 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   onClick={() => setMethod('Net Banking')}
                   className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
                     method === 'Net Banking'
-                      ? 'bg-white text-olive-800 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-800 dark:text-olive-300 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <Building2 className="w-4 h-4 mb-1" />
@@ -297,14 +296,14 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
               )}
 
               {method === 'RuPay Card' && (
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-                  <div className="text-xs font-semibold text-slate-800">Pre-filled Demo Test Card:</div>
+                <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+                  <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">Pre-filled Demo Test Card:</div>
                   <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-3 rounded-xl text-xs space-y-1 shadow-inner">
                     <div className="flex justify-between items-center text-[11px] text-slate-400">
                       <span>RuPay Platinum Debit</span>
                       <span className="text-amber-400 font-bold">NPCI TEST</span>
                     </div>
-                    <div className="font-mono text-sm tracking-wider font-bold text-sky-200">
+                    <div className="font-mono text-sm tracking-wider font-bold text-ashoka-200">
                       4532 •••• •••• 9821
                     </div>
                     <div className="flex justify-between text-[11px] text-slate-300 pt-1">
@@ -316,11 +315,11 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
               )}
 
               {method === 'Net Banking' && (
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                  <div className="text-xs font-semibold text-slate-800">Select Instant Simulated Bank:</div>
+                <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
+                  <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">Select Instant Simulated Bank:</div>
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     {['State Bank of India', 'HDFC Bank', 'ICICI Bank', 'Axis Bank'].map((bank, i) => (
-                      <div key={i} className="p-2.5 rounded-xl bg-white border border-slate-200 font-medium text-slate-700 text-center hover:border-emerald-500 cursor-pointer">
+                      <div key={i} className="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-medium text-slate-700 dark:text-slate-200 text-center hover:border-olive-500 cursor-pointer">
                         {bank}
                       </div>
                     ))}
@@ -329,34 +328,34 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
               )}
 
               {/* Fee Breakdown Summary */}
-              <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1 text-xs text-slate-600">
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-1 text-xs text-slate-600 dark:text-slate-400">
                 <div className="flex justify-between">
                   <span>RTO Statutory Processing Fee</span>
-                  <span className="font-mono font-medium text-slate-900">{formatINR(amount)}</span>
+                  <span className="font-mono font-medium text-slate-900 dark:text-slate-200">{formatINR(amount)}</span>
                 </div>
-                <div className="flex justify-between text-emerald-700">
+                <div className="flex justify-between text-olive-700 dark:text-olive-400">
                   <span>Convenience & FastTrack Cess</span>
                   <span className="font-mono font-bold">FREE (₹0)</span>
                 </div>
-                <div className="flex justify-between pt-1 border-t border-slate-200 font-bold text-slate-900 text-sm">
+                <div className="flex justify-between pt-1 border-t border-slate-200 dark:border-slate-800 font-bold text-slate-900 dark:text-white text-sm">
                   <span>Total Payable</span>
-                  <span className="font-mono text-emerald-700">{formatINR(totalAmount)}</span>
+                  <span className="font-mono text-olive-700 dark:text-olive-400">{formatINR(totalAmount)}</span>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="flex items-center gap-3 pt-2">
-                <button type="button" onClick={onClose} className="btn btn-ghost w-1/3 py-3 text-xs">
+                <button type="button" onClick={onClose} className="clay-btn bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 w-1/3 py-2.5 text-xs">
                   Cancel
                 </button>
-                <button type="button" onClick={handleStartPayment} className="btn btn-brand w-2/3 py-3 text-xs">
+                <button type="button" onClick={handleStartPayment} className="clay-btn clay-btn-primary w-2/3 py-2.5 text-xs text-white">
                   <span>Authorize {formatINR(totalAmount)}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
 
               <div className="text-center">
-                <span className="text-[11px] text-slate-400 font-medium">
+                <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
                   🔒 100% mock sandbox transaction • no real charges will occur
                 </span>
               </div>

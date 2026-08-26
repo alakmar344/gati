@@ -5,9 +5,8 @@ import { cn } from '@/lib/utils';
 import { Check, AlertCircle } from 'lucide-react';
 
 /* ============================================================
-   Form primitives — keep dense fields detailed, but faster to
-   complete: consistent labels, hints, adornments, validation,
-   smart formatting, and low-friction selection.
+   Form primitives — tactile clay inputs, consistent validation,
+   smart formatting, and low-friction selection with dark theme.
    ============================================================ */
 
 export function Field({
@@ -36,24 +35,24 @@ export function Field({
   return (
     <div className={className}>
       <div className="flex items-baseline justify-between gap-2 mb-1.5">
-        <label htmlFor={htmlFor} className="text-[11px] font-bold text-slate-600 uppercase tracking-wide flex items-center gap-1">
+        <label htmlFor={htmlFor} className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide flex items-center gap-1">
           {label}
           {required && <span className="text-rose-500">*</span>}
-          {optional && <span className="text-slate-400 font-medium normal-case tracking-normal">(optional)</span>}
+          {optional && <span className="text-slate-400 dark:text-slate-500 font-medium normal-case tracking-normal">(optional)</span>}
         </label>
-        {adornment && <span className="text-[11px] font-medium text-slate-400 shrink-0">{adornment}</span>}
+        {adornment && <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500 shrink-0">{adornment}</span>}
       </div>
       {children}
       {error ? (
-        <p className="text-[11px] text-rose-600 mt-1.5 flex items-center gap-1 font-medium">
+        <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-1.5 flex items-center gap-1 font-medium">
           <AlertCircle className="w-3 h-3" /> {error}
         </p>
       ) : success ? (
-        <p className="text-[11px] text-olive-700 mt-1.5 flex items-center gap-1 font-medium">
+        <p className="text-[11px] text-olive-700 dark:text-olive-400 mt-1.5 flex items-center gap-1 font-medium">
           <Check className="w-3 h-3" /> {success}
         </p>
       ) : hint ? (
-        <p className="text-[11px] text-slate-400 mt-1.5 leading-snug">{hint}</p>
+        <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1.5 leading-snug">{hint}</p>
       ) : null}
     </div>
   );
@@ -85,7 +84,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(func
           onValue(v);
         }}
         className={cn(
-          'field w-full py-2.5 text-sm font-medium text-slate-900',
+          'clay-input w-full py-2.5 text-sm font-medium text-slate-900 dark:text-slate-100',
           prefix ? 'pl-9' : 'pl-4',
           suffix ? 'pr-11' : 'pr-4',
           mono && 'font-mono tracking-wide',
@@ -135,7 +134,7 @@ export function MoneyInput({
   return (
     <div className="space-y-2">
       <div className="relative flex items-center">
-        <span className="absolute left-3.5 text-slate-500 font-semibold text-sm pointer-events-none">₹</span>
+        <span className="absolute left-3.5 text-slate-500 dark:text-slate-400 font-semibold text-sm pointer-events-none">₹</span>
         <input
           id={id}
           type="text"
@@ -146,7 +145,7 @@ export function MoneyInput({
             onValue(digits ? parseInt(digits, 10) : 0);
           }}
           placeholder="0"
-          className="field w-full pl-8 pr-4 py-2.5 text-sm font-bold text-slate-900 font-mono tracking-wide"
+          className="clay-input w-full pl-8 pr-4 py-2.5 text-sm font-bold text-slate-900 dark:text-slate-100 font-mono tracking-wide"
         />
       </div>
       {(quickAdd || presets) && (
@@ -156,7 +155,7 @@ export function MoneyInput({
               key={`set-${p}`}
               type="button"
               onClick={() => onValue(p)}
-              className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-slate-600 transition-colors"
+              className="clay-pill px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-[11px] font-bold text-slate-600 dark:text-slate-300 transition-colors"
             >
               ₹{formatGrouped(p)}
             </button>
@@ -166,7 +165,7 @@ export function MoneyInput({
               key={`add-${a}`}
               type="button"
               onClick={() => onValue(value + a)}
-              className="px-2.5 py-1 rounded-lg bg-olive-50 hover:bg-olive-100 text-[11px] font-bold text-olive-800 transition-colors"
+              className="clay-pill px-2.5 py-1 bg-olive-50 dark:bg-olive-950/60 hover:bg-olive-100 dark:hover:bg-olive-900/60 text-[11px] font-bold text-olive-800 dark:text-olive-300 transition-colors"
             >
               +{a >= 100000 ? `${a / 100000}L` : a >= 1000 ? `${a / 1000}k` : a}
             </button>
@@ -188,14 +187,14 @@ export interface Option {
 }
 
 const TONES = {
-  emerald: 'bg-olive-50 border-olive-600 text-olive-950 ring-olive-600/20',
-  olive: 'bg-olive-50 border-olive-600 text-olive-950 ring-olive-600/20',
-  sky: 'bg-ashoka-50 border-ashoka-600 text-ashoka-950 ring-ashoka-600/20',
-  ashoka: 'bg-ashoka-50 border-ashoka-600 text-ashoka-950 ring-ashoka-600/20',
-  teal: 'bg-olive-50 border-olive-600 text-olive-950 ring-olive-600/20',
-  amber: 'bg-saffron-50 border-saffron-500 text-saffron-950 ring-saffron-500/20',
-  saffron: 'bg-saffron-50 border-saffron-500 text-saffron-950 ring-saffron-500/20',
-  violet: 'bg-olive-50 border-olive-600 text-olive-950 ring-olive-600/20',
+  emerald: 'bg-olive-50 dark:bg-olive-950/60 border-olive-600 dark:border-olive-500 text-olive-950 dark:text-olive-200 ring-olive-600/20',
+  olive: 'bg-olive-50 dark:bg-olive-950/60 border-olive-600 dark:border-olive-500 text-olive-950 dark:text-olive-200 ring-olive-600/20',
+  sky: 'bg-ashoka-50 dark:bg-ashoka-950/60 border-ashoka-600 dark:border-ashoka-500 text-ashoka-950 dark:text-ashoka-200 ring-ashoka-600/20',
+  ashoka: 'bg-ashoka-50 dark:bg-ashoka-950/60 border-ashoka-600 dark:border-ashoka-500 text-ashoka-950 dark:text-ashoka-200 ring-ashoka-600/20',
+  teal: 'bg-olive-50 dark:bg-olive-950/60 border-olive-600 dark:border-olive-500 text-olive-950 dark:text-olive-200 ring-olive-600/20',
+  amber: 'bg-saffron-50 dark:bg-saffron-950/60 border-saffron-500 dark:border-saffron-400 text-saffron-950 dark:text-saffron-200 ring-saffron-500/20',
+  saffron: 'bg-saffron-50 dark:bg-saffron-950/60 border-saffron-500 dark:border-saffron-400 text-saffron-950 dark:text-saffron-200 ring-saffron-500/20',
+  violet: 'bg-olive-50 dark:bg-olive-950/60 border-olive-600 dark:border-olive-500 text-olive-950 dark:text-olive-200 ring-olive-600/20',
 } as const;
 
 export function OptionGrid({
@@ -225,14 +224,14 @@ export function OptionGrid({
             type="button"
             onClick={() => onChange(opt.value)}
             className={cn(
-              'relative p-3.5 rounded-2xl border text-left transition-all',
+              'clay-card relative p-3.5 border text-left transition-all',
               selected
                 ? cn('ring-2', TONES[tone] || TONES.emerald)
-                : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
             )}
           >
             {opt.badge && (
-              <span className="absolute top-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-white/80 border border-current opacity-70">
+              <span className="absolute top-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-white/80 dark:bg-slate-800 border border-current opacity-70">
                 {opt.badge}
               </span>
             )}
@@ -268,7 +267,7 @@ export function SelectInput({
         id={id}
         value={value}
         onChange={(e) => onValue(e.target.value)}
-        className="field w-full pl-4 pr-9 py-2.5 text-sm font-medium text-slate-900 appearance-none cursor-pointer"
+        className="clay-input w-full pl-4 pr-9 py-2.5 text-sm font-medium text-slate-900 dark:text-slate-100 appearance-none cursor-pointer"
       >
         {children}
       </select>
@@ -288,7 +287,7 @@ export function SelectInput({
 /** Small verified chip for autofilled/verified fields. */
 export function VerifiedChip({ label = 'Verified' }: { label?: string }) {
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-olive-700">
+    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-olive-700 dark:text-olive-400">
       <Check className="w-3 h-3" /> {label}
     </span>
   );

@@ -20,8 +20,9 @@ import {
   getApplicationsForUser,
 } from '@/lib/storage';
 import { useQuickAction } from '@/components/copilot/useQuickAction';
+import { useLanguage } from '@/lib/i18n';
 
-const EXAMPLES = [
+const EXAMPLES_EN = [
   'pay all my challans',
   'top up fastag 1000',
   'renew my licence',
@@ -30,11 +31,21 @@ const EXAMPLES = [
   'book an ADTT slot',
 ];
 
+const EXAMPLES_HI = [
+  'मेरे सभी चालान भरें',
+  'फास्टैग में 1000 डालें',
+  'ड्राइविंग लाइसेंस नवीनीकृत करें',
+  'नया ईवी पंजीकृत करें',
+  'मेरी आरसी स्कैन करें',
+  'एडीटीटी स्लॉट बुक करें',
+];
+
 type Row =
   | { type: 'suggestion'; data: Suggestion }
   | { type: 'insight'; data: ActionItem };
 
 export function CommandPalette() {
+  const { language, t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
@@ -42,12 +53,14 @@ export function CommandPalette() {
   const inputRef = useRef<HTMLInputElement>(null);
   const run = useQuickAction();
 
+  const examples = language === 'hi' ? EXAMPLES_HI : EXAMPLES_EN;
+
   // rotating placeholder
   useEffect(() => {
     if (!open) return;
-    const t = setInterval(() => setExampleIdx((i) => (i + 1) % EXAMPLES.length), 2600);
+    const t = setInterval(() => setExampleIdx((i) => (i + 1) % examples.length), 2600);
     return () => clearInterval(t);
-  }, [open]);
+  }, [open, examples.length]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -98,8 +111,7 @@ export function CommandPalette() {
       pendingCount: pending.length,
       balance: fastag.walletBalance,
     };
-    // recompute whenever opened or query changes (cheap)
-  }, [open, query]);
+  }, [open]);
 
   const suggestions = useMemo(
     () =>
@@ -113,7 +125,6 @@ export function CommandPalette() {
 
   const rows: Row[] = useMemo(() => {
     if (query.trim()) return suggestions.map((s) => ({ type: 'suggestion', data: s }));
-    // empty query → proactive: top insights first
     return ctx.insights.slice(0, 5).map((i) => ({ type: 'insight', data: i }));
   }, [query, suggestions, ctx.insights]);
 
@@ -122,7 +133,7 @@ export function CommandPalette() {
       const r = row || rows[active];
       if (!r) return;
       const action = r.type === 'suggestion' ? r.data.run : r.data.action;
-      const inline = run(action as IntentRun);
+      run(action as IntentRun);
       setOpen(false);
     },
     [rows, active, run]
@@ -157,7 +168,7 @@ export function CommandPalette() {
     const Icon = r.type === 'suggestion' ? r.data.icon : r.data.icon;
     const title = r.type === 'suggestion' ? r.data.title : r.data.title;
     const hint = r.type === 'suggestion' ? r.data.hint : r.data.subtitle;
-    const tint = r.type === 'suggestion' ? r.data.tint : 'text-olive-800 bg-olive-100';
+    const tint = r.type === 'suggestion' ? r.data.tint : 'text-olive-800 dark:text-olive-300 bg-olive-100 dark:bg-olive-950/60';
     const canRunInline =
       r.type === 'suggestion'
         ? r.data.run.kind !== 'nav'
@@ -168,20 +179,20 @@ export function CommandPalette() {
         onMouseEnter={() => setActive(idx)}
         onClick={() => execute(r)}
         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left transition-colors ${
-          isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100/70'
+          isActive ? 'bg-slate-900 dark:bg-slate-800 text-white' : 'hover:bg-slate-100/70 dark:hover:bg-slate-800/60'
         }`}
       >
         <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${isActive ? 'bg-white/15 text-white' : tint}`}>
           <Icon className="w-[18px] h-[18px]" />
         </span>
         <span className="min-w-0 flex-1">
-          <span className={`block text-sm font-bold ${isActive ? 'text-white' : 'text-slate-900'}`}>{title}</span>
-          {hint && <span className={`block text-xs truncate ${isActive ? 'text-white/70' : 'text-slate-500'}`}>{hint}</span>}
+          <span className={`block text-sm font-bold ${isActive ? 'text-white' : 'text-slate-900 dark:text-slate-100'}`}>{title}</span>
+          {hint && <span className={`block text-xs truncate ${isActive ? 'text-white/70' : 'text-slate-500 dark:text-slate-400'}`}>{hint}</span>}
         </span>
         {canRunInline && (
           <span
             className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0 ${
-              isActive ? 'bg-olive-500/40 text-olive-100' : 'bg-olive-100 text-olive-800'
+              isActive ? 'bg-olive-500/40 text-olive-100' : 'bg-olive-100 dark:bg-olive-900/60 text-olive-800 dark:text-olive-300'
             }`}
           >
             <Zap className="w-3 h-3 inline -mt-0.5" /> run
@@ -194,27 +205,27 @@ export function CommandPalette() {
 
   return (
     <div
-      className="fixed inset-0 z-[90] flex items-start justify-center pt-[11vh] px-4 bg-slate-950/45 backdrop-blur-md animate-overlay-in"
+      className="fixed inset-0 z-[90] flex items-start justify-center pt-[11vh] px-4 bg-slate-950/50 backdrop-blur-md animate-overlay-in"
       onClick={() => setOpen(false)}
     >
       <div
-        className="w-full max-w-xl glass-panel rounded-3xl shadow-2xl border border-white/70 overflow-hidden animate-dialog-in"
+        className="w-full max-w-xl clay-card dark:bg-slate-900 rounded-3xl shadow-2xl border border-white/80 dark:border-white/10 overflow-hidden animate-dialog-in"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
       >
         {/* Search field */}
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100">
-          <Wand2 className="w-5 h-5 text-saffron-600 shrink-0" />
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 dark:border-slate-800">
+          <Wand2 className="w-5 h-5 text-saffron-600 dark:text-saffron-400 shrink-0" />
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder={`Ask Gati to “${EXAMPLES[exampleIdx]}”`}
-            className="flex-1 bg-transparent text-[15px] font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none"
+            placeholder={`${t('heroSearchPlaceholderPrefix')} “${examples[exampleIdx]}”`}
+            className="flex-1 bg-transparent text-[15px] font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none"
           />
-          <kbd className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-slate-400 bg-slate-100 border border-slate-200 rounded-md px-1.5 py-0.5">
+          <kbd className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md px-1.5 py-0.5">
             ESC
           </kbd>
         </div>
@@ -223,23 +234,23 @@ export function CommandPalette() {
         <div className="max-h-[54vh] overflow-y-auto p-2">
           {rows.length === 0 ? (
             <div className="px-4 py-8 text-center">
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-slate-400 dark:text-slate-500">
                 {query.trim() ? `No match for “${query}”. Try a service name or an action.` : 'Type what you need done.'}
               </p>
             </div>
           ) : (
             <>
               {insightRows.length > 0 && (
-                <Group label="Suggested for you">{insightRows.map(renderRow)}</Group>
+                <Group label={language === 'hi' ? 'आपके लिए सुझाव' : 'Suggested for you'}>{insightRows.map(renderRow)}</Group>
               )}
-              {doNow.length > 0 && <Group label="Do it now">{doNow.map(renderRow)}</Group>}
-              {goTo.length > 0 && <Group label="Go to">{goTo.map(renderRow)}</Group>}
+              {doNow.length > 0 && <Group label={language === 'hi' ? 'तुरंत करें' : 'Do it now'}>{doNow.map(renderRow)}</Group>}
+              {goTo.length > 0 && <Group label={language === 'hi' ? 'नेविगेट करें' : 'Go to'}>{goTo.map(renderRow)}</Group>}
             </>
           )}
         </div>
 
         {/* Footer legend */}
-        <div className="flex items-center justify-between px-5 py-2.5 border-t border-slate-100 text-[11px] text-slate-400">
+        <div className="flex items-center justify-between px-5 py-2.5 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 dark:text-slate-500">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
               <ArrowUp className="w-3 h-3" />
@@ -261,7 +272,7 @@ export function CommandPalette() {
 function Group({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="mb-1.5 last:mb-0">
-      <div className="px-3 pt-2 pb-1 eyebrow text-slate-400">{label}</div>
+      <div className="px-3 pt-2 pb-1 eyebrow text-slate-400 dark:text-slate-500">{label}</div>
       {children}
     </div>
   );

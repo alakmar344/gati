@@ -5,6 +5,7 @@ import { User, Check, X, MapPin, Car } from 'lucide-react';
 import { DemoUser } from '@/lib/types';
 import { DEMO_USERS } from '@/lib/mockData';
 import { getCurrentUser, setCurrentUser } from '@/lib/storage';
+import { useLanguage } from '@/lib/i18n';
 
 interface PersonaSwitcherModalProps {
   isOpen: boolean;
@@ -17,6 +18,8 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
   onClose,
   onSelectUser,
 }) => {
+  const { language, t } = useLanguage();
+
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
@@ -45,9 +48,8 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[88vh] animate-dialog-in"
+        className="relative w-full max-w-2xl clay-card dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[88vh] animate-dialog-in"
       >
-        
         {/* Header */}
         <div className="p-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white relative flex-shrink-0">
           <button 
@@ -59,19 +61,21 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
 
           <div className="flex items-center gap-2 text-saffron-400 text-xs font-semibold tracking-wider uppercase mb-1">
             <User className="w-4 h-4" />
-            <span>Prototype Demo Accounts</span>
+            <span>{t('demoBadge')}</span>
           </div>
 
           <h3 className="text-xl font-bold tracking-tight text-white">
-            Switch Demo Citizen Persona
+            {t('switchPersona')}
           </h3>
           <p className="text-xs text-slate-300 mt-1">
-            Select one of the 10 pre-configured realistic Indian profiles to test tailored workflows and saved records.
+            {language === 'hi'
+              ? 'अनुकूलित वर्कफ़्लो और सहेजे गए रिकॉर्ड का परीक्षण करने के लिए 10 वास्तविक भारतीय प्रोफाइल में से चुनें।'
+              : 'Select one of the 10 pre-configured realistic Indian profiles to test tailored workflows and saved records.'}
           </p>
         </div>
 
         {/* Personas Grid (Scrollable) */}
-        <div className="p-6 overflow-y-auto space-y-3 divide-y divide-slate-100">
+        <div className="p-6 overflow-y-auto space-y-3 divide-y divide-slate-100 dark:divide-slate-800">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {DEMO_USERS.map((user) => {
               const isCurrent = user.id === currentUser.id;
@@ -79,10 +83,10 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
                 <div
                   key={user.id}
                   onClick={() => handleSelect(user)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer text-left relative flex flex-col justify-between ${
+                  className={`clay-card p-4 transition-all cursor-pointer text-left relative flex flex-col justify-between ${
                     isCurrent
-                      ? 'bg-olive-50/80 border-olive-500 ring-2 ring-olive-500/20 shadow-sm'
-                      : 'bg-white border-slate-200 hover:border-olive-400 hover:shadow-md'
+                      ? 'bg-olive-50/80 dark:bg-olive-950/70 border-olive-500 ring-2 ring-olive-500/20 shadow-sm'
+                      : 'bg-white dark:bg-slate-900/90 border-slate-200 dark:border-slate-800 hover:border-olive-400 hover:shadow-md'
                   }`}
                 >
                   <div>
@@ -92,15 +96,15 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm ${
                           isCurrent 
                             ? 'bg-olive-700 text-white' 
-                            : 'bg-slate-100 text-slate-800 border border-slate-200'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
                         }`}>
                           {user.avatar}
                         </div>
                         <div>
-                          <div className="font-bold text-sm text-slate-900 leading-tight">
+                          <div className="font-bold text-sm text-slate-900 dark:text-white leading-tight">
                             {user.name}
                           </div>
-                          <div className="text-[11px] text-olive-800 font-medium">
+                          <div className="text-[11px] text-olive-800 dark:text-olive-400 font-medium">
                             {user.role}
                           </div>
                         </div>
@@ -114,19 +118,19 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
                     </div>
 
                     {/* Bio */}
-                    <p className="text-[11px] text-slate-600 mt-2.5 leading-relaxed line-clamp-2">
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-2.5 leading-relaxed line-clamp-2">
                       {user.bio}
                     </p>
                   </div>
 
                   {/* Metadata pill footer */}
-                  <div className="flex items-center justify-between pt-3 mt-3 border-t border-slate-100/80 text-[10px] text-slate-500">
+                  <div className="flex items-center justify-between pt-3 mt-3 border-t border-slate-100/80 dark:border-slate-800 text-[10px] text-slate-500 dark:text-slate-400">
                     <span className="flex items-center gap-1">
                       <MapPin className="w-3 h-3 text-slate-400" />
                       {user.city}, {user.state.split(' ')[0]}
                     </span>
-                    <span className="flex items-center gap-1 font-mono font-medium text-slate-700">
-                      <Car className="w-3 h-3 text-ashoka-700" />
+                    <span className="flex items-center gap-1 font-mono font-medium text-slate-700 dark:text-slate-300">
+                      <Car className="w-3 h-3 text-ashoka-700 dark:text-ashoka-400" />
                       {user.vehiclesCount} {user.vehiclesCount === 1 ? 'vehicle' : 'vehicles'}
                     </span>
                   </div>
@@ -137,13 +141,15 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 flex-shrink-0">
-          <span className="text-[11px]">Active session auto-persists in browser storage.</span>
+        <div className="p-4 bg-slate-50 dark:bg-slate-850 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 flex-shrink-0">
+          <span className="text-[11px]">
+            {language === 'hi' ? 'सक्रिय सत्र ब्राउज़र मेमोरी में स्वतः सहेजा जाता है।' : 'Active session auto-persists in browser storage.'}
+          </span>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-full bg-slate-900 text-white font-medium text-xs hover:bg-slate-800 transition-colors"
+            className="clay-btn clay-btn-primary px-4 py-1.5 text-white text-xs"
           >
-            Close
+            {language === 'hi' ? 'बंद करें' : 'Close'}
           </button>
         </div>
       </div>
