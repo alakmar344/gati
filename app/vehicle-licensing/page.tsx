@@ -24,8 +24,19 @@ import { getCurrentUser, saveApplication, saveDocument } from '@/lib/storage';
 import { formatINR, generateReferenceNumber } from '@/lib/utils';
 import { GatiPayModal } from '@/components/payment/GatiPayModal';
 import { DigitalRcSmartCard } from '@/components/documents/DigitalRcSmartCard';
+import { SectionHeading, Pill } from '@/components/ui/Primitives';
+import { useToast } from '@/components/ui/Toast';
+
+const WIZARD_STEPS = [
+  { num: 1, label: 'Vehicle Specs' },
+  { num: 2, label: 'RTO & Region' },
+  { num: 3, label: 'Owner & KYC' },
+  { num: 4, label: 'Tax & Review' },
+  { num: 5, label: 'Smart RC' },
+];
 
 export default function VehicleLicensingPage() {
+  const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [currentUser, setCurrentUser] = useState(getCurrentUser());
 
@@ -182,78 +193,99 @@ export default function VehicleLicensingPage() {
 
     setCompletedApplication(newApp);
     setCurrentStep(5); // Completion step
+
+    toast({
+      title: 'Smart RC issued successfully',
+      description: `${randomAssignedNumber} · Ref ${refNo}`,
+      variant: 'success',
+    });
   };
 
   return (
     <div className="min-h-screen py-10 px-4 sm:px-8 max-w-4xl mx-auto">
       
       {/* Header */}
-      <div className="text-center max-w-xl mx-auto mb-8">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
-          <Car className="w-3.5 h-3.5" />
-          <span>Vehicle Registration Portal</span>
-        </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Vehicle Licensing & RC
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-600 mt-1">
-          Complete paperless registration for new vehicles, ownership transfers, and EV green fleets.
-        </p>
-      </div>
+      <SectionHeading
+        className="mb-8 animate-rise"
+        eyebrow="Vehicle Registration Portal"
+        icon={<Car className="w-3.5 h-3.5" />}
+        title="Vehicle Licensing & RC"
+        subtitle="Complete paperless registration for new vehicles, ownership transfers, and EV green fleets."
+      />
 
-      {/* Stepper Progress Bar */}
+      {/* Horizontal Stepper */}
       {currentStep <= 4 && (
-        <div className="mb-8 glass-panel p-4 rounded-2xl shadow-sm border border-slate-200/80">
-          <div className="flex items-center justify-between text-xs font-semibold">
-            {[
-              { num: 1, label: 'Vehicle Specs' },
-              { num: 2, label: 'RTO & Region' },
-              { num: 3, label: 'Owner & KYC' },
-              { num: 4, label: 'Tax & Review' }
-            ].map((step) => (
-              <div 
-                key={step.num}
-                className={`flex items-center gap-2 ${
-                  currentStep === step.num 
-                    ? 'text-emerald-700 font-bold' 
-                    : currentStep > step.num 
-                      ? 'text-slate-800' 
-                      : 'text-slate-400'
-                }`}
-              >
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs transition-all ${
-                  currentStep === step.num 
-                    ? 'bg-emerald-600 text-white ring-4 ring-emerald-100 font-bold' 
-                    : currentStep > step.num 
-                      ? 'bg-emerald-100 text-emerald-800' 
-                      : 'bg-slate-100 text-slate-400'
-                }`}>
-                  {currentStep > step.num ? <CheckCircle className="w-4 h-4" /> : step.num}
-                </div>
-                <span className="hidden sm:inline">{step.label}</span>
-              </div>
-            ))}
+        <div className="mb-8 animate-rise">
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <p className="eyebrow text-emerald-700">
+              Step {currentStep} of 5 — {WIZARD_STEPS[currentStep - 1].label}
+            </p>
+            <Pill tone="emerald">Paperless FastTrack</Pill>
+          </div>
+
+          <div className="flex items-start">
+            {WIZARD_STEPS.map((step, i) => {
+              const done = currentStep > step.num;
+              const active = currentStep === step.num;
+              return (
+                <React.Fragment key={step.num}>
+                  <div className="flex flex-col items-center gap-2 w-16 shrink-0">
+                    <div
+                      className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                        done
+                          ? 'bg-emerald-600 text-white shadow-sm'
+                          : active
+                            ? 'bg-emerald-600 text-white ring-4 ring-emerald-100'
+                            : 'bg-white border-2 border-slate-200 text-slate-400'
+                      }`}
+                    >
+                      {done ? <CheckCircle className="w-5 h-5" /> : step.num}
+                    </div>
+                    <span
+                      className={`text-[11px] leading-tight text-center ${
+                        active
+                          ? 'text-emerald-700 font-bold'
+                          : done
+                            ? 'text-slate-700 font-semibold'
+                            : 'text-slate-400 font-medium'
+                      }`}
+                    >
+                      {step.label}
+                    </span>
+                  </div>
+                  {i < WIZARD_STEPS.length - 1 && (
+                    <div className="flex-1 h-0.5 mt-4 rounded-full bg-slate-200 overflow-hidden">
+                      <div
+                        className={`h-full rounded-full bg-emerald-500 transition-all duration-500 ${
+                          currentStep > step.num ? 'w-full' : 'w-0'
+                        }`}
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       )}
 
       {/* Step Content Container */}
-      <div className="glass-panel p-6 sm:p-10 rounded-3xl border border-white/80 shadow-xl">
-        
+      <div className="animate-rise">
+
         {/* ================= STEP 1: VEHICLE PROFILE ================= */}
         {currentStep === 1 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="card p-6 sm:p-8 space-y-7 animate-in fade-in duration-300">
             <div>
-              <h2 className="text-xl font-bold text-slate-900">Step 1: Vehicle Specifications</h2>
-              <p className="text-xs text-slate-500 mt-0.5">Select the registration type and vehicle details.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Vehicle Specifications</h2>
+              <p className="text-sm text-slate-500 mt-1">Select the registration type and vehicle details.</p>
             </div>
 
             {/* Registration Category */}
             <div>
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">
+              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-2.5">
                 Registration Category
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
                   'New Private Vehicle',
                   'Ownership Transfer',
@@ -264,10 +296,10 @@ export default function VehicleLicensingPage() {
                     key={cat}
                     type="button"
                     onClick={() => setRegistrationCategory(cat as any)}
-                    className={`p-3 rounded-2xl border text-xs font-semibold text-left transition-all ${
+                    className={`p-3.5 rounded-2xl border text-[13px] font-semibold text-left transition-all ${
                       registrationCategory === cat
                         ? 'bg-emerald-50 border-emerald-500 text-emerald-900 ring-2 ring-emerald-500/20'
-                        : 'bg-white/80 border-slate-200 text-slate-700 hover:bg-white'
+                        : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
                     }`}
                   >
                     {cat}
@@ -278,10 +310,10 @@ export default function VehicleLicensingPage() {
 
             {/* Vehicle Type */}
             <div>
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">
+              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-2.5">
                 Vehicle Type
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
                   { label: '2W Motorcycle / Scooter', icon: '🛵' },
                   { label: '4W Passenger Car', icon: '🚗' },
@@ -297,13 +329,13 @@ export default function VehicleLicensingPage() {
                         setFuelType('Electric');
                       }
                     }}
-                    className={`p-3 rounded-2xl border text-xs font-semibold flex items-center gap-2 transition-all ${
+                    className={`p-3.5 rounded-2xl border text-[13px] font-semibold flex items-center gap-2 transition-all ${
                       vehicleType === t.label
                         ? 'bg-emerald-50 border-emerald-500 text-emerald-900 ring-2 ring-emerald-500/20'
-                        : 'bg-white/80 border-slate-200 text-slate-700 hover:bg-white'
+                        : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
                     }`}
                   >
-                    <span className="text-base">{t.icon}</span>
+                    <span className="text-lg">{t.icon}</span>
                     <span>{t.label.split(' ')[0]}</span>
                   </button>
                 ))}
@@ -311,35 +343,35 @@ export default function VehicleLicensingPage() {
             </div>
 
             {/* Make / Model / Fuel / Invoice Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Manufacturer / Make</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Manufacturer / Make</label>
                 <input
                   type="text"
                   value={maker}
                   onChange={(e) => setMaker(e.target.value)}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                   placeholder="e.g. Tata Motors, Hyundai, Ather"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Model & Variant</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Model & Variant</label>
                 <input
                   type="text"
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                   placeholder="e.g. Nexon EV Empowered+"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Fuel Type</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Fuel Type</label>
                 <select
                   value={fuelType}
                   onChange={(e) => setFuelType(e.target.value as any)}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                 >
                   <option value="Electric">⚡ Electric (100% Tax Exemption)</option>
                   <option value="Petrol">Petrol</option>
@@ -350,14 +382,14 @@ export default function VehicleLicensingPage() {
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">
                   Ex-Showroom Invoice Value (₹)
                 </label>
                 <input
                   type="number"
                   value={invoiceValue}
                   onChange={(e) => setInvoiceValue(Number(e.target.value))}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900 font-mono"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
                   step="10000"
                 />
               </div>
@@ -365,23 +397,23 @@ export default function VehicleLicensingPage() {
 
             {/* EV Incentive Highlight Banner */}
             {isEV && (
-              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-start gap-3">
+              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-[13px] text-emerald-900 flex items-start gap-3">
                 <Zap className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                <div>
+                <div className="leading-relaxed">
                   <strong className="font-bold block">Green Mobility Incentive Applied</strong>
                   Under State Clean Vehicle Policy, electric vehicles receive <strong>0% Road Tax</strong> and exemption from green cess.
                 </div>
               </div>
             )}
 
-            <div className="flex justify-end pt-4">
+            <div className="flex justify-end pt-2">
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-7 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-2 shadow-md hover:scale-[1.01] transition-all"
+                className="btn btn-brand px-7 py-3 text-sm"
               >
                 <span>Continue to RTO Selection</span>
-                <ArrowRight className="w-4 h-4 text-emerald-400" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -389,15 +421,15 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 2: STATE & RTO ================= */}
         {currentStep === 2 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="card p-6 sm:p-8 space-y-7 animate-in fade-in duration-300">
             <div>
-              <h2 className="text-xl font-bold text-slate-900">Step 2: State & RTO Jurisdiction</h2>
-              <p className="text-xs text-slate-500 mt-0.5">Select the transport office under whose jurisdiction the vehicle will be registered.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">State & RTO Jurisdiction</h2>
+              <p className="text-sm text-slate-500 mt-1">Select the transport office under whose jurisdiction the vehicle will be registered.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">State / Union Territory</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">State / Union Territory</label>
                 <select
                   value={selectedState}
                   onChange={(e) => {
@@ -406,7 +438,7 @@ export default function VehicleLicensingPage() {
                     const firstRto = STATES_AND_RTOS[st]?.rtos[0]?.code || 'KA-01';
                     setSelectedRtoCode(firstRto);
                   }}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                 >
                   {Object.entries(STATES_AND_RTOS).map(([code, s]) => (
                     <option key={code} value={code}>
@@ -417,11 +449,11 @@ export default function VehicleLicensingPage() {
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Assigned RTO Office</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Assigned RTO Office</label>
                 <select
                   value={selectedRtoCode}
                   onChange={(e) => setSelectedRtoCode(e.target.value)}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                 >
                   {rtoList.map((rto) => (
                     <option key={rto.code} value={rto.code}>
@@ -433,29 +465,25 @@ export default function VehicleLicensingPage() {
             </div>
 
             {/* Selected RTO Preview Card */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-xs">
+                <div className="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-xs">
                   {currentRto.code}
                 </div>
                 <div>
-                  <div className="font-bold text-xs sm:text-sm text-slate-900">{currentRto.name}</div>
+                  <div className="font-bold text-sm text-slate-900">{currentRto.name}</div>
                   <div className="text-[11px] text-slate-500">{stateData.name} State Transport Department</div>
                 </div>
               </div>
 
-              <div className="text-right">
-                <span className="text-[10px] text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full font-bold">
-                  Paperless FastTrack
-                </span>
-              </div>
+              <Pill tone="emerald">Paperless FastTrack</Pill>
             </div>
 
-            <div className="flex justify-between pt-4">
+            <div className="flex justify-between pt-2">
               <button
                 type="button"
                 onClick={handleBack}
-                className="px-6 py-3 rounded-full border border-slate-300 text-slate-700 font-semibold text-xs hover:bg-slate-100 flex items-center gap-2"
+                className="btn btn-ghost px-6 py-3 text-sm"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -463,10 +491,10 @@ export default function VehicleLicensingPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-7 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-2 shadow-md hover:scale-[1.01]"
+                className="btn btn-brand px-7 py-3 text-sm"
               >
                 <span>Continue to Owner Details</span>
-                <ArrowRight className="w-4 h-4 text-emerald-400" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -474,77 +502,77 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 3: OWNER & SPECS ================= */}
         {currentStep === 3 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="card p-6 sm:p-8 space-y-7 animate-in fade-in duration-300">
             <div>
-              <h2 className="text-xl font-bold text-slate-900">Step 3: Ownership & VIN Specs</h2>
-              <p className="text-xs text-slate-500 mt-0.5">Pre-filled with your verified Aadhaar and DigiLocker credentials.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Ownership & VIN Specs</h2>
+              <p className="text-sm text-slate-500 mt-1">Pre-filled with your verified Aadhaar and DigiLocker credentials.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Registered Owner Name</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Registered Owner Name</label>
                 <input
                   type="text"
                   value={ownerName}
                   onChange={(e) => setOwnerName(e.target.value)}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Mobile (Linked to Aadhaar)</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Mobile (Linked to Aadhaar)</label>
                 <input
                   type="text"
                   value={ownerPhone}
                   onChange={(e) => setOwnerPhone(e.target.value)}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900 font-mono"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Chassis / VIN Number</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Chassis / VIN Number</label>
                 <input
                   type="text"
                   value={chassisNumber}
                   onChange={(e) => setChassisNumber(e.target.value)}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900 font-mono uppercase"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono uppercase"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Engine / Motor Serial</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Engine / Motor Serial</label>
                 <input
                   type="text"
                   value={engineNumber}
                   onChange={(e) => setEngineNumber(e.target.value)}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900 font-mono uppercase"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900 font-mono uppercase"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="text-xs font-bold text-slate-700 block mb-1">Residential Registration Address</label>
+                <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-1.5">Residential Registration Address</label>
                 <input
                   type="text"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full glass-input px-4 py-2.5 rounded-xl text-xs font-medium text-slate-900"
+                  className="field w-full px-4 py-2.5 text-sm font-medium text-slate-900"
                 />
               </div>
             </div>
 
             {/* Document Checklist Checklist */}
-            <div className="pt-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">
+            <div className="pt-1">
+              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-2.5">
                 DigiLocker Auto-Attached Documents
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 {[
                   { key: 'invoice', label: 'Form 21 Sale Invoice' },
                   { key: 'insurance', label: 'Valid Motor Insurance' },
                   { key: 'form21', label: 'Roadworthiness Cert' },
                   { key: 'aadhaarKyc', label: 'Aadhaar e-KYC Pass' }
                 ].map((doc) => (
-                  <div key={doc.key} className="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-200 text-emerald-900 flex items-center gap-2">
+                  <div key={doc.key} className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200 text-emerald-900 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span className="text-[11px] font-semibold truncate">{doc.label}</span>
                   </div>
@@ -552,11 +580,11 @@ export default function VehicleLicensingPage() {
               </div>
             </div>
 
-            <div className="flex justify-between pt-4">
+            <div className="flex justify-between pt-2">
               <button
                 type="button"
                 onClick={handleBack}
-                className="px-6 py-3 rounded-full border border-slate-300 text-slate-700 font-semibold text-xs hover:bg-slate-100 flex items-center gap-2"
+                className="btn btn-ghost px-6 py-3 text-sm"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -564,10 +592,10 @@ export default function VehicleLicensingPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-7 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-2 shadow-md hover:scale-[1.01]"
+                className="btn btn-brand px-7 py-3 text-sm"
               >
                 <span>Continue to Fee Review</span>
-                <ArrowRight className="w-4 h-4 text-emerald-400" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -575,58 +603,59 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 4: TAX & REVIEW ================= */}
         {currentStep === 4 && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="card p-6 sm:p-8 space-y-7 animate-in fade-in duration-300">
             <div>
-              <h2 className="text-xl font-bold text-slate-900">Step 4: Statutory Fee Breakdown & Review</h2>
-              <p className="text-xs text-slate-500 mt-0.5">Transparent calculation with zero hidden government surcharges.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Statutory Fee Breakdown & Review</h2>
+              <p className="text-sm text-slate-500 mt-1">Transparent calculation with zero hidden government surcharges.</p>
             </div>
 
             {/* Application Summary Card */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs">
-              <div className="flex justify-between border-b border-slate-200 pb-2">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-[13px]">
+              <div className="flex justify-between gap-3 border-b border-slate-200 pb-2.5">
                 <span className="text-slate-500">Applicant / Owner</span>
-                <span className="font-bold text-slate-900">{ownerName}</span>
+                <span className="font-bold text-slate-900 text-right">{ownerName}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-200 pb-2">
+              <div className="flex justify-between gap-3 border-b border-slate-200 pb-2.5">
                 <span className="text-slate-500">Vehicle Model</span>
-                <span className="font-bold text-slate-900">{maker} {model} ({fuelType})</span>
+                <span className="font-bold text-slate-900 text-right">{maker} {model} ({fuelType})</span>
               </div>
-              <div className="flex justify-between border-b border-slate-200 pb-2">
+              <div className="flex justify-between gap-3 border-b border-slate-200 pb-2.5">
                 <span className="text-slate-500">RTO Jurisdiction</span>
-                <span className="font-bold text-slate-900">{currentRto.code} - {currentRto.name}</span>
+                <span className="font-bold text-slate-900 text-right">{currentRto.code} - {currentRto.name}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-3">
                 <span className="text-slate-500">Ex-Showroom Price</span>
                 <span className="font-mono font-bold text-slate-900">{formatINR(invoiceValue)}</span>
               </div>
             </div>
 
-            {/* Fee Table */}
-            <div className="space-y-2 p-5 rounded-2xl bg-emerald-50/50 border border-emerald-200 text-xs">
-              <div className="flex justify-between text-slate-700">
+            {/* Fee Table — highlighted summary */}
+            <div className="space-y-3 p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200 text-[13px]">
+              <div className="eyebrow text-emerald-700 mb-1">Statutory Fee Summary</div>
+              <div className="flex justify-between gap-3 text-slate-700">
                 <span>State Motor Vehicle Road Tax ({isEV ? '0% EV Policy' : '14% Standard'})</span>
                 <span className="font-mono font-bold text-slate-900">{formatINR(roadTax)}</span>
               </div>
-              <div className="flex justify-between text-slate-700">
+              <div className="flex justify-between gap-3 text-slate-700">
                 <span>Green Environment Cess</span>
                 <span className="font-mono font-bold text-slate-900">{formatINR(greenCess)}</span>
               </div>
-              <div className="flex justify-between text-slate-700">
+              <div className="flex justify-between gap-3 text-slate-700">
                 <span>Microchip Smart Card & User Fee</span>
                 <span className="font-mono font-bold text-slate-900">{formatINR(smartCardFee)}</span>
               </div>
-              <div className="flex justify-between pt-3 border-t border-emerald-200 text-sm font-extrabold text-emerald-950">
-                <span>Total Statutory Amount</span>
-                <span className="font-mono text-base text-emerald-700">{formatINR(totalFee)}</span>
+              <div className="flex justify-between items-center gap-3 pt-3 border-t border-emerald-200">
+                <span className="text-sm font-extrabold text-emerald-950">Total Statutory Amount</span>
+                <span className="font-display font-extrabold text-2xl text-emerald-700">{formatINR(totalFee)}</span>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex justify-between pt-4">
+            <div className="flex justify-between pt-2">
               <button
                 type="button"
                 onClick={handleBack}
-                className="px-6 py-3 rounded-full border border-slate-300 text-slate-700 font-semibold text-xs hover:bg-slate-100 flex items-center gap-2"
+                className="btn btn-ghost px-6 py-3 text-sm"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -634,7 +663,7 @@ export default function VehicleLicensingPage() {
               <button
                 type="button"
                 onClick={handleProceedToPayment}
-                className="px-8 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-emerald-600/30 hover:scale-[1.01] transition-all"
+                className="btn btn-brand px-8 py-3.5 text-sm"
               >
                 <CreditCard className="w-4 h-4" />
                 <span>Pay {formatINR(totalFee)} & Issue Smart RC</span>
@@ -645,15 +674,15 @@ export default function VehicleLicensingPage() {
 
         {/* ================= STEP 5: COMPLETED SMART RC ================= */}
         {currentStep === 5 && completedApplication && (
-          <div className="space-y-8 animate-in zoom-in-95 duration-500">
+          <div className="card p-6 sm:p-8 space-y-8 animate-in zoom-in-95 duration-500">
             <div className="text-center">
-              <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
-                <CheckCircle className="w-8 h-8" />
+              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
+                <CheckCircle className="w-9 h-9" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
                 Vehicle Registration Successful!
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 mt-1">
+              <p className="text-sm text-slate-600 mt-2">
                 Ref No: <strong className="font-mono text-sky-700">{completedApplication.referenceNumber}</strong>
               </p>
             </div>
@@ -662,22 +691,16 @@ export default function VehicleLicensingPage() {
             <DigitalRcSmartCard data={completedApplication} />
 
             {/* Next Links */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-4 text-xs font-semibold">
-              <Link
-                href="/dashboard"
-                className="px-6 py-2.5 rounded-full bg-slate-900 text-white hover:bg-slate-800 transition-all"
-              >
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              <Link href="/dashboard" className="btn btn-primary px-6 py-2.5 text-sm">
                 Go to Dashboard
               </Link>
-              <Link
-                href={`/track?ref=${completedApplication.referenceNumber}`}
-                className="px-6 py-2.5 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-all"
-              >
+              <Link href={`/track?ref=${completedApplication.referenceNumber}`} className="btn btn-ghost px-6 py-2.5 text-sm">
                 Track Live Status
               </Link>
               <Link
                 href="/documents"
-                className="px-6 py-2.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 transition-all"
+                className="btn px-6 py-2.5 text-sm bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100"
               >
                 View in GatiLocker
               </Link>
