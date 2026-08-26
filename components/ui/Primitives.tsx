@@ -35,7 +35,7 @@ export function SectionHeading({
       {eyebrow && (
         <div
           className={cn(
-            'inline-flex items-center gap-1.5 eyebrow text-emerald-700',
+            'inline-flex items-center gap-1.5 eyebrow text-olive-700',
             align === 'center' ? 'justify-center' : ''
           )}
         >
@@ -43,11 +43,11 @@ export function SectionHeading({
           <span>{eyebrow}</span>
         </div>
       )}
-      <h2 className="font-display text-2xl sm:text-[2rem] font-extrabold tracking-tight text-slate-900 mt-2 text-balance">
+      <h2 className="font-display text-2xl sm:text-[2rem] font-extrabold tracking-tight text-olive-950 mt-2 text-balance">
         {title}
       </h2>
       {subtitle && (
-        <p className="text-sm sm:text-[0.95rem] text-slate-500 mt-2.5 leading-relaxed">{subtitle}</p>
+        <p className="text-sm sm:text-[0.95rem] text-olive-700/70 mt-2.5 leading-relaxed">{subtitle}</p>
       )}
     </div>
   );
@@ -56,20 +56,20 @@ export function SectionHeading({
 /** Small labelled pill/badge. */
 export function Pill({
   children,
-  tone = 'slate',
+  tone = 'olive',
   className,
 }: {
   children: React.ReactNode;
-  tone?: 'slate' | 'emerald' | 'sky' | 'amber' | 'rose' | 'violet';
+  tone?: 'olive' | 'ashoka' | 'saffron' | 'india' | 'rose' | 'slate';
   className?: string;
 }) {
   const tones: Record<string, string> = {
-    slate: 'bg-slate-100 text-slate-700 border-slate-200',
-    emerald: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    sky: 'bg-sky-50 text-sky-700 border-sky-200',
-    amber: 'bg-amber-50 text-amber-700 border-amber-200',
+    slate: 'bg-olive-100 text-olive-800 border-olive-200',
+    olive: 'bg-olive-50 text-olive-800 border-olive-200',
+    ashoka: 'bg-ashoka-100 text-ashoka-700 border-ashoka-200',
+    saffron: 'bg-saffron-50 text-saffron-700 border-saffron-200',
+    india: 'bg-indiaGreen-50 text-indiaGreen-700 border-indiaGreen-200',
     rose: 'bg-rose-50 text-rose-700 border-rose-200',
-    violet: 'bg-violet-50 text-violet-700 border-violet-200',
   };
   return (
     <span

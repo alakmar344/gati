@@ -59,10 +59,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 }
 
 const VARIANT = {
-  success: { icon: CheckCircle2, tint: 'text-emerald-600', ring: 'ring-emerald-500/20', bar: 'bg-emerald-500' },
+  success: { icon: CheckCircle2, tint: 'text-olive-700', ring: 'ring-olive-500/20', bar: 'bg-olive-500' },
   error: { icon: AlertTriangle, tint: 'text-rose-600', ring: 'ring-rose-500/20', bar: 'bg-rose-500' },
-  info: { icon: Info, tint: 'text-sky-600', ring: 'ring-sky-500/20', bar: 'bg-sky-500' },
-  loading: { icon: Loader2, tint: 'text-slate-500', ring: 'ring-slate-500/10', bar: 'bg-slate-400' },
+  info: { icon: Info, tint: 'text-ashoka-700', ring: 'ring-ashoka-500/20', bar: 'bg-ashoka-500' },
+  loading: { icon: Loader2, tint: 'text-olive-600', ring: 'ring-olive-500/10', bar: 'bg-olive-400' },
 } as const;
 
 function ToastCard({ item, onClose }: { item: ToastItem; onClose: () => void }) {
@@ -77,15 +77,15 @@ function ToastCard({ item, onClose }: { item: ToastItem; onClose: () => void }) 
         <Icon className={`w-5 h-5 ${item.variant === 'loading' ? 'animate-spin' : ''}`} />
       </div>
       <div className="min-w-0 flex-1">
-        <div className="text-sm font-bold text-slate-900 leading-snug">{item.title}</div>
+        <div className="text-sm font-bold text-olive-950 leading-snug">{item.title}</div>
         {item.description && (
-          <div className="text-xs text-slate-500 mt-0.5 leading-snug">{item.description}</div>
+          <div className="text-xs text-olive-700/70 mt-0.5 leading-snug">{item.description}</div>
         )}
       </div>
       {item.variant !== 'loading' && (
         <button
           onClick={onClose}
-          className="shrink-0 p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+          className="shrink-0 p-1 rounded-lg text-olive-400 hover:text-olive-800 hover:bg-olive-50 transition-colors"
           aria-label="Dismiss"
         >
           <X className="w-4 h-4" />

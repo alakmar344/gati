@@ -168,20 +168,20 @@ export function CommandPalette() {
         onMouseEnter={() => setActive(idx)}
         onClick={() => execute(r)}
         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left transition-colors ${
-          isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100/70'
+          isActive ? 'bg-olive-900 text-white' : 'hover:bg-olive-50'
         }`}
       >
         <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${isActive ? 'bg-white/15 text-white' : tint}`}>
           <Icon className="w-[18px] h-[18px]" />
         </span>
         <span className="min-w-0 flex-1">
-          <span className={`block text-sm font-bold ${isActive ? 'text-white' : 'text-slate-900'}`}>{title}</span>
-          {hint && <span className={`block text-xs truncate ${isActive ? 'text-white/70' : 'text-slate-500'}`}>{hint}</span>}
+          <span className={`block text-sm font-bold ${isActive ? 'text-white' : 'text-olive-950'}`}>{title}</span>
+          {hint && <span className={`block text-xs truncate ${isActive ? 'text-white/70' : 'text-olive-700/70'}`}>{hint}</span>}
         </span>
         {canRunInline && (
           <span
             className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0 ${
-              isActive ? 'bg-emerald-500/30 text-emerald-100' : 'bg-emerald-100 text-emerald-700'
+              isActive ? 'bg-saffron-500/30 text-saffron-100' : 'bg-olive-100 text-olive-800'
             }`}
           >
             <Zap className="w-3 h-3 inline -mt-0.5" /> run
@@ -194,7 +194,7 @@ export function CommandPalette() {
 
   return (
     <div
-      className="fixed inset-0 z-[90] flex items-start justify-center pt-[11vh] px-4 bg-slate-950/45 backdrop-blur-md animate-overlay-in"
+      className="fixed inset-0 z-[90] flex items-start justify-center pt-[11vh] px-4 bg-olive-950/50 backdrop-blur-md animate-overlay-in"
       onClick={() => setOpen(false)}
     >
       <div
@@ -203,18 +203,20 @@ export function CommandPalette() {
         role="dialog"
         aria-modal="true"
       >
+        <div className="tiranga-top-bar opacity-80" />
+
         {/* Search field */}
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100">
-          <Wand2 className="w-5 h-5 text-emerald-600 shrink-0" />
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-olive-100">
+          <Wand2 className="w-5 h-5 text-olive-700 shrink-0" />
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder={`Ask Gati to “${EXAMPLES[exampleIdx]}”`}
-            className="flex-1 bg-transparent text-[15px] font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none"
+            className="flex-1 bg-transparent text-[15px] font-medium text-olive-950 placeholder:text-olive-400 focus:outline-none"
           />
-          <kbd className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-slate-400 bg-slate-100 border border-slate-200 rounded-md px-1.5 py-0.5">
+          <kbd className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-olive-700 bg-olive-50 border border-olive-200 rounded-md px-1.5 py-0.5">
             ESC
           </kbd>
         </div>
@@ -223,7 +225,7 @@ export function CommandPalette() {
         <div className="max-h-[54vh] overflow-y-auto p-2">
           {rows.length === 0 ? (
             <div className="px-4 py-8 text-center">
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-olive-500">
                 {query.trim() ? `No match for “${query}”. Try a service name or an action.` : 'Type what you need done.'}
               </p>
             </div>
@@ -239,7 +241,7 @@ export function CommandPalette() {
         </div>
 
         {/* Footer legend */}
-        <div className="flex items-center justify-between px-5 py-2.5 border-t border-slate-100 text-[11px] text-slate-400">
+        <div className="flex items-center justify-between px-5 py-2.5 border-t border-olive-100 text-[11px] text-olive-600">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
               <ArrowUp className="w-3 h-3" />
@@ -250,7 +252,7 @@ export function CommandPalette() {
             </span>
           </div>
           <span className="flex items-center gap-1 font-semibold">
-            <Sparkles className="w-3 h-3 text-emerald-500" /> Gati Copilot
+            <Sparkles className="w-3 h-3 text-saffron-500" /> Gati Copilot
           </span>
         </div>
       </div>
@@ -261,7 +263,7 @@ export function CommandPalette() {
 function Group({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="mb-1.5 last:mb-0">
-      <div className="px-3 pt-2 pb-1 eyebrow text-slate-400">{label}</div>
+      <div className="px-3 pt-2 pb-1 eyebrow text-olive-600">{label}</div>
       {children}
     </div>
   );

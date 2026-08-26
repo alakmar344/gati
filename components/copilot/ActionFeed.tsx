@@ -55,7 +55,6 @@ export function ActionFeed({
 
   const handle = (item: ActionItem) => {
     setBusy(item.id);
-    // brief delay so the "working" state is felt, then execute
     setTimeout(() => {
       const inline = run(item.action);
       setBusy(null);
@@ -97,14 +96,14 @@ export function ActionFeed({
       {/* Header row */}
       <div className="flex items-end justify-between gap-4">
         <div>
-          <div className={`inline-flex items-center gap-1.5 eyebrow ${dark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+          <div className={`inline-flex items-center gap-1.5 eyebrow ${dark ? 'text-olive-300' : 'text-olive-700'}`}>
             <Wand2 className="w-3.5 h-3.5" /> Gati Autopilot
           </div>
-          <h2 className={`font-display text-2xl sm:text-[1.75rem] font-extrabold tracking-tight mt-1 ${dark ? 'text-white' : 'text-slate-900'}`}>
+          <h2 className={`font-display text-2xl sm:text-[1.75rem] font-extrabold tracking-tight mt-1 ${dark ? 'text-white' : 'text-olive-950'}`}>
             {critical > 0 ? (
               <>
                 {critical} thing{critical > 1 ? 's' : ''} need{critical > 1 ? '' : 's'} you —{' '}
-                <span className="text-emerald-500">I can handle them</span>
+                <span className="text-olive-600">I can handle them</span>
               </>
             ) : (
               <>You&apos;re all caught up ✨</>
@@ -126,11 +125,11 @@ export function ActionFeed({
       {/* Items */}
       {shown.length === 0 ? (
         <div className={`rounded-3xl border p-8 text-center ${dark ? 'border-white/10 bg-white/[0.03]' : 'card'}`}>
-          <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 rounded-2xl bg-olive-100 text-olive-700 flex items-center justify-center mx-auto mb-3">
             <CheckCircle2 className="w-6 h-6" />
           </div>
-          <div className={`font-bold ${dark ? 'text-white' : 'text-slate-900'}`}>Nothing needs you right now</div>
-          <div className={`text-sm mt-1 ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
+          <div className={`font-bold ${dark ? 'text-white' : 'text-olive-950'}`}>Nothing needs you right now</div>
+          <div className={`text-sm mt-1 ${dark ? 'text-olive-300' : 'text-olive-700/70'}`}>
             Gati is watching your challans, FASTag, renewals and applications.
           </div>
         </div>
@@ -161,22 +160,22 @@ export function ActionFeed({
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <span className={`eyebrow ${dark ? 'text-slate-400' : 'text-slate-400'}`}>{item.kicker}</span>
+                      <span className={`eyebrow ${dark ? 'text-olive-300' : 'text-olive-600'}`}>{item.kicker}</span>
                       {item.predicted && (
-                        <span className="text-[10px] font-bold text-violet-500 inline-flex items-center gap-0.5">
+                        <span className="text-[10px] font-bold text-saffron-600 inline-flex items-center gap-0.5">
                           <Sparkles className="w-3 h-3" /> predicted
                         </span>
                       )}
                     </div>
-                    <div className={`font-bold text-[15px] leading-snug mt-0.5 ${dark ? 'text-white' : 'text-slate-900'}`}>
+                    <div className={`font-bold text-[15px] leading-snug mt-0.5 ${dark ? 'text-white' : 'text-olive-950'}`}>
                       {item.title}
                     </div>
-                    <div className={`text-xs leading-snug mt-1 ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
+                    <div className={`text-xs leading-snug mt-1 ${dark ? 'text-olive-300' : 'text-olive-700/70'}`}>
                       {item.subtitle}
                     </div>
                   </div>
                   {item.amount !== undefined && item.action.kind !== 'topup' && (
-                    <div className={`font-display font-extrabold text-lg shrink-0 ${dark ? 'text-white' : 'text-slate-900'}`}>
+                    <div className={`font-display font-extrabold text-lg shrink-0 ${dark ? 'text-white' : 'text-olive-950'}`}>
                       {formatINR(item.amount)}
                     </div>
                   )}
@@ -184,7 +183,7 @@ export function ActionFeed({
 
                 <div className="flex items-center justify-between gap-2 pt-1">
                   {item.meta ? (
-                    <span className={`text-[11px] font-medium ${dark ? 'text-slate-500' : 'text-slate-400'}`}>{item.meta}</span>
+                    <span className={`text-[11px] font-medium ${dark ? 'text-olive-400' : 'text-olive-600'}`}>{item.meta}</span>
                   ) : (
                     <span />
                   )}

@@ -36,12 +36,12 @@ export function Field({
   return (
     <div className={className}>
       <div className="flex items-baseline justify-between gap-2 mb-1.5">
-        <label htmlFor={htmlFor} className="text-[11px] font-bold text-slate-600 uppercase tracking-wide flex items-center gap-1">
+        <label htmlFor={htmlFor} className="text-[11px] font-bold text-olive-700 uppercase tracking-wide flex items-center gap-1">
           {label}
           {required && <span className="text-rose-500">*</span>}
-          {optional && <span className="text-slate-400 font-medium normal-case tracking-normal">(optional)</span>}
+          {optional && <span className="text-olive-400 font-medium normal-case tracking-normal">(optional)</span>}
         </label>
-        {adornment && <span className="text-[11px] font-medium text-slate-400 shrink-0">{adornment}</span>}
+        {adornment && <span className="text-[11px] font-medium text-olive-500 shrink-0">{adornment}</span>}
       </div>
       {children}
       {error ? (
@@ -49,11 +49,11 @@ export function Field({
           <AlertCircle className="w-3 h-3" /> {error}
         </p>
       ) : success ? (
-        <p className="text-[11px] text-emerald-600 mt-1.5 flex items-center gap-1 font-medium">
+        <p className="text-[11px] text-olive-700 mt-1.5 flex items-center gap-1 font-medium">
           <Check className="w-3 h-3" /> {success}
         </p>
       ) : hint ? (
-        <p className="text-[11px] text-slate-400 mt-1.5 leading-snug">{hint}</p>
+        <p className="text-[11px] text-olive-500 mt-1.5 leading-snug">{hint}</p>
       ) : null}
     </div>
   );
@@ -76,7 +76,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(func
 ) {
   return (
     <div className="relative flex items-center">
-      {prefix && <span className="absolute left-3.5 text-slate-400 pointer-events-none flex items-center">{prefix}</span>}
+      {prefix && <span className="absolute left-3.5 text-olive-500 pointer-events-none flex items-center">{prefix}</span>}
       <input
         ref={ref}
         value={value}
@@ -85,7 +85,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(func
           onValue(v);
         }}
         className={cn(
-          'field w-full py-2.5 text-sm font-medium text-slate-900',
+          'field w-full py-2.5 text-sm font-medium text-olive-950',
           prefix ? 'pl-9' : 'pl-4',
           suffix ? 'pr-11' : 'pr-4',
           mono && 'font-mono tracking-wide',
@@ -135,7 +135,7 @@ export function MoneyInput({
   return (
     <div className="space-y-2">
       <div className="relative flex items-center">
-        <span className="absolute left-3.5 text-slate-500 font-semibold text-sm pointer-events-none">₹</span>
+        <span className="absolute left-3.5 text-olive-600 font-semibold text-sm pointer-events-none">₹</span>
         <input
           id={id}
           type="text"
@@ -146,7 +146,7 @@ export function MoneyInput({
             onValue(digits ? parseInt(digits, 10) : 0);
           }}
           placeholder="0"
-          className="field w-full pl-8 pr-4 py-2.5 text-sm font-bold text-slate-900 font-mono tracking-wide"
+          className="field w-full pl-8 pr-4 py-2.5 text-sm font-bold text-olive-950 font-mono tracking-wide"
         />
       </div>
       {(quickAdd || presets) && (
@@ -156,7 +156,7 @@ export function MoneyInput({
               key={`set-${p}`}
               type="button"
               onClick={() => onValue(p)}
-              className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-slate-600 transition-colors"
+              className="px-2.5 py-1 rounded-lg bg-olive-100 hover:bg-olive-200 text-[11px] font-bold text-olive-800 transition-colors"
             >
               ₹{formatGrouped(p)}
             </button>
@@ -166,7 +166,7 @@ export function MoneyInput({
               key={`add-${a}`}
               type="button"
               onClick={() => onValue(value + a)}
-              className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-[11px] font-bold text-emerald-700 transition-colors"
+              className="px-2.5 py-1 rounded-lg bg-saffron-50 hover:bg-saffron-100 text-[11px] font-bold text-saffron-700 transition-colors"
             >
               +{a >= 100000 ? `${a / 100000}L` : a >= 1000 ? `${a / 1000}k` : a}
             </button>
@@ -188,11 +188,11 @@ export interface Option {
 }
 
 const TONES = {
-  emerald: 'bg-emerald-50 border-emerald-500 text-emerald-900 ring-emerald-500/20',
-  sky: 'bg-sky-50 border-sky-500 text-sky-900 ring-sky-500/20',
-  teal: 'bg-teal-50 border-teal-500 text-teal-900 ring-teal-500/20',
-  amber: 'bg-amber-50 border-amber-500 text-amber-900 ring-amber-500/20',
-  violet: 'bg-violet-50 border-violet-500 text-violet-900 ring-violet-500/20',
+  olive: 'bg-olive-50 border-olive-500 text-olive-900 ring-olive-500/20',
+  ashoka: 'bg-ashoka-100 border-ashoka-600 text-ashoka-900 ring-ashoka-500/20',
+  saffron: 'bg-saffron-50 border-saffron-500 text-saffron-900 ring-saffron-500/20',
+  india: 'bg-indiaGreen-50 border-indiaGreen-500 text-indiaGreen-900 ring-indiaGreen-500/20',
+  rose: 'bg-rose-50 border-rose-500 text-rose-900 ring-rose-500/20',
 } as const;
 
 export function OptionGrid({
@@ -200,7 +200,7 @@ export function OptionGrid({
   value,
   onChange,
   columns = 'grid-cols-2 sm:grid-cols-4',
-  tone = 'emerald',
+  tone = 'olive',
   multi = false,
   selectedValues,
 }: {
@@ -225,7 +225,7 @@ export function OptionGrid({
               'relative p-3.5 rounded-2xl border text-left transition-all',
               selected
                 ? cn('ring-2', TONES[tone])
-                : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                : 'bg-white border-olive-200 text-olive-900 hover:border-olive-300 hover:bg-olive-50'
             )}
           >
             {opt.badge && (
@@ -265,12 +265,12 @@ export function SelectInput({
         id={id}
         value={value}
         onChange={(e) => onValue(e.target.value)}
-        className="field w-full pl-4 pr-9 py-2.5 text-sm font-medium text-slate-900 appearance-none cursor-pointer"
+        className="field w-full pl-4 pr-9 py-2.5 text-sm font-medium text-olive-950 appearance-none cursor-pointer"
       >
         {children}
       </select>
       <svg
-        className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+        className="w-4 h-4 text-olive-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -285,7 +285,7 @@ export function SelectInput({
 /** Small verified chip for autofilled/verified fields. */
 export function VerifiedChip({ label = 'Verified' }: { label?: string }) {
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600">
+    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-olive-700">
       <Check className="w-3 h-3" /> {label}
     </span>
   );

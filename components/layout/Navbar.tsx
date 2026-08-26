@@ -68,26 +68,26 @@ export const Navbar: React.FC = () => {
           className={`max-w-6xl mx-auto flex items-center justify-between rounded-full pl-4 pr-2 py-2 transition-all duration-300 ${
             scrolled
               ? 'glass-panel shadow-lg border-white/70'
-              : 'bg-white/60 backdrop-blur-md border border-white/50 shadow-sm'
+              : 'bg-white/70 backdrop-blur-md border border-olive-200/40 shadow-sm'
           }`}
         >
           {/* Brand */}
           <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="relative w-9 h-9 rounded-2xl bg-gradient-to-tr from-saffron-500 via-ashoka-700 to-indiaGreen-700 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+            <div className="relative w-9 h-9 rounded-2xl bg-gradient-to-br from-olive-700 via-ashoka-700 to-saffron-600 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
               <span className="font-display font-black text-base tracking-tighter">ग</span>
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-display font-extrabold text-lg tracking-tight text-slate-900">
+              <span className="font-display font-extrabold text-lg tracking-tight text-olive-950">
                 GATI
               </span>
-              <span className="text-[9px] font-semibold text-slate-400 tracking-[0.16em] uppercase mt-0.5">
+              <span className="text-[9px] font-semibold text-olive-700/60 tracking-[0.16em] uppercase mt-0.5">
                 Mobility OS
               </span>
             </div>
           </Link>
 
           {/* Center nav — grouped, decluttered */}
-          <nav className="hidden lg:flex items-center gap-1 text-sm font-semibold text-slate-600">
+          <nav className="hidden lg:flex items-center gap-1 text-sm font-semibold text-olive-800">
             <Dropdown
               label="Services"
               active={isServiceActive}
@@ -109,7 +109,7 @@ export const Navbar: React.FC = () => {
             <Link
               href="/track"
               className={`px-3.5 py-2 rounded-full transition-colors ${
-                pathname === '/track' ? 'text-slate-900 bg-slate-100' : 'hover:text-slate-900 hover:bg-slate-100/70'
+                pathname === '/track' ? 'text-olive-950 bg-olive-100' : 'hover:text-olive-950 hover:bg-olive-100/70'
               }`}
             >
               Track
@@ -121,12 +121,12 @@ export const Navbar: React.FC = () => {
             {/* Command search */}
             <button
               onClick={openCommand}
-              className="hidden md:flex items-center gap-2 pl-3 pr-2 py-2 rounded-full bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-semibold transition-all"
+              className="hidden md:flex items-center gap-2 pl-3 pr-2 py-2 rounded-full bg-olive-50 hover:bg-olive-100 border border-olive-200 text-olive-800 text-xs font-semibold transition-all"
               title="Ask Gati (⌘K)"
             >
-              <Wand2 className="w-4 h-4" />
+              <Wand2 className="w-4 h-4 text-olive-700" />
               <span className="hidden xl:inline">Ask Gati</span>
-              <kbd className="hidden xl:inline-flex items-center gap-0.5 text-[10px] font-bold text-emerald-600 bg-white border border-emerald-200 rounded px-1 py-0.5">
+              <kbd className="hidden xl:inline-flex items-center gap-0.5 text-[10px] font-bold text-olive-700 bg-white border border-olive-200 rounded px-1 py-0.5">
                 <CmdIcon className="w-2.5 h-2.5" />K
               </kbd>
             </button>
@@ -135,16 +135,16 @@ export const Navbar: React.FC = () => {
             {currentUser && (
               <button
                 onClick={() => setIsSwitcherOpen(true)}
-                className="hidden sm:flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-white/80 hover:bg-white border border-slate-200 text-slate-700 text-xs font-semibold transition-all"
+                className="hidden sm:flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-white/85 hover:bg-white border border-olive-200/70 text-olive-900 text-xs font-semibold transition-all"
                 title="Switch demo persona"
               >
-                <span className="w-6 h-6 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center font-bold text-[9px]">
+                <span className="w-6 h-6 rounded-full bg-gradient-to-br from-olive-600 to-ashoka-700 text-white flex items-center justify-center font-bold text-[9px]">
                   {currentUser.avatar}
                 </span>
-                <span className="font-medium text-slate-800 max-w-[72px] truncate text-[11px]">
+                <span className="font-medium text-olive-900 max-w-[72px] truncate text-[11px]">
                   {currentUser.name.split(' ')[0]}
                 </span>
-                <ChevronDown className="w-3 h-3 text-slate-400" />
+                <ChevronDown className="w-3 h-3 text-olive-400" />
               </button>
             )}
 
@@ -153,14 +153,14 @@ export const Navbar: React.FC = () => {
               href="/dashboard"
               className="btn btn-primary px-4 py-2 text-xs"
             >
-              <LayoutDashboard className="w-3.5 h-3.5 text-emerald-400" />
+              <LayoutDashboard className="w-3.5 h-3.5 text-saffron-400" />
               <span className="hidden sm:inline">Dashboard</span>
             </Link>
 
             {/* Mobile toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-full bg-white/80 hover:bg-white text-slate-700 border border-slate-200"
+              className="lg:hidden p-2 rounded-full bg-white/85 hover:bg-white text-olive-800 border border-olive-200/70"
               aria-label="Menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -176,7 +176,7 @@ export const Navbar: React.FC = () => {
                 setIsMobileMenuOpen(false);
                 openCommand();
               }}
-              className="w-full flex items-center gap-2 px-3.5 py-3 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-semibold mb-3"
+              className="w-full flex items-center gap-2 px-3.5 py-3 rounded-2xl bg-olive-50 text-olive-800 text-sm font-semibold mb-3"
             >
               <Wand2 className="w-4 h-4" />
               Ask Gati to do something…
@@ -191,7 +191,7 @@ export const Navbar: React.FC = () => {
                 setIsMobileMenuOpen(false);
                 setIsSwitcherOpen(true);
               }}
-              className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-bold"
+              className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-2xl bg-olive-50 text-olive-800 text-sm font-bold"
             >
               Switch Demo Persona
             </button>
@@ -228,7 +228,7 @@ function Dropdown({
       <button
         onClick={onToggle}
         className={`flex items-center gap-1 px-3.5 py-2 rounded-full transition-colors ${
-          active || isOpen ? 'text-slate-900 bg-slate-100' : 'hover:text-slate-900 hover:bg-slate-100/70'
+          active || isOpen ? 'text-olive-950 bg-olive-100' : 'hover:text-olive-950 hover:bg-olive-100/70'
         }`}
       >
         <span>{label}</span>
@@ -255,7 +255,7 @@ function MegaMenu({ items, pathname, note }: { items: NavItem[]; pathname: strin
               key={item.href}
               href={item.href}
               className={`flex items-start gap-3 p-2.5 rounded-2xl transition-colors ${
-                isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100/80'
+                isActive ? 'bg-olive-900 text-white' : 'hover:bg-olive-50'
               }`}
             >
               <span
@@ -266,10 +266,10 @@ function MegaMenu({ items, pathname, note }: { items: NavItem[]; pathname: strin
                 <Icon className="w-[18px] h-[18px]" />
               </span>
               <span className="min-w-0">
-                <span className={`block text-[13px] font-bold ${isActive ? 'text-white' : 'text-slate-900'}`}>
+                <span className={`block text-[13px] font-bold ${isActive ? 'text-white' : 'text-olive-950'}`}>
                   {item.name}
                 </span>
-                <span className={`block text-[11px] leading-snug ${isActive ? 'text-white/70' : 'text-slate-500'}`}>
+                <span className={`block text-[11px] leading-snug ${isActive ? 'text-white/70' : 'text-olive-700/70'}`}>
                   {item.desc}
                 </span>
               </span>
@@ -277,7 +277,7 @@ function MegaMenu({ items, pathname, note }: { items: NavItem[]; pathname: strin
           );
         })}
       </div>
-      <div className="px-3 py-2 mt-1 text-[11px] font-semibold text-slate-400 border-t border-slate-100">
+      <div className="px-3 py-2 mt-1 text-[11px] font-semibold text-olive-700/60 border-t border-olive-100">
         {note}
       </div>
     </div>
@@ -297,7 +297,7 @@ function MobileGroup({
 }) {
   return (
     <div className="mb-3">
-      <div className="px-2 pb-1.5 eyebrow text-slate-400">{title}</div>
+      <div className="px-2 pb-1.5 eyebrow text-olive-700/60">{title}</div>
       <div className="grid grid-cols-1 gap-1">
         {items.map((item) => {
           const Icon = item.icon;
@@ -308,13 +308,13 @@ function MobileGroup({
               href={item.href}
               onClick={onNav}
               className={`flex items-center gap-3 p-2.5 rounded-2xl transition-colors ${
-                isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'
+                isActive ? 'bg-olive-900 text-white' : 'hover:bg-olive-50'
               }`}
             >
               <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-white/15 text-white' : item.tint}`}>
                 <Icon className="w-4 h-4" />
               </span>
-              <span className={`text-sm font-bold ${isActive ? 'text-white' : 'text-slate-800'}`}>{item.name}</span>
+              <span className={`text-sm font-bold ${isActive ? 'text-white' : 'text-olive-900'}`}>{item.name}</span>
             </Link>
           );
         })}

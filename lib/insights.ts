@@ -216,8 +216,8 @@ export const URGENCY_STYLES: Record<
   { chip: string; dot: string; label: string; ring: string }
 > = {
   critical: { chip: 'bg-rose-50 text-rose-700 border-rose-200', dot: 'bg-rose-500', label: 'Needs you now', ring: 'ring-rose-500/20' },
-  soon: { chip: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500', label: 'Coming up', ring: 'ring-amber-500/20' },
-  ok: { chip: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', label: 'Suggested', ring: 'ring-emerald-500/15' },
+  soon: { chip: 'bg-saffron-50 text-saffron-700 border-saffron-200', dot: 'bg-saffron-500', label: 'Coming up', ring: 'ring-saffron-500/20' },
+  ok: { chip: 'bg-olive-50 text-olive-800 border-olive-200', dot: 'bg-olive-500', label: 'Suggested', ring: 'ring-olive-500/15' },
 };
 
 export const QUICK_ICONS = { AlertTriangle, Radio, FileClock, ShieldAlert, Sparkles, CreditCard, RefreshCw, Wallet };

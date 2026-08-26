@@ -4,20 +4,41 @@
 
 /* ============================================================
    GATI DESIGN SYSTEM — tokens
-   One cohesive system: restrained neutrals, a single emerald
-   brand accent, and a sparing tiranga signature.
+   Olive green primary + tasteful Indian tricolor accents.
+   Calm, premium, distinctly Indian. Modern government-tech.
    ============================================================ */
 @layer base {
   :root {
-    --canvas: #f6f8fb;
-    --surface: #ffffff;
-    --ink: #0f172a;
-    --ink-soft: #475569;
-    --ink-faint: #94a3b8;
-    --brand: #059669;
-    --brand-strong: #047857;
-    --line: #e7ecf3;
+    /* Surfaces — warm, paper-cream canvas + ivory surface */
+    --canvas: #f6f4ea;
+    --canvas-deep: #efeadd;
+    --surface: #fffefa;
+    --surface-2: #fbf8ee;
 
+    /* Ink — deep olive-black, more dignified than slate */
+    --ink: #1a2014;
+    --ink-soft: #4a5340;
+    --ink-faint: #8a907d;
+
+    /* Olive brand — primary */
+    --brand: #566034;
+    --brand-strong: #444c28;
+    --brand-soft: #6e7448;
+    --brand-tint: #ebe9d4;
+
+    /* Tiranga accents */
+    --saffron: #f97316;
+    --saffron-soft: #ffedd5;
+    --ashoka: #1e3a8a;
+    --ashoka-soft: #dbeafe;
+    --india: #138808;
+    --india-soft: #dcfce7;
+
+    /* Line / hairline */
+    --line: #e6e1cc;
+    --line-soft: #efeadd;
+
+    /* Radii */
     --radius-sm: 0.75rem;
     --radius: 1rem;
     --radius-lg: 1.5rem;
@@ -28,9 +49,9 @@
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
     /* Elevation */
-    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
-    --shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 12px 28px -8px rgba(15, 23, 42, 0.08);
-    --shadow-lg: 0 12px 24px -8px rgba(15, 23, 42, 0.1), 0 28px 60px -20px rgba(15, 23, 42, 0.16);
+    --shadow-sm: 0 1px 2px rgba(26, 32, 20, 0.04), 0 1px 3px rgba(26, 32, 20, 0.05);
+    --shadow: 0 4px 12px -2px rgba(26, 32, 20, 0.06), 0 12px 28px -8px rgba(26, 32, 20, 0.08);
+    --shadow-lg: 0 12px 24px -8px rgba(26, 32, 20, 0.10), 0 28px 60px -20px rgba(26, 32, 20, 0.18);
   }
 }
 
@@ -50,18 +71,34 @@ body {
   background: var(--canvas);
 }
 
-/* Ambient aurora — a single, calm background system (replaces
-   per-page heavy gradients so the whole product feels unified). */
+/* ------------------------------------------------------------
+   Ambient background — calm wash that keeps the product unified
+   while letting the Indian-themed hero image carry identity.
+   ------------------------------------------------------------ */
 .app-aurora {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(60rem 40rem at 12% -8%, rgba(16, 185, 129, 0.10), transparent 60%),
-    radial-gradient(52rem 36rem at 100% 0%, rgba(56, 189, 248, 0.10), transparent 55%),
-    radial-gradient(48rem 40rem at 50% 120%, rgba(249, 115, 22, 0.05), transparent 60%),
+    radial-gradient(60rem 40rem at 8% -10%, rgba(86, 96, 52, 0.10), transparent 60%),
+    radial-gradient(52rem 36rem at 100% 0%, rgba(249, 115, 22, 0.06), transparent 55%),
+    radial-gradient(48rem 40rem at 50% 120%, rgba(19, 136, 8, 0.05), transparent 60%),
     var(--canvas);
+}
+
+/* Subtle woven jali pattern overlay — discreet Indian texture */
+.app-jali {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(26, 32, 20, 0.6) 1px, transparent 0),
+    radial-gradient(circle at 1px 1px, rgba(26, 32, 20, 0.6) 1px, transparent 0);
+  background-size: 24px 24px, 24px 24px;
+  background-position: 0 0, 12px 12px;
 }
 
 /* ------------------------------------------------------------
@@ -86,7 +123,7 @@ body {
    ------------------------------------------------------------ */
 .glass-panel,
 .glass {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 254, 250, 0.78);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.7);
@@ -103,14 +140,14 @@ body {
 .card-hover:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
-  border-color: rgba(5, 150, 105, 0.25);
+  border-color: rgba(86, 96, 52, 0.30);
 }
 
 .glass-panel-dark {
-  background: rgba(9, 15, 30, 0.82);
+  background: rgba(22, 25, 11, 0.85);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: var(--shadow-lg);
 }
 
@@ -123,7 +160,7 @@ body {
    ------------------------------------------------------------ */
 .glass-input,
 .field {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 254, 250, 0.9);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   transition: all 0.2s var(--ease-out);
@@ -132,7 +169,7 @@ body {
 .field:focus {
   background: #fff;
   border-color: var(--brand);
-  box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
+  box-shadow: 0 0 0 4px rgba(86, 96, 52, 0.12);
   outline: none;
 }
 
@@ -154,7 +191,7 @@ body {
   transform: translateY(1px) scale(0.99);
 }
 .btn-primary {
-  background: linear-gradient(180deg, #0f172a, #020617);
+  background: linear-gradient(180deg, #2a2f17, #16190b);
   color: #fff;
   box-shadow: var(--shadow);
 }
@@ -163,23 +200,32 @@ body {
   box-shadow: var(--shadow-lg);
 }
 .btn-brand {
-  background: linear-gradient(180deg, #10b981, #059669);
+  background: linear-gradient(180deg, #6e7448, #566034);
   color: #fff;
-  box-shadow: 0 8px 20px -8px rgba(5, 150, 105, 0.5);
+  box-shadow: 0 8px 20px -8px rgba(86, 96, 52, 0.55);
 }
 .btn-brand:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 28px -8px rgba(5, 150, 105, 0.55);
+  box-shadow: 0 14px 28px -8px rgba(86, 96, 52, 0.6);
+}
+.btn-saffron {
+  background: linear-gradient(180deg, #fb923c, #ea580c);
+  color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(249, 115, 22, 0.55);
+}
+.btn-saffron:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px -8px rgba(249, 115, 22, 0.6);
 }
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 254, 250, 0.7);
   border: 1px solid var(--line);
   color: var(--ink-soft);
 }
 .btn-ghost:hover {
   background: #fff;
   color: var(--ink);
-  border-color: #cbd5e1;
+  border-color: #cdd1ba;
 }
 .glass-button {
   transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
@@ -194,7 +240,7 @@ body {
 /* Focus ring — accessible & consistent */
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(5, 150, 105, 0.55);
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(86, 96, 52, 0.55);
   border-radius: 8px;
 }
 
@@ -209,13 +255,13 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.35);
+  background: rgba(110, 116, 72, 0.28);
   border-radius: 9999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.55);
+  background: rgba(86, 96, 52, 0.45);
   background-clip: padding-box;
 }
 
@@ -246,12 +292,12 @@ body {
    Tiranga signature accents (used sparingly)
    ------------------------------------------------------------ */
 .tiranga-top-bar {
-  background: linear-gradient(90deg, #f97316 0 33.3%, #f8fafc 33.3% 66.6%, #16a34a 66.6% 100%);
+  background: linear-gradient(90deg, #f97316 0 33.3%, #f8fafc 33.3% 66.6%, #138808 66.6% 100%);
   height: 3px;
   width: 100%;
 }
 .tiranga-badge {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(22, 163, 74, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(255, 254, 250, 0.95) 50%, rgba(19, 136, 8, 0.08) 100%);
   border: 1px solid rgba(249, 115, 22, 0.22);
 }
 .chakra-spin-subtle {
@@ -317,7 +363,7 @@ body {
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: #eef2f7;
+  background: #ecead9;
   border-radius: 0.75rem;
 }
 .skeleton::after {
@@ -336,6 +382,45 @@ body {
 @keyframes sheen {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+/* ------------------------------------------------------------
+   Indian hero image treatment — depth + identity, never overpower
+   ------------------------------------------------------------ */
+.hero-img-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  isolation: isolate;
+}
+.hero-img-frame > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92) contrast(1.04);
+}
+.hero-img-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(246, 244, 234, 0.30) 0%, rgba(246, 244, 234, 0.62) 50%, rgba(246, 244, 234, 0.92) 100%),
+    linear-gradient(120deg, rgba(86, 96, 52, 0.18) 0%, transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-img-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(26, 32, 20, 0.10) 1px, transparent 0);
+  background-size: 18px 18px;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* ------------------------------------------------------------
@@ -361,6 +446,7 @@ body {
     color: #000 !important;
   }
   .app-aurora,
+  .app-jali,
   .no-print {
     display: none !important;
   }
