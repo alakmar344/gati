@@ -1,289 +1,324 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  Car, 
-  Sparkles, 
-  CreditCard, 
-  FileCheck2, 
-  Compass, 
-  User, 
-  Menu, 
-  X, 
-  ArrowRight, 
-  Layers, 
-  Search,
-  CheckCircle2,
+import {
+  Menu,
+  X,
+  ArrowRight,
   ChevronDown,
-  ScanLine,
-  Zap,
-  AlertTriangle,
-  Radio,
-  Gamepad2
+  Search,
+  Command as CmdIcon,
+  LayoutDashboard,
 } from 'lucide-react';
 import { DemoUser } from '@/lib/types';
 import { getCurrentUser } from '@/lib/storage';
 import { PersonaSwitcherModal } from './PersonaSwitcherModal';
+import { CORE_SERVICES, SPEED_TOOLS, ACCOUNT_LINKS, NavItem } from '@/lib/nav';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [currentUser, setCurrentUserState] = useState<DemoUser | null>(null);
   const [isSwitcherOpen, setIsSwitcherOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const refreshUser = () => {
-    setCurrentUserState(getCurrentUser());
-  };
+  const [openMenu, setOpenMenu] = useState<'services' | 'tools' | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    refreshUser();
-    const handleUserChange = () => refreshUser();
+    setCurrentUserState(getCurrentUser());
+    const handleUserChange = () => setCurrentUserState(getCurrentUser());
     window.addEventListener('gati_user_changed', handleUserChange);
     return () => window.removeEventListener('gati_user_changed', handleUserChange);
   }, []);
 
-  const navLinks = [
-    { name: 'Vehicle Registration', href: '/vehicle-licensing', icon: Car },
-    { name: 'VIP Plates', href: '/fancy-numbers', icon: Sparkles },
-    { name: 'Driver Licence', href: '/driver-licence', icon: CreditCard },
-    { name: 'Permits', href: '/vehicle-permit', icon: Compass },
-    { name: 'AI Lens OCR', href: '/scan', icon: ScanLine },
-    { name: '10s FastPass', href: '/fastpass', icon: Zap },
-    { name: 'E-Challan Radar', href: '/challans', icon: AlertTriangle },
-    { name: 'FASTag Hub', href: '/fastag', icon: Radio },
-    { name: 'ADTT Simulator', href: '/adtt-simulator', icon: Gamepad2 },
-    { name: 'Interstate NOC', href: '/interstate-noc', icon: Compass },
-  ];
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Close menus on route change
+  useEffect(() => {
+    setOpenMenu(null);
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setOpenMenu(null);
+    };
+    document.addEventListener('mousedown', onClick);
+    return () => document.removeEventListener('mousedown', onClick);
+  }, []);
+
+  const openCommand = () => window.dispatchEvent(new Event('gati_open_command'));
+
+  const isServiceActive = CORE_SERVICES.some((s) => s.href === pathname);
+  const isToolActive = SPEED_TOOLS.some((s) => s.href === pathname);
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-6 py-2.5 transition-all">
-        {/* Top Tiranga Accent Line */}
-        <div className="max-w-7xl mx-auto mb-1 rounded-full overflow-hidden shadow-xs">
-          <div className="tiranga-top-bar" />
-        </div>
-
-        <div className="max-w-7xl mx-auto flex items-center justify-between glass-panel rounded-full px-4 sm:px-5 py-2 shadow-sm border border-white/80">
-          
-          {/* Brand Logo with India-Centric Sovereign Emblem */}
+      <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-6 pt-3">
+        <div
+          ref={navRef}
+          className={`max-w-6xl mx-auto flex items-center justify-between rounded-full pl-4 pr-2 py-2 transition-all duration-300 ${
+            scrolled
+              ? 'glass-panel shadow-lg border-white/70'
+              : 'bg-white/60 backdrop-blur-md border border-white/50 shadow-sm'
+          }`}
+        >
+          {/* Brand */}
           <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-saffron-500 via-ashoka-700 to-indiaGreen-700 flex items-center justify-center text-white shadow-md shadow-slate-900/10 group-hover:scale-105 transition-transform">
-              <span className="font-mono font-black text-base tracking-tighter">G</span>
+            <div className="relative w-9 h-9 rounded-2xl bg-gradient-to-tr from-saffron-500 via-ashoka-700 to-indiaGreen-700 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+              <span className="font-display font-black text-base tracking-tighter">ग</span>
             </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5 leading-none">
-                <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900">
-                  GATI
-                </span>
-                <span className="text-[10px] font-bold text-saffron-700 bg-saffron-50 border border-saffron-200 px-1.5 py-0.2 rounded-md">
-                  गति
-                </span>
-              </div>
-              <span className="text-[9px] font-semibold text-slate-500 tracking-wider uppercase leading-none mt-0.5">
-                Indian Mobility OS • भारत
+            <div className="flex flex-col leading-none">
+              <span className="font-display font-extrabold text-lg tracking-tight text-slate-900">
+                GATI
+              </span>
+              <span className="text-[9px] font-semibold text-slate-400 tracking-[0.16em] uppercase mt-0.5">
+                Mobility OS
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center gap-1 text-xs font-semibold text-slate-600">
-            <Link 
-              href="/vehicle-licensing"
-              className={`px-3 py-1.5 rounded-full transition-all ${
-                pathname === '/vehicle-licensing' 
-                  ? 'bg-slate-900 text-white shadow-sm' 
-                  : 'hover:bg-slate-100/80 hover:text-slate-900'
+          {/* Center nav — grouped, decluttered */}
+          <nav className="hidden lg:flex items-center gap-1 text-sm font-semibold text-slate-600">
+            <Dropdown
+              label="Services"
+              active={isServiceActive}
+              isOpen={openMenu === 'services'}
+              onToggle={() => setOpenMenu(openMenu === 'services' ? null : 'services')}
+            >
+              <MegaMenu items={CORE_SERVICES} pathname={pathname} note="End-to-end guided journeys" />
+            </Dropdown>
+
+            <Dropdown
+              label="Speed Tools"
+              active={isToolActive}
+              isOpen={openMenu === 'tools'}
+              onToggle={() => setOpenMenu(openMenu === 'tools' ? null : 'tools')}
+            >
+              <MegaMenu items={SPEED_TOOLS} pathname={pathname} note="One-tap power utilities" />
+            </Dropdown>
+
+            <Link
+              href="/track"
+              className={`px-3.5 py-2 rounded-full transition-colors ${
+                pathname === '/track' ? 'text-slate-900 bg-slate-100' : 'hover:text-slate-900 hover:bg-slate-100/70'
               }`}
             >
-              Licensing
-            </Link>
-
-            <Link 
-              href="/fancy-numbers"
-              className={`px-3 py-1.5 rounded-full transition-all flex items-center gap-1 ${
-                pathname === '/fancy-numbers' 
-                  ? 'bg-slate-900 text-white shadow-sm' 
-                  : 'hover:bg-slate-100/80 hover:text-slate-900'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <span>VIP Plates</span>
-            </Link>
-
-            <Link 
-              href="/driver-licence"
-              className={`px-3 py-1.5 rounded-full transition-all ${
-                pathname === '/driver-licence' 
-                  ? 'bg-slate-900 text-white shadow-sm' 
-                  : 'hover:bg-slate-100/80 hover:text-slate-900'
-              }`}
-            >
-              DL Portal
-            </Link>
-
-            <Link 
-              href="/vehicle-permit"
-              className={`px-3 py-1.5 rounded-full transition-all ${
-                pathname === '/vehicle-permit' 
-                  ? 'bg-slate-900 text-white shadow-sm' 
-                  : 'hover:bg-slate-100/80 hover:text-slate-900'
-              }`}
-            >
-              Permits
-            </Link>
-
-            <div className="w-[1px] h-3.5 bg-slate-200 mx-0.5" />
-
-            <Link 
-              href="/scan"
-              className={`px-2.5 py-1.5 rounded-full transition-all flex items-center gap-1 ${
-                pathname === '/scan' 
-                  ? 'bg-emerald-600 text-white shadow-sm' 
-                  : 'hover:bg-emerald-50 text-emerald-800 font-bold'
-              }`}
-            >
-              <ScanLine className="w-3.5 h-3.5" />
-              <span>Lens OCR</span>
-            </Link>
-
-            <Link 
-              href="/fastpass"
-              className={`px-2.5 py-1.5 rounded-full transition-all flex items-center gap-1 ${
-                pathname === '/fastpass' 
-                  ? 'bg-amber-500 text-slate-950 shadow-sm' 
-                  : 'hover:bg-amber-50 text-amber-900 font-bold'
-              }`}
-            >
-              <Zap className="w-3.5 h-3.5 fill-amber-500" />
-              <span>10s FastPass</span>
-            </Link>
-
-            <Link 
-              href="/challans"
-              className={`px-2.5 py-1.5 rounded-full transition-all flex items-center gap-1 ${
-                pathname === '/challans' 
-                  ? 'bg-rose-600 text-white shadow-sm' 
-                  : 'hover:bg-rose-50 text-rose-800'
-              }`}
-            >
-              <AlertTriangle className="w-3.5 h-3.5" />
-              <span>Challans</span>
-            </Link>
-
-            <Link 
-              href="/fastag"
-              className={`px-2.5 py-1.5 rounded-full transition-all flex items-center gap-1 ${
-                pathname === '/fastag' 
-                  ? 'bg-sky-600 text-white shadow-sm' 
-                  : 'hover:bg-sky-50 text-sky-800'
-              }`}
-            >
-              <Radio className="w-3.5 h-3.5" />
-              <span>FASTag</span>
-            </Link>
-
-            <Link 
-              href="/adtt-simulator"
-              className={`px-2.5 py-1.5 rounded-full transition-all flex items-center gap-1 ${
-                pathname === '/adtt-simulator' 
-                  ? 'bg-purple-600 text-white shadow-sm' 
-                  : 'hover:bg-purple-50 text-purple-800'
-              }`}
-            >
-              <Gamepad2 className="w-3.5 h-3.5" />
-              <span>ADTT Game</span>
+              Track
             </Link>
           </nav>
 
-          {/* Right Action: Persona Switcher & Dashboard CTA */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Persona Switcher Pill */}
+          {/* Right actions */}
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Command search */}
+            <button
+              onClick={openCommand}
+              className="hidden md:flex items-center gap-2 pl-3 pr-2 py-2 rounded-full bg-white/70 hover:bg-white border border-slate-200 text-slate-400 hover:text-slate-600 text-xs font-medium transition-all"
+              title="Search (⌘K)"
+            >
+              <Search className="w-4 h-4" />
+              <span className="hidden xl:inline">Search…</span>
+              <kbd className="hidden xl:inline-flex items-center gap-0.5 text-[10px] font-bold text-slate-400 bg-slate-100 border border-slate-200 rounded px-1 py-0.5">
+                <CmdIcon className="w-2.5 h-2.5" />K
+              </kbd>
+            </button>
+
+            {/* Persona */}
             {currentUser && (
               <button
                 onClick={() => setIsSwitcherOpen(true)}
-                className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold shadow-xs transition-all hover:border-slate-300"
-                title="Switch demo user persona"
+                className="hidden sm:flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-white/80 hover:bg-white border border-slate-200 text-slate-700 text-xs font-semibold transition-all"
+                title="Switch demo persona"
               >
-                <div className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[9px]">
+                <span className="w-6 h-6 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center font-bold text-[9px]">
                   {currentUser.avatar}
-                </div>
-                <span className="hidden sm:inline font-medium text-slate-800 max-w-[80px] truncate text-[11px]">
+                </span>
+                <span className="font-medium text-slate-800 max-w-[72px] truncate text-[11px]">
                   {currentUser.name.split(' ')[0]}
                 </span>
                 <ChevronDown className="w-3 h-3 text-slate-400" />
               </button>
             )}
 
-            {/* Dashboard Button */}
+            {/* Dashboard */}
             <Link
               href="/dashboard"
-              className="flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-md transition-all hover:scale-[1.02]"
+              className="btn btn-primary px-4 py-2 text-xs"
             >
-              <span>Dashboard</span>
-              <ArrowRight className="w-3 h-3 text-emerald-400" />
+              <LayoutDashboard className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden sm:inline">Dashboard</span>
             </Link>
 
-            {/* Mobile Hamburger Toggle */}
+            {/* Mobile toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="xl:hidden p-2 rounded-full bg-white/80 hover:bg-white text-slate-700 border border-slate-200 shadow-xs"
+              className="lg:hidden p-2 rounded-full bg-white/80 hover:bg-white text-slate-700 border border-slate-200"
+              aria-label="Menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile sheet */}
         {isMobileMenuOpen && (
-          <div className="xl:hidden mt-2 max-w-7xl mx-auto glass-panel rounded-3xl p-4 shadow-xl border border-white/80 animate-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
-            <div className="grid grid-cols-2 gap-1.5">
-              {navLinks.map((link) => {
-                const Icon = link.icon;
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center gap-2 p-2.5 rounded-2xl text-xs font-bold transition-all ${
-                      isActive 
-                        ? 'bg-slate-900 text-white' 
-                        : 'text-slate-700 hover:bg-slate-100'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span className="truncate">{link.name}</span>
-                  </Link>
-                );
-              })}
-            </div>
+          <div className="lg:hidden mt-2 max-w-6xl mx-auto glass-panel rounded-3xl p-4 shadow-xl border border-white/70 max-h-[78vh] overflow-y-auto animate-dialog-in">
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                openCommand();
+              }}
+              className="w-full flex items-center gap-2 px-3.5 py-3 rounded-2xl bg-slate-100 text-slate-500 text-sm font-medium mb-3"
+            >
+              <Search className="w-4 h-4" />
+              Search services & tools…
+            </button>
 
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  setIsSwitcherOpen(true);
-                }}
-                className="flex items-center gap-2 text-xs font-semibold text-emerald-700 p-2"
-              >
-                <User className="w-4 h-4" />
-                <span>Switch Demo Persona</span>
-              </button>
-            </div>
+            <MobileGroup title="Services" items={CORE_SERVICES} pathname={pathname} onNav={() => setIsMobileMenuOpen(false)} />
+            <MobileGroup title="Speed Tools" items={SPEED_TOOLS} pathname={pathname} onNav={() => setIsMobileMenuOpen(false)} />
+            <MobileGroup title="Account" items={ACCOUNT_LINKS} pathname={pathname} onNav={() => setIsMobileMenuOpen(false)} />
+
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsSwitcherOpen(true);
+              }}
+              className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-bold"
+            >
+              Switch Demo Persona
+            </button>
           </div>
         )}
       </header>
 
-      {/* Demo Persona Switcher Modal */}
       <PersonaSwitcherModal
         isOpen={isSwitcherOpen}
         onClose={() => setIsSwitcherOpen(false)}
-        onSelectUser={(u) => {
-          setCurrentUserState(u);
-        }}
+        onSelectUser={(u) => setCurrentUserState(u)}
       />
     </>
   );
 };
+
+/* ---------------- sub-components ---------------- */
+
+function Dropdown({
+  label,
+  active,
+  isOpen,
+  onToggle,
+  children,
+}: {
+  label: string;
+  active: boolean;
+  isOpen: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="relative">
+      <button
+        onClick={onToggle}
+        className={`flex items-center gap-1 px-3.5 py-2 rounded-full transition-colors ${
+          active || isOpen ? 'text-slate-900 bg-slate-100' : 'hover:text-slate-900 hover:bg-slate-100/70'
+        }`}
+      >
+        <span>{label}</span>
+        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      {isOpen && (
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[30rem] glass-panel rounded-3xl border border-white/70 shadow-xl p-2 animate-dialog-in">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MegaMenu({ items, pathname, note }: { items: NavItem[]; pathname: string; note: string }) {
+  return (
+    <div>
+      <div className="grid grid-cols-2 gap-1">
+        {items.map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-start gap-3 p-2.5 rounded-2xl transition-colors ${
+                isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100/80'
+              }`}
+            >
+              <span
+                className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+                  isActive ? 'bg-white/15 text-white' : item.tint
+                }`}
+              >
+                <Icon className="w-[18px] h-[18px]" />
+              </span>
+              <span className="min-w-0">
+                <span className={`block text-[13px] font-bold ${isActive ? 'text-white' : 'text-slate-900'}`}>
+                  {item.name}
+                </span>
+                <span className={`block text-[11px] leading-snug ${isActive ? 'text-white/70' : 'text-slate-500'}`}>
+                  {item.desc}
+                </span>
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+      <div className="px-3 py-2 mt-1 text-[11px] font-semibold text-slate-400 border-t border-slate-100">
+        {note}
+      </div>
+    </div>
+  );
+}
+
+function MobileGroup({
+  title,
+  items,
+  pathname,
+  onNav,
+}: {
+  title: string;
+  items: NavItem[];
+  pathname: string;
+  onNav: () => void;
+}) {
+  return (
+    <div className="mb-3">
+      <div className="px-2 pb-1.5 eyebrow text-slate-400">{title}</div>
+      <div className="grid grid-cols-1 gap-1">
+        {items.map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={onNav}
+              className={`flex items-center gap-3 p-2.5 rounded-2xl transition-colors ${
+                isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'
+              }`}
+            >
+              <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-white/15 text-white' : item.tint}`}>
+                <Icon className="w-4 h-4" />
+              </span>
+              <span className={`text-sm font-bold ${isActive ? 'text-white' : 'text-slate-800'}`}>{item.name}</span>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
