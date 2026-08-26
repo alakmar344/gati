@@ -6,17 +6,17 @@
    GATI DESIGN SYSTEM — tokens
    One cohesive system: restrained neutrals, a single emerald
    brand accent, and a sparing tiranga signature.
-   ============================================================ */
-@layer base {
+   ============================================================ */@layer base {
   :root {
-    --canvas: #f6f8fb;
+    --canvas: #f7f9f5;
     --surface: #ffffff;
-    --ink: #0f172a;
-    --ink-soft: #475569;
-    --ink-faint: #94a3b8;
-    --brand: #059669;
-    --brand-strong: #047857;
-    --line: #e7ecf3;
+    --ink: #141e17;
+    --ink-soft: #445348;
+    --ink-faint: #7a8c7e;
+    --brand: #425a35;
+    --brand-strong: #314427;
+    --line: #e3ebe0;
+    --line-strong: #c8d7c4;
 
     --radius-sm: 0.75rem;
     --radius: 1rem;
@@ -28,9 +28,9 @@
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
     /* Elevation */
-    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
-    --shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 12px 28px -8px rgba(15, 23, 42, 0.08);
-    --shadow-lg: 0 12px 24px -8px rgba(15, 23, 42, 0.1), 0 28px 60px -20px rgba(15, 23, 42, 0.16);
+    --shadow-sm: 0 1px 2px rgba(20, 30, 23, 0.04), 0 1px 3px rgba(20, 30, 23, 0.06);
+    --shadow: 0 4px 12px -2px rgba(20, 30, 23, 0.06), 0 12px 28px -8px rgba(20, 30, 23, 0.08);
+    --shadow-lg: 0 12px 24px -8px rgba(20, 30, 23, 0.1), 0 28px 60px -20px rgba(20, 30, 23, 0.16);
   }
 }
 
@@ -50,17 +50,16 @@ body {
   background: var(--canvas);
 }
 
-/* Ambient aurora — a single, calm background system (replaces
-   per-page heavy gradients so the whole product feels unified). */
+/* Ambient aurora — a single, calm background system with olive and subtle Indian tricolor undertones */
 .app-aurora {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(60rem 40rem at 12% -8%, rgba(16, 185, 129, 0.10), transparent 60%),
-    radial-gradient(52rem 36rem at 100% 0%, rgba(56, 189, 248, 0.10), transparent 55%),
-    radial-gradient(48rem 40rem at 50% 120%, rgba(249, 115, 22, 0.05), transparent 60%),
+    radial-gradient(65rem 45rem at 10% -5%, rgba(66, 90, 53, 0.09), transparent 60%),
+    radial-gradient(55rem 38rem at 100% 0%, rgba(30, 58, 138, 0.06), transparent 55%),
+    radial-gradient(48rem 40rem at 50% 120%, rgba(234, 88, 12, 0.05), transparent 60%),
     var(--canvas);
 }
 
@@ -86,10 +85,10 @@ body {
    ------------------------------------------------------------ */
 .glass-panel,
 .glass {
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  border: 1px solid rgba(227, 235, 224, 0.9);
   box-shadow: var(--shadow);
 }
 
@@ -103,14 +102,14 @@ body {
 .card-hover:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
-  border-color: rgba(5, 150, 105, 0.25);
+  border-color: rgba(66, 90, 53, 0.35);
 }
 
 .glass-panel-dark {
-  background: rgba(9, 15, 30, 0.82);
+  background: rgba(18, 27, 19, 0.86);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: var(--shadow-lg);
 }
 
@@ -123,7 +122,7 @@ body {
    ------------------------------------------------------------ */
 .glass-input,
 .field {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   transition: all 0.2s var(--ease-out);
@@ -132,7 +131,7 @@ body {
 .field:focus {
   background: #fff;
   border-color: var(--brand);
-  box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
+  box-shadow: 0 0 0 4px rgba(66, 90, 53, 0.15);
   outline: none;
 }
 
@@ -154,32 +153,34 @@ body {
   transform: translateY(1px) scale(0.99);
 }
 .btn-primary {
-  background: linear-gradient(180deg, #0f172a, #020617);
+  background: linear-gradient(180deg, #1c2b1e, #121d14);
   color: #fff;
   box-shadow: var(--shadow);
 }
 .btn-primary:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-lg);
+  background: linear-gradient(180deg, #243627, #172419);
 }
 .btn-brand {
-  background: linear-gradient(180deg, #10b981, #059669);
+  background: linear-gradient(180deg, #4d693e, #3a502e);
   color: #fff;
-  box-shadow: 0 8px 20px -8px rgba(5, 150, 105, 0.5);
+  box-shadow: 0 8px 20px -8px rgba(66, 90, 53, 0.55);
 }
 .btn-brand:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 28px -8px rgba(5, 150, 105, 0.55);
+  box-shadow: 0 14px 28px -8px rgba(66, 90, 53, 0.65);
+  background: linear-gradient(180deg, #577647, #415a34);
 }
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   border: 1px solid var(--line);
   color: var(--ink-soft);
 }
 .btn-ghost:hover {
   background: #fff;
   color: var(--ink);
-  border-color: #cbd5e1;
+  border-color: var(--line-strong);
 }
 .glass-button {
   transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
@@ -194,7 +195,7 @@ body {
 /* Focus ring — accessible & consistent */
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(5, 150, 105, 0.55);
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(66, 90, 53, 0.55);
   border-radius: 8px;
 }
 
@@ -209,13 +210,13 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.35);
+  background: rgba(122, 140, 126, 0.35);
   border-radius: 9999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.55);
+  background: rgba(90, 110, 94, 0.55);
   background-clip: padding-box;
 }
 
@@ -246,13 +247,13 @@ body {
    Tiranga signature accents (used sparingly)
    ------------------------------------------------------------ */
 .tiranga-top-bar {
-  background: linear-gradient(90deg, #f97316 0 33.3%, #f8fafc 33.3% 66.6%, #16a34a 66.6% 100%);
-  height: 3px;
+  background: linear-gradient(90deg, #ea580c 0 33.3%, #ffffff 33.3% 66.6%, #166534 66.6% 100%);
+  height: 3.5px;
   width: 100%;
 }
 .tiranga-badge {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(22, 163, 74, 0.08) 100%);
-  border: 1px solid rgba(249, 115, 22, 0.22);
+  background: linear-gradient(135deg, rgba(234, 88, 12, 0.08) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(22, 101, 52, 0.08) 100%);
+  border: 1px solid rgba(234, 88, 12, 0.25);
 }
 .chakra-spin-subtle {
   animation: spin 30s linear infinite;

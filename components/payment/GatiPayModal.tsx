@@ -215,7 +215,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   onClick={() => setMethod('UPI')}
                   className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
                     method === 'UPI'
-                      ? 'bg-white text-emerald-700 shadow-sm'
+                      ? 'bg-white text-olive-800 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -227,7 +227,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   onClick={() => setMethod('RuPay Card')}
                   className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
                     method === 'RuPay Card'
-                      ? 'bg-white text-emerald-700 shadow-sm'
+                      ? 'bg-white text-olive-800 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -239,7 +239,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   onClick={() => setMethod('Net Banking')}
                   className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
                     method === 'Net Banking'
-                      ? 'bg-white text-emerald-700 shadow-sm'
+                      ? 'bg-white text-olive-800 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -250,10 +250,10 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
 
               {/* Sub-method details */}
               {method === 'UPI' && (
-                <div className="p-4 bg-emerald-50/60 rounded-2xl border border-emerald-100 space-y-4">
-                  <div className="flex items-center justify-between text-xs text-emerald-950 font-medium">
+                <div className="p-4 bg-olive-50/70 rounded-2xl border border-olive-200 space-y-4">
+                  <div className="flex items-center justify-between text-xs text-olive-950 font-medium">
                     <span>Select Simulated UPI App:</span>
-                    <span className="text-[11px] text-emerald-700 bg-emerald-200/60 px-2 py-0.5 rounded-full font-bold">
+                    <span className="text-[11px] text-olive-800 bg-olive-200/80 px-2 py-0.5 rounded-full font-bold">
                       Zero Surcharge
                     </span>
                   </div>
@@ -261,9 +261,9 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   <div className="grid grid-cols-4 gap-2">
                     {[
                       { id: 'qr', label: 'Scan QR', icon: <QrCode className="w-5 h-5 text-slate-800" /> },
-                      { id: 'gpay', label: 'Google Pay', icon: <span className="font-bold text-sky-600 text-xs">GPay</span> },
-                      { id: 'phonepe', label: 'PhonePe', icon: <span className="font-bold text-purple-600 text-xs">PhonePe</span> },
-                      { id: 'paytm', label: 'Paytm', icon: <span className="font-bold text-blue-500 text-xs">Paytm</span> },
+                      { id: 'gpay', label: 'Google Pay', icon: <span className="font-bold text-ashoka-700 text-xs">GPay</span> },
+                      { id: 'phonepe', label: 'PhonePe', icon: <span className="font-bold text-ashoka-900 text-xs">PhonePe</span> },
+                      { id: 'paytm', label: 'Paytm', icon: <span className="font-bold text-sky-700 text-xs">Paytm</span> },
                     ].map((app) => (
                       <button
                         key={app.id}
@@ -271,7 +271,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                         onClick={() => setUpiApp(app.id as any)}
                         className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${
                           upiApp === app.id
-                            ? 'bg-white border-emerald-600 shadow-sm ring-2 ring-emerald-600/20'
+                            ? 'bg-white border-olive-600 shadow-sm ring-2 ring-olive-600/20'
                             : 'bg-white/70 border-slate-200 hover:bg-white'
                         }`}
                       >
@@ -282,14 +282,14 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   </div>
 
                   {upiApp === 'qr' && (
-                    <div className="flex items-center gap-4 bg-white p-3 rounded-xl border border-emerald-200">
+                    <div className="flex items-center gap-4 bg-white p-3 rounded-xl border border-olive-200">
                       <div className="w-16 h-16 bg-slate-900 text-white rounded-lg p-1 flex items-center justify-center">
                         <QrCode className="w-14 h-14 text-white" />
                       </div>
                       <div className="text-xs">
                         <div className="font-bold text-slate-900">Scan via any UPI App</div>
                         <div className="text-slate-500 text-[11px]">Instant 1-click authorization ready</div>
-                        <div className="font-mono text-[11px] text-emerald-700 font-semibold mt-0.5">gati.rto@npci.simulated</div>
+                        <div className="font-mono text-[11px] text-olive-800 font-semibold mt-0.5">gati.rto@npci.simulated</div>
                       </div>
                     </div>
                   )}

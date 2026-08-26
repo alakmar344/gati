@@ -195,22 +195,22 @@ export default function VehiclePermitPage() {
                   <div className="flex flex-col items-center gap-2 shrink-0 w-16 sm:w-24">
                     <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
                       active
-                        ? 'bg-teal-600 text-white ring-4 ring-teal-100'
+                        ? 'bg-olive-700 text-white ring-4 ring-olive-100'
                         : done
-                          ? 'bg-teal-100 text-teal-700'
+                          ? 'bg-olive-700 text-white'
                           : 'bg-slate-100 text-slate-400'
                     }`}>
                       {done ? <CheckCircle className="w-5 h-5" /> : step.num}
                     </div>
                     <span className={`text-[11px] font-semibold text-center leading-tight ${
-                      active ? 'text-teal-700' : done ? 'text-slate-700' : 'text-slate-400'
+                      active ? 'text-olive-800 font-bold' : done ? 'text-slate-700' : 'text-slate-400'
                     }`}>
                       {step.label}
                     </span>
                   </div>
                   {i < 3 && (
                     <div className="flex-1 h-1 mt-4 mx-0.5 sm:mx-1 rounded-full bg-slate-200 overflow-hidden">
-                      <div className={`h-full rounded-full bg-teal-500 transition-all duration-500 ${done ? 'w-full' : 'w-0'}`} />
+                      <div className={`h-full rounded-full bg-olive-600 transition-all duration-500 ${done ? 'w-full' : 'w-0'}`} />
                     </div>
                   )}
                 </React.Fragment>
@@ -227,7 +227,7 @@ export default function VehiclePermitPage() {
         {currentStep === 1 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700">Step 1 of 4</p>
+              <p className="eyebrow text-olive-800">Step 1 of 4</p>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1">Select Permit Classification</h2>
               <p className="text-sm text-slate-500 mt-1">Unified under Central Motor Vehicles Rules 1989 (Rule 85-B).</p>
             </div>
@@ -237,7 +237,7 @@ export default function VehiclePermitPage() {
               hint="Choose the statutory category that matches your vehicle and operation. Fees and route rights adapt automatically."
             >
               <OptionGrid
-                tone="teal"
+                tone="olive"
                 columns="grid-cols-1 sm:grid-cols-2"
                 value={permitCategory}
                 onChange={(v) => setPermitCategory(v as any)}

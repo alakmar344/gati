@@ -219,10 +219,10 @@ export default function VehicleLicensingPage() {
       {currentStep <= 4 && (
         <div className="mb-8 animate-rise">
           <div className="flex items-center justify-between gap-3 mb-4">
-            <p className="eyebrow text-emerald-700">
+            <p className="eyebrow text-olive-800">
               Step {currentStep} of 5 — {WIZARD_STEPS[currentStep - 1].label}
             </p>
-            <Pill tone="emerald">Paperless FastTrack</Pill>
+            <Pill tone="olive">Paperless FastTrack</Pill>
           </div>
 
           <div className="flex items-start">
@@ -235,9 +235,9 @@ export default function VehicleLicensingPage() {
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
                         done
-                          ? 'bg-emerald-600 text-white shadow-sm'
+                          ? 'bg-olive-700 text-white shadow-sm'
                           : active
-                            ? 'bg-emerald-600 text-white ring-4 ring-emerald-100'
+                            ? 'bg-olive-700 text-white ring-4 ring-olive-100'
                             : 'bg-white border-2 border-slate-200 text-slate-400'
                       }`}
                     >
@@ -246,7 +246,7 @@ export default function VehicleLicensingPage() {
                     <span
                       className={`text-[11px] leading-tight text-center ${
                         active
-                          ? 'text-emerald-700 font-bold'
+                          ? 'text-olive-800 font-bold'
                           : done
                             ? 'text-slate-700 font-semibold'
                             : 'text-slate-400 font-medium'
@@ -258,7 +258,7 @@ export default function VehicleLicensingPage() {
                   {i < WIZARD_STEPS.length - 1 && (
                     <div className="flex-1 h-0.5 mt-4 rounded-full bg-slate-200 overflow-hidden">
                       <div
-                        className={`h-full rounded-full bg-emerald-500 transition-all duration-500 ${
+                        className={`h-full rounded-full bg-olive-600 transition-all duration-500 ${
                           currentStep > step.num ? 'w-full' : 'w-0'
                         }`}
                       />

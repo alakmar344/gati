@@ -74,14 +74,14 @@ export default function LoginPage() {
             <div className="space-y-1.5">
               <span className="eyebrow text-slate-500">Selected persona</span>
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center font-display font-extrabold text-sm shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-olive-600 to-olive-800 text-white flex items-center justify-center font-display font-extrabold text-sm shrink-0 shadow-sm">
                   {selectedUser.avatar}
                 </div>
                 <div className="min-w-0">
                   <div className="font-display font-extrabold tracking-tight text-slate-900 truncate">
                     {selectedUser.name}
                   </div>
-                  <div className="text-[12px] text-emerald-700 font-semibold truncate">
+                  <div className="text-[12px] text-olive-800 font-semibold truncate">
                     {selectedUser.role}
                   </div>
                 </div>
@@ -150,13 +150,13 @@ export default function LoginPage() {
               ) : (
                 <>
                   <span>Continue as {selectedUser.name.split(' ')[0]}</span>
-                  <ArrowRight className="w-4 h-4 text-emerald-400" />
+                  <ArrowRight className="w-4 h-4 text-saffron-400" />
                 </>
               )}
             </button>
 
             <div className="flex items-start gap-2.5 hairline border-t pt-4 text-[12px] text-slate-500 leading-relaxed">
-              <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+              <Sparkles className="w-4 h-4 text-saffron-500 shrink-0 mt-0.5" />
               <p>
                 <strong className="text-slate-800 font-semibold">Demo authentication sandbox.</strong>{' '}
                 Pick any profile on the right to instantly fill credentials for 1-click testing.
@@ -169,7 +169,7 @@ export default function LoginPage() {
         <div className="lg:col-span-7 space-y-5">
           <div className="flex items-center justify-between px-1">
             <span className="eyebrow text-slate-500">Demo profiles</span>
-            <Pill tone="emerald">{DEMO_USERS.length} personas</Pill>
+            <Pill tone="olive">{DEMO_USERS.length} personas</Pill>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 stagger">
@@ -183,7 +183,7 @@ export default function LoginPage() {
                   aria-pressed={isSelected}
                   className={`card text-left p-5 flex flex-col gap-4 transition-all ${
                     isSelected
-                      ? 'border-emerald-400 ring-2 ring-emerald-500/30 shadow-lg'
+                      ? 'border-olive-500 ring-2 ring-olive-600/30 shadow-lg'
                       : 'card-hover'
                   }`}
                 >
@@ -191,7 +191,7 @@ export default function LoginPage() {
                     <div
                       className={`w-12 h-12 rounded-2xl flex items-center justify-center font-display font-extrabold text-sm shrink-0 ${
                         isSelected
-                          ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white'
+                          ? 'bg-gradient-to-br from-olive-600 to-olive-800 text-white shadow-sm'
                           : 'bg-slate-100 text-slate-700'
                       }`}
                     >
@@ -201,12 +201,12 @@ export default function LoginPage() {
                       <div className="font-display font-extrabold tracking-tight text-slate-900 truncate">
                         {user.name}
                       </div>
-                      <div className="text-[12px] text-emerald-700 font-semibold truncate">
+                      <div className="text-[12px] text-olive-800 font-semibold truncate">
                         {user.role}
                       </div>
                     </div>
                     {isSelected && (
-                      <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-olive-700 shrink-0" />
                     )}
                   </div>
 
@@ -215,7 +215,7 @@ export default function LoginPage() {
                       <MapPin className="w-3.5 h-3.5 text-slate-400" />
                       {user.city}
                     </span>
-                    <Pill tone={isSelected ? 'emerald' : 'slate'}>
+                    <Pill tone={isSelected ? 'olive' : 'slate'}>
                       <Car className="w-3 h-3" />
                       {user.vehiclesCount} {user.vehiclesCount === 1 ? 'vehicle' : 'vehicles'}
                     </Pill>

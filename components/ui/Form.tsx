@@ -49,7 +49,7 @@ export function Field({
           <AlertCircle className="w-3 h-3" /> {error}
         </p>
       ) : success ? (
-        <p className="text-[11px] text-emerald-600 mt-1.5 flex items-center gap-1 font-medium">
+        <p className="text-[11px] text-olive-700 mt-1.5 flex items-center gap-1 font-medium">
           <Check className="w-3 h-3" /> {success}
         </p>
       ) : hint ? (
@@ -166,7 +166,7 @@ export function MoneyInput({
               key={`add-${a}`}
               type="button"
               onClick={() => onValue(value + a)}
-              className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-[11px] font-bold text-emerald-700 transition-colors"
+              className="px-2.5 py-1 rounded-lg bg-olive-50 hover:bg-olive-100 text-[11px] font-bold text-olive-800 transition-colors"
             >
               +{a >= 100000 ? `${a / 100000}L` : a >= 1000 ? `${a / 1000}k` : a}
             </button>
@@ -188,11 +188,14 @@ export interface Option {
 }
 
 const TONES = {
-  emerald: 'bg-emerald-50 border-emerald-500 text-emerald-900 ring-emerald-500/20',
-  sky: 'bg-sky-50 border-sky-500 text-sky-900 ring-sky-500/20',
-  teal: 'bg-teal-50 border-teal-500 text-teal-900 ring-teal-500/20',
-  amber: 'bg-amber-50 border-amber-500 text-amber-900 ring-amber-500/20',
-  violet: 'bg-violet-50 border-violet-500 text-violet-900 ring-violet-500/20',
+  emerald: 'bg-olive-50 border-olive-600 text-olive-950 ring-olive-600/20',
+  olive: 'bg-olive-50 border-olive-600 text-olive-950 ring-olive-600/20',
+  sky: 'bg-ashoka-50 border-ashoka-600 text-ashoka-950 ring-ashoka-600/20',
+  ashoka: 'bg-ashoka-50 border-ashoka-600 text-ashoka-950 ring-ashoka-600/20',
+  teal: 'bg-olive-50 border-olive-600 text-olive-950 ring-olive-600/20',
+  amber: 'bg-saffron-50 border-saffron-500 text-saffron-950 ring-saffron-500/20',
+  saffron: 'bg-saffron-50 border-saffron-500 text-saffron-950 ring-saffron-500/20',
+  violet: 'bg-olive-50 border-olive-600 text-olive-950 ring-olive-600/20',
 } as const;
 
 export function OptionGrid({
@@ -224,7 +227,7 @@ export function OptionGrid({
             className={cn(
               'relative p-3.5 rounded-2xl border text-left transition-all',
               selected
-                ? cn('ring-2', TONES[tone])
+                ? cn('ring-2', TONES[tone] || TONES.emerald)
                 : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50'
             )}
           >
@@ -285,7 +288,7 @@ export function SelectInput({
 /** Small verified chip for autofilled/verified fields. */
 export function VerifiedChip({ label = 'Verified' }: { label?: string }) {
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600">
+    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-olive-700">
       <Check className="w-3 h-3" /> {label}
     </span>
   );

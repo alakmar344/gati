@@ -197,7 +197,7 @@ export default function DriverLicencePage() {
       {/* Header */}
       <div className="mb-8 animate-rise">
         <div className="flex justify-center mb-3">
-          <Pill tone="sky">
+          <Pill tone="ashoka">
             <CreditCard className="w-3.5 h-3.5" />
             <span>Driver Licensing & Slot Booking</span>
           </Pill>
@@ -212,7 +212,7 @@ export default function DriverLicencePage() {
       {currentStep <= 4 && (
         <div className="card p-5 sm:p-6 mb-6 animate-rise">
           <div className="flex items-center justify-between mb-4">
-            <span className="eyebrow text-sky-700">Step {currentStep} of 4</span>
+            <span className="eyebrow text-ashoka-800">Step {currentStep} of 4</span>
             <span className="text-[11px] font-bold text-slate-500">
               {STEPS[currentStep - 1].label}
             </span>
@@ -227,9 +227,9 @@ export default function DriverLicencePage() {
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                         isCurrent
-                          ? 'bg-sky-600 text-white ring-4 ring-sky-100'
+                          ? 'bg-ashoka-800 text-white ring-4 ring-ashoka-100'
                           : isCompleted
-                            ? 'bg-emerald-500 text-white'
+                            ? 'bg-olive-700 text-white'
                             : 'bg-slate-100 text-slate-400 border border-slate-200'
                       }`}
                     >
@@ -238,7 +238,7 @@ export default function DriverLicencePage() {
                     <span
                       className={`hidden sm:block text-[11px] font-semibold text-center leading-tight ${
                         isCurrent
-                          ? 'text-sky-700'
+                          ? 'text-ashoka-800'
                           : isCompleted
                             ? 'text-slate-700'
                             : 'text-slate-400'
@@ -251,7 +251,7 @@ export default function DriverLicencePage() {
                     <div className="flex-1 h-0.5 mx-2 sm:mx-3 -mt-6 sm:mt-0 rounded-full overflow-hidden bg-slate-200">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${
-                          currentStep > step.num ? 'w-full bg-emerald-500' : 'w-0 bg-emerald-500'
+                          currentStep > step.num ? 'w-full bg-olive-600' : 'w-0 bg-olive-600'
                         }`}
                       />
                     </div>

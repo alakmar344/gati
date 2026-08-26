@@ -57,7 +57,7 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
             <X className="w-4 h-4" />
           </button>
 
-          <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold tracking-wider uppercase mb-1">
+          <div className="flex items-center gap-2 text-saffron-400 text-xs font-semibold tracking-wider uppercase mb-1">
             <User className="w-4 h-4" />
             <span>Prototype Demo Accounts</span>
           </div>
@@ -81,8 +81,8 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
                   onClick={() => handleSelect(user)}
                   className={`p-4 rounded-2xl border transition-all cursor-pointer text-left relative flex flex-col justify-between ${
                     isCurrent
-                      ? 'bg-emerald-50/80 border-emerald-500 ring-2 ring-emerald-500/20 shadow-sm'
-                      : 'bg-white border-slate-200 hover:border-sky-400 hover:shadow-md'
+                      ? 'bg-olive-50/80 border-olive-500 ring-2 ring-olive-500/20 shadow-sm'
+                      : 'bg-white border-slate-200 hover:border-olive-400 hover:shadow-md'
                   }`}
                 >
                   <div>
@@ -91,7 +91,7 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
                       <div className="flex items-center gap-3">
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm ${
                           isCurrent 
-                            ? 'bg-emerald-600 text-white' 
+                            ? 'bg-olive-700 text-white' 
                             : 'bg-slate-100 text-slate-800 border border-slate-200'
                         }`}>
                           {user.avatar}
@@ -100,14 +100,14 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
                           <div className="font-bold text-sm text-slate-900 leading-tight">
                             {user.name}
                           </div>
-                          <div className="text-[11px] text-emerald-700 font-medium">
+                          <div className="text-[11px] text-olive-800 font-medium">
                             {user.role}
                           </div>
                         </div>
                       </div>
 
                       {isCurrent && (
-                        <div className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                        <div className="w-5 h-5 rounded-full bg-olive-700 text-white flex items-center justify-center shrink-0">
                           <Check className="w-3 h-3" />
                         </div>
                       )}
@@ -126,7 +126,7 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
                       {user.city}, {user.state.split(' ')[0]}
                     </span>
                     <span className="flex items-center gap-1 font-mono font-medium text-slate-700">
-                      <Car className="w-3 h-3 text-sky-600" />
+                      <Car className="w-3 h-3 text-ashoka-700" />
                       {user.vehiclesCount} {user.vehiclesCount === 1 ? 'vehicle' : 'vehicles'}
                     </span>
                   </div>

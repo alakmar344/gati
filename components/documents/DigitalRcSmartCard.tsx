@@ -41,7 +41,7 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
       <div 
         className={`w-full aspect-[1.586/1] rounded-3xl p-6 sm:p-7 relative overflow-hidden shadow-2xl transition-all duration-300 border ${
           isEV 
-            ? 'bg-gradient-to-br from-[#064e3b] via-[#065f46] to-[#047857] text-white border-emerald-400/40 shadow-emerald-950/20' 
+            ? 'bg-gradient-to-br from-[#1b3419] via-[#2b4c27] to-[#1e391b] text-white border-olive-400/40 shadow-olive-950/20' 
             : 'bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155] text-white border-white/20 shadow-slate-900/30'
         }`}
         style={{
@@ -50,20 +50,20 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
       >
         {/* Subtle Background Security Guilloche Patterns */}
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-        <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-emerald-400/10 blur-3xl pointer-events-none" />
-        <div className="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-sky-400/10 blur-3xl pointer-events-none" />
+        <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-olive-400/10 blur-3xl pointer-events-none" />
+        <div className="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-ashoka-400/10 blur-3xl pointer-events-none" />
 
         {/* Card Header */}
         <div className="flex items-start justify-between relative z-10 border-b border-white/15 pb-3">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-emerald-300">
+            <div className="w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-olive-300">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-[10px] sm:text-xs font-semibold tracking-wider text-emerald-300 uppercase flex items-center gap-1.5">
+              <div className="text-[10px] sm:text-xs font-semibold tracking-wider text-olive-300 uppercase flex items-center gap-1.5">
                 <span>CERTIFICATE OF REGISTRATION</span>
                 {isEV && (
-                  <span className="px-1.5 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 text-[8px] font-bold">
+                  <span className="px-1.5 py-0.5 rounded-full bg-olive-400/20 text-olive-200 text-[8px] font-bold">
                     ZERO EMISSION EV
                   </span>
                 )}
@@ -76,7 +76,7 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
 
           <div className="text-right">
             <div className="text-[9px] uppercase tracking-widest text-slate-400">SMART CARD UID</div>
-            <div className="text-[10px] sm:text-xs font-mono font-bold text-sky-300">{rc.chipUid}</div>
+            <div className="text-[10px] sm:text-xs font-mono font-bold text-ashoka-300">{rc.chipUid}</div>
           </div>
         </div>
 
