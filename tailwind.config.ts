@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -106,6 +107,12 @@ const config: Config = {
         'subtle-glow': '0 0 25px -5px rgba(86, 116, 69, 0.25)',
         'olive-glow': '0 0 30px -5px rgba(86, 116, 69, 0.35)',
         'saffron-glow': '0 0 25px -5px rgba(234, 88, 12, 0.25)',
+        'clay-card': '6px 8px 18px rgba(49, 68, 39, 0.07), -5px -5px 14px rgba(255, 255, 255, 0.9), inset 1.5px 1.5px 2px rgba(255, 255, 255, 0.8), inset -1.5px -1.5px 2px rgba(49, 68, 39, 0.04)',
+        'clay-card-dark': '6px 8px 20px rgba(0, 0, 0, 0.5), -3px -3px 12px rgba(255, 255, 255, 0.03), inset 1px 1px 1.5px rgba(255, 255, 255, 0.08), inset -1px -1px 2px rgba(0, 0, 0, 0.5)',
+        'clay-btn': '4px 5px 12px rgba(49, 68, 39, 0.14), -2px -2px 6px rgba(255, 255, 255, 0.8), inset 1px 1px 1.5px rgba(255, 255, 255, 0.6), inset -1px -1px 1.5px rgba(0, 0, 0, 0.12)',
+        'clay-btn-active': 'inset 2px 2px 4px rgba(0, 0, 0, 0.18), inset -1px -1px 2px rgba(255, 255, 255, 0.4)',
+        'clay-pill': '2px 3px 6px rgba(49, 68, 39, 0.08), -2px -2px 5px rgba(255, 255, 255, 0.8), inset 1px 1px 1px rgba(255, 255, 255, 0.8)',
+        'clay-inset': 'inset 2px 2px 5px rgba(20, 30, 23, 0.06), inset -2px -2px 5px rgba(255, 255, 255, 0.85)',
       },
       backdropBlur: {
         xs: '2px',

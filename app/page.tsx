@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -10,15 +10,24 @@ import {
   Wand2,
   ChevronRight,
   ShieldCheck,
+  Search,
+  Zap,
+  Car,
+  CreditCard,
+  Truck,
+  Compass,
+  ScanLine,
+  Layers,
 } from 'lucide-react';
-import { CORE_SERVICES, SPEED_TOOLS } from '@/lib/nav';
+import { CORE_SERVICES, SPEED_TOOLS, NavItem } from '@/lib/nav';
 import { ActionFeed } from '@/components/copilot/ActionFeed';
 import { computeTimeSaved } from '@/lib/insights';
 import { getCurrentUser, getApplicationsForUser } from '@/lib/storage';
 import { DemoUser } from '@/lib/types';
 import { useMounted } from '@/components/ui/Toast';
+import { useLanguage } from '@/lib/i18n';
 
-const EXAMPLES = [
+const EXAMPLES_EN = [
   'pay all my challans',
   'top up fastag ₹1,000',
   'renew my licence',
@@ -26,15 +35,30 @@ const EXAMPLES = [
   'scan my RC',
 ];
 
+const EXAMPLES_HI = [
+  'मेरे सभी चालान भरें',
+  'फास्टैग में ₹1,000 डालें',
+  'ड्राइविंग लाइसेंस नवीनीकृत करें',
+  'नया ईवी पंजीकृत करें',
+  'मेरी आरसी स्कैन करें',
+];
+
 function openCopilot(q?: string) {
   window.dispatchEvent(new CustomEvent('gati_open_command', { detail: q ? { q } : undefined }));
 }
 
+type ServiceCategory = 'ALL' | 'VEHICLE' | 'DRIVER' | 'TOLLS' | 'TOOLS';
+
 export default function HomePage() {
   const mounted = useMounted();
+  const { language, t } = useLanguage();
   const [user, setUser] = useState<DemoUser | null>(null);
   const [saved, setSaved] = useState({ hours: 0, tasks: 0 });
   const [ph, setPh] = useState(0);
+  const [activeCategory, setActiveCategory] = useState<ServiceCategory>('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const examples = language === 'hi' ? EXAMPLES_HI : EXAMPLES_EN;
 
   const load = () => {
     const u = getCurrentUser();
@@ -50,34 +74,59 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    const t = setInterval(() => setPh((i) => (i + 1) % EXAMPLES.length), 2800);
+    const t = setInterval(() => setPh((i) => (i + 1) % examples.length), 2800);
     return () => clearInterval(t);
-  }, []);
+  }, [examples.length]);
 
-  const greeting = (() => {
+  const greeting = useMemo(() => {
     const h = new Date().getHours();
-    return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-  })();
+    if (h < 12) return t('goodMorning');
+    if (h < 17) return t('goodAfternoon');
+    return t('goodEvening');
+  }, [t]);
+
+  // Combined master list of all actions & tools
+  const allItems: (NavItem & { category: ServiceCategory })[] = useMemo(() => [
+    { ...CORE_SERVICES[0], category: 'VEHICLE' },
+    { ...CORE_SERVICES[1], category: 'VEHICLE' },
+    { ...CORE_SERVICES[2], category: 'DRIVER' },
+    { ...CORE_SERVICES[3], category: 'TOLLS' },
+    { ...SPEED_TOOLS[0], category: 'TOOLS' },
+    { ...SPEED_TOOLS[1], category: 'TOLLS' },
+    { ...SPEED_TOOLS[2], category: 'VEHICLE' },
+    { ...SPEED_TOOLS[3], category: 'TOLLS' },
+    { ...SPEED_TOOLS[4], category: 'VEHICLE' },
+    { ...SPEED_TOOLS[5], category: 'DRIVER' },
+  ], []);
+
+  const filteredItems = useMemo(() => {
+    return allItems.filter((item) => {
+      const matchesCat = activeCategory === 'ALL' || item.category === activeCategory;
+      const q = searchQuery.trim().toLowerCase();
+      const matchesQuery = !q || item.name.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
+      return matchesCat && matchesQuery;
+    });
+  }, [allItems, activeCategory, searchQuery]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col space-y-10 sm:space-y-14 pb-16">
       {/* ================= COCKPIT HERO ================= */}
       <section className="px-3 sm:px-6 pt-2">
-        <div className="relative max-w-6xl mx-auto rounded-[2.25rem] overflow-hidden bg-slate-950 text-white shadow-2xl border border-white/10">
-          {/* Restored Indian-Themed Background Image with Subtle Depth */}
+        <div className="relative max-w-6xl mx-auto rounded-[2.5rem] overflow-hidden bg-slate-950 text-white shadow-2xl border border-white/10 dark:border-white/15">
+          {/* Restored Indian Expressway Background Image */}
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0 scale-105 transition-transform duration-1000 opacity-35"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0 scale-105 transition-transform duration-1000 opacity-30"
             style={{
               backgroundImage: `url('/images/hero-expressway.jpg')`,
             }}
             aria-hidden="true"
           />
-          {/* Subtle atmospheric gradient overlay for pristine contrast and Indian Gov-Tech identity */}
+          {/* Ambient atmosphere gradient overlay */}
           <div
             className="absolute inset-0 z-0 bg-gradient-to-b from-slate-950/85 via-slate-950/75 to-slate-950/95 backdrop-blur-[0.5px]"
             aria-hidden="true"
           />
-          {/* Sparing Tiranga ambient light pools */}
+          {/* Ambient Tiranga light pools */}
           <div className="absolute -top-32 -left-16 w-96 h-96 rounded-full bg-saffron-500/15 blur-3xl" aria-hidden="true" />
           <div className="absolute -bottom-40 right-0 w-[28rem] h-[28rem] rounded-full bg-olive-500/20 blur-3xl" aria-hidden="true" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[36rem] h-[20rem] rounded-full bg-ashoka-600/10 blur-3xl" aria-hidden="true" />
@@ -98,7 +147,7 @@ export default function HomePage() {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 mb-6 shadow-sm backdrop-blur-md animate-rise">
               <span className="w-2 h-2 rounded-full bg-saffron-400 animate-pulse" />
               <span className="text-[11px] font-bold tracking-wider text-slate-200 uppercase">
-                Gati Autopilot · भारत Mobility OS
+                {t('heroTag')}
               </span>
             </div>
 
@@ -108,32 +157,32 @@ export default function HomePage() {
                   {greeting}, {user.name.split(' ')[0]}.
                   <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-saffron-300 via-amber-200 to-olive-300">
-                    What should I handle?
+                    {t('heroHeadingPersonal')}
                   </span>
                 </>
               ) : (
                 <>
-                  Tell Gati what you need.
+                  {t('heroHeadingMain')}
                   <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-saffron-300 via-amber-200 to-olive-300">
-                    It gets done.
+                    {t('heroHeadingHighlight')}
                   </span>
                 </>
               )}
             </h1>
 
-            {/* Ask Gati bar */}
+            {/* Centralized Ask Gati Command Bar */}
             <button
               onClick={() => openCopilot()}
-              className="group relative w-full max-w-xl mx-auto mt-9 animate-rise"
+              className="group relative w-full max-w-xl mx-auto mt-8 animate-rise"
               style={{ animationDelay: '0.08s' }}
             >
               <span className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-olive-600/60 via-saffron-600/40 to-olive-600/60 blur opacity-50 group-hover:opacity-90 transition-opacity" aria-hidden="true" />
-              <span className="relative flex items-center gap-3 rounded-2xl bg-white/[0.08] border border-white/20 px-4 py-4 text-left backdrop-blur-md shadow-xl">
+              <span className="relative flex items-center gap-3 rounded-2xl bg-white/[0.09] border border-white/20 px-4 py-3.5 text-left backdrop-blur-md shadow-xl transition-all group-hover:bg-white/[0.14]">
                 <Wand2 className="w-5 h-5 text-saffron-400 shrink-0" />
                 <span className="flex-1 min-w-0">
-                  <span className="block text-[15px] text-slate-200 truncate">
-                    Ask Gati to <span className="text-white font-semibold">“{EXAMPLES[ph]}”</span>
+                  <span className="block text-[14px] sm:text-[15px] text-slate-200 truncate">
+                    {t('heroSearchPlaceholderPrefix')} <span className="text-white font-semibold">“{examples[ph]}”</span>
                   </span>
                 </span>
                 <kbd className="hidden sm:inline-flex items-center gap-0.5 text-[11px] font-bold text-slate-200 bg-white/10 border border-white/20 rounded-md px-2 py-1 shrink-0 shadow-inner">
@@ -142,80 +191,108 @@ export default function HomePage() {
               </span>
             </button>
 
-            {/* example chips */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mt-5 animate-rise" style={{ animationDelay: '0.14s' }}>
-              {EXAMPLES.map((ex) => (
-                <button
-                  key={ex}
-                  onClick={() => openCopilot(ex.replace(/₹|,/g, ''))}
-                  className="px-3.5 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.16] border border-white/15 text-xs font-medium text-slate-200 hover:text-white transition-all shadow-sm"
-                >
-                  {ex}
-                </button>
-              ))}
-            </div>
-
-            {/* live stats */}
-            <div className="flex items-center gap-6 mt-9 text-sm animate-rise" style={{ animationDelay: '0.2s' }}>
+            {/* Live Metrics */}
+            <div className="flex items-center gap-6 mt-8 text-sm animate-rise" style={{ animationDelay: '0.14s' }}>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-olive-400" />
-                <span className="text-slate-300">
-                  <span className="font-display font-extrabold text-white">{mounted ? saved.hours : '—'}h</span> saved with Gati
+                <span className="text-slate-300 text-xs sm:text-sm">
+                  <strong className="font-display font-extrabold text-white">{mounted ? saved.hours : '—'}h</strong> {t('hoursSaved')}
                 </span>
               </div>
               <span className="w-1 h-1 rounded-full bg-white/25" />
-              <div className="flex items-center gap-2 text-slate-300">
+              <div className="flex items-center gap-2 text-slate-300 text-xs sm:text-sm">
                 <ShieldCheck className="w-4 h-4 text-saffron-400" />
-                Zero forms to hunt for
+                {t('zeroForms')}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= AUTOPILOT FEED ================= */}
-      <section className="px-4 sm:px-8 max-w-6xl mx-auto w-full pt-12 sm:pt-16">
+      {/* ================= AUTOPILOT ACTION FEED ================= */}
+      <section className="px-4 sm:px-8 max-w-6xl mx-auto w-full">
         <ActionFeed />
       </section>
 
-      {/* ================= DEMOTED NAV (progressive disclosure) ================= */}
-      <section className="px-4 sm:px-8 max-w-6xl mx-auto w-full pt-14 pb-8">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="font-display text-lg font-bold text-slate-900">Or start something specific</h2>
-          <button onClick={() => openCopilot()} className="text-xs font-bold text-olive-700 hover:text-olive-800 inline-flex items-center gap-1">
-            Ask instead <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+      {/* ================= CENTRALIZED UNIFIED SERVICE MATRIX ================= */}
+      <section className="px-4 sm:px-8 max-w-6xl mx-auto w-full">
+        {/* Category Filter Tabs */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 className="font-display text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              {t('allActions')}
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              All statutory vehicle registrations, driver credentials, and instant mobility tools in one centralized hub.
+            </p>
+          </div>
+
+          {/* Centralized Category Switcher Pills */}
+          <div className="flex items-center gap-1.5 p-1 rounded-full bg-slate-200/60 dark:bg-slate-800/80 w-fit self-start sm:self-auto overflow-x-auto max-w-full">
+            {[
+              { id: 'ALL', label: t('allActions'), icon: Layers },
+              { id: 'VEHICLE', label: t('vehicleRc'), icon: Car },
+              { id: 'DRIVER', label: t('driverLicence'), icon: CreditCard },
+              { id: 'TOLLS', label: t('tollsPasses'), icon: Truck },
+              { id: 'TOOLS', label: t('instantTools'), icon: Zap },
+            ].map((cat) => {
+              const Icon = cat.icon;
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id as ServiceCategory)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 ${
+                    isActive
+                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-900 dark:text-olive-300 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          {CORE_SERVICES.map((svc) => {
-            const Icon = svc.icon;
-            return (
-              <Link key={svc.href} href={svc.href} className="card card-hover p-4 group">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${svc.tint} group-hover:scale-105 transition-transform`}>
-                  <Icon className="w-5 h-5" />
-                </div>
-                <div className="font-bold text-sm text-slate-900 mt-3">{svc.name}</div>
-                <div className="text-[11px] text-slate-500 mt-1 leading-snug line-clamp-2">{svc.desc}</div>
-              </Link>
-            );
-          })}
-        </div>
-
-        <div className="mt-3 rounded-3xl border hairline bg-white/60 p-2 flex flex-wrap gap-1.5">
-          {SPEED_TOOLS.map((t) => {
-            const Icon = t.icon;
+        {/* Clean, Decluttered Clay Cards Matrix */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredItems.map((item) => {
+            const Icon = item.icon;
             return (
               <Link
-                key={t.href}
-                href={t.href}
-                className="flex items-center gap-2 px-3 py-2 rounded-2xl hover:bg-slate-100 transition-colors text-sm font-semibold text-slate-600 hover:text-slate-900"
+                key={item.href}
+                href={item.href}
+                className="clay-card clay-card-interactive p-5 group flex flex-col justify-between"
               >
-                <span className={`w-7 h-7 rounded-lg flex items-center justify-center ${t.tint}`}>
-                  <Icon className="w-4 h-4" />
-                </span>
-                {t.short || t.name}
-                <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center ${item.tint} group-hover:scale-105 transition-transform shadow-xs`}>
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-[11px] font-bold text-slate-400 group-hover:text-olive-700 dark:group-hover:text-olive-400 flex items-center gap-1 transition-colors">
+                      <span>{t('startNow')}</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </span>
+                  </div>
+
+                  <h3 className="font-display font-extrabold text-[15px] text-slate-900 dark:text-white tracking-tight">
+                    {item.name}
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
+                  <span className="font-mono text-slate-400 dark:text-slate-500 font-medium">
+                    {item.category === 'VEHICLE' ? 'MoRTH • VAHAN' : item.category === 'DRIVER' ? 'MoRTH • SARATHI' : item.category === 'TOLLS' ? 'NPCI • NETC' : 'Gati Engine'}
+                  </span>
+                  <span className="font-semibold text-olive-700 dark:text-olive-400">
+                    Instant FastTrack
+                  </span>
+                </div>
               </Link>
             );
           })}
