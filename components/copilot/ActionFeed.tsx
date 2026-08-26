@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { ArrowRight, Sparkles, CheckCircle2, Loader2, Wand2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Loader2, ShieldCheck, Zap, Sparkles } from 'lucide-react';
 import { computeInsights, ActionItem, URGENCY_STYLES } from '@/lib/insights';
 import { formatINR } from '@/lib/utils';
 import {
@@ -99,16 +99,16 @@ export function ActionFeed({
       <div className="flex items-end justify-between gap-4">
         <div>
           <div className="inline-flex items-center gap-1.5 eyebrow text-olive-800 dark:text-olive-400">
-            <Wand2 className="w-3.5 h-3.5 text-saffron-600 dark:text-saffron-400" /> {t('autopilotTitle')}
+            <ShieldCheck className="w-3.5 h-3.5 text-olive-700 dark:text-olive-400" /> {t('autopilotTitle')}
           </div>
           <h2 className="font-display text-2xl sm:text-[1.75rem] font-extrabold tracking-tight mt-1 text-slate-900 dark:text-white">
             {critical > 0 ? (
               <>
                 {critical} action{critical > 1 ? 's' : ''} pending —{' '}
-                <span className="text-saffron-600 dark:text-saffron-400">1-Click FastTrack</span>
+                <span className="text-saffron-600 dark:text-saffron-400">FastTrack Settle</span>
               </>
             ) : (
-              <>{t('resolved')} ✨</>
+              <>{t('resolved')}</>
             )}
           </h2>
         </div>
@@ -116,9 +116,9 @@ export function ActionFeed({
           <button
             onClick={handleAll}
             disabled={busy !== null}
-            className="clay-btn clay-btn-saffron px-4 py-2 text-xs shrink-0 disabled:opacity-60 text-white"
+            className="clay-btn clay-btn-saffron min-h-[44px] px-5 py-2.5 text-xs shrink-0 disabled:opacity-60 text-white"
           >
-            {busy === '__all__' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {busy === '__all__' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
             Resolve all pending
           </button>
         )}
@@ -188,7 +188,7 @@ export function ActionFeed({
                   <button
                     onClick={() => handle(item)}
                     disabled={busy !== null}
-                    className={`clay-btn px-4 py-1.5 text-xs disabled:opacity-60 ${
+                    className={`clay-btn min-h-[40px] px-4 py-2 text-xs font-bold disabled:opacity-60 ${
                       item.urgency === 'critical'
                         ? 'clay-btn-saffron text-white'
                         : 'clay-btn-primary text-white'

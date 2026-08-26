@@ -221,15 +221,15 @@ export default function VehiclePermitPage() {
       )}
 
       {/* Form Container */}
-      <div className="card p-6 sm:p-10 animate-rise">
+      <div className="clay-card p-6 sm:p-10 animate-rise">
         
         {/* ================= STEP 1: PERMIT TYPE ================= */}
         {currentStep === 1 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-olive-800">Step 1 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1">Select Permit Classification</h2>
-              <p className="text-sm text-slate-500 mt-1">Unified under Central Motor Vehicles Rules 1989 (Rule 85-B).</p>
+              <p className="eyebrow text-olive-800 dark:text-olive-400">Step 1 of 4</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Select Permit Classification</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Unified under Central Motor Vehicles Rules 1989 (Rule 85-B).</p>
             </div>
 
             <Field
@@ -303,7 +303,7 @@ export default function VehiclePermitPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="btn btn-primary px-7 py-3 text-sm"
+                className="clay-btn clay-btn-primary min-h-[44px] px-7 py-3 text-sm text-white font-bold"
               >
                 <span>Continue to Vehicle Specs</span>
                 <ArrowRight className="w-4 h-4" />
@@ -316,9 +316,9 @@ export default function VehiclePermitPage() {
         {currentStep === 2 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700">Step 2 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1">Vehicle Specifications & Compliance</h2>
-              <p className="text-sm text-slate-500 mt-1">Automated validation with National Vehicle Registry (Vahan OS).</p>
+              <p className="eyebrow text-teal-700 dark:text-teal-400">Step 2 of 4</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Vehicle Specifications & Compliance</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Automated validation with National Vehicle Registry (Vahan OS).</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
@@ -368,13 +368,13 @@ export default function VehiclePermitPage() {
             </div>
 
             {/* Compliance Badge Row */}
-            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-3">
-              <div className="text-sm font-bold text-emerald-950 flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-emerald-600" />
+            <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 space-y-3">
+              <div className="text-sm font-bold text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>Real-Time Statutory Compliance Verification</span>
               </div>
-              <p className="text-[11px] text-emerald-700/80">Auto-verified from Vahan OS — dates are as printed on each certificate.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-emerald-900">
+              <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80">Auto-verified from Vahan OS — dates are as printed on each certificate.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-emerald-900 dark:text-emerald-200">
                 <div>Fitness: <span className="font-semibold">Valid (Aug 2027)</span></div>
                 <div>Insurance: <span className="font-semibold">Active Comprehensive</span></div>
                 <div>PUCC: <span className="font-semibold">Emission Green Pass</span></div>
@@ -385,7 +385,7 @@ export default function VehiclePermitPage() {
               <button
                 type="button"
                 onClick={handleBack}
-                className="btn btn-ghost px-6 py-3 text-sm"
+                className="clay-btn min-h-[44px] px-6 py-3 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -393,7 +393,7 @@ export default function VehiclePermitPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="btn btn-primary px-7 py-3 text-sm"
+                className="clay-btn clay-btn-primary min-h-[44px] px-7 py-3 text-sm text-white font-bold"
               >
                 <span>Continue to Corridors</span>
                 <ArrowRight className="w-4 h-4" />
@@ -406,9 +406,9 @@ export default function VehiclePermitPage() {
         {currentStep === 3 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700">Step 3 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1">Interstate Corridors & Route Matrix</h2>
-              <p className="text-sm text-slate-500 mt-1">Select high-speed expressway corridors or pan-India single window coverage.</p>
+              <p className="eyebrow text-teal-700 dark:text-teal-400">Step 3 of 4</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Interstate Corridors & Route Matrix</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Select high-speed expressway corridors or pan-India single window coverage.</p>
             </div>
 
             <Field
@@ -435,7 +435,7 @@ export default function VehiclePermitPage() {
               <button
                 type="button"
                 onClick={handleBack}
-                className="btn btn-ghost px-6 py-3 text-sm"
+                className="clay-btn min-h-[44px] px-6 py-3 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -443,7 +443,7 @@ export default function VehiclePermitPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="btn btn-primary px-7 py-3 text-sm"
+                className="clay-btn clay-btn-primary min-h-[44px] px-7 py-3 text-sm text-white font-bold"
               >
                 <span>Continue to Fee Review</span>
                 <ArrowRight className="w-4 h-4" />
@@ -456,44 +456,44 @@ export default function VehiclePermitPage() {
         {currentStep === 4 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700">Step 4 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1">Composite Permit Fee Review</h2>
-              <p className="text-sm text-slate-500 mt-1">Unified single-window settlement under National Transport Agreement.</p>
+              <p className="eyebrow text-teal-700 dark:text-teal-400">Step 4 of 4</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Composite Permit Fee Review</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Unified single-window settlement under National Transport Agreement.</p>
             </div>
 
             {/* Summary */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-sm">
-              <div className="flex justify-between gap-4 border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Applicant / Fleet Entity</span>
-                <span className="font-bold text-slate-900 text-right">{currentUser.name}</span>
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-3 text-sm">
+              <div className="flex justify-between gap-4 border-b border-slate-200 dark:border-slate-700 pb-2">
+                <span className="text-slate-500 dark:text-slate-400">Applicant / Fleet Entity</span>
+                <span className="font-bold text-slate-900 dark:text-white text-right">{currentUser.name}</span>
               </div>
-              <div className="flex justify-between gap-4 border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Vehicle Registration</span>
-                <span className="font-mono font-bold text-slate-900 text-right">{vehicleRegNumber}</span>
+              <div className="flex justify-between gap-4 border-b border-slate-200 dark:border-slate-700 pb-2">
+                <span className="text-slate-500 dark:text-slate-400">Vehicle Registration</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white text-right">{vehicleRegNumber}</span>
               </div>
-              <div className="flex justify-between gap-4 border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Permit Classification</span>
-                <span className="font-bold text-teal-700 text-right">{permitCategory}</span>
+              <div className="flex justify-between gap-4 border-b border-slate-200 dark:border-slate-700 pb-2">
+                <span className="text-slate-500 dark:text-slate-400">Permit Classification</span>
+                <span className="font-bold text-teal-700 dark:text-teal-400 text-right">{permitCategory}</span>
               </div>
               <div className="flex justify-between gap-4">
-                <span className="text-slate-500">Authorized Validity</span>
-                <span className="font-semibold text-slate-900 text-right">{permitPeriodYears} Years National Multi-Entry</span>
+                <span className="text-slate-500 dark:text-slate-400">Authorized Validity</span>
+                <span className="font-semibold text-slate-900 dark:text-white text-right">{permitPeriodYears} Years National Multi-Entry</span>
               </div>
             </div>
 
             {/* Fee Breakdown */}
-            <div className="space-y-2 p-5 rounded-2xl bg-teal-50 border border-teal-200 text-sm">
-              <div className="flex justify-between gap-4 text-slate-700">
+            <div className="space-y-2 p-5 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800/60 text-sm">
+              <div className="flex justify-between gap-4 text-slate-700 dark:text-slate-300">
                 <span>National Composite Permit Fee (Central Single Window)</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(totalFee)}</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(totalFee)}</span>
               </div>
-              <div className="flex justify-between gap-4 text-teal-800">
+              <div className="flex justify-between gap-4 text-teal-800 dark:text-teal-300">
                 <span>Border Checkpost Multi-Entry Surcharges</span>
                 <span className="font-mono font-bold">INCLUDED (₹0)</span>
               </div>
-              <div className="flex justify-between gap-4 pt-3 border-t border-teal-200 font-extrabold text-teal-950">
+              <div className="flex justify-between gap-4 pt-3 border-t border-teal-200 dark:border-teal-800/60 font-extrabold text-teal-950 dark:text-teal-100">
                 <span>Total Composite Amount</span>
-                <span className="font-mono text-lg text-teal-700">{formatINR(totalFee)}</span>
+                <span className="font-mono text-lg text-teal-700 dark:text-teal-400">{formatINR(totalFee)}</span>
               </div>
             </div>
 
@@ -501,7 +501,7 @@ export default function VehiclePermitPage() {
               <button
                 type="button"
                 onClick={handleBack}
-                className="btn btn-ghost px-6 py-3 text-sm"
+                className="clay-btn min-h-[44px] px-6 py-3 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -509,7 +509,7 @@ export default function VehiclePermitPage() {
               <button
                 type="button"
                 onClick={() => setIsPaymentOpen(true)}
-                className="btn btn-brand px-8 py-3.5 text-sm"
+                className="clay-btn clay-btn-saffron min-h-[48px] px-8 py-3.5 text-sm text-white font-extrabold shadow-lg"
               >
                 <CreditCard className="w-4 h-4" />
                 <span>Pay {formatINR(totalFee)} &amp; Mint Permit</span>
@@ -522,14 +522,14 @@ export default function VehiclePermitPage() {
         {currentStep === 5 && completedApplication && (
           <div className="space-y-8 animate-rise">
             <div className="text-center">
-              <div className="w-14 h-14 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
+              <div className="w-14 h-14 rounded-full bg-teal-100 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center mx-auto mb-3 shadow-inner">
                 <CheckCircle className="w-8 h-8" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 National Permit Granted
               </h2>
-              <p className="text-sm text-slate-500 mt-1.5">
-                Permit Number: <strong className="font-mono text-teal-700">{completedApplication.digitalPermitDocument?.permitNumber}</strong>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
+                Permit Number: <strong className="font-mono text-teal-700 dark:text-teal-400">{completedApplication.digitalPermitDocument?.permitNumber}</strong>
               </p>
             </div>
 
@@ -540,19 +540,19 @@ export default function VehiclePermitPage() {
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <Link
                 href="/dashboard"
-                className="btn btn-primary px-6 py-2.5 text-sm"
+                className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm text-white font-bold"
               >
                 Go to Dashboard
               </Link>
               <Link
                 href={`/track?ref=${completedApplication.referenceNumber}`}
-                className="btn btn-ghost px-6 py-2.5 text-sm"
+                className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 Track Live Status
               </Link>
               <Link
                 href="/documents"
-                className="btn btn-ghost px-6 py-2.5 text-sm"
+                className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
                 View in GatiLocker
               </Link>

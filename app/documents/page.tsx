@@ -94,10 +94,10 @@ export default function DocumentsPage() {
           <button
             key={tab.id}
             onClick={() => setSelectedFilter(tab.id)}
-            className={`px-4 py-2 rounded-full text-[13px] font-bold whitespace-nowrap transition-all ${
+            className={`min-h-[40px] px-4 py-2 rounded-full text-[13px] font-bold whitespace-nowrap transition-all ${
               selectedFilter === tab.id
-                ? 'bg-slate-900 text-white shadow-sm'
-                : 'glass-panel text-slate-600 hover:text-slate-900'
+                ? 'clay-pill bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm'
+                : 'clay-card text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             {tab.label}
@@ -109,7 +109,7 @@ export default function DocumentsPage() {
       {!mounted ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[0, 1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="card p-6 space-y-4">
+            <div key={i} className="clay-card p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <Skeleton className="h-6 w-14 rounded-full" />
                 <Skeleton className="h-6 w-20 rounded-full" />
@@ -125,17 +125,17 @@ export default function DocumentsPage() {
           ))}
         </div>
       ) : filteredApps.length === 0 ? (
-        <div className="card p-12 text-center space-y-4 max-w-xl mx-auto">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+        <div className="clay-card p-12 text-center space-y-4 max-w-xl mx-auto">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 flex items-center justify-center mx-auto">
             <FileCheck2 className="w-7 h-7" />
           </div>
-          <h3 className="text-lg font-display font-extrabold tracking-tight text-slate-900">
+          <h3 className="text-lg font-display font-extrabold tracking-tight text-slate-900 dark:text-white">
             Your wallet is empty
           </h3>
-          <p className="text-sm text-slate-500 max-w-sm mx-auto">
+          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
             Complete a service workflow to generate and securely store your digital smart cards and permits here.
           </p>
-          <Link href="/dashboard" className="btn btn-primary inline-flex items-center gap-1.5 mx-auto">
+          <Link href="/dashboard" className="clay-btn clay-btn-primary min-h-[44px] inline-flex items-center gap-1.5 mx-auto text-white">
             Start a service
             <ArrowRight className="w-4 h-4" />
           </Link>
@@ -147,7 +147,7 @@ export default function DocumentsPage() {
             const isActive = app.status === 'card_generated';
 
             return (
-              <div key={app.id} className="card card-hover p-6 flex flex-col justify-between">
+              <div key={app.id} className="clay-card clay-card-interactive p-6 flex flex-col justify-between">
                 <div>
                   {/* Top Badges */}
                   <div className="flex items-center justify-between mb-4">
@@ -158,26 +158,26 @@ export default function DocumentsPage() {
                     </Pill>
                   </div>
 
-                  <h3 className="font-display font-extrabold tracking-tight text-slate-900 text-base leading-snug mb-4">
+                  <h3 className="font-display font-extrabold tracking-tight text-slate-900 dark:text-white text-base leading-snug mb-4">
                     {app.title}
                   </h3>
 
-                  <dl className="text-[13px] text-slate-500 space-y-1.5 mb-5">
+                  <dl className="text-[13px] text-slate-500 dark:text-slate-400 space-y-1.5 mb-5">
                     <div className="flex justify-between gap-3">
                       <dt>Holder</dt>
-                      <dd className="font-semibold text-slate-800 text-right">{app.applicantName}</dd>
+                      <dd className="font-semibold text-slate-800 dark:text-slate-200 text-right">{app.applicantName}</dd>
                     </div>
                     <div className="flex justify-between gap-3">
                       <dt>RTO</dt>
-                      <dd className="font-semibold text-slate-800 text-right">{app.rtoName}</dd>
+                      <dd className="font-semibold text-slate-800 dark:text-slate-200 text-right">{app.rtoName}</dd>
                     </div>
                     <div className="flex justify-between gap-3">
                       <dt>Issued</dt>
-                      <dd className="font-semibold text-slate-800 text-right">{formatDate(app.createdAt)}</dd>
+                      <dd className="font-semibold text-slate-800 dark:text-slate-200 text-right">{formatDate(app.createdAt)}</dd>
                     </div>
-                    <div className="flex justify-between gap-3 hairline pt-2 mt-2">
+                    <div className="flex justify-between gap-3 border-t border-slate-100 dark:border-slate-800 pt-2 mt-2">
                       <dt>Ref No.</dt>
-                      <dd className="font-mono text-[12px] font-semibold text-sky-700 text-right">
+                      <dd className="font-mono text-[12px] font-semibold text-sky-700 dark:text-sky-400 text-right">
                         {app.referenceNumber}
                       </dd>
                     </div>
@@ -185,10 +185,10 @@ export default function DocumentsPage() {
                 </div>
 
                 {/* Bottom Actions */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                   <button
                     onClick={() => setPreviewApp(app)}
-                    className="btn btn-primary flex-1 gap-1.5"
+                    className="clay-btn clay-btn-primary min-h-[40px] flex-1 gap-1.5 text-xs text-white"
                   >
                     <Eye className="w-4 h-4" />
                     View &amp; Inspect
@@ -196,7 +196,7 @@ export default function DocumentsPage() {
 
                   <button
                     onClick={() => setPreviewApp(app)}
-                    className="btn btn-ghost px-3"
+                    className="clay-btn min-h-[40px] px-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
                     title="Print Document"
                     aria-label="Print document"
                   >
@@ -212,19 +212,19 @@ export default function DocumentsPage() {
       {/* ================= INSPECT & PREVIEW MODAL ================= */}
       {previewApp && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-overlay-in overflow-y-auto">
-          <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8 p-6 sm:p-8">
+          <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden my-8 p-6 sm:p-8">
 
             {/* Modal Header */}
-            <div className="flex items-center justify-between hairline pb-4 mb-6">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
               <div>
-                <span className="eyebrow text-emerald-700">GatiLocker Verified Document</span>
-                <h3 className="font-display font-extrabold tracking-tight text-slate-900 text-lg sm:text-xl mt-1">
+                <span className="eyebrow text-emerald-700 dark:text-emerald-400">GatiLocker Verified Document</span>
+                <h3 className="font-display font-extrabold tracking-tight text-slate-900 dark:text-white text-lg sm:text-xl mt-1">
                   {previewApp.title}
                 </h3>
               </div>
               <button
                 onClick={() => setPreviewApp(null)}
-                className="btn btn-ghost px-2.5"
+                className="clay-btn min-h-[38px] px-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
                 aria-label="Close preview"
               >
                 <X className="w-5 h-5" />

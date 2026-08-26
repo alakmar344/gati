@@ -213,17 +213,17 @@ export default function ScanPage() {
 
           {/* Preset Buttons for Instant 1-Tap Test */}
           <div className="space-y-3">
-            <span className="eyebrow text-slate-500 block">
+            <span className="eyebrow text-slate-500 dark:text-slate-400 block">
               1-Tap Test Documents
             </span>
             <div className="grid grid-cols-3 gap-2 text-xs">
               <button
                 type="button"
                 onClick={() => handleTriggerScan('rc-nexon')}
-                className={`p-3 rounded-xl border font-semibold transition-all ${
+                className={`min-h-[44px] p-3 rounded-2xl border font-semibold transition-all flex items-center justify-center text-center ${
                   selectedSample === 'rc-nexon'
-                    ? 'bg-emerald-50 border-emerald-500 text-emerald-900 ring-2 ring-emerald-500/20'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'clay-pill bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-900 dark:text-emerald-200 ring-2 ring-emerald-500/20'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60'
                 }`}
               >
                 🚗 Smart RC
@@ -232,42 +232,42 @@ export default function ScanPage() {
               <button
                 type="button"
                 onClick={() => handleTriggerScan('dl-ananya')}
-                className={`p-3 rounded-xl border font-semibold transition-all ${
+                className={`min-h-[44px] p-3 rounded-2xl border font-semibold transition-all flex items-center justify-center text-center ${
                   selectedSample === 'dl-ananya'
-                    ? 'bg-sky-50 border-sky-500 text-sky-900 ring-2 ring-sky-500/20'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'clay-pill bg-sky-50 dark:bg-sky-950/60 border-sky-500 text-sky-900 dark:text-sky-200 ring-2 ring-sky-500/20'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60'
                 }`}
               >
-                💳 PVC Driving Licence
+                💳 PVC Licence
               </button>
 
               <button
                 type="button"
                 onClick={() => handleTriggerScan('hsrp-plate')}
-                className={`p-3 rounded-xl border font-semibold transition-all ${
+                className={`min-h-[44px] p-3 rounded-2xl border font-semibold transition-all flex items-center justify-center text-center ${
                   selectedSample === 'hsrp-plate'
-                    ? 'bg-amber-50 border-amber-500 text-amber-900 ring-2 ring-amber-500/20'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'clay-pill bg-amber-50 dark:bg-amber-950/60 border-amber-500 text-amber-900 dark:text-amber-200 ring-2 ring-amber-500/20'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60'
                 }`}
               >
-                👑 VIP HSRP Plate
+                👑 VIP HSRP
               </button>
             </div>
           </div>
         </div>
 
         {/* Right Scanned Extraction & Health Audit */}
-        <div className="lg:col-span-6 card p-6 sm:p-8 flex flex-col justify-between gap-6">
+        <div className="lg:col-span-6 clay-card p-6 sm:p-8 flex flex-col justify-between gap-6">
           {activeResult ? (
             <div className="space-y-5 animate-rise">
 
               {/* Header */}
-              <div className="flex items-center justify-between gap-3 border-b hairline pb-4">
+              <div className="flex items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
                 <div>
-                  <span className="eyebrow text-emerald-700 block">
+                  <span className="eyebrow text-emerald-700 dark:text-emerald-400 block">
                     Instant Extraction Completed
                   </span>
-                  <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 mt-1">
+                  <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">
                     {activeResult.docType === 'RC' && 'Vehicle Registration Verified'}
                     {activeResult.docType === 'DL' && 'Driving Licence Credentials Extracted'}
                     {activeResult.docType === 'PLATE' && 'HSRP Plate Telemetry Match'}
@@ -279,41 +279,41 @@ export default function ScanPage() {
               </div>
 
               {/* Extracted Fields Table */}
-              <div className="bg-slate-50 p-4 rounded-2xl border hairline text-sm divide-y divide-slate-200/60">
+              <div className="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 text-sm divide-y divide-slate-200/60 dark:divide-slate-700">
                 {Object.entries(activeResult.extractedFields).map(([k, v]) => (
                   <div key={k} className="flex justify-between items-center gap-4 py-2 first:pt-0 last:pb-0">
-                    <span className="text-slate-500 text-xs">{k}</span>
-                    <span className="font-mono font-bold text-slate-900 text-right text-xs">{v}</span>
+                    <span className="text-slate-500 dark:text-slate-400 text-xs">{k}</span>
+                    <span className="font-mono font-bold text-slate-900 dark:text-white text-right text-xs">{v}</span>
                   </div>
                 ))}
               </div>
 
               {/* Health Flags Audit */}
               <div className="space-y-2.5">
-                <span className="eyebrow text-slate-600 block">
+                <span className="eyebrow text-slate-600 dark:text-slate-400 block">
                   Statutory Health & Radar Flags
                 </span>
                 <div className="space-y-2">
                   {activeResult.healthFlags.map((flag, idx) => (
                     <div
                       key={idx}
-                      className={`p-3 rounded-xl border text-xs flex items-center justify-between gap-3 ${
+                      className={`p-3.5 rounded-2xl border text-xs flex items-center justify-between gap-3 ${
                         flag.status === 'WARNING'
-                          ? 'bg-amber-50 border-amber-200 text-amber-900'
+                          ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200'
                           : flag.status === 'EXPIRED'
-                          ? 'bg-rose-50 border-rose-200 text-rose-900'
-                          : 'bg-emerald-50/60 border-emerald-200 text-emerald-900'
+                          ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800/60 text-rose-900 dark:text-rose-200'
+                          : 'bg-emerald-50/60 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-200'
                       }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         {flag.status === 'WARNING' ? (
-                          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                          <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
                         ) : (
-                          <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                         )}
                         <span className="font-semibold">{flag.label}</span>
                       </div>
-                      <span className="text-[11px] text-slate-600 text-right">{flag.desc}</span>
+                      <span className="text-[11px] text-slate-600 dark:text-slate-400 text-right">{flag.desc}</span>
                     </div>
                   ))}
                 </div>
@@ -322,7 +322,7 @@ export default function ScanPage() {
               {/* Action Button */}
               <Link
                 href={activeResult.suggestedAction.route}
-                className="btn btn-primary w-full py-3 text-sm"
+                className="clay-btn clay-btn-primary min-h-[44px] w-full py-3 text-sm text-white font-bold"
               >
                 <span>{activeResult.suggestedAction.label}</span>
                 <ArrowRight className="w-4 h-4 text-emerald-400" />
@@ -330,18 +330,18 @@ export default function ScanPage() {
             </div>
           ) : (
             <div className="py-16 text-center space-y-5 my-auto">
-              <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto">
+              <div className="w-14 h-14 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mx-auto shadow-inner">
                 <ScanLine className="w-7 h-7 animate-pulse" />
               </div>
               <div>
-                <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900">Ready to Scan</h3>
-                <p className="text-sm text-slate-500 max-w-xs mx-auto mt-1.5 leading-relaxed">
+                <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">Ready to Scan</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 max-w-xs mx-auto mt-1.5 leading-relaxed">
                   Click any of the 1-tap test documents on the left to simulate instant sub-second OCR extraction.
                 </p>
               </div>
               <button
                 onClick={() => handleTriggerScan('rc-nexon')}
-                className="btn btn-brand px-6 py-2.5 text-sm"
+                className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm text-white font-bold"
               >
                 <Zap className="w-4 h-4" />
                 <span>Scan Sample RC Now</span>

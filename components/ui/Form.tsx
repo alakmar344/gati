@@ -224,7 +224,7 @@ export function OptionGrid({
             type="button"
             onClick={() => onChange(opt.value)}
             className={cn(
-              'clay-card relative p-3.5 border text-left transition-all',
+              'clay-card relative p-4 border text-left transition-all min-h-[48px] flex flex-col justify-center',
               selected
                 ? cn('ring-2', TONES[tone] || TONES.emerald)
                 : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
