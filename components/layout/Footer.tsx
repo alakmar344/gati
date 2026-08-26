@@ -32,7 +32,7 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div className="col-span-2 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-saffron-500 via-ashoka-700 to-indiaGreen-700 flex items-center justify-center text-white font-display font-black text-sm shadow-md">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-saffron-600 via-ashoka-800 to-olive-700 flex items-center justify-center text-white font-display font-black text-sm shadow-md border border-white/10">
                 ग
               </div>
               <div className="flex items-center gap-2">
@@ -73,7 +73,7 @@ export const Footer: React.FC = () => {
         <div className="pt-7 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <span>© {new Date().getFullYear()} Gati Mobility OS • Designed for modern Indian transport.</span>
           <div className="flex items-center gap-4">
-            <span className="font-mono text-emerald-400/80">100% client-side</span>
+            <span className="font-mono text-olive-400">100% client-side</span>
             <button
               onClick={handleResetDemo}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white font-semibold transition-all"

@@ -62,8 +62,8 @@ export default function DashboardPage() {
 
   const stats = [
     { label: 'Applications', value: applications.length, tone: 'text-slate-900', icon: Layers },
-    { label: 'Garage vehicles', value: currentUser.vehiclesCount, tone: 'text-emerald-700', icon: Car },
-    { label: 'Smart cards', value: documents.length, tone: 'text-sky-700', icon: FolderLock },
+    { label: 'Garage vehicles', value: currentUser.vehiclesCount, tone: 'text-olive-800', icon: Car },
+    { label: 'Smart cards', value: documents.length, tone: 'text-ashoka-800', icon: FolderLock },
     { label: 'Payments', value: payments.length, tone: 'text-slate-900', icon: Wallet },
   ];
 
@@ -77,14 +77,14 @@ export default function DashboardPage() {
     <div className="min-h-screen py-8 px-4 sm:px-8 max-w-6xl mx-auto space-y-7">
       {/* ===== Citizen banner ===== */}
       <div className="card p-6 sm:p-8 relative overflow-hidden">
-        <div className="absolute -top-16 -right-10 w-56 h-56 rounded-full bg-emerald-500/10 blur-3xl" aria-hidden />
+        <div className="absolute -top-16 -right-10 w-56 h-56 rounded-full bg-olive-500/10 blur-3xl" aria-hidden />
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-600 text-white flex items-center justify-center font-display font-black text-xl shadow-md border-2 border-white">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-olive-700 to-olive-900 text-white flex items-center justify-center font-display font-black text-xl shadow-md border-2 border-white">
               {currentUser.avatar}
             </div>
             <div>
-              <div className="text-xs font-semibold text-emerald-700">
+              <div className="text-xs font-semibold text-olive-800">
                 {getGreeting()}, {currentUser.name.split(' ')[0]}
               </div>
               <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-0.5">
@@ -98,11 +98,11 @@ export default function DashboardPage() {
 
           <div className="flex items-center gap-2.5">
             <button onClick={() => setIsSwitcherOpen(true)} className="btn btn-ghost px-4 py-2.5 text-xs">
-              <User className="w-4 h-4 text-emerald-600" />
+              <User className="w-4 h-4 text-olive-700" />
               <span className="hidden sm:inline">Switch persona</span>
             </button>
             <Link href="/vehicle-licensing" className="btn btn-primary px-5 py-2.5 text-xs">
-              <Plus className="w-4 h-4 text-emerald-400" /> New application
+              <Plus className="w-4 h-4 text-saffron-400" /> New application
             </Link>
           </div>
         </div>
@@ -165,7 +165,7 @@ export default function DashboardPage() {
               <Icon className="w-4 h-4" />
               <span>{t.label}</span>
               {t.count !== undefined && (
-                <span className={`text-[10px] px-1.5 rounded-full ${active ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-500'}`}>
+                <span className={`text-[10px] px-1.5 rounded-full ${active ? 'bg-olive-100 text-olive-800' : 'bg-slate-200 text-slate-500'}`}>
                   {t.count}
                 </span>
               )}
@@ -194,10 +194,10 @@ export default function DashboardPage() {
                 <div key={app.id} className="card card-hover p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div className="space-y-2.5 max-w-lg">
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-olive-100 text-olive-900">
                         {app.serviceType.replace('-', ' ')}
                       </span>
-                      <span className="font-mono text-xs text-sky-700 font-bold">{app.referenceNumber}</span>
+                      <span className="font-mono text-xs text-ashoka-800 font-bold">{app.referenceNumber}</span>
                     </div>
                     <h3 className="font-display text-lg font-bold text-slate-900">{app.title}</h3>
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
@@ -207,7 +207,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="pt-1.5">
                       <div className="flex items-center justify-between text-[11px] mb-1.5">
-                        <span className={`font-bold inline-flex items-center gap-1 ${issued ? 'text-emerald-700' : 'text-sky-700'}`}>
+                        <span className={`font-bold inline-flex items-center gap-1 ${issued ? 'text-olive-800' : 'text-ashoka-800'}`}>
                           {issued && <CheckCircle2 className="w-3.5 h-3.5" />}
                           {issued ? 'Issued & ready' : 'In progress'}
                         </span>
@@ -215,7 +215,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full transition-all duration-700"
+                          className="h-full bg-gradient-to-r from-olive-600 to-olive-800 rounded-full transition-all duration-700"
                           style={{ width: `${pct}%` }}
                         />
                       </div>

@@ -39,11 +39,11 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
         </div>
 
         {/* Security Border Pattern */}
-        <div className="border border-emerald-600/30 rounded-2xl p-5 sm:p-6 bg-gradient-to-b from-emerald-50/20 via-white to-sky-50/20">
+        <div className="border border-olive-600/30 rounded-2xl p-5 sm:p-6 bg-gradient-to-b from-olive-50/20 via-white to-ashoka-50/20">
           
           {/* Header */}
           <div className="text-center border-b-2 border-slate-200 pb-4 mb-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold tracking-wider uppercase mb-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-olive-100 text-olive-800 text-[10px] font-bold tracking-wider uppercase mb-2">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>FORM 47 • NATIONAL TRANSPORT PERMIT</span>
             </div>
@@ -53,7 +53,7 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
             <p className="text-xs text-slate-600 font-medium">
               Issued under Central Motor Vehicles Rules, 1989 (Rule 85-B)
             </p>
-            <div className="mt-2 text-xs font-mono font-bold text-sky-700 bg-sky-50 py-1 px-3 rounded-md inline-block border border-sky-200">
+            <div className="mt-2 text-xs font-mono font-bold text-ashoka-800 bg-ashoka-50 py-1 px-3 rounded-md inline-block border border-ashoka-200">
               PERMIT NO: {permit.permitNumber}
             </div>
           </div>

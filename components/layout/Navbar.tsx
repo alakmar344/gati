@@ -73,7 +73,7 @@ export const Navbar: React.FC = () => {
         >
           {/* Brand */}
           <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="relative w-9 h-9 rounded-2xl bg-gradient-to-tr from-saffron-500 via-ashoka-700 to-indiaGreen-700 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+            <div className="relative w-9 h-9 rounded-2xl bg-gradient-to-tr from-saffron-600 via-ashoka-800 to-olive-700 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform border border-white/20">
               <span className="font-display font-black text-base tracking-tighter">ग</span>
             </div>
             <div className="flex flex-col leading-none">
@@ -121,12 +121,12 @@ export const Navbar: React.FC = () => {
             {/* Command search */}
             <button
               onClick={openCommand}
-              className="hidden md:flex items-center gap-2 pl-3 pr-2 py-2 rounded-full bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-semibold transition-all"
+              className="hidden md:flex items-center gap-2 pl-3 pr-2 py-2 rounded-full bg-olive-50 hover:bg-olive-100 border border-olive-200 text-olive-800 text-xs font-semibold transition-all"
               title="Ask Gati (⌘K)"
             >
-              <Wand2 className="w-4 h-4" />
+              <Wand2 className="w-4 h-4 text-saffron-600" />
               <span className="hidden xl:inline">Ask Gati</span>
-              <kbd className="hidden xl:inline-flex items-center gap-0.5 text-[10px] font-bold text-emerald-600 bg-white border border-emerald-200 rounded px-1 py-0.5">
+              <kbd className="hidden xl:inline-flex items-center gap-0.5 text-[10px] font-bold text-olive-700 bg-white border border-olive-200 rounded px-1.5 py-0.5 shadow-xs">
                 <CmdIcon className="w-2.5 h-2.5" />K
               </kbd>
             </button>
@@ -135,10 +135,10 @@ export const Navbar: React.FC = () => {
             {currentUser && (
               <button
                 onClick={() => setIsSwitcherOpen(true)}
-                className="hidden sm:flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-white/80 hover:bg-white border border-slate-200 text-slate-700 text-xs font-semibold transition-all"
+                className="hidden sm:flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full bg-white/80 hover:bg-white border border-slate-200 text-slate-700 text-xs font-semibold transition-all shadow-xs"
                 title="Switch demo persona"
               >
-                <span className="w-6 h-6 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center font-bold text-[9px]">
+                <span className="w-6 h-6 rounded-full bg-gradient-to-tr from-olive-700 to-olive-900 text-white flex items-center justify-center font-bold text-[9px] shadow-xs">
                   {currentUser.avatar}
                 </span>
                 <span className="font-medium text-slate-800 max-w-[72px] truncate text-[11px]">
@@ -153,7 +153,7 @@ export const Navbar: React.FC = () => {
               href="/dashboard"
               className="btn btn-primary px-4 py-2 text-xs"
             >
-              <LayoutDashboard className="w-3.5 h-3.5 text-emerald-400" />
+              <LayoutDashboard className="w-3.5 h-3.5 text-saffron-400" />
               <span className="hidden sm:inline">Dashboard</span>
             </Link>
 
@@ -176,9 +176,9 @@ export const Navbar: React.FC = () => {
                 setIsMobileMenuOpen(false);
                 openCommand();
               }}
-              className="w-full flex items-center gap-2 px-3.5 py-3 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-semibold mb-3"
+              className="w-full flex items-center gap-2 px-3.5 py-3 rounded-2xl bg-olive-50 text-olive-800 text-sm font-semibold mb-3 border border-olive-200"
             >
-              <Wand2 className="w-4 h-4" />
+              <Wand2 className="w-4 h-4 text-saffron-600" />
               Ask Gati to do something…
             </button>
 
@@ -191,7 +191,7 @@ export const Navbar: React.FC = () => {
                 setIsMobileMenuOpen(false);
                 setIsSwitcherOpen(true);
               }}
-              className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-bold"
+              className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-2xl bg-olive-50 text-olive-800 text-sm font-bold border border-olive-200"
             >
               Switch Demo Persona
             </button>

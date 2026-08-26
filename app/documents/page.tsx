@@ -20,13 +20,13 @@ import { DigitalDrivingLicenceCard } from '@/components/documents/DigitalDriving
 import { VipAllotmentOrder } from '@/components/documents/VipAllotmentOrder';
 import { DigitalPermitDocument } from '@/components/documents/DigitalPermitDocument';
 
-type Tone = 'slate' | 'emerald' | 'sky' | 'amber' | 'rose' | 'violet';
+type Tone = 'slate' | 'emerald' | 'olive' | 'saffron' | 'ashoka' | 'sky' | 'amber' | 'rose';
 
 const TYPE_META: Record<string, { badge: string; tone: Tone }> = {
-  'vehicle-licensing': { badge: 'RC', tone: 'emerald' },
-  'fancy-numbers': { badge: 'VIP', tone: 'amber' },
-  'driver-licence': { badge: 'DL', tone: 'sky' },
-  'vehicle-permit': { badge: 'Permit', tone: 'violet' },
+  'vehicle-licensing': { badge: 'Smart RC', tone: 'olive' },
+  'fancy-numbers': { badge: 'VIP Plate', tone: 'saffron' },
+  'driver-licence': { badge: 'PVC DL', tone: 'ashoka' },
+  'vehicle-permit': { badge: 'National Permit', tone: 'olive' },
 };
 
 export default function DocumentsPage() {
