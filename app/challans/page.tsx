@@ -109,11 +109,26 @@ export default function ChallansPage() {
           </div>
         </div>
 
-        <div className="text-center sm:text-right">
-          <span className="text-xs text-slate-400 dark:text-slate-500 font-semibold block">Total Outstanding Fines</span>
-          <span className="text-2xl font-display font-extrabold tracking-tight text-rose-700 dark:text-rose-400 font-mono">
-            {formatINR(totalPendingAmount)}
-          </span>
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="text-center sm:text-right">
+            <span className="text-xs text-slate-400 dark:text-slate-500 font-semibold block">Total Outstanding Fines</span>
+            <span className="text-2xl font-display font-extrabold tracking-tight text-rose-700 dark:text-rose-400 font-mono">
+              {formatINR(totalPendingAmount)}
+            </span>
+          </div>
+
+          {pendingCount > 0 && (
+            <button
+              onClick={() => {
+                const firstPending = challans.find(c => c.status === 'PENDING');
+                if (firstPending) setSelectedChallanForPay(firstPending);
+              }}
+              className="clay-btn clay-btn-saffron min-h-[44px] px-5 py-2.5 text-xs text-white font-extrabold shadow-lg flex items-center gap-2"
+            >
+              <CreditCard className="w-4 h-4" />
+              <span>Pay Dues (1-Tap UPI)</span>
+            </button>
+          )}
         </div>
       </div>
 

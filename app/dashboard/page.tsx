@@ -14,6 +14,7 @@ import {
   Wallet,
   FolderLock,
   CheckCircle2,
+  CreditCard,
 } from 'lucide-react';
 import { DemoUser, AnyApplication, StoredDocument, PaymentReceipt } from '@/lib/types';
 import { getCurrentUser, getApplicationsForUser, getAllDocuments, getAllPayments } from '@/lib/storage';
@@ -97,7 +98,14 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <Link
+              href="/challans"
+              className="clay-btn min-h-[44px] bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 px-4 py-2 text-xs font-bold shadow-xs"
+            >
+              <CreditCard className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+              <span>Pay Fines &amp; Dues</span>
+            </Link>
             <button
               onClick={() => setIsSwitcherOpen(true)}
               className="clay-btn min-h-[44px] bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2 text-xs"

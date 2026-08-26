@@ -163,8 +163,8 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
           </div>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6">
+        {/* Modal Body with Scroll */}
+        <div className="flex-1 overflow-y-auto p-5 sm:p-6">
           {isProcessing ? (
             /* Processing Animation Screen */
             <div className="py-8 flex flex-col items-center justify-center text-center">
@@ -207,88 +207,91 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
             </div>
           ) : (
             /* Payment Method Selection Screen */
-            <div className="space-y-5">
+            <div className="space-y-4">
               {/* Method Selector Tabs */}
               <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl">
                 <button
+                  type="button"
                   onClick={() => setMethod('UPI')}
-                  className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
+                  className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-bold transition-all min-h-[44px] ${
                     method === 'UPI'
-                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-800 dark:text-olive-300 shadow-sm'
+                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-800 dark:text-olive-300 shadow-sm border border-olive-200 dark:border-olive-800'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  <Smartphone className="w-4 h-4 mb-1" />
+                  <Smartphone className="w-4 h-4 mb-0.5 text-olive-600 dark:text-olive-400" />
                   <span>UPI Instant</span>
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => setMethod('RuPay Card')}
-                  className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
+                  className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-bold transition-all min-h-[44px] ${
                     method === 'RuPay Card'
-                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-800 dark:text-olive-300 shadow-sm'
+                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-800 dark:text-olive-300 shadow-sm border border-olive-200 dark:border-olive-800'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  <CreditCard className="w-4 h-4 mb-1" />
+                  <CreditCard className="w-4 h-4 mb-0.5 text-ashoka-600 dark:text-ashoka-400" />
                   <span>Cards / RuPay</span>
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => setMethod('Net Banking')}
-                  className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
+                  className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs font-bold transition-all min-h-[44px] ${
                     method === 'Net Banking'
-                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-800 dark:text-olive-300 shadow-sm'
+                      ? 'clay-pill bg-white dark:bg-slate-900 text-olive-800 dark:text-olive-300 shadow-sm border border-olive-200 dark:border-olive-800'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  <Building2 className="w-4 h-4 mb-1" />
+                  <Building2 className="w-4 h-4 mb-0.5 text-sky-600 dark:text-sky-400" />
                   <span>Net Banking</span>
                 </button>
               </div>
 
               {/* Sub-method details */}
               {method === 'UPI' && (
-                <div className="p-4 bg-olive-50/70 rounded-2xl border border-olive-200 space-y-4">
-                  <div className="flex items-center justify-between text-xs text-olive-950 font-medium">
+                <div className="p-4 bg-olive-50/70 dark:bg-olive-950/40 rounded-2xl border border-olive-200 dark:border-olive-800/60 space-y-3">
+                  <div className="flex items-center justify-between text-xs text-olive-950 dark:text-olive-200 font-medium">
                     <span>Select Simulated UPI App:</span>
-                    <span className="text-[11px] text-olive-800 bg-olive-200/80 px-2 py-0.5 rounded-full font-bold">
+                    <span className="text-[11px] text-olive-800 dark:text-olive-300 bg-olive-200/80 dark:bg-olive-900/80 px-2.5 py-0.5 rounded-full font-bold">
                       Zero Surcharge
                     </span>
                   </div>
 
                   <div className="grid grid-cols-4 gap-2">
                     {[
-                      { id: 'qr', label: 'Scan QR', icon: <QrCode className="w-5 h-5 text-slate-800" /> },
-                      { id: 'gpay', label: 'Google Pay', icon: <span className="font-bold text-ashoka-700 text-xs">GPay</span> },
-                      { id: 'phonepe', label: 'PhonePe', icon: <span className="font-bold text-ashoka-900 text-xs">PhonePe</span> },
-                      { id: 'paytm', label: 'Paytm', icon: <span className="font-bold text-sky-700 text-xs">Paytm</span> },
+                      { id: 'qr', label: 'Scan QR', icon: <QrCode className="w-5 h-5 text-slate-800 dark:text-slate-200" /> },
+                      { id: 'gpay', label: 'Google Pay', icon: <span className="font-bold text-ashoka-700 dark:text-ashoka-300 text-xs">GPay</span> },
+                      { id: 'phonepe', label: 'PhonePe', icon: <span className="font-bold text-ashoka-900 dark:text-ashoka-200 text-xs">PhonePe</span> },
+                      { id: 'paytm', label: 'Paytm', icon: <span className="font-bold text-sky-700 dark:text-sky-300 text-xs">Paytm</span> },
                     ].map((app) => (
                       <button
                         key={app.id}
                         type="button"
                         onClick={() => setUpiApp(app.id as any)}
-                        className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${
+                        className={`flex flex-col items-center justify-center p-2.5 rounded-xl border transition-all min-h-[56px] ${
                           upiApp === app.id
-                            ? 'bg-white border-olive-600 shadow-sm ring-2 ring-olive-600/20'
-                            : 'bg-white/70 border-slate-200 hover:bg-white'
+                            ? 'bg-white dark:bg-slate-900 border-olive-600 shadow-sm ring-2 ring-olive-600/30'
+                            : 'bg-white/80 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-700'
                         }`}
                       >
-                        <div className="h-6 flex items-center justify-center">{app.icon}</div>
-                        <span className="text-[11px] font-semibold text-slate-700 mt-1">{app.label}</span>
+                        <div className="h-5 flex items-center justify-center">{app.icon}</div>
+                        <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 mt-1">{app.label}</span>
                       </button>
                     ))}
                   </div>
 
                   {upiApp === 'qr' && (
-                    <div className="flex items-center gap-4 bg-white p-3 rounded-xl border border-olive-200">
-                      <div className="w-16 h-16 bg-slate-900 text-white rounded-lg p-1 flex items-center justify-center">
-                        <QrCode className="w-14 h-14 text-white" />
+                    <div className="flex items-center gap-3 bg-white dark:bg-slate-900 p-3 rounded-xl border border-olive-200 dark:border-olive-800">
+                      <div className="w-14 h-14 bg-slate-900 dark:bg-slate-800 text-white rounded-lg p-1 flex items-center justify-center shrink-0">
+                        <QrCode className="w-12 h-12 text-white" />
                       </div>
                       <div className="text-xs">
-                        <div className="font-bold text-slate-900">Scan via any UPI App</div>
-                        <div className="text-slate-500 text-[11px]">Instant 1-click authorization ready</div>
-                        <div className="font-mono text-[11px] text-olive-800 font-semibold mt-0.5">gati.rto@npci.simulated</div>
+                        <div className="font-bold text-slate-900 dark:text-white">Scan via any UPI App</div>
+                        <div className="text-slate-500 dark:text-slate-400 text-[11px]">Instant 1-click authorization ready</div>
+                        <div className="font-mono text-[11px] text-olive-800 dark:text-olive-300 font-semibold mt-0.5">gati.rto@npci.simulated</div>
                       </div>
                     </div>
                   )}
@@ -298,7 +301,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
               {method === 'RuPay Card' && (
                 <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
                   <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">Pre-filled Demo Test Card:</div>
-                  <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-3 rounded-xl text-xs space-y-1 shadow-inner">
+                  <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-3.5 rounded-xl text-xs space-y-1 shadow-inner">
                     <div className="flex justify-between items-center text-[11px] text-slate-400">
                       <span>RuPay Platinum Debit</span>
                       <span className="text-amber-400 font-bold">NPCI TEST</span>
@@ -328,13 +331,13 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
               )}
 
               {/* Fee Breakdown Summary */}
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-1 text-xs text-slate-600 dark:text-slate-400">
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-1 text-xs text-slate-600 dark:text-slate-400">
                 <div className="flex justify-between">
                   <span>RTO Statutory Processing Fee</span>
                   <span className="font-mono font-medium text-slate-900 dark:text-slate-200">{formatINR(amount)}</span>
                 </div>
                 <div className="flex justify-between text-olive-700 dark:text-olive-400">
-                  <span>Convenience & FastTrack Cess</span>
+                  <span>Convenience &amp; FastTrack Cess</span>
                   <span className="font-mono font-bold">FREE (₹0)</span>
                 </div>
                 <div className="flex justify-between pt-1 border-t border-slate-200 dark:border-slate-800 font-bold text-slate-900 dark:text-white text-sm">
@@ -342,26 +345,39 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   <span className="font-mono text-olive-700 dark:text-olive-400">{formatINR(totalAmount)}</span>
                 </div>
               </div>
-
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3 pt-2">
-                <button type="button" onClick={onClose} className="clay-btn bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 w-1/3 py-2.5 text-xs">
-                  Cancel
-                </button>
-                <button type="button" onClick={handleStartPayment} className="clay-btn clay-btn-primary w-2/3 py-2.5 text-xs text-white">
-                  <span>Authorize {formatINR(totalAmount)}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="text-center">
-                <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
-                  🔒 100% mock sandbox transaction • no real charges will occur
-                </span>
-              </div>
             </div>
           )}
         </div>
+
+        {/* Sticky Action Footer — Always Visible & Fixed at Bottom */}
+        {!isProcessing && (
+          <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-900/95 border-t border-slate-200 dark:border-slate-800 flex-shrink-0 space-y-2">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="clay-btn min-h-[48px] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 w-1/3 py-3 text-xs font-bold"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleStartPayment}
+                className="clay-btn clay-btn-saffron min-h-[48px] w-2/3 py-3 text-sm text-white font-black shadow-xl flex items-center justify-center gap-2"
+              >
+                <CreditCard className="w-4 h-4" />
+                <span>Pay {formatINR(totalAmount)} via {method === 'UPI' ? 'UPI' : method}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="text-center">
+              <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+                🔒 100% simulated sandbox transaction • zero actual monetary deduction
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

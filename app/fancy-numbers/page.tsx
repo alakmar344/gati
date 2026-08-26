@@ -409,10 +409,10 @@ export default function FancyNumbersPage() {
                         e.stopPropagation();
                         handleSelectToBuy(item);
                       }}
-                      className="clay-btn min-h-[40px] px-4 py-2 text-xs bg-slate-900 hover:bg-amber-500 hover:text-slate-950 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-amber-400 text-white shadow-sm font-bold"
+                      className="clay-btn clay-btn-saffron min-h-[40px] px-4 py-2 text-xs text-white shadow-sm font-bold flex items-center gap-1.5"
                     >
-                      <span>Reserve</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <CreditCard className="w-3.5 h-3.5" />
+                      <span>Pay &amp; Reserve</span>
                     </button>
                   </div>
                 </div>
