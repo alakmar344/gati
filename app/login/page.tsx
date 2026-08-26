@@ -2,24 +2,28 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { 
-  User, 
-  Lock, 
-  Eye, 
-  EyeOff, 
-  CheckCircle, 
-  ArrowRight, 
-  ShieldCheck, 
+import {
+  User,
+  Lock,
+  Eye,
+  EyeOff,
+  CheckCircle,
+  ArrowRight,
+  ShieldCheck,
   Sparkles,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  MapPin,
+  Car,
 } from 'lucide-react';
 import { DEMO_USERS } from '@/lib/mockData';
 import { setCurrentUser } from '@/lib/storage';
+import { SectionHeading, Pill } from '@/components/ui/Primitives';
+import { useToast } from '@/components/ui/Toast';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [email, setEmail] = useState(DEMO_USERS[0].email);
   const [password, setPassword] = useState('demo123');
   const [showPassword, setShowPassword] = useState(false);
@@ -43,34 +47,50 @@ export default function LoginPage() {
       setIsLoading(false);
       const matched = DEMO_USERS.find(u => u.email.toLowerCase() === email.toLowerCase()) || selectedUser;
       setCurrentUser(matched);
+      toast({
+        title: `Signed in as ${matched.name}`,
+        description: `${matched.role} · ${matched.city}`,
+        variant: 'success',
+      });
       router.push('/dashboard');
     }, 1000);
   };
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-8">
-      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        
-        {/* Left Side Login Form */}
-        <div className="lg:col-span-7 glass-panel p-8 sm:p-10 rounded-3xl border border-white/80 shadow-2xl space-y-6">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Simulated Citizen Authentication</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Sign In to Gati OS
-            </h1>
-            <p className="text-xs text-slate-600 mt-1">
-              Access your digital credentials, active applications, and vehicle garage.
-            </p>
-          </div>
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start animate-rise">
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            {/* Email Field */}
-            <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">
-                Citizen Email / User ID
+        {/* Left — value proposition + credential panel */}
+        <div className="lg:col-span-5 space-y-8 lg:sticky lg:top-24">
+          <SectionHeading
+            align="left"
+            eyebrow="Prototype demo"
+            icon={<ShieldCheck className="w-3.5 h-3.5" />}
+            title={<>Choose your demo citizen</>}
+            subtitle="Gati is a working prototype. Pick a persona to explore their credentials, active applications, and vehicle garage — no real accounts, no passwords to remember."
+          />
+
+          <form onSubmit={handleLogin} className="card p-6 sm:p-7 space-y-5">
+            <div className="space-y-1.5">
+              <span className="eyebrow text-slate-500">Selected persona</span>
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center font-display font-extrabold text-sm shrink-0">
+                  {selectedUser.avatar}
+                </div>
+                <div className="min-w-0">
+                  <div className="font-display font-extrabold tracking-tight text-slate-900 truncate">
+                    {selectedUser.name}
+                  </div>
+                  <div className="text-[12px] text-emerald-700 font-semibold truncate">
+                    {selectedUser.role}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[12px] font-bold text-slate-700 block">
+                Citizen email / user ID
               </label>
               <div className="relative">
                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -79,16 +99,15 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl glass-input text-xs font-medium text-slate-900"
+                  className="w-full pl-10 pr-4 py-3 field text-[13px] font-medium text-slate-900"
                   placeholder="name@demo.gati.in"
                 />
               </div>
             </div>
 
-            {/* Password Field */}
-            <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">
-                Demo Password
+            <div className="space-y-1.5">
+              <label className="text-[12px] font-bold text-slate-700 block">
+                Demo password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -97,84 +116,111 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl glass-input text-xs font-medium text-slate-900"
+                  className="w-full pl-10 pr-11 py-3 field text-[13px] font-medium text-slate-900"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
-            {/* Submit Button */}
+            {errorMsg && (
+              <div className="flex items-center gap-2 text-[12px] font-semibold text-rose-600">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{errorMsg}</span>
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-slate-900/20 hover:scale-[1.01] transition-all disabled:opacity-50"
+              className="btn btn-primary w-full py-3.5 text-sm disabled:opacity-60"
             >
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Verifying Sandbox Credentials...</span>
+                  <span>Verifying sandbox credentials…</span>
                 </>
               ) : (
                 <>
-                  <span>Sign In as {selectedUser.name.split(' ')[0]}</span>
+                  <span>Continue as {selectedUser.name.split(' ')[0]}</span>
                   <ArrowRight className="w-4 h-4 text-emerald-400" />
                 </>
               )}
             </button>
-          </form>
 
-          {/* Hackathon Sandbox Notice */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-[11px] text-slate-500 flex items-start gap-2.5">
-            <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-slate-800 font-semibold block">Demo Authentication Sandbox</strong>
-              Click any profile on the right to pre-fill credentials for instant 1-click testing.
+            <div className="flex items-start gap-2.5 hairline border-t pt-4 text-[12px] text-slate-500 leading-relaxed">
+              <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+              <p>
+                <strong className="text-slate-800 font-semibold">Demo authentication sandbox.</strong>{' '}
+                Pick any profile on the right to instantly fill credentials for 1-click testing.
+              </p>
             </div>
-          </div>
+          </form>
         </div>
 
-        {/* Right Side Demo Personas Directory */}
-        <div className="lg:col-span-5 space-y-3">
-          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider px-2">
-            1-Click Demo Profiles ({DEMO_USERS.length})
+        {/* Right — persona directory grid */}
+        <div className="lg:col-span-7 space-y-5">
+          <div className="flex items-center justify-between px-1">
+            <span className="eyebrow text-slate-500">Demo profiles</span>
+            <Pill tone="emerald">{DEMO_USERS.length} personas</Pill>
           </div>
 
-          <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 stagger">
             {DEMO_USERS.map((user) => {
               const isSelected = selectedUser.id === user.id;
               return (
-                <div
+                <button
                   key={user.id}
+                  type="button"
                   onClick={() => handlePersonaQuickFill(user)}
-                  className={`p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                  aria-pressed={isSelected}
+                  className={`card text-left p-5 flex flex-col gap-4 transition-all ${
                     isSelected
-                      ? 'bg-emerald-50 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
-                      : 'glass-panel border-white/80 hover:bg-white hover:border-slate-300'
+                      ? 'border-emerald-400 ring-2 ring-emerald-500/30 shadow-lg'
+                      : 'card-hover'
                   }`}
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 ${
-                      isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700'
-                    }`}>
+                  <div className="flex items-start gap-3">
+                    <div
+                      className={`w-12 h-12 rounded-2xl flex items-center justify-center font-display font-extrabold text-sm shrink-0 ${
+                        isSelected
+                          ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white'
+                          : 'bg-slate-100 text-slate-700'
+                      }`}
+                    >
                       {user.avatar}
                     </div>
-                    <div className="min-w-0">
-                      <div className="font-bold text-xs text-slate-900 truncate">{user.name}</div>
-                      <div className="text-[10px] text-emerald-700 font-medium truncate">{user.role}</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-display font-extrabold tracking-tight text-slate-900 truncate">
+                        {user.name}
+                      </div>
+                      <div className="text-[12px] text-emerald-700 font-semibold truncate">
+                        {user.role}
+                      </div>
                     </div>
+                    {isSelected && (
+                      <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                    )}
                   </div>
 
-                  <span className="text-[10px] text-slate-400 font-mono shrink-0">
-                    {user.city}
-                  </span>
-                </div>
+                  <div className="flex items-center justify-between gap-2 hairline border-t pt-4">
+                    <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-slate-500">
+                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                      {user.city}
+                    </span>
+                    <Pill tone={isSelected ? 'emerald' : 'slate'}>
+                      <Car className="w-3 h-3" />
+                      {user.vehiclesCount} {user.vehiclesCount === 1 ? 'vehicle' : 'vehicles'}
+                    </Pill>
+                  </div>
+                </button>
               );
             })}
           </div>
