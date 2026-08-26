@@ -98,7 +98,7 @@ export default function InterstateNocPage() {
             </SelectInput>
           </Field>
 
-          <div className="hidden sm:flex items-center justify-center pt-9 text-teal-500">
+          <div className="hidden sm:flex items-center justify-center pt-9 text-olive-500">
             <ArrowRight className="w-5 h-5" />
           </div>
 
@@ -141,7 +141,7 @@ export default function InterstateNocPage() {
               onValue={(v) => setVehicleAgeMonths(Number(v.replace(/[^0-9]/g, '')) || 0)}
               inputMode="numeric"
               mono
-              suffix={<span className="text-[11px] font-semibold text-slate-400 pr-1">mo</span>}
+              suffix={<span className="text-[11px] font-semibold text-olive-500/80 pr-1">mo</span>}
               placeholder="24"
             />
           </Field>
@@ -168,49 +168,49 @@ export default function InterstateNocPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
           {/* Refund Claimable */}
-          <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 flex flex-col justify-between">
+          <div className="p-5 rounded-2xl bg-olive-50 border border-olive-200 flex flex-col justify-between">
             <div>
-              <span className="eyebrow text-emerald-800 block">
+              <span className="eyebrow text-olive-800 block">
                 Refund from {stateTaxRates[originState].name} RTO
               </span>
-              <div className="text-2xl font-display font-extrabold tracking-tight text-emerald-700 mt-1.5">
+              <div className="text-2xl font-display font-extrabold tracking-tight text-olive-700 mt-1.5">
                 {formatINR(refundFromOriginState)}
               </div>
             </div>
-            <p className="text-[11px] text-emerald-800/90 mt-3 leading-relaxed">
+            <p className="text-[11px] text-olive-800/90 mt-3 leading-relaxed">
               Pro-rata refund for {remainingMonths} remaining unexpired months.
             </p>
           </div>
 
           {/* New Tax Payable */}
-          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+          <div className="p-5 rounded-2xl bg-olive-50 border border-olive-200 flex flex-col justify-between">
             <div>
-              <span className="eyebrow text-slate-500 block">
+              <span className="eyebrow text-olive-700/70 block">
                 New Tax in {stateTaxRates[destState].name}
               </span>
-              <div className="text-2xl font-display font-extrabold tracking-tight text-slate-900 mt-1.5">
+              <div className="text-2xl font-display font-extrabold tracking-tight text-olive-950 mt-1.5">
                 {formatINR(newTaxPayable)}
               </div>
             </div>
-            <p className="text-[11px] text-slate-500 mt-3 leading-relaxed">
+            <p className="text-[11px] text-olive-700/70 mt-3 leading-relaxed">
               Based on depreciated vehicle valuation ({formatINR(depreciatedVehicleValue)}).
             </p>
           </div>
 
           {/* Net Cash Differential */}
-          <div className="p-5 rounded-2xl bg-teal-50 border border-teal-200 flex flex-col justify-between">
+          <div className="p-5 rounded-2xl bg-olive-50 border border-olive-200 flex flex-col justify-between">
             <div>
-              <span className="eyebrow text-teal-800 block">
+              <span className="eyebrow text-olive-800 block">
                 Net Out-of-Pocket Balance
               </span>
-              <div className={`text-2xl font-display font-extrabold tracking-tight mt-1.5 ${netDifferential > 0 ? 'text-slate-900' : 'text-emerald-700'}`}>
+              <div className={`text-2xl font-display font-extrabold tracking-tight mt-1.5 ${netDifferential > 0 ? 'text-olive-950' : 'text-olive-700'}`}>
                 {formatINR(Math.abs(netDifferential))}
               </div>
-              <span className={`text-[11px] font-bold ${netDifferential > 0 ? 'text-slate-500' : 'text-emerald-700'}`}>
+              <span className={`text-[11px] font-bold ${netDifferential > 0 ? 'text-olive-700/70' : 'text-olive-700'}`}>
                 {netDifferential > 0 ? 'Payable' : 'Cashback Surplus'}
               </span>
             </div>
-            <p className="text-[11px] text-teal-800/90 mt-3 leading-relaxed">
+            <p className="text-[11px] text-olive-800/90 mt-3 leading-relaxed">
               Calculated under Section 47 of Motor Vehicles Act 1988.
             </p>
           </div>
@@ -220,8 +220,8 @@ export default function InterstateNocPage() {
         {/* Generate NOC Packet */}
         <div className="hairline" />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-[11px] sm:text-xs text-slate-500 leading-relaxed">
-            Auto-generates official <strong className="text-slate-700">Form 27 (Re-Registration)</strong> and <strong className="text-slate-700">Form 28 (No-Objection Certificate)</strong>.
+          <div className="text-[11px] sm:text-xs text-olive-700/70 leading-relaxed">
+            Auto-generates official <strong className="text-olive-800">Form 27 (Re-Registration)</strong> and <strong className="text-olive-800">Form 28 (No-Objection Certificate)</strong>.
           </div>
 
           <button
@@ -240,37 +240,37 @@ export default function InterstateNocPage() {
       {packetGenerated && (
         <div className="card p-6 sm:p-8 space-y-6 animate-rise">
           <div className="text-center">
-            <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-full bg-olive-100 text-olive-700 flex items-center justify-center mx-auto mb-3">
               <CheckCircle className="w-6 h-6" />
             </div>
-            <h3 className="font-display text-xl font-extrabold tracking-tight text-slate-900">
+            <h3 className="font-display text-xl font-extrabold tracking-tight text-olive-950">
               Form 28 NOC & Tax Refund Dossier Ready
             </h3>
-            <p className="text-[11px] text-slate-500 font-mono mt-1">
+            <p className="text-[11px] text-olive-700/70 font-mono mt-1">
               DOSSIER ID: GATI-NOC-{originState}-{destState}-2026-9810
             </p>
           </div>
 
-          <div className="p-6 bg-white rounded-2xl border border-slate-200 text-xs space-y-3 text-slate-700">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-bold text-slate-900">Form 28 No-Objection Certificate (NOC)</span>
+          <div className="p-6 bg-white rounded-2xl border border-olive-200 text-xs space-y-3 text-olive-800">
+            <div className="flex items-center justify-between border-b border-olive-100 pb-3">
+              <span className="font-bold text-olive-950">Form 28 No-Objection Certificate (NOC)</span>
               <Pill tone="emerald">Digitally Signed</Pill>
             </div>
-            <div className="flex justify-between border-b border-slate-100 pb-3">
+            <div className="flex justify-between border-b border-olive-100 pb-3">
               <span>Vehicle Registration</span>
-              <span className="font-mono font-bold text-slate-900">{vehicleNumber}</span>
+              <span className="font-mono font-bold text-olive-950">{vehicleNumber}</span>
             </div>
-            <div className="flex justify-between border-b border-slate-100 pb-3">
+            <div className="flex justify-between border-b border-olive-100 pb-3">
               <span>Origin State RTO</span>
-              <span className="font-semibold text-slate-900">{stateTaxRates[originState].name} RTO</span>
+              <span className="font-semibold text-olive-950">{stateTaxRates[originState].name} RTO</span>
             </div>
-            <div className="flex justify-between border-b border-slate-100 pb-3">
+            <div className="flex justify-between border-b border-olive-100 pb-3">
               <span>Target RTO Jurisdiction</span>
-              <span className="font-semibold text-slate-900">{stateTaxRates[destState].name} RTO</span>
+              <span className="font-semibold text-olive-950">{stateTaxRates[destState].name} RTO</span>
             </div>
             <div className="flex justify-between">
               <span>Pro-Rata Road Tax Refund Claim</span>
-              <span className="font-mono font-bold text-emerald-700">{formatINR(refundFromOriginState)} Attached</span>
+              <span className="font-mono font-bold text-olive-700">{formatINR(refundFromOriginState)} Attached</span>
             </div>
           </div>
 

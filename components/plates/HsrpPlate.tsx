@@ -98,7 +98,7 @@ export const HsrpPlate: React.FC<HsrpPlateProps> = ({
       >
         {/* Ashoka Chakra Hologram Icon */}
         <div className="w-full flex justify-center opacity-90">
-          <div className="w-3.5 h-3.5 rounded-full border border-sky-300/80 flex items-center justify-center">
+          <div className="w-3.5 h-3.5 rounded-full border border-ashoka-300/80 flex items-center justify-center">
             <div className="w-1 h-1 bg-amber-300 rounded-full animate-pulse" />
           </div>
         </div>
@@ -118,10 +118,10 @@ export const HsrpPlate: React.FC<HsrpPlateProps> = ({
       <div className="w-full flex items-center justify-between pl-8 sm:pl-11 pr-2 relative z-0">
         {/* Hologram security badge top-left */}
         <div className="absolute top-0.5 left-8 sm:left-12 flex items-center gap-1 opacity-70">
-          <div className="w-2.5 h-2.5 rounded-sm bg-gradient-to-tr from-amber-400 via-emerald-300 to-sky-400 border border-white/50 shadow-xs flex items-center justify-center">
-            <span className="text-[5px] font-bold text-slate-900">⚡</span>
+          <div className="w-2.5 h-2.5 rounded-sm bg-gradient-to-tr from-amber-400 via-olive-300 to-ashoka-400 border border-white/50 shadow-xs flex items-center justify-center">
+            <span className="text-[5px] font-bold text-olive-950">⚡</span>
           </div>
-          <span className="text-[7px] font-mono tracking-tighter text-slate-500 opacity-60 hidden sm:inline">
+          <span className="text-[7px] font-mono tracking-tighter text-olive-700/70 opacity-60 hidden sm:inline">
             IN7492019
           </span>
         </div>
@@ -129,7 +129,7 @@ export const HsrpPlate: React.FC<HsrpPlateProps> = ({
         {/* Embossed Screws */}
         <div className="absolute left-10 top-1/2 -translate-y-1/2 opacity-40">
           <div className={`rounded-full bg-slate-400 border border-slate-600 shadow-inner flex items-center justify-center ${sizeConfig.screw}`}>
-            <div className="w-full h-[1px] bg-slate-700 rotate-45" />
+            <div className="w-full h-[1px] bg-olive-700 rotate-45" />
           </div>
         </div>
 
@@ -141,7 +141,7 @@ export const HsrpPlate: React.FC<HsrpPlateProps> = ({
         {/* Right Screw */}
         <div className="absolute right-3 top-1/2 -translate-y-1/2 opacity-40">
           <div className={`rounded-full bg-slate-400 border border-slate-600 shadow-inner flex items-center justify-center ${sizeConfig.screw}`}>
-            <div className="w-full h-[1px] bg-slate-700 -rotate-12" />
+            <div className="w-full h-[1px] bg-olive-700 -rotate-12" />
           </div>
         </div>
       </div>

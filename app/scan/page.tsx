@@ -155,29 +155,29 @@ export default function ScanPage() {
         <div className="lg:col-span-6 card p-6 sm:p-8 flex flex-col justify-between gap-6">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                <Camera className="w-4 h-4 text-emerald-600" />
+              <span className="text-xs font-bold uppercase tracking-wider text-olive-800 flex items-center gap-1.5">
+                <Camera className="w-4 h-4 text-olive-600" />
                 <span>Camera / OCR Viewport</span>
               </span>
               <Pill tone="emerald">Live Ready</Pill>
             </div>
 
             {/* Viewfinder Screen */}
-            <div className="aspect-[4/3] rounded-2xl bg-slate-950 border border-slate-800 relative overflow-hidden flex flex-col items-center justify-center p-6 text-white shadow-2xl">
+            <div className="aspect-[4/3] rounded-2xl bg-olive-950 border border-olive-800 relative overflow-hidden flex flex-col items-center justify-center p-6 text-white shadow-2xl">
 
               {/* Grid HUD Overlay */}
               <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#0ea5e9_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e9_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
               {/* Viewfinder Corners */}
-              <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-emerald-400" />
-              <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-emerald-400" />
-              <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-emerald-400" />
-              <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-emerald-400" />
+              <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-olive-400" />
+              <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-olive-400" />
+              <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-olive-400" />
+              <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-olive-400" />
 
               {/* Scanner Line Animation */}
               {isScanning && (
                 <div
-                  className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_#10b981] transition-all duration-150"
+                  className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-olive-400 to-transparent shadow-[0_0_15px_#10b981] transition-all duration-150"
                   style={{ top: `${scanProgress}%` }}
                 />
               )}
@@ -186,15 +186,15 @@ export default function ScanPage() {
               <div className="text-center z-10 space-y-3">
                 {selectedSample === 'rc-nexon' && (
                   <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-xs">
-                    <div className="font-mono font-bold text-emerald-400">CERTIFICATE OF REGISTRATION</div>
-                    <div className="font-mono text-[11px] text-slate-200 mt-1">KA 01 EK 4920 • TATA NEXON EV</div>
+                    <div className="font-mono font-bold text-olive-400">CERTIFICATE OF REGISTRATION</div>
+                    <div className="font-mono text-[11px] text-olive-200 mt-1">KA 01 EK 4920 • TATA NEXON EV</div>
                   </div>
                 )}
 
                 {selectedSample === 'dl-ananya' && (
                   <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-xs">
-                    <div className="font-mono font-bold text-sky-400">UNION OF INDIA DRIVING LICENCE</div>
-                    <div className="font-mono text-[11px] text-slate-200 mt-1">MH 12 2026 0094821 • ANANYA D</div>
+                    <div className="font-mono font-bold text-ashoka-400">UNION OF INDIA DRIVING LICENCE</div>
+                    <div className="font-mono text-[11px] text-olive-200 mt-1">MH 12 2026 0094821 • ANANYA D</div>
                   </div>
                 )}
 
@@ -204,7 +204,7 @@ export default function ScanPage() {
                   </div>
                 )}
 
-                <div className="text-[11px] text-slate-400 uppercase tracking-widest font-mono">
+                <div className="text-[11px] text-olive-500/80 uppercase tracking-widest font-mono">
                   {isScanning ? `DECODING CHIP & OCR MATRIX (${scanProgress}%)...` : 'DOCUMENT IN FOCUS'}
                 </div>
               </div>
@@ -213,7 +213,7 @@ export default function ScanPage() {
 
           {/* Preset Buttons for Instant 1-Tap Test */}
           <div className="space-y-3">
-            <span className="eyebrow text-slate-500 block">
+            <span className="eyebrow text-olive-700/70 block">
               1-Tap Test Documents
             </span>
             <div className="grid grid-cols-3 gap-2 text-xs">
@@ -222,8 +222,8 @@ export default function ScanPage() {
                 onClick={() => handleTriggerScan('rc-nexon')}
                 className={`p-3 rounded-xl border font-semibold transition-all ${
                   selectedSample === 'rc-nexon'
-                    ? 'bg-emerald-50 border-emerald-500 text-emerald-900 ring-2 ring-emerald-500/20'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'bg-olive-50 border-olive-500 text-olive-900 ring-2 ring-olive-500/20'
+                    : 'bg-white border-olive-200 text-olive-800 hover:bg-olive-50'
                 }`}
               >
                 🚗 Smart RC
@@ -234,8 +234,8 @@ export default function ScanPage() {
                 onClick={() => handleTriggerScan('dl-ananya')}
                 className={`p-3 rounded-xl border font-semibold transition-all ${
                   selectedSample === 'dl-ananya'
-                    ? 'bg-sky-50 border-sky-500 text-sky-900 ring-2 ring-sky-500/20'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'bg-ashoka-50 border-ashoka-500 text-ashoka-900 ring-2 ring-ashoka-500/20'
+                    : 'bg-white border-olive-200 text-olive-800 hover:bg-olive-50'
                 }`}
               >
                 💳 PVC Driving Licence
@@ -247,7 +247,7 @@ export default function ScanPage() {
                 className={`p-3 rounded-xl border font-semibold transition-all ${
                   selectedSample === 'hsrp-plate'
                     ? 'bg-amber-50 border-amber-500 text-amber-900 ring-2 ring-amber-500/20'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    : 'bg-white border-olive-200 text-olive-800 hover:bg-olive-50'
                 }`}
               >
                 👑 VIP HSRP Plate
@@ -264,10 +264,10 @@ export default function ScanPage() {
               {/* Header */}
               <div className="flex items-center justify-between gap-3 border-b hairline pb-4">
                 <div>
-                  <span className="eyebrow text-emerald-700 block">
+                  <span className="eyebrow text-olive-700 block">
                     Instant Extraction Completed
                   </span>
-                  <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 mt-1">
+                  <h3 className="font-display text-lg font-extrabold tracking-tight text-olive-950 mt-1">
                     {activeResult.docType === 'RC' && 'Vehicle Registration Verified'}
                     {activeResult.docType === 'DL' && 'Driving Licence Credentials Extracted'}
                     {activeResult.docType === 'PLATE' && 'HSRP Plate Telemetry Match'}
@@ -279,18 +279,18 @@ export default function ScanPage() {
               </div>
 
               {/* Extracted Fields Table */}
-              <div className="bg-slate-50 p-4 rounded-2xl border hairline text-sm divide-y divide-slate-200/60">
+              <div className="bg-olive-50 p-4 rounded-2xl border hairline text-sm divide-y divide-olive-200/60">
                 {Object.entries(activeResult.extractedFields).map(([k, v]) => (
                   <div key={k} className="flex justify-between items-center gap-4 py-2 first:pt-0 last:pb-0">
-                    <span className="text-slate-500 text-xs">{k}</span>
-                    <span className="font-mono font-bold text-slate-900 text-right text-xs">{v}</span>
+                    <span className="text-olive-700/70 text-xs">{k}</span>
+                    <span className="font-mono font-bold text-olive-950 text-right text-xs">{v}</span>
                   </div>
                 ))}
               </div>
 
               {/* Health Flags Audit */}
               <div className="space-y-2.5">
-                <span className="eyebrow text-slate-600 block">
+                <span className="eyebrow text-olive-700 block">
                   Statutory Health & Radar Flags
                 </span>
                 <div className="space-y-2">
@@ -302,18 +302,18 @@ export default function ScanPage() {
                           ? 'bg-amber-50 border-amber-200 text-amber-900'
                           : flag.status === 'EXPIRED'
                           ? 'bg-rose-50 border-rose-200 text-rose-900'
-                          : 'bg-emerald-50/60 border-emerald-200 text-emerald-900'
+                          : 'bg-olive-50/60 border-olive-200 text-olive-900'
                       }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         {flag.status === 'WARNING' ? (
                           <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
                         ) : (
-                          <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <CheckCircle className="w-4 h-4 text-olive-600 shrink-0" />
                         )}
                         <span className="font-semibold">{flag.label}</span>
                       </div>
-                      <span className="text-[11px] text-slate-600 text-right">{flag.desc}</span>
+                      <span className="text-[11px] text-olive-700 text-right">{flag.desc}</span>
                     </div>
                   ))}
                 </div>
@@ -325,17 +325,17 @@ export default function ScanPage() {
                 className="btn btn-primary w-full py-3 text-sm"
               >
                 <span>{activeResult.suggestedAction.label}</span>
-                <ArrowRight className="w-4 h-4 text-emerald-400" />
+                <ArrowRight className="w-4 h-4 text-olive-400" />
               </Link>
             </div>
           ) : (
             <div className="py-16 text-center space-y-5 my-auto">
-              <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto">
+              <div className="w-14 h-14 rounded-full bg-olive-50 text-olive-500 flex items-center justify-center mx-auto">
                 <ScanLine className="w-7 h-7 animate-pulse" />
               </div>
               <div>
-                <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900">Ready to Scan</h3>
-                <p className="text-sm text-slate-500 max-w-xs mx-auto mt-1.5 leading-relaxed">
+                <h3 className="font-display text-lg font-extrabold tracking-tight text-olive-950">Ready to Scan</h3>
+                <p className="text-sm text-olive-700/70 max-w-xs mx-auto mt-1.5 leading-relaxed">
                   Click any of the 1-tap test documents on the left to simulate instant sub-second OCR extraction.
                 </p>
               </div>

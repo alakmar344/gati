@@ -72,16 +72,16 @@ export default function LoginPage() {
 
           <form onSubmit={handleLogin} className="card p-6 sm:p-7 space-y-5">
             <div className="space-y-1.5">
-              <span className="eyebrow text-slate-500">Selected persona</span>
+              <span className="eyebrow text-olive-700/70">Selected persona</span>
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center font-display font-extrabold text-sm shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-olive-500 to-olive-700 text-white flex items-center justify-center font-display font-extrabold text-sm shrink-0">
                   {selectedUser.avatar}
                 </div>
                 <div className="min-w-0">
-                  <div className="font-display font-extrabold tracking-tight text-slate-900 truncate">
+                  <div className="font-display font-extrabold tracking-tight text-olive-950 truncate">
                     {selectedUser.name}
                   </div>
-                  <div className="text-[12px] text-emerald-700 font-semibold truncate">
+                  <div className="text-[12px] text-olive-700 font-semibold truncate">
                     {selectedUser.role}
                   </div>
                 </div>
@@ -89,40 +89,40 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[12px] font-bold text-slate-700 block">
+              <label className="text-[12px] font-bold text-olive-800 block">
                 Citizen email / user ID
               </label>
               <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-olive-500/80" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-3 field text-[13px] font-medium text-slate-900"
+                  className="w-full pl-10 pr-4 py-3 field text-[13px] font-medium text-olive-950"
                   placeholder="name@demo.gati.in"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[12px] font-bold text-slate-700 block">
+              <label className="text-[12px] font-bold text-olive-800 block">
                 Demo password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-olive-500/80" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full pl-10 pr-11 py-3 field text-[13px] font-medium text-slate-900"
+                  className="w-full pl-10 pr-11 py-3 field text-[13px] font-medium text-olive-950"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-olive-500/80 hover:text-olive-700 transition-colors"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -150,15 +150,15 @@ export default function LoginPage() {
               ) : (
                 <>
                   <span>Continue as {selectedUser.name.split(' ')[0]}</span>
-                  <ArrowRight className="w-4 h-4 text-emerald-400" />
+                  <ArrowRight className="w-4 h-4 text-olive-400" />
                 </>
               )}
             </button>
 
-            <div className="flex items-start gap-2.5 hairline border-t pt-4 text-[12px] text-slate-500 leading-relaxed">
+            <div className="flex items-start gap-2.5 hairline border-t pt-4 text-[12px] text-olive-700/70 leading-relaxed">
               <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
               <p>
-                <strong className="text-slate-800 font-semibold">Demo authentication sandbox.</strong>{' '}
+                <strong className="text-olive-900 font-semibold">Demo authentication sandbox.</strong>{' '}
                 Pick any profile on the right to instantly fill credentials for 1-click testing.
               </p>
             </div>
@@ -168,7 +168,7 @@ export default function LoginPage() {
         {/* Right — persona directory grid */}
         <div className="lg:col-span-7 space-y-5">
           <div className="flex items-center justify-between px-1">
-            <span className="eyebrow text-slate-500">Demo profiles</span>
+            <span className="eyebrow text-olive-700/70">Demo profiles</span>
             <Pill tone="emerald">{DEMO_USERS.length} personas</Pill>
           </div>
 
@@ -183,7 +183,7 @@ export default function LoginPage() {
                   aria-pressed={isSelected}
                   className={`card text-left p-5 flex flex-col gap-4 transition-all ${
                     isSelected
-                      ? 'border-emerald-400 ring-2 ring-emerald-500/30 shadow-lg'
+                      ? 'border-olive-400 ring-2 ring-olive-500/30 shadow-lg'
                       : 'card-hover'
                   }`}
                 >
@@ -191,28 +191,28 @@ export default function LoginPage() {
                     <div
                       className={`w-12 h-12 rounded-2xl flex items-center justify-center font-display font-extrabold text-sm shrink-0 ${
                         isSelected
-                          ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white'
-                          : 'bg-slate-100 text-slate-700'
+                          ? 'bg-gradient-to-br from-olive-500 to-olive-700 text-white'
+                          : 'bg-olive-100 text-olive-800'
                       }`}
                     >
                       {user.avatar}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="font-display font-extrabold tracking-tight text-slate-900 truncate">
+                      <div className="font-display font-extrabold tracking-tight text-olive-950 truncate">
                         {user.name}
                       </div>
-                      <div className="text-[12px] text-emerald-700 font-semibold truncate">
+                      <div className="text-[12px] text-olive-700 font-semibold truncate">
                         {user.role}
                       </div>
                     </div>
                     {isSelected && (
-                      <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-olive-600 shrink-0" />
                     )}
                   </div>
 
                   <div className="flex items-center justify-between gap-2 hairline border-t pt-4">
-                    <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-slate-500">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                    <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-olive-700/70">
+                      <MapPin className="w-3.5 h-3.5 text-olive-500/80" />
                       {user.city}
                     </span>
                     <Pill tone={isSelected ? 'emerald' : 'slate'}>

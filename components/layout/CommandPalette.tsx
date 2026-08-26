@@ -157,7 +157,7 @@ export function CommandPalette() {
     const Icon = r.type === 'suggestion' ? r.data.icon : r.data.icon;
     const title = r.type === 'suggestion' ? r.data.title : r.data.title;
     const hint = r.type === 'suggestion' ? r.data.hint : r.data.subtitle;
-    const tint = r.type === 'suggestion' ? r.data.tint : 'text-emerald-700 bg-emerald-100';
+    const tint = r.type === 'suggestion' ? r.data.tint : 'text-olive-700 bg-olive-100';
     const canRunInline =
       r.type === 'suggestion'
         ? r.data.run.kind !== 'nav'

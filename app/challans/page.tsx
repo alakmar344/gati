@@ -102,15 +102,15 @@ export default function ChallansPage() {
             <ShieldAlert className="w-6 h-6" />
           </div>
           <div>
-            <span className="eyebrow text-slate-400">Fleet Radar Status</span>
-            <div className="text-lg font-display font-extrabold tracking-tight text-slate-900">
+            <span className="eyebrow text-olive-500/80">Fleet Radar Status</span>
+            <div className="text-lg font-display font-extrabold tracking-tight text-olive-950">
               {pendingCount} Pending Challans Across Fleet
             </div>
           </div>
         </div>
 
         <div className="text-center sm:text-right">
-          <span className="text-xs text-slate-400 font-semibold block">Total Outstanding Fines</span>
+          <span className="text-xs text-olive-500/80 font-semibold block">Total Outstanding Fines</span>
           <span className="text-2xl font-display font-extrabold tracking-tight text-rose-700 font-mono">
             {formatINR(totalPendingAmount)}
           </span>
@@ -127,7 +127,7 @@ export default function ChallansPage() {
           value={searchPlate}
           onChange={(e) => setSearchPlate(e.target.value)}
           placeholder="Filter by vehicle plate e.g. KA 01 EK 4920..."
-          className="flex-1 bg-transparent border-none text-slate-900 placeholder:text-slate-400 text-sm font-mono font-bold uppercase focus:outline-none px-2"
+          className="flex-1 bg-transparent border-none text-olive-950 placeholder:text-olive-500/80 text-sm font-mono font-bold uppercase focus:outline-none px-2"
         />
         <button
           onClick={() => {}}
@@ -161,9 +161,9 @@ export default function ChallansPage() {
           </div>
         ) : filteredChallans.length === 0 ? (
           <div className="card p-12 text-center space-y-3">
-            <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto" />
-            <h3 className="text-lg font-display font-extrabold tracking-tight text-slate-900">Zero Violations Found</h3>
-            <p className="text-sm text-slate-500">Your vehicle has a 100% clean driving and compliance record.</p>
+            <CheckCircle className="w-12 h-12 text-olive-500 mx-auto" />
+            <h3 className="text-lg font-display font-extrabold tracking-tight text-olive-950">Zero Violations Found</h3>
+            <p className="text-sm text-olive-700/70">Your vehicle has a 100% clean driving and compliance record.</p>
           </div>
         ) : (
           filteredChallans.map((ch) => (
@@ -171,16 +171,16 @@ export default function ChallansPage() {
               key={ch.id}
               className={`card card-hover p-6 sm:p-7 ${
                 ch.status === 'PAID'
-                  ? 'border-emerald-200'
+                  ? 'border-olive-200'
                   : ch.status === 'DISPUTED'
-                  ? 'border-slate-200'
+                  ? 'border-olive-200'
                   : 'border-rose-200'
               }`}
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
 
                 {/* Left Photo Evidence Thumbnail */}
-                <div className="lg:col-span-4 relative rounded-2xl overflow-hidden aspect-[16/10] bg-slate-900 border border-slate-700 shadow-inner group">
+                <div className="lg:col-span-4 relative rounded-2xl overflow-hidden aspect-[16/10] bg-olive-900 border border-olive-800 shadow-inner group">
                   <Image
                     src={ch.photoEvidenceUrl}
                     alt="Camera Evidence"
@@ -201,26 +201,26 @@ export default function ChallansPage() {
                 {/* Middle Details */}
                 <div className="lg:col-span-5 space-y-2.5">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-mono font-bold text-slate-900 text-sm bg-slate-100 px-2 py-0.5 rounded">
+                    <span className="font-mono font-bold text-olive-950 text-sm bg-olive-100 px-2 py-0.5 rounded">
                       {ch.vehicleNumber}
                     </span>
                     {statusPill(ch.status)}
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-display font-extrabold tracking-tight text-slate-900">
+                  <h3 className="text-base sm:text-lg font-display font-extrabold tracking-tight text-olive-950">
                     {ch.violationType}
                   </h3>
 
                   <div className="space-y-1.5 text-xs">
-                    <div className="flex items-center gap-1.5 text-slate-700 font-medium">
+                    <div className="flex items-center gap-1.5 text-olive-800 font-medium">
                       <MapPin className="w-3.5 h-3.5 text-rose-600 shrink-0" />
                       <span>{ch.location}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-slate-500">
-                      <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <div className="flex items-center gap-1.5 text-olive-700/70">
+                      <Clock className="w-3.5 h-3.5 text-olive-500/80 shrink-0" />
                       <span>{ch.date}</span>
                     </div>
-                    <div className="text-[11px] font-mono text-slate-400">
+                    <div className="text-[11px] font-mono text-olive-500/80">
                       {ch.actSection} • Challan #{ch.challanNumber}
                     </div>
                   </div>
@@ -229,8 +229,8 @@ export default function ChallansPage() {
                 {/* Right Actions & Settlement */}
                 <div className="lg:col-span-3 flex flex-col items-start lg:items-end justify-between gap-3 border-t lg:border-t-0 pt-4 lg:pt-0 hairline">
                   <div className="text-left lg:text-right">
-                    <span className="eyebrow text-slate-400 block">Fine Amount</span>
-                    <span className="text-xl font-display font-extrabold tracking-tight text-slate-900 font-mono">
+                    <span className="eyebrow text-olive-500/80 block">Fine Amount</span>
+                    <span className="text-xl font-display font-extrabold tracking-tight text-olive-950 font-mono">
                       {formatINR(ch.amount)}
                     </span>
                   </div>
@@ -259,14 +259,14 @@ export default function ChallansPage() {
                   )}
 
                   {ch.status === 'PAID' && (
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-full">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-olive-700 bg-olive-100 px-3 py-1.5 rounded-full">
                       <CheckCircle className="w-3.5 h-3.5" />
                       Fine Settled
                     </span>
                   )}
 
                   {ch.status === 'DISPUTED' && (
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-olive-800 bg-olive-100 px-3 py-1.5 rounded-full">
                       <Scale className="w-3.5 h-3.5" />
                       Under Virtual Court Review
                     </span>
@@ -281,14 +281,14 @@ export default function ChallansPage() {
 
       {/* ================= VIRTUAL COURT DISPUTE MODAL ================= */}
       {disputingChallan && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
-          <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-dialog-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-olive-900/60 backdrop-blur-md">
+          <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-olive-200 overflow-hidden animate-dialog-in">
 
             {/* Header */}
-            <div className="p-6 bg-slate-900 text-white relative">
+            <div className="p-6 bg-olive-900 text-white relative">
               <button
                 onClick={() => setDisputingChallan(null)}
-                className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300"
+                className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-olive-400"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -299,7 +299,7 @@ export default function ChallansPage() {
               <h3 className="text-xl font-display font-extrabold tracking-tight">
                 Contest Traffic Challan
               </h3>
-              <p className="text-xs text-slate-300 mt-1">
+              <p className="text-xs text-olive-400 mt-1">
                 Challan #{disputingChallan.challanNumber} • {disputingChallan.vehicleNumber}
               </p>
             </div>
@@ -308,13 +308,13 @@ export default function ChallansPage() {
             <div className="p-6 space-y-4">
               {disputeSubmitted ? (
                 <div className="text-center py-6 space-y-3">
-                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                  <div className="w-14 h-14 rounded-full bg-olive-100 text-olive-600 flex items-center justify-center mx-auto">
                     <CheckCircle className="w-8 h-8" />
                   </div>
-                  <h4 className="text-lg font-display font-extrabold tracking-tight text-slate-900">
+                  <h4 className="text-lg font-display font-extrabold tracking-tight text-olive-950">
                     Appeal Filed Successfully
                   </h4>
-                  <p className="text-sm text-slate-600 max-w-xs mx-auto leading-relaxed">
+                  <p className="text-sm text-olive-700 max-w-xs mx-auto leading-relaxed">
                     Your representation has been submitted to the Virtual Court Registrar. Fine enforcement is frozen pending review.
                   </p>
                   <button
@@ -327,11 +327,11 @@ export default function ChallansPage() {
               ) : (
                 <form onSubmit={handleDisputeSubmit} className="space-y-4">
                   <div>
-                    <label className="text-sm font-bold text-slate-700 block mb-1.5">Select Grounds of Contest</label>
+                    <label className="text-sm font-bold text-olive-800 block mb-1.5">Select Grounds of Contest</label>
                     <select
                       value={disputeReason}
                       onChange={(e) => setDisputeReason(e.target.value)}
-                      className="field w-full px-3.5 py-2.5 text-sm font-medium text-slate-900"
+                      className="field w-full px-3.5 py-2.5 text-sm font-medium text-olive-950"
                     >
                       <option value="Erroneous camera trigger (Vehicle was stationary in traffic)">
                         Erroneous camera trigger (Vehicle was stationary in traffic)
@@ -349,8 +349,8 @@ export default function ChallansPage() {
                   </div>
 
                   <div>
-                    <label className="text-sm font-bold text-slate-700 block mb-1.5">Applicant Declaration</label>
-                    <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-slate-600 leading-relaxed text-xs">
+                    <label className="text-sm font-bold text-olive-800 block mb-1.5">Applicant Declaration</label>
+                    <div className="p-3.5 bg-olive-50 rounded-xl border border-olive-200 text-olive-700 leading-relaxed text-xs">
                       I hereby state under penalty of perjury that the vehicle was operated within CMVR guidelines and request judicial dismissal.
                     </div>
                   </div>

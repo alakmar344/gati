@@ -219,7 +219,7 @@ export default function VehicleLicensingPage() {
       {currentStep <= 4 && (
         <div className="mb-8 animate-rise">
           <div className="flex items-center justify-between gap-3 mb-4">
-            <p className="eyebrow text-emerald-700">
+            <p className="eyebrow text-olive-700">
               Step {currentStep} of 5 — {WIZARD_STEPS[currentStep - 1].label}
             </p>
             <Pill tone="emerald">Paperless FastTrack</Pill>
@@ -235,10 +235,10 @@ export default function VehicleLicensingPage() {
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
                         done
-                          ? 'bg-emerald-600 text-white shadow-sm'
+                          ? 'bg-olive-600 text-white shadow-sm'
                           : active
-                            ? 'bg-emerald-600 text-white ring-4 ring-emerald-100'
-                            : 'bg-white border-2 border-slate-200 text-slate-400'
+                            ? 'bg-olive-600 text-white ring-4 ring-olive-100'
+                            : 'bg-white border-2 border-olive-200 text-olive-500/80'
                       }`}
                     >
                       {done ? <CheckCircle className="w-5 h-5" /> : step.num}
@@ -246,19 +246,19 @@ export default function VehicleLicensingPage() {
                     <span
                       className={`text-[11px] leading-tight text-center ${
                         active
-                          ? 'text-emerald-700 font-bold'
+                          ? 'text-olive-700 font-bold'
                           : done
-                            ? 'text-slate-700 font-semibold'
-                            : 'text-slate-400 font-medium'
+                            ? 'text-olive-800 font-semibold'
+                            : 'text-olive-500/80 font-medium'
                       }`}
                     >
                       {step.label}
                     </span>
                   </div>
                   {i < WIZARD_STEPS.length - 1 && (
-                    <div className="flex-1 h-0.5 mt-4 rounded-full bg-slate-200 overflow-hidden">
+                    <div className="flex-1 h-0.5 mt-4 rounded-full bg-olive-200 overflow-hidden">
                       <div
-                        className={`h-full rounded-full bg-emerald-500 transition-all duration-500 ${
+                        className={`h-full rounded-full bg-olive-500 transition-all duration-500 ${
                           currentStep > step.num ? 'w-full' : 'w-0'
                         }`}
                       />
@@ -278,8 +278,8 @@ export default function VehicleLicensingPage() {
         {currentStep === 1 && (
           <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Vehicle Specifications</h2>
-              <p className="text-sm text-slate-500 mt-1">Select the registration type and vehicle details.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-olive-950">Vehicle Specifications</h2>
+              <p className="text-sm text-olive-700/70 mt-1">Select the registration type and vehicle details.</p>
             </div>
 
             {/* Registration Category */}
@@ -348,8 +348,8 @@ export default function VehicleLicensingPage() {
 
             {/* EV Incentive Highlight Banner */}
             {isEV && (
-              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-[13px] text-emerald-900 flex items-start gap-3">
-                <Zap className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <div className="p-4 rounded-2xl bg-olive-50 border border-olive-200 text-[13px] text-olive-900 flex items-start gap-3">
+                <Zap className="w-5 h-5 text-olive-600 shrink-0 mt-0.5" />
                 <div className="leading-relaxed">
                   <strong className="font-bold block">Green Mobility Incentive Applied</strong>
                   Under State Clean Vehicle Policy, electric vehicles receive <strong>0% Road Tax</strong> and exemption from green cess.
@@ -374,8 +374,8 @@ export default function VehicleLicensingPage() {
         {currentStep === 2 && (
           <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">State & RTO Jurisdiction</h2>
-              <p className="text-sm text-slate-500 mt-1">Select the transport office under whose jurisdiction the vehicle will be registered.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-olive-950">State & RTO Jurisdiction</h2>
+              <p className="text-sm text-olive-700/70 mt-1">Select the transport office under whose jurisdiction the vehicle will be registered.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -407,14 +407,14 @@ export default function VehicleLicensingPage() {
             </div>
 
             {/* Selected RTO Preview Card */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+            <div className="p-5 rounded-2xl bg-olive-50 border border-olive-200 flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-xs">
+                <div className="w-11 h-11 rounded-xl bg-olive-900 text-white flex items-center justify-center font-mono font-bold text-xs">
                   {currentRto.code}
                 </div>
                 <div>
-                  <div className="font-bold text-sm text-slate-900">{currentRto.name}</div>
-                  <div className="text-[11px] text-slate-500">{stateData.name} State Transport Department</div>
+                  <div className="font-bold text-sm text-olive-950">{currentRto.name}</div>
+                  <div className="text-[11px] text-olive-700/70">{stateData.name} State Transport Department</div>
                 </div>
               </div>
 
@@ -446,14 +446,14 @@ export default function VehicleLicensingPage() {
         {currentStep === 3 && (
           <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Ownership & VIN Specs</h2>
-              <p className="text-sm text-slate-500 mt-1">Owner details are pre-filled from your verified Aadhaar & DigiLocker — just confirm.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-olive-950">Ownership & VIN Specs</h2>
+              <p className="text-sm text-olive-700/70 mt-1">Owner details are pre-filled from your verified Aadhaar & DigiLocker — just confirm.</p>
             </div>
 
             {/* Autofill banner */}
-            <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-sky-50 border border-sky-200">
-              <div className="flex items-center gap-2.5 text-[13px] text-sky-900">
-                <ShieldCheck className="w-5 h-5 text-sky-600 shrink-0" />
+            <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-ashoka-50 border border-ashoka-200">
+              <div className="flex items-center gap-2.5 text-[13px] text-ashoka-900">
+                <ShieldCheck className="w-5 h-5 text-ashoka-600 shrink-0" />
                 <span><strong className="font-bold">Autofilled from your Gati profile.</strong> Edit any field if it differs from your papers.</span>
               </div>
               <button
@@ -464,7 +464,7 @@ export default function VehicleLicensingPage() {
                   setAddress(`${currentUser.city}, ${currentUser.state}`);
                   toast({ title: 'Reset to profile', variant: 'info' });
                 }}
-                className="text-xs font-bold text-sky-700 hover:text-sky-800 shrink-0"
+                className="text-xs font-bold text-ashoka-700 hover:text-ashoka-800 shrink-0"
               >
                 Reset
               </button>
@@ -483,7 +483,7 @@ export default function VehicleLicensingPage() {
                 label="Chassis / VIN Number"
                 hint="17-character VIN, laser-etched on the chassis plate."
                 adornment={
-                  <span className={chassisNumber.replace(/\s/g, '').length === 17 ? 'text-emerald-600 font-bold' : ''}>
+                  <span className={chassisNumber.replace(/\s/g, '').length === 17 ? 'text-olive-600 font-bold' : ''}>
                     {chassisNumber.replace(/\s/g, '').length}/17
                   </span>
                 }
@@ -496,7 +496,7 @@ export default function VehicleLicensingPage() {
                   maxLength={17}
                   placeholder="MAT629482NZ91024"
                   suffix={
-                    <Link href="/scan" className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors" title="Scan with Smart Lens">
+                    <Link href="/scan" className="p-1.5 rounded-lg text-olive-600 hover:bg-olive-50 transition-colors" title="Scan with Smart Lens">
                       <ScanLine className="w-4 h-4" />
                     </Link>
                   }
@@ -514,7 +514,7 @@ export default function VehicleLicensingPage() {
 
             {/* Document Checklist Checklist */}
             <div className="pt-1">
-              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wide block mb-2.5">
+              <label className="text-[11px] font-bold text-olive-700 uppercase tracking-wide block mb-2.5">
                 DigiLocker Auto-Attached Documents
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -524,8 +524,8 @@ export default function VehicleLicensingPage() {
                   { key: 'form21', label: 'Roadworthiness Cert' },
                   { key: 'aadhaarKyc', label: 'Aadhaar e-KYC Pass' }
                 ].map((doc) => (
-                  <div key={doc.key} className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200 text-emerald-900 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <div key={doc.key} className="p-3 rounded-xl bg-olive-50/60 border border-olive-200 text-olive-900 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-olive-600 shrink-0" />
                     <span className="text-[11px] font-semibold truncate">{doc.label}</span>
                   </div>
                 ))}
@@ -557,48 +557,48 @@ export default function VehicleLicensingPage() {
         {currentStep === 4 && (
           <div className="card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Statutory Fee Breakdown & Review</h2>
-              <p className="text-sm text-slate-500 mt-1">Transparent calculation with zero hidden government surcharges.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-olive-950">Statutory Fee Breakdown & Review</h2>
+              <p className="text-sm text-olive-700/70 mt-1">Transparent calculation with zero hidden government surcharges.</p>
             </div>
 
             {/* Application Summary Card */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-[13px]">
-              <div className="flex justify-between gap-3 border-b border-slate-200 pb-2.5">
-                <span className="text-slate-500">Applicant / Owner</span>
-                <span className="font-bold text-slate-900 text-right">{ownerName}</span>
+            <div className="p-5 rounded-2xl bg-olive-50 border border-olive-200 space-y-3 text-[13px]">
+              <div className="flex justify-between gap-3 border-b border-olive-200 pb-2.5">
+                <span className="text-olive-700/70">Applicant / Owner</span>
+                <span className="font-bold text-olive-950 text-right">{ownerName}</span>
               </div>
-              <div className="flex justify-between gap-3 border-b border-slate-200 pb-2.5">
-                <span className="text-slate-500">Vehicle Model</span>
-                <span className="font-bold text-slate-900 text-right">{maker} {model} ({fuelType})</span>
+              <div className="flex justify-between gap-3 border-b border-olive-200 pb-2.5">
+                <span className="text-olive-700/70">Vehicle Model</span>
+                <span className="font-bold text-olive-950 text-right">{maker} {model} ({fuelType})</span>
               </div>
-              <div className="flex justify-between gap-3 border-b border-slate-200 pb-2.5">
-                <span className="text-slate-500">RTO Jurisdiction</span>
-                <span className="font-bold text-slate-900 text-right">{currentRto.code} - {currentRto.name}</span>
+              <div className="flex justify-between gap-3 border-b border-olive-200 pb-2.5">
+                <span className="text-olive-700/70">RTO Jurisdiction</span>
+                <span className="font-bold text-olive-950 text-right">{currentRto.code} - {currentRto.name}</span>
               </div>
               <div className="flex justify-between gap-3">
-                <span className="text-slate-500">Ex-Showroom Price</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(invoiceValue)}</span>
+                <span className="text-olive-700/70">Ex-Showroom Price</span>
+                <span className="font-mono font-bold text-olive-950">{formatINR(invoiceValue)}</span>
               </div>
             </div>
 
             {/* Fee Table — highlighted summary */}
-            <div className="space-y-3 p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200 text-[13px]">
-              <div className="eyebrow text-emerald-700 mb-1">Statutory Fee Summary</div>
-              <div className="flex justify-between gap-3 text-slate-700">
+            <div className="space-y-3 p-5 rounded-2xl bg-olive-50/60 border border-olive-200 text-[13px]">
+              <div className="eyebrow text-olive-700 mb-1">Statutory Fee Summary</div>
+              <div className="flex justify-between gap-3 text-olive-800">
                 <span>State Motor Vehicle Road Tax ({isEV ? '0% EV Policy' : '14% Standard'})</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(roadTax)}</span>
+                <span className="font-mono font-bold text-olive-950">{formatINR(roadTax)}</span>
               </div>
-              <div className="flex justify-between gap-3 text-slate-700">
+              <div className="flex justify-between gap-3 text-olive-800">
                 <span>Green Environment Cess</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(greenCess)}</span>
+                <span className="font-mono font-bold text-olive-950">{formatINR(greenCess)}</span>
               </div>
-              <div className="flex justify-between gap-3 text-slate-700">
+              <div className="flex justify-between gap-3 text-olive-800">
                 <span>Microchip Smart Card & User Fee</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(smartCardFee)}</span>
+                <span className="font-mono font-bold text-olive-950">{formatINR(smartCardFee)}</span>
               </div>
-              <div className="flex justify-between items-center gap-3 pt-3 border-t border-emerald-200">
-                <span className="text-sm font-extrabold text-emerald-950">Total Statutory Amount</span>
-                <span className="font-display font-extrabold text-2xl text-emerald-700">{formatINR(totalFee)}</span>
+              <div className="flex justify-between items-center gap-3 pt-3 border-t border-olive-200">
+                <span className="text-sm font-extrabold text-olive-950">Total Statutory Amount</span>
+                <span className="font-display font-extrabold text-2xl text-olive-700">{formatINR(totalFee)}</span>
               </div>
             </div>
 
@@ -628,14 +628,14 @@ export default function VehicleLicensingPage() {
         {currentStep === 5 && completedApplication && (
           <div className="card p-6 sm:p-8 space-y-8 animate-dialog-in">
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
+              <div className="w-16 h-16 rounded-full bg-olive-100 text-olive-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
                 <CheckCircle className="w-9 h-9" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-olive-950">
                 Vehicle Registration Successful!
               </h2>
-              <p className="text-sm text-slate-600 mt-2">
-                Ref No: <strong className="font-mono text-sky-700">{completedApplication.referenceNumber}</strong>
+              <p className="text-sm text-olive-700 mt-2">
+                Ref No: <strong className="font-mono text-ashoka-700">{completedApplication.referenceNumber}</strong>
               </p>
             </div>
 
@@ -652,7 +652,7 @@ export default function VehicleLicensingPage() {
               </Link>
               <Link
                 href="/documents"
-                className="btn px-6 py-2.5 text-sm bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100"
+                className="btn px-6 py-2.5 text-sm bg-olive-50 border border-olive-200 text-olive-800 hover:bg-olive-100"
               >
                 View in GatiLocker
               </Link>

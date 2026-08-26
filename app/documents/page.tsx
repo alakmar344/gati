@@ -96,8 +96,8 @@ export default function DocumentsPage() {
             onClick={() => setSelectedFilter(tab.id)}
             className={`px-4 py-2 rounded-full text-[13px] font-bold whitespace-nowrap transition-all ${
               selectedFilter === tab.id
-                ? 'bg-slate-900 text-white shadow-sm'
-                : 'glass-panel text-slate-600 hover:text-slate-900'
+                ? 'bg-olive-900 text-white shadow-sm'
+                : 'glass-panel text-olive-700 hover:text-olive-950'
             }`}
           >
             {tab.label}
@@ -126,13 +126,13 @@ export default function DocumentsPage() {
         </div>
       ) : filteredApps.length === 0 ? (
         <div className="card p-12 text-center space-y-4 max-w-xl mx-auto">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+          <div className="w-14 h-14 rounded-2xl bg-olive-100 text-olive-700 flex items-center justify-center mx-auto">
             <FileCheck2 className="w-7 h-7" />
           </div>
-          <h3 className="text-lg font-display font-extrabold tracking-tight text-slate-900">
+          <h3 className="text-lg font-display font-extrabold tracking-tight text-olive-950">
             Your wallet is empty
           </h3>
-          <p className="text-sm text-slate-500 max-w-sm mx-auto">
+          <p className="text-sm text-olive-700/70 max-w-sm mx-auto">
             Complete a service workflow to generate and securely store your digital smart cards and permits here.
           </p>
           <Link href="/dashboard" className="btn btn-primary inline-flex items-center gap-1.5 mx-auto">
@@ -158,26 +158,26 @@ export default function DocumentsPage() {
                     </Pill>
                   </div>
 
-                  <h3 className="font-display font-extrabold tracking-tight text-slate-900 text-base leading-snug mb-4">
+                  <h3 className="font-display font-extrabold tracking-tight text-olive-950 text-base leading-snug mb-4">
                     {app.title}
                   </h3>
 
-                  <dl className="text-[13px] text-slate-500 space-y-1.5 mb-5">
+                  <dl className="text-[13px] text-olive-700/70 space-y-1.5 mb-5">
                     <div className="flex justify-between gap-3">
                       <dt>Holder</dt>
-                      <dd className="font-semibold text-slate-800 text-right">{app.applicantName}</dd>
+                      <dd className="font-semibold text-olive-900 text-right">{app.applicantName}</dd>
                     </div>
                     <div className="flex justify-between gap-3">
                       <dt>RTO</dt>
-                      <dd className="font-semibold text-slate-800 text-right">{app.rtoName}</dd>
+                      <dd className="font-semibold text-olive-900 text-right">{app.rtoName}</dd>
                     </div>
                     <div className="flex justify-between gap-3">
                       <dt>Issued</dt>
-                      <dd className="font-semibold text-slate-800 text-right">{formatDate(app.createdAt)}</dd>
+                      <dd className="font-semibold text-olive-900 text-right">{formatDate(app.createdAt)}</dd>
                     </div>
                     <div className="flex justify-between gap-3 hairline pt-2 mt-2">
                       <dt>Ref No.</dt>
-                      <dd className="font-mono text-[12px] font-semibold text-sky-700 text-right">
+                      <dd className="font-mono text-[12px] font-semibold text-ashoka-700 text-right">
                         {app.referenceNumber}
                       </dd>
                     </div>
@@ -211,14 +211,14 @@ export default function DocumentsPage() {
 
       {/* ================= INSPECT & PREVIEW MODAL ================= */}
       {previewApp && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-overlay-in overflow-y-auto">
-          <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8 p-6 sm:p-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-olive-900/60 backdrop-blur-md animate-overlay-in overflow-y-auto">
+          <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-olive-200 overflow-hidden my-8 p-6 sm:p-8">
 
             {/* Modal Header */}
             <div className="flex items-center justify-between hairline pb-4 mb-6">
               <div>
-                <span className="eyebrow text-emerald-700">GatiLocker Verified Document</span>
-                <h3 className="font-display font-extrabold tracking-tight text-slate-900 text-lg sm:text-xl mt-1">
+                <span className="eyebrow text-olive-700">GatiLocker Verified Document</span>
+                <h3 className="font-display font-extrabold tracking-tight text-olive-950 text-lg sm:text-xl mt-1">
                   {previewApp.title}
                 </h3>
               </div>

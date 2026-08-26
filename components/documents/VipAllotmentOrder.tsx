@@ -26,7 +26,7 @@ export const VipAllotmentOrder: React.FC<VipAllotmentOrderProps> = ({ data }) =>
     <div className="flex flex-col items-center gap-5 w-full max-w-xl mx-auto">
       {/* Official Certificate Box */}
       <div 
-        className="w-full rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 text-white border border-amber-500/40 shadow-2xl relative overflow-hidden"
+        className="w-full rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-olive-950 via-olive-900 to-ashoka-950 text-white border border-saffron-500/40 shadow-2xl relative overflow-hidden"
         style={{
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(245, 158, 11, 0.4)'
         }}
@@ -43,7 +43,7 @@ export const VipAllotmentOrder: React.FC<VipAllotmentOrderProps> = ({ data }) =>
           <h2 className="text-xl sm:text-2xl font-serif tracking-tight text-amber-200">
             Certificate of Number Reservation
           </h2>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-olive-500/80 mt-1">
             Issued by {cert.rtoJurisdiction}
           </p>
         </div>
@@ -62,31 +62,31 @@ export const VipAllotmentOrder: React.FC<VipAllotmentOrderProps> = ({ data }) =>
         <div className="grid grid-cols-12 gap-3 text-xs mt-6 bg-white/5 rounded-2xl p-4 border border-white/10">
           <div className="col-span-8 space-y-2">
             <div>
-              <span className="text-[9px] uppercase tracking-wider text-slate-400 block">Allottee Name</span>
+              <span className="text-[9px] uppercase tracking-wider text-olive-500/80 block">Allottee Name</span>
               <span className="font-bold text-sm text-white">{cert.allotteeName}</span>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-[9px] uppercase tracking-wider text-slate-400 block">Allotment Order ID</span>
+                <span className="text-[9px] uppercase tracking-wider text-olive-500/80 block">Allotment Order ID</span>
                 <span className="font-mono text-[11px] text-amber-300 font-bold">{cert.allotmentId}</span>
               </div>
               <div>
-                <span className="text-[9px] uppercase tracking-wider text-slate-400 block">Reservation Window</span>
-                <span className="font-semibold text-emerald-400">{cert.validityWindowDays} Days Valid</span>
+                <span className="text-[9px] uppercase tracking-wider text-olive-500/80 block">Reservation Window</span>
+                <span className="font-semibold text-olive-400">{cert.validityWindowDays} Days Valid</span>
               </div>
             </div>
             <div>
-              <span className="text-[9px] uppercase tracking-wider text-slate-400 block">Payment Reference</span>
-              <span className="font-mono text-[10px] text-slate-300">{cert.receiptRef}</span>
+              <span className="text-[9px] uppercase tracking-wider text-olive-500/80 block">Payment Reference</span>
+              <span className="font-mono text-[10px] text-olive-400">{cert.receiptRef}</span>
             </div>
           </div>
 
           <div className="col-span-4 flex flex-col items-center justify-center border-l border-white/10 pl-3">
-            <div className="bg-white p-2 rounded-xl text-slate-950 flex flex-col items-center shadow">
+            <div className="bg-white p-2 rounded-xl text-olive-950 flex flex-col items-center shadow">
               <QrCode className="w-14 h-14" />
-              <span className="text-[6px] font-mono font-bold mt-1 text-slate-700">RTO ALLOT SEC</span>
+              <span className="text-[6px] font-mono font-bold mt-1 text-olive-800">RTO ALLOT SEC</span>
             </div>
-            <span className="text-[8px] text-emerald-400 flex items-center gap-1 mt-2 font-medium">
+            <span className="text-[8px] text-olive-400 flex items-center gap-1 mt-2 font-medium">
               <CheckCircle className="w-3 h-3" />
               Confirmed
             </span>
@@ -94,7 +94,7 @@ export const VipAllotmentOrder: React.FC<VipAllotmentOrderProps> = ({ data }) =>
         </div>
 
         {/* Footer Disclaimer */}
-        <div className="mt-4 pt-3 border-t border-white/10 text-center text-[8px] text-slate-500">
+        <div className="mt-4 pt-3 border-t border-white/10 text-center text-[8px] text-olive-700/70">
           DEMO • NOT AN OFFICIAL GOVERNMENT DOCUMENT • GATI MOBILITY OS
         </div>
       </div>
@@ -103,9 +103,9 @@ export const VipAllotmentOrder: React.FC<VipAllotmentOrderProps> = ({ data }) =>
       <div className="flex items-center gap-3 w-full justify-center">
         <button
           onClick={() => window.print()}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold shadow-sm transition-all hover:shadow"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-olive-50 border border-olive-200 text-olive-800 text-xs font-semibold shadow-sm transition-all hover:shadow"
         >
-          <Printer className="w-4 h-4 text-slate-500" />
+          <Printer className="w-4 h-4 text-olive-700/70" />
           <span>Print Allotment Order</span>
         </button>
         <button

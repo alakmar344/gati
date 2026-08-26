@@ -181,10 +181,10 @@ export default function FancyNumbersPage() {
               <Sparkles className="w-8 h-8" />
             </div>
             <div className="eyebrow text-amber-700">Allotment Confirmed</div>
-            <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-1.5">
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-olive-950 mt-1.5">
               VIP Number Allocated Successfully
             </h2>
-            <p className="text-sm text-slate-500 mt-2">
+            <p className="text-sm text-olive-700/70 mt-2">
               Allotment ID: <strong className="font-mono text-amber-700">{completedApplication.allotmentCertificate?.allotmentId}</strong>
             </p>
           </div>
@@ -218,12 +218,12 @@ export default function FancyNumbersPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
               {/* Left Plate Display */}
-              <div className="lg:col-span-7 flex flex-col items-center justify-center p-6 sm:p-10 bg-slate-900 rounded-2xl text-white shadow-2xl relative overflow-hidden border border-slate-800">
+              <div className="lg:col-span-7 flex flex-col items-center justify-center p-6 sm:p-10 bg-olive-900 rounded-2xl text-white shadow-2xl relative overflow-hidden border border-olive-800">
                 <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
                 {/* Plate Style Toggle Pills */}
                 <div className="flex flex-wrap items-center justify-center gap-2 mb-6 z-10 text-[11px] font-bold">
-                  <span className="text-slate-400 uppercase tracking-widest mr-1 hidden sm:inline">Theme</span>
+                  <span className="text-olive-500/80 uppercase tracking-widest mr-1 hidden sm:inline">Theme</span>
                   {[
                     { id: 'luxury', label: 'Luxury Black' },
                     { id: 'private', label: 'White Private' },
@@ -235,8 +235,8 @@ export default function FancyNumbersPage() {
                       onClick={() => setSelectedPlateTheme(thm.id as any)}
                       className={`px-3 py-1.5 rounded-full border transition-all ${
                         selectedPlateTheme === thm.id
-                          ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-sm'
-                          : 'bg-white/10 text-slate-300 border-white/10 hover:bg-white/20'
+                          ? 'bg-amber-400 text-olive-950 border-amber-300 shadow-sm'
+                          : 'bg-white/10 text-olive-400 border-white/10 hover:bg-white/20'
                       }`}
                     >
                       {thm.label}
@@ -255,10 +255,10 @@ export default function FancyNumbersPage() {
                 </div>
 
                 {/* Sub-bar */}
-                <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 w-full max-w-sm mt-6 pt-4 border-t border-white/10 text-[11px] text-slate-400 z-10">
-                  <span>State <strong className="text-slate-200">{selectedNumber.state}</strong></span>
+                <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 w-full max-w-sm mt-6 pt-4 border-t border-white/10 text-[11px] text-olive-500/80 z-10">
+                  <span>State <strong className="text-olive-200">{selectedNumber.state}</strong></span>
                   <span>Sum <strong className="text-amber-400 font-mono">#{selectedNumber.numerologySum}</strong></span>
-                  <span>Tag <strong className="text-emerald-400">{selectedNumber.tag}</strong></span>
+                  <span>Tag <strong className="text-olive-400">{selectedNumber.tag}</strong></span>
                 </div>
               </div>
 
@@ -266,17 +266,17 @@ export default function FancyNumbersPage() {
               <div className="lg:col-span-5 space-y-4">
                 <div className="flex items-center justify-between gap-3">
                   <Pill tone="amber">{selectedNumber.category}</Pill>
-                  <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
+                  <span className="text-[11px] font-medium text-olive-700/70 flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5 text-amber-600" />
                     Ends in {selectedNumber.auctionEndsIn}
                   </span>
                 </div>
 
-                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-olive-950 tracking-tight">
                   {selectedNumber.fullPlateText}
                 </h3>
 
-                <p className="text-sm text-slate-500 leading-relaxed">
+                <p className="text-sm text-olive-700/70 leading-relaxed">
                   High-profile allocation in {selectedNumber.rto}. Immediate reserve deposit locks the number for vehicle registration.
                 </p>
 
@@ -284,7 +284,7 @@ export default function FancyNumbersPage() {
                 <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/70 flex items-center justify-between gap-3">
                   <div>
                     <span className="text-[11px] uppercase font-bold tracking-wide text-amber-700/80 block">Reserve Price / Buy Now</span>
-                    <span className="text-2xl font-black text-slate-900 font-mono">{formatINR(selectedNumber.price)}</span>
+                    <span className="text-2xl font-black text-olive-950 font-mono">{formatINR(selectedNumber.price)}</span>
                   </div>
                   <Pill tone="emerald">{selectedNumber.bidsCount} Active Bids</Pill>
                 </div>
@@ -307,7 +307,7 @@ export default function FancyNumbersPage() {
                 <button
                   type="button"
                   onClick={() => handleSelectToBuy(selectedNumber)}
-                  className="btn w-full py-3.5 text-sm bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-lg shadow-amber-500/20"
+                  className="btn w-full py-3.5 text-sm bg-amber-500 hover:bg-amber-600 text-olive-950 shadow-lg shadow-amber-500/20"
                 >
                   <CreditCard className="w-4 h-4" />
                   <span>Reserve {selectedNumber.number} for {formatINR(selectedNumber.price)}</span>
@@ -372,9 +372,9 @@ export default function FancyNumbersPage() {
                     {/* Top Row: Category & Sum */}
                     <div className="flex items-center justify-between gap-2 mb-4">
                       <Pill tone="amber">{item.category}</Pill>
-                      <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                      <div className="flex items-center gap-2 text-[11px] text-olive-700/70">
                         <span className="font-mono font-bold text-amber-700">Sum {item.numerologySum}</span>
-                        <span className="text-slate-300">•</span>
+                        <span className="text-olive-400">•</span>
                         <span>{item.state.split(' ')[0]}</span>
                       </div>
                     </div>
@@ -390,17 +390,17 @@ export default function FancyNumbersPage() {
                     </div>
 
                     <div className="text-center mt-4">
-                      <div className="font-display text-lg font-extrabold tracking-tight text-slate-900">{item.fullPlateText}</div>
-                      <div className="text-sm font-medium text-slate-600 mt-1">{item.tag}</div>
-                      <div className="text-[11px] text-slate-400 mt-0.5">{item.rto}</div>
+                      <div className="font-display text-lg font-extrabold tracking-tight text-olive-950">{item.fullPlateText}</div>
+                      <div className="text-sm font-medium text-olive-700 mt-1">{item.tag}</div>
+                      <div className="text-[11px] text-olive-500/80 mt-0.5">{item.rto}</div>
                     </div>
                   </div>
 
                   {/* Bottom: Price & Quick Action */}
                   <div className="mt-6 pt-4 hairline border-t flex items-center justify-between gap-2">
                     <div>
-                      <span className="text-[11px] uppercase tracking-wide text-slate-400 block font-bold">Reserve Price</span>
-                      <span className="text-base font-extrabold text-slate-900 font-mono">{formatINR(item.price)}</span>
+                      <span className="text-[11px] uppercase tracking-wide text-olive-500/80 block font-bold">Reserve Price</span>
+                      <span className="text-base font-extrabold text-olive-950 font-mono">{formatINR(item.price)}</span>
                     </div>
 
                     <button
@@ -409,7 +409,7 @@ export default function FancyNumbersPage() {
                         e.stopPropagation();
                         handleSelectToBuy(item);
                       }}
-                      className="btn px-4 py-2 text-xs bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white shadow-sm"
+                      className="btn px-4 py-2 text-xs bg-olive-900 hover:bg-amber-500 hover:text-olive-950 text-white shadow-sm"
                     >
                       <span>Reserve</span>
                       <ArrowRight className="w-3.5 h-3.5" />

@@ -74,17 +74,17 @@ export default function FastagPage() {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 animate-rise">
 
         {/* Live wallet balance — hero card */}
-        <div className="md:col-span-7 relative overflow-hidden rounded-3xl p-6 sm:p-8 text-white bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-xl flex flex-col justify-between gap-6">
+        <div className="md:col-span-7 relative overflow-hidden rounded-3xl p-6 sm:p-8 text-white bg-gradient-to-br from-olive-950 via-olive-900 to-olive-950 shadow-xl flex flex-col justify-between gap-6">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300">
+              <div className="w-11 h-11 rounded-2xl bg-ashoka-500/20 border border-ashoka-400/30 flex items-center justify-center text-ashoka-300">
                 <Radio className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[11px] uppercase font-bold text-sky-300 block tracking-wider">
+                <span className="text-[11px] uppercase font-bold text-ashoka-300 block tracking-wider">
                   {fastag.issuingBank}
                 </span>
-                <span className="font-mono text-sm font-bold text-slate-200">
+                <span className="font-mono text-sm font-bold text-olive-200">
                   {fastag.vehicleNumber}
                 </span>
               </div>
@@ -95,11 +95,11 @@ export default function FastagPage() {
           </div>
 
           <div>
-            <span className="eyebrow text-slate-400">Available Wallet Balance</span>
+            <span className="eyebrow text-olive-500/80">Available Wallet Balance</span>
             {mounted ? (
               <div
                 className={`font-display text-5xl sm:text-6xl font-extrabold tracking-tight mt-2 ${
-                  lowBalance ? 'text-amber-300' : 'text-emerald-400'
+                  lowBalance ? 'text-amber-300' : 'text-olive-400'
                 }`}
               >
                 {formatINR(fastag.walletBalance)}
@@ -112,15 +112,15 @@ export default function FastagPage() {
               {lowBalance ? (
                 <Pill tone="rose">Top up now to avoid toll-lane declines</Pill>
               ) : (
-                <span className="text-[12px] text-slate-400 inline-flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-[12px] text-olive-500/80 inline-flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-olive-400" />
                   Low-Balance Expressway Shield Active
                 </span>
               )}
             </div>
           </div>
 
-          <div className="text-[11px] text-slate-500 font-mono pt-3 border-t border-white/10">
+          <div className="text-[11px] text-olive-700/70 font-mono pt-3 border-t border-white/10">
             RFID EPC: {fastag.tagId}
           </div>
         </div>
@@ -128,11 +128,11 @@ export default function FastagPage() {
         {/* Quick recharge */}
         <div className="md:col-span-5 card p-6 sm:p-7 flex flex-col justify-between gap-5">
           <div>
-            <span className="eyebrow text-emerald-700">Instant 1-Tap Top-up</span>
-            <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 mt-1.5">
+            <span className="eyebrow text-olive-700">Instant 1-Tap Top-up</span>
+            <h3 className="font-display text-lg font-extrabold tracking-tight text-olive-950 mt-1.5">
               Recharge without convenience fee
             </h3>
-            <p className="text-[13px] text-slate-500 mt-1.5 leading-relaxed">
+            <p className="text-[13px] text-olive-700/70 mt-1.5 leading-relaxed">
               Direct NPCI settlement ensures immediate balance reflection at all toll plazas nationwide.
             </p>
           </div>
@@ -145,8 +145,8 @@ export default function FastagPage() {
                 onClick={() => setTopupAmount(amt)}
                 className={`py-3 rounded-2xl border text-[13px] font-bold font-mono transition-all ${
                   topupAmount === amt
-                    ? 'bg-sky-50 border-sky-500 text-sky-900 ring-2 ring-sky-500/20'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'bg-ashoka-50 border-ashoka-500 text-ashoka-900 ring-2 ring-ashoka-500/20'
+                    : 'bg-white border-olive-200 text-olive-800 hover:bg-olive-50'
                 }`}
               >
                 +{formatINR(amt)}
@@ -162,12 +162,12 @@ export default function FastagPage() {
           >
             {rechargeSuccess ? (
               <>
-                <CheckCircle className="w-4 h-4 text-emerald-400" />
+                <CheckCircle className="w-4 h-4 text-olive-400" />
                 <span>Wallet credited!</span>
               </>
             ) : (
               <>
-                <Plus className="w-4 h-4 text-emerald-400" />
+                <Plus className="w-4 h-4 text-olive-400" />
                 <span>{isToppingUp ? 'Crediting Wallet…' : `Recharge ${formatINR(topupAmount)}`}</span>
               </>
             )}
@@ -179,14 +179,14 @@ export default function FastagPage() {
       {/* Expressway toll calculator */}
       <section className="card p-6 sm:p-8 space-y-6 animate-rise">
         <div>
-          <span className="eyebrow text-sky-700 inline-flex items-center gap-1.5">
+          <span className="eyebrow text-ashoka-700 inline-flex items-center gap-1.5">
             <Route className="w-3.5 h-3.5" />
             Expressway Cost & Route Engine
           </span>
-          <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1.5">
+          <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-olive-950 mt-1.5">
             Interactive Expressway Toll Calculator
           </h2>
-          <p className="text-[13px] text-slate-500 mt-1.5 leading-relaxed">
+          <p className="text-[13px] text-olive-700/70 mt-1.5 leading-relaxed">
             Select any major Indian expressway to calculate toll budget, distance, and FASTag savings.
           </p>
         </div>
@@ -202,22 +202,22 @@ export default function FastagPage() {
                 onClick={() => setSelectedRoute(route)}
                 className={`text-left p-4 rounded-2xl border transition-all flex flex-col justify-between gap-3 ${
                   isSelected
-                    ? 'bg-sky-50/80 border-sky-500 ring-2 ring-sky-500/20'
-                    : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                    ? 'bg-ashoka-50/80 border-ashoka-500 ring-2 ring-ashoka-500/20'
+                    : 'bg-white border-olive-200 hover:border-olive-300 hover:bg-olive-50'
                 }`}
               >
                 <div>
-                  <div className="font-bold text-[13px] text-slate-900 mb-1.5">{route.name}</div>
-                  <div className="text-[11px] text-slate-500 flex items-center gap-2">
+                  <div className="font-bold text-[13px] text-olive-950 mb-1.5">{route.name}</div>
+                  <div className="text-[11px] text-olive-700/70 flex items-center gap-2">
                     <span>{route.distanceKm} KM</span>
-                    <span className="hairline w-px h-3 bg-slate-300" />
+                    <span className="hairline w-px h-3 bg-olive-300" />
                     <span>{route.typicalTime}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                <div className="flex items-center justify-between pt-3 border-t border-olive-100">
                   <Pill tone="emerald">{route.fastagDiscountPercent}% FASTag CashPass</Pill>
-                  <span className="font-mono font-extrabold text-slate-900 text-sm">
+                  <span className="font-mono font-extrabold text-olive-950 text-sm">
                     {formatINR(route.totalTollCost)}
                   </span>
                 </div>
@@ -227,34 +227,34 @@ export default function FastagPage() {
         </div>
 
         {/* Selected route result summary */}
-        <div className="rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-4">
+        <div className="rounded-2xl bg-olive-50 border border-olive-200 p-5 space-y-4">
           <div className="flex items-center justify-between gap-3">
-            <span className="font-bold text-slate-900 text-sm">{selectedRoute.name}</span>
+            <span className="font-bold text-olive-950 text-sm">{selectedRoute.name}</span>
             <Pill tone="sky">Selected route</Pill>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="rounded-xl bg-white border border-slate-200 p-4">
-              <span className="eyebrow text-slate-400 inline-flex items-center gap-1.5">
+            <div className="rounded-xl bg-white border border-olive-200 p-4">
+              <span className="eyebrow text-olive-500/80 inline-flex items-center gap-1.5">
                 <Navigation className="w-3.5 h-3.5" />
                 Distance
               </span>
-              <div className="font-display text-xl font-extrabold tracking-tight text-slate-900 mt-1">
+              <div className="font-display text-xl font-extrabold tracking-tight text-olive-950 mt-1">
                 {selectedRoute.distanceKm} km
               </div>
             </div>
-            <div className="rounded-xl bg-white border border-slate-200 p-4">
-              <span className="eyebrow text-slate-400 inline-flex items-center gap-1.5">
+            <div className="rounded-xl bg-white border border-olive-200 p-4">
+              <span className="eyebrow text-olive-500/80 inline-flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5" />
                 Typical Time
               </span>
-              <div className="font-display text-xl font-extrabold tracking-tight text-slate-900 mt-1">
+              <div className="font-display text-xl font-extrabold tracking-tight text-olive-950 mt-1">
                 {selectedRoute.typicalTime}
               </div>
             </div>
-            <div className="rounded-xl bg-white border border-slate-200 p-4">
-              <span className="eyebrow text-slate-400">One-Way Toll</span>
-              <div className="font-display text-xl font-extrabold tracking-tight text-slate-900 mt-1 font-mono">
+            <div className="rounded-xl bg-white border border-olive-200 p-4">
+              <span className="eyebrow text-olive-500/80">One-Way Toll</span>
+              <div className="font-display text-xl font-extrabold tracking-tight text-olive-950 mt-1 font-mono">
                 {formatINR(selectedRoute.totalTollCost)}
               </div>
             </div>
@@ -279,16 +279,16 @@ export default function FastagPage() {
       {/* Recent toll deductions */}
       <section className="card p-6 sm:p-8 space-y-4 animate-rise">
         <div className="flex items-center gap-2">
-          <Receipt className="w-4 h-4 text-slate-500" />
-          <h3 className="eyebrow text-slate-600">Recent NETC Toll Plaza Deductions</h3>
+          <Receipt className="w-4 h-4 text-olive-700/70" />
+          <h3 className="eyebrow text-olive-700">Recent NETC Toll Plaza Deductions</h3>
         </div>
 
-        <div className="divide-y divide-slate-100">
+        <div className="divide-y divide-olive-100">
           {fastag.recentTolls.map((t, idx) => (
             <div key={idx} className="py-3.5 flex items-center justify-between gap-4">
               <div>
-                <div className="font-bold text-slate-900 text-[13px]">{t.plazaName}</div>
-                <div className="text-[11px] text-slate-500 font-mono mt-0.5">
+                <div className="font-bold text-olive-950 text-[13px]">{t.plazaName}</div>
+                <div className="text-[11px] text-olive-700/70 font-mono mt-0.5">
                   {t.date} • {t.lane}
                 </div>
               </div>

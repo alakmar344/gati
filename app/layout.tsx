@@ -40,7 +40,7 @@ export default function RootLayout({
       lang="en"
       className={`scroll-smooth ${inter.variable} ${sora.variable} ${jetbrains.variable}`}
     >
-      <body className="min-h-screen flex flex-col bg-canvas text-slate-900 font-sans antialiased selection:bg-olive-600 selection:text-white">
+      <body className="min-h-screen flex flex-col bg-canvas text-olive-950 font-sans antialiased selection:bg-olive-600 selection:text-white">
         {/* Ambient background wash — subtle, single system */}
         <div className="app-aurora" aria-hidden="true" />
         {/* Subtle Indian jali weave for distinct identity */}

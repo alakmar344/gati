@@ -195,22 +195,22 @@ export default function VehiclePermitPage() {
                   <div className="flex flex-col items-center gap-2 shrink-0 w-16 sm:w-24">
                     <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
                       active
-                        ? 'bg-teal-600 text-white ring-4 ring-teal-100'
+                        ? 'bg-olive-600 text-white ring-4 ring-olive-100'
                         : done
-                          ? 'bg-teal-100 text-teal-700'
-                          : 'bg-slate-100 text-slate-400'
+                          ? 'bg-olive-100 text-olive-700'
+                          : 'bg-olive-100 text-olive-500/80'
                     }`}>
                       {done ? <CheckCircle className="w-5 h-5" /> : step.num}
                     </div>
                     <span className={`text-[11px] font-semibold text-center leading-tight ${
-                      active ? 'text-teal-700' : done ? 'text-slate-700' : 'text-slate-400'
+                      active ? 'text-olive-700' : done ? 'text-olive-800' : 'text-olive-500/80'
                     }`}>
                       {step.label}
                     </span>
                   </div>
                   {i < 3 && (
-                    <div className="flex-1 h-1 mt-4 mx-0.5 sm:mx-1 rounded-full bg-slate-200 overflow-hidden">
-                      <div className={`h-full rounded-full bg-teal-500 transition-all duration-500 ${done ? 'w-full' : 'w-0'}`} />
+                    <div className="flex-1 h-1 mt-4 mx-0.5 sm:mx-1 rounded-full bg-olive-200 overflow-hidden">
+                      <div className={`h-full rounded-full bg-olive-500 transition-all duration-500 ${done ? 'w-full' : 'w-0'}`} />
                     </div>
                   )}
                 </React.Fragment>
@@ -227,9 +227,9 @@ export default function VehiclePermitPage() {
         {currentStep === 1 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700">Step 1 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1">Select Permit Classification</h2>
-              <p className="text-sm text-slate-500 mt-1">Unified under Central Motor Vehicles Rules 1989 (Rule 85-B).</p>
+              <p className="eyebrow text-olive-700">Step 1 of 4</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-olive-950 mt-1">Select Permit Classification</h2>
+              <p className="text-sm text-olive-700/70 mt-1">Unified under Central Motor Vehicles Rules 1989 (Rule 85-B).</p>
             </div>
 
             <Field
@@ -316,9 +316,9 @@ export default function VehiclePermitPage() {
         {currentStep === 2 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700">Step 2 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1">Vehicle Specifications & Compliance</h2>
-              <p className="text-sm text-slate-500 mt-1">Automated validation with National Vehicle Registry (Vahan OS).</p>
+              <p className="eyebrow text-olive-700">Step 2 of 4</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-olive-950 mt-1">Vehicle Specifications & Compliance</h2>
+              <p className="text-sm text-olive-700/70 mt-1">Automated validation with National Vehicle Registry (Vahan OS).</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
@@ -350,7 +350,7 @@ export default function VehiclePermitPage() {
                   onValue={(v) => setGrossVehicleWeightKg(Number(v.replace(/[^0-9]/g, '')) || 0)}
                   inputMode="numeric"
                   mono
-                  suffix={<span className="text-[11px] font-semibold text-slate-400 pr-1">kg</span>}
+                  suffix={<span className="text-[11px] font-semibold text-olive-500/80 pr-1">kg</span>}
                   placeholder="16200"
                 />
               </Field>
@@ -368,13 +368,13 @@ export default function VehiclePermitPage() {
             </div>
 
             {/* Compliance Badge Row */}
-            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-3">
-              <div className="text-sm font-bold text-emerald-950 flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-emerald-600" />
+            <div className="p-4 rounded-2xl bg-olive-50 border border-olive-200 space-y-3">
+              <div className="text-sm font-bold text-olive-950 flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-olive-600" />
                 <span>Real-Time Statutory Compliance Verification</span>
               </div>
-              <p className="text-[11px] text-emerald-700/80">Auto-verified from Vahan OS — dates are as printed on each certificate.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-emerald-900">
+              <p className="text-[11px] text-olive-700/80">Auto-verified from Vahan OS — dates are as printed on each certificate.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-olive-900">
                 <div>Fitness: <span className="font-semibold">Valid (Aug 2027)</span></div>
                 <div>Insurance: <span className="font-semibold">Active Comprehensive</span></div>
                 <div>PUCC: <span className="font-semibold">Emission Green Pass</span></div>
@@ -406,9 +406,9 @@ export default function VehiclePermitPage() {
         {currentStep === 3 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700">Step 3 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1">Interstate Corridors & Route Matrix</h2>
-              <p className="text-sm text-slate-500 mt-1">Select high-speed expressway corridors or pan-India single window coverage.</p>
+              <p className="eyebrow text-olive-700">Step 3 of 4</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-olive-950 mt-1">Interstate Corridors & Route Matrix</h2>
+              <p className="text-sm text-olive-700/70 mt-1">Select high-speed expressway corridors or pan-India single window coverage.</p>
             </div>
 
             <Field
@@ -456,44 +456,44 @@ export default function VehiclePermitPage() {
         {currentStep === 4 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700">Step 4 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-1">Composite Permit Fee Review</h2>
-              <p className="text-sm text-slate-500 mt-1">Unified single-window settlement under National Transport Agreement.</p>
+              <p className="eyebrow text-olive-700">Step 4 of 4</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-olive-950 mt-1">Composite Permit Fee Review</h2>
+              <p className="text-sm text-olive-700/70 mt-1">Unified single-window settlement under National Transport Agreement.</p>
             </div>
 
             {/* Summary */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-sm">
-              <div className="flex justify-between gap-4 border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Applicant / Fleet Entity</span>
-                <span className="font-bold text-slate-900 text-right">{currentUser.name}</span>
+            <div className="p-5 rounded-2xl bg-olive-50 border border-olive-200 space-y-3 text-sm">
+              <div className="flex justify-between gap-4 border-b border-olive-200 pb-2">
+                <span className="text-olive-700/70">Applicant / Fleet Entity</span>
+                <span className="font-bold text-olive-950 text-right">{currentUser.name}</span>
               </div>
-              <div className="flex justify-between gap-4 border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Vehicle Registration</span>
-                <span className="font-mono font-bold text-slate-900 text-right">{vehicleRegNumber}</span>
+              <div className="flex justify-between gap-4 border-b border-olive-200 pb-2">
+                <span className="text-olive-700/70">Vehicle Registration</span>
+                <span className="font-mono font-bold text-olive-950 text-right">{vehicleRegNumber}</span>
               </div>
-              <div className="flex justify-between gap-4 border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Permit Classification</span>
-                <span className="font-bold text-teal-700 text-right">{permitCategory}</span>
+              <div className="flex justify-between gap-4 border-b border-olive-200 pb-2">
+                <span className="text-olive-700/70">Permit Classification</span>
+                <span className="font-bold text-olive-700 text-right">{permitCategory}</span>
               </div>
               <div className="flex justify-between gap-4">
-                <span className="text-slate-500">Authorized Validity</span>
-                <span className="font-semibold text-slate-900 text-right">{permitPeriodYears} Years National Multi-Entry</span>
+                <span className="text-olive-700/70">Authorized Validity</span>
+                <span className="font-semibold text-olive-950 text-right">{permitPeriodYears} Years National Multi-Entry</span>
               </div>
             </div>
 
             {/* Fee Breakdown */}
-            <div className="space-y-2 p-5 rounded-2xl bg-teal-50 border border-teal-200 text-sm">
-              <div className="flex justify-between gap-4 text-slate-700">
+            <div className="space-y-2 p-5 rounded-2xl bg-olive-50 border border-olive-200 text-sm">
+              <div className="flex justify-between gap-4 text-olive-800">
                 <span>National Composite Permit Fee (Central Single Window)</span>
-                <span className="font-mono font-bold text-slate-900">{formatINR(totalFee)}</span>
+                <span className="font-mono font-bold text-olive-950">{formatINR(totalFee)}</span>
               </div>
-              <div className="flex justify-between gap-4 text-teal-800">
+              <div className="flex justify-between gap-4 text-olive-800">
                 <span>Border Checkpost Multi-Entry Surcharges</span>
                 <span className="font-mono font-bold">INCLUDED (₹0)</span>
               </div>
-              <div className="flex justify-between gap-4 pt-3 border-t border-teal-200 font-extrabold text-teal-950">
+              <div className="flex justify-between gap-4 pt-3 border-t border-olive-200 font-extrabold text-olive-950">
                 <span>Total Composite Amount</span>
-                <span className="font-mono text-lg text-teal-700">{formatINR(totalFee)}</span>
+                <span className="font-mono text-lg text-olive-700">{formatINR(totalFee)}</span>
               </div>
             </div>
 
@@ -522,14 +522,14 @@ export default function VehiclePermitPage() {
         {currentStep === 5 && completedApplication && (
           <div className="space-y-8 animate-rise">
             <div className="text-center">
-              <div className="w-14 h-14 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
+              <div className="w-14 h-14 rounded-full bg-olive-100 text-olive-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
                 <CheckCircle className="w-8 h-8" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-olive-950">
                 National Permit Granted
               </h2>
-              <p className="text-sm text-slate-500 mt-1.5">
-                Permit Number: <strong className="font-mono text-teal-700">{completedApplication.digitalPermitDocument?.permitNumber}</strong>
+              <p className="text-sm text-olive-700/70 mt-1.5">
+                Permit Number: <strong className="font-mono text-olive-700">{completedApplication.digitalPermitDocument?.permitNumber}</strong>
               </p>
             </div>
 

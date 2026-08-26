@@ -705,12 +705,12 @@ export default function AdttSimulatorPage() {
       <div className="text-center max-w-xl mx-auto space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full tiranga-badge text-xs font-bold uppercase tracking-wider">
           <Gamepad2 className="w-3.5 h-3.5 text-saffron-600" />
-          <span className="text-slate-800">Automated Driving Test Track (ADTT) Simulator</span>
+          <span className="text-olive-900">Automated Driving Test Track (ADTT) Simulator</span>
         </div>
-        <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-olive-950 tracking-tight">
           RTO Sensor Track Practice
         </h1>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-olive-700">
           Master the official Indian automated sensor test track maneuvers (8-Figure, Parallel Parking, Reverse S & Hill Gradient) before your live RTO appointment.
         </p>
       </div>
@@ -731,8 +731,8 @@ export default function AdttSimulatorPage() {
               onClick={() => startTrack(t.id as TrackType)}
               className={`px-3.5 py-2 rounded-full transition-all flex-1 md:flex-none flex items-center justify-center gap-1.5 ${
                 selectedTrack === t.id
-                  ? 'bg-slate-900 text-white shadow-md'
-                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                  ? 'bg-olive-900 text-white shadow-md'
+                  : 'bg-white border border-olive-200 text-olive-800 hover:bg-olive-50'
               }`}
             >
               {t.label}
@@ -742,21 +742,21 @@ export default function AdttSimulatorPage() {
 
         {/* Live HUD Telemetry */}
         <div className="flex items-center gap-3 text-xs font-mono shrink-0">
-          <div className="p-2 px-3 rounded-xl bg-slate-100 border border-slate-200">
-            <span className="text-[11px] text-slate-500 block uppercase font-sans">Stopwatch</span>
-            <span className="font-bold text-slate-900">{timeElapsed}s</span>
+          <div className="p-2 px-3 rounded-xl bg-olive-100 border border-olive-200">
+            <span className="text-[11px] text-olive-700/70 block uppercase font-sans">Stopwatch</span>
+            <span className="font-bold text-olive-950">{timeElapsed}s</span>
           </div>
 
-          <div className="p-2 px-3 rounded-xl bg-slate-100 border border-slate-200">
-            <span className="text-[11px] text-slate-500 block uppercase font-sans">Checkpoints</span>
+          <div className="p-2 px-3 rounded-xl bg-olive-100 border border-olive-200">
+            <span className="text-[11px] text-olive-700/70 block uppercase font-sans">Checkpoints</span>
             <span className="font-bold text-saffron-600">
               {currentCheckpointIndex} / {checkpoints.length}
             </span>
           </div>
 
-          <div className="p-2 px-3 rounded-xl bg-slate-100 border border-slate-200">
-            <span className="text-[11px] text-slate-500 block uppercase font-sans">Sensor Score</span>
-            <span className={`font-bold ${score >= 80 ? 'text-emerald-700' : (score >= 70 ? 'text-amber-600' : 'text-rose-600')}`}>
+          <div className="p-2 px-3 rounded-xl bg-olive-100 border border-olive-200">
+            <span className="text-[11px] text-olive-700/70 block uppercase font-sans">Sensor Score</span>
+            <span className={`font-bold ${score >= 80 ? 'text-olive-700' : (score >= 70 ? 'text-amber-600' : 'text-rose-600')}`}>
               {score} / 100
             </span>
           </div>
@@ -764,7 +764,7 @@ export default function AdttSimulatorPage() {
           <button
             onClick={toggleSound}
             className={`p-2.5 rounded-full border transition-colors ${
-              isMuted ? 'bg-rose-50 border-rose-200 text-rose-600' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+              isMuted ? 'bg-rose-50 border-rose-200 text-rose-600' : 'bg-olive-100 border-olive-200 text-olive-800 hover:bg-olive-200'
             }`}
             title={isMuted ? 'Unmute SFX' : 'Mute SFX'}
           >
@@ -773,7 +773,7 @@ export default function AdttSimulatorPage() {
 
           <button
             onClick={() => startTrack(selectedTrack)}
-            className="p-2.5 rounded-full bg-slate-100 border border-slate-200 hover:bg-slate-200 text-slate-700 transition-colors"
+            className="p-2.5 rounded-full bg-olive-100 border border-olive-200 hover:bg-olive-200 text-olive-800 transition-colors"
             title="Restart Track"
           >
             <RotateCcw className="w-4 h-4" />
@@ -786,7 +786,7 @@ export default function AdttSimulatorPage() {
       <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/80 shadow-2xl flex flex-col items-center justify-center space-y-6">
         
         {/* Canvas Area with Responsive Sizing */}
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-800 bg-slate-950 w-full max-w-[600px]">
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-olive-800 bg-olive-950 w-full max-w-[600px]">
           <canvas
             ref={canvasRef}
             width={580}
@@ -796,14 +796,14 @@ export default function AdttSimulatorPage() {
 
           {/* Overlay Result Badge: PASSED */}
           {isPassed && (
-            <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 text-white animate-dialog-in">
-              <div className="w-16 h-16 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mb-3 shadow-lg shadow-emerald-500/30">
+            <div className="absolute inset-0 bg-olive-950/85 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 text-white animate-dialog-in">
+              <div className="w-16 h-16 rounded-full bg-olive-500 text-olive-950 flex items-center justify-center mb-3 shadow-lg shadow-olive-500/30">
                 <Trophy className="w-8 h-8" />
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
                 ADTT Track Cleared!
               </h3>
-              <p className="text-xs text-emerald-300 font-mono mt-1">
+              <p className="text-xs text-olive-300 font-mono mt-1">
                 Score: {score}/100 • Completed in {timeElapsed}s • Minimum RTO Standard (80) Achieved
               </p>
               <div className="flex flex-wrap gap-2.5 mt-5 text-xs font-bold justify-center">
@@ -816,13 +816,13 @@ export default function AdttSimulatorPage() {
                 </button>
                 <button
                   onClick={() => startTrack(selectedTrack)}
-                  className="px-4 py-2.5 rounded-full bg-white text-slate-900 hover:bg-slate-100"
+                  className="px-4 py-2.5 rounded-full bg-white text-olive-950 hover:bg-olive-100"
                 >
                   Retry Track
                 </button>
                 <Link
                   href="/driver-licence"
-                  className="px-4 py-2.5 rounded-full bg-emerald-500 text-slate-950 hover:bg-emerald-400 font-bold"
+                  className="px-4 py-2.5 rounded-full bg-olive-500 text-olive-950 hover:bg-olive-400 font-bold"
                 >
                   Book Official Slot
                 </Link>
@@ -853,16 +853,16 @@ export default function AdttSimulatorPage() {
         </div>
 
         {/* Checkpoint Progress Banner */}
-        <div className="w-full max-w-lg bg-slate-100 p-3 rounded-2xl border border-slate-200 flex items-center justify-between text-xs">
+        <div className="w-full max-w-lg bg-olive-100 p-3 rounded-2xl border border-olive-200 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
             <Info className="w-4 h-4 text-saffron-600 shrink-0" />
-            <span className="text-slate-700 font-medium">
+            <span className="text-olive-800 font-medium">
               {currentCheckpointIndex < checkpoints.length 
                 ? `Next Target: ${checkpoints[currentCheckpointIndex]?.label}`
                 : 'All Checkpoints Cleared! Proceed to Finish Gate.'}
             </span>
           </div>
-          <span className="font-mono font-bold text-slate-900 shrink-0">
+          <span className="font-mono font-bold text-olive-950 shrink-0">
             {Math.round((currentCheckpointIndex / (checkpoints.length || 1)) * 100)}%
           </span>
         </div>
@@ -870,22 +870,22 @@ export default function AdttSimulatorPage() {
         {/* Controls Guide & Responsive D-Pad */}
         <div className="w-full max-w-lg flex flex-col sm:flex-row items-center justify-between gap-6 text-xs">
           
-          <div className="space-y-1.5 text-slate-600 text-center sm:text-left">
-            <span className="font-bold text-slate-900 block">Keyboard & Mouse Controls:</span>
+          <div className="space-y-1.5 text-olive-700 text-center sm:text-left">
+            <span className="font-bold text-olive-950 block">Keyboard & Mouse Controls:</span>
             <div className="flex items-center gap-1.5 justify-center sm:justify-start">
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">▲</kbd>
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">W</kbd>
-              <span className="text-slate-500">Accelerate Forward</span>
+              <kbd className="px-2 py-0.5 rounded bg-olive-200 font-mono font-bold text-olive-900 border border-olive-300">▲</kbd>
+              <kbd className="px-2 py-0.5 rounded bg-olive-200 font-mono font-bold text-olive-900 border border-olive-300">W</kbd>
+              <span className="text-olive-700/70">Accelerate Forward</span>
             </div>
             <div className="flex items-center gap-1.5 justify-center sm:justify-start">
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">◀</kbd>
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">▶</kbd>
-              <span className="text-slate-500">Steer Left / Right</span>
+              <kbd className="px-2 py-0.5 rounded bg-olive-200 font-mono font-bold text-olive-900 border border-olive-300">◀</kbd>
+              <kbd className="px-2 py-0.5 rounded bg-olive-200 font-mono font-bold text-olive-900 border border-olive-300">▶</kbd>
+              <span className="text-olive-700/70">Steer Left / Right</span>
             </div>
             <div className="flex items-center gap-1.5 justify-center sm:justify-start">
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">▼</kbd>
-              <kbd className="px-2 py-0.5 rounded bg-slate-200 font-mono font-bold text-slate-800 border border-slate-300">S</kbd>
-              <span className="text-slate-500">Brake / Reverse</span>
+              <kbd className="px-2 py-0.5 rounded bg-olive-200 font-mono font-bold text-olive-900 border border-olive-300">▼</kbd>
+              <kbd className="px-2 py-0.5 rounded bg-olive-200 font-mono font-bold text-olive-900 border border-olive-300">S</kbd>
+              <span className="text-olive-700/70">Brake / Reverse</span>
             </div>
           </div>
 
@@ -895,7 +895,7 @@ export default function AdttSimulatorPage() {
               onPointerDown={(e) => { e.preventDefault(); setControlKey('ArrowUp', true); }}
               onPointerUp={() => setControlKey('ArrowUp', false)}
               onPointerLeave={() => setControlKey('ArrowUp', false)}
-              className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 text-slate-800 text-sm touch-none"
+              className="w-12 h-12 rounded-2xl bg-gradient-to-b from-olive-100 to-olive-200 active:from-olive-300 active:to-olive-400 font-bold flex items-center justify-center shadow-md border border-olive-300 text-olive-900 text-sm touch-none"
             >
               ▲
             </button>
@@ -904,7 +904,7 @@ export default function AdttSimulatorPage() {
                 onPointerDown={(e) => { e.preventDefault(); setControlKey('ArrowLeft', true); }}
                 onPointerUp={() => setControlKey('ArrowLeft', false)}
                 onPointerLeave={() => setControlKey('ArrowLeft', false)}
-                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 text-slate-800 text-sm touch-none"
+                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-olive-100 to-olive-200 active:from-olive-300 active:to-olive-400 font-bold flex items-center justify-center shadow-md border border-olive-300 text-olive-900 text-sm touch-none"
               >
                 ◀
               </button>
@@ -912,7 +912,7 @@ export default function AdttSimulatorPage() {
                 onPointerDown={(e) => { e.preventDefault(); setControlKey('ArrowDown', true); }}
                 onPointerUp={() => setControlKey('ArrowDown', false)}
                 onPointerLeave={() => setControlKey('ArrowDown', false)}
-                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 text-slate-800 text-sm touch-none"
+                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-olive-100 to-olive-200 active:from-olive-300 active:to-olive-400 font-bold flex items-center justify-center shadow-md border border-olive-300 text-olive-900 text-sm touch-none"
               >
                 ▼
               </button>
@@ -920,7 +920,7 @@ export default function AdttSimulatorPage() {
                 onPointerDown={(e) => { e.preventDefault(); setControlKey('ArrowRight', true); }}
                 onPointerUp={() => setControlKey('ArrowRight', false)}
                 onPointerLeave={() => setControlKey('ArrowRight', false)}
-                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200 active:from-slate-300 active:to-slate-400 font-bold flex items-center justify-center shadow-md border border-slate-300 text-slate-800 text-sm touch-none"
+                className="w-12 h-12 rounded-2xl bg-gradient-to-b from-olive-100 to-olive-200 active:from-olive-300 active:to-olive-400 font-bold flex items-center justify-center shadow-md border border-olive-300 text-olive-900 text-sm touch-none"
               >
                 ▶
               </button>
@@ -948,90 +948,90 @@ export default function AdttSimulatorPage() {
           OFFICIAL RTO TEST CLEARANCE CERTIFICATE MODAL
           ========================================== */}
       {showCertificate && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-4 border-slate-800 relative space-y-6 animate-dialog-in">
+        <div className="fixed inset-0 z-50 bg-olive-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-4 border-olive-800 relative space-y-6 animate-dialog-in">
             
             {/* Top Tiranga Stripe */}
             <div className="tiranga-top-bar absolute top-0 left-0 right-0 rounded-t-2xl" />
 
             {/* Certificate Header */}
             <div className="text-center pt-2 space-y-1">
-              <div className="text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
+              <div className="text-[11px] font-extrabold uppercase tracking-widest text-olive-700/70">
                 GOVERNMENT OF INDIA • MINISTRY OF ROAD TRANSPORT & HIGHWAYS
               </div>
-              <h2 className="text-xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-xl font-black text-olive-950 tracking-tight">
                 ADTT SENSOR TRACK CLEARANCE CERTIFICATE
               </h2>
-              <div className="inline-block px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[11px] uppercase">
+              <div className="inline-block px-3 py-0.5 rounded-full bg-olive-100 text-olive-800 font-bold text-[11px] uppercase">
                 Statutory Motor Vehicles Act Compliance
               </div>
             </div>
 
             {/* Candidate & Test Telemetry Breakdown */}
-            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 text-xs">
+            <div className="bg-olive-50 p-4 rounded-2xl border border-olive-200 space-y-3 text-xs">
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Candidate Name:</span>
-                  <span className="font-bold text-slate-900">{currentUser.name}</span>
+                  <span className="text-[11px] text-olive-700/70 block">Candidate Name:</span>
+                  <span className="font-bold text-olive-950">{currentUser.name}</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Application Ref:</span>
-                  <span className="font-mono font-bold text-slate-900">DL-ADTT-{Date.now().toString().slice(-6)}</span>
+                  <span className="text-[11px] text-olive-700/70 block">Application Ref:</span>
+                  <span className="font-mono font-bold text-olive-950">DL-ADTT-{Date.now().toString().slice(-6)}</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Vehicle Class:</span>
-                  <span className="font-bold text-slate-900">LMV (Light Motor Vehicle)</span>
+                  <span className="text-[11px] text-olive-700/70 block">Vehicle Class:</span>
+                  <span className="font-bold text-olive-950">LMV (Light Motor Vehicle)</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Maneuver Track:</span>
-                  <span className="font-bold text-slate-900 uppercase">{selectedTrack.replace('_', ' ')}</span>
+                  <span className="text-[11px] text-olive-700/70 block">Maneuver Track:</span>
+                  <span className="font-bold text-olive-950 uppercase">{selectedTrack.replace('_', ' ')}</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Completion Time:</span>
-                  <span className="font-mono font-bold text-slate-900">{timeElapsed} Seconds</span>
+                  <span className="text-[11px] text-olive-700/70 block">Completion Time:</span>
+                  <span className="font-mono font-bold text-olive-950">{timeElapsed} Seconds</span>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-500 block">Sensor Score:</span>
-                  <span className="font-mono font-bold text-emerald-700">{score} / 100 (PASSED)</span>
+                  <span className="text-[11px] text-olive-700/70 block">Sensor Score:</span>
+                  <span className="font-mono font-bold text-olive-700">{score} / 100 (PASSED)</span>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px]">
-                <span className="text-slate-500">RTO Jurisdiction:</span>
-                <span className="font-semibold text-slate-800">RTO {currentUser.city}, {currentUser.state}</span>
+              <div className="pt-2 border-t border-olive-200 flex items-center justify-between text-[11px]">
+                <span className="text-olive-700/70">RTO Jurisdiction:</span>
+                <span className="font-semibold text-olive-900">RTO {currentUser.city}, {currentUser.state}</span>
               </div>
             </div>
 
             {/* Verification QR & Digital Stamp */}
-            <div className="flex items-center justify-between gap-4 p-3 bg-emerald-50/50 rounded-2xl border border-emerald-200">
+            <div className="flex items-center justify-between gap-4 p-3 bg-olive-50/50 rounded-2xl border border-olive-200">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white border border-emerald-300 flex items-center justify-center p-1 shadow-xs">
-                  <QrCode className="w-10 h-10 text-slate-900" />
+                <div className="w-12 h-12 rounded-xl bg-white border border-olive-300 flex items-center justify-center p-1 shadow-xs">
+                  <QrCode className="w-10 h-10 text-olive-950" />
                 </div>
                 <div>
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-800">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-olive-800">
                     PARIVAHAN DIGILOCKER VERIFIED
                   </div>
-                  <div className="text-[11px] text-slate-600">
+                  <div className="text-[11px] text-olive-700">
                     Digitally signed by RTO ADTT Telemetry Engine
                   </div>
                 </div>
               </div>
-              <ShieldCheck className="w-8 h-8 text-emerald-600 shrink-0" />
+              <ShieldCheck className="w-8 h-8 text-olive-600 shrink-0" />
             </div>
 
             {/* Actions */}
             <div className="flex gap-3 text-xs font-bold">
               <button
                 onClick={() => window.print()}
-                className="flex-1 py-3 rounded-full bg-slate-900 text-white hover:bg-slate-800 flex items-center justify-center gap-1.5 shadow-md"
+                className="flex-1 py-3 rounded-full bg-olive-900 text-white hover:bg-olive-800 flex items-center justify-center gap-1.5 shadow-md"
               >
                 <Printer className="w-4 h-4" />
                 <span>Print / Download PDF</span>
               </button>
               <button
                 onClick={() => setShowCertificate(false)}
-                className="px-5 py-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700"
+                className="px-5 py-3 rounded-full bg-olive-100 hover:bg-olive-200 text-olive-800"
               >
                 Close
               </button>

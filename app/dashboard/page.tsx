@@ -61,10 +61,10 @@ export default function DashboardPage() {
   };
 
   const stats = [
-    { label: 'Applications', value: applications.length, tone: 'text-slate-900', icon: Layers },
-    { label: 'Garage vehicles', value: currentUser.vehiclesCount, tone: 'text-emerald-700', icon: Car },
-    { label: 'Smart cards', value: documents.length, tone: 'text-sky-700', icon: FolderLock },
-    { label: 'Payments', value: payments.length, tone: 'text-slate-900', icon: Wallet },
+    { label: 'Applications', value: applications.length, tone: 'text-olive-950', icon: Layers },
+    { label: 'Garage vehicles', value: currentUser.vehiclesCount, tone: 'text-olive-700', icon: Car },
+    { label: 'Smart cards', value: documents.length, tone: 'text-ashoka-700', icon: FolderLock },
+    { label: 'Payments', value: payments.length, tone: 'text-saffron-700', icon: Wallet },
   ];
 
   const tabs: { key: Tab; label: string; icon: typeof Layers; count?: number }[] = [
@@ -77,20 +77,21 @@ export default function DashboardPage() {
     <div className="min-h-screen py-8 px-4 sm:px-8 max-w-6xl mx-auto space-y-7">
       {/* ===== Citizen banner ===== */}
       <div className="card p-6 sm:p-8 relative overflow-hidden">
-        <div className="absolute -top-16 -right-10 w-56 h-56 rounded-full bg-emerald-500/10 blur-3xl" aria-hidden />
+        <div className="absolute -top-16 -right-10 w-56 h-56 rounded-full bg-olive-500/10 blur-3xl" aria-hidden />
+        <div className="absolute -bottom-12 -left-12 w-56 h-56 rounded-full bg-saffron-500/10 blur-3xl" aria-hidden />
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-600 text-white flex items-center justify-center font-display font-black text-xl shadow-md border-2 border-white">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-olive-700 via-ashoka-700 to-saffron-600 text-white flex items-center justify-center font-display font-black text-xl shadow-md border-2 border-white">
               {currentUser.avatar}
             </div>
             <div>
-              <div className="text-xs font-semibold text-emerald-700">
+              <div className="text-xs font-semibold text-olive-700">
                 {getGreeting()}, {currentUser.name.split(' ')[0]}
               </div>
-              <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-0.5">
+              <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-olive-950 tracking-tight mt-0.5">
                 {currentUser.name}
               </h1>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-olive-700/70 mt-1">
                 {currentUser.role} • {currentUser.city}, {currentUser.state}
               </p>
             </div>
@@ -98,11 +99,11 @@ export default function DashboardPage() {
 
           <div className="flex items-center gap-2.5">
             <button onClick={() => setIsSwitcherOpen(true)} className="btn btn-ghost px-4 py-2.5 text-xs">
-              <User className="w-4 h-4 text-emerald-600" />
+              <User className="w-4 h-4 text-olive-700" />
               <span className="hidden sm:inline">Switch persona</span>
             </button>
             <Link href="/vehicle-licensing" className="btn btn-primary px-5 py-2.5 text-xs">
-              <Plus className="w-4 h-4 text-emerald-400" /> New application
+              <Plus className="w-4 h-4 text-saffron-400" /> New application
             </Link>
           </div>
         </div>
@@ -112,10 +113,10 @@ export default function DashboardPage() {
           {stats.map((s) => {
             const Icon = s.icon;
             return (
-              <div key={s.label} className="rounded-2xl bg-slate-50/80 border hairline p-3.5">
+              <div key={s.label} className="rounded-2xl bg-olive-50/60 border hairline p-3.5">
                 <div className="flex items-center justify-between">
-                  <span className="eyebrow text-slate-400">{s.label}</span>
-                  <Icon className="w-3.5 h-3.5 text-slate-300" />
+                  <span className="eyebrow text-olive-700/70">{s.label}</span>
+                  <Icon className="w-3.5 h-3.5 text-olive-400" />
                 </div>
                 {mounted ? (
                   <span className={`font-display text-2xl font-extrabold mt-1 block ${s.tone}`}>{s.value}</span>
@@ -141,8 +142,8 @@ export default function DashboardPage() {
                 <Icon className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <div className="font-bold text-[13px] text-slate-900 truncate">{a.short || a.name}</div>
-                <div className="text-[11px] text-slate-500 truncate">{a.desc.split('.')[0]}</div>
+                <div className="font-bold text-[13px] text-olive-950 truncate">{a.short || a.name}</div>
+                <div className="text-[11px] text-olive-700/70 truncate">{a.desc.split('.')[0]}</div>
               </div>
             </Link>
           );
@@ -150,7 +151,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ===== Tabs ===== */}
-      <div className="flex items-center gap-1.5 p-1 rounded-full bg-slate-100/80 w-fit text-xs font-bold">
+      <div className="flex items-center gap-1.5 p-1 rounded-full bg-olive-100/70 w-fit text-xs font-bold">
         {tabs.map((t) => {
           const Icon = t.icon;
           const active = activeTab === t.key;
@@ -159,13 +160,13 @@ export default function DashboardPage() {
               key={t.key}
               onClick={() => setActiveTab(t.key)}
               className={`px-4 py-2 rounded-full transition-all flex items-center gap-2 ${
-                active ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'
+                active ? 'bg-white text-olive-950 shadow-sm' : 'text-olive-700 hover:text-olive-900'
               }`}
             >
               <Icon className="w-4 h-4" />
               <span>{t.label}</span>
               {t.count !== undefined && (
-                <span className={`text-[10px] px-1.5 rounded-full ${active ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-500'}`}>
+                <span className={`text-[10px] px-1.5 rounded-full ${active ? 'bg-olive-100 text-olive-800' : 'bg-olive-200 text-olive-700'}`}>
                   {t.count}
                 </span>
               )}
@@ -194,28 +195,28 @@ export default function DashboardPage() {
                 <div key={app.id} className="card card-hover p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div className="space-y-2.5 max-w-lg">
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-olive-100 text-olive-800">
                         {app.serviceType.replace('-', ' ')}
                       </span>
-                      <span className="font-mono text-xs text-sky-700 font-bold">{app.referenceNumber}</span>
+                      <span className="font-mono text-xs text-ashoka-700 font-bold">{app.referenceNumber}</span>
                     </div>
-                    <h3 className="font-display text-lg font-bold text-slate-900">{app.title}</h3>
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
-                      <span>RTO: <strong className="text-slate-700">{app.rtoName}</strong></span>
-                      <span className="w-1 h-1 rounded-full bg-slate-300" />
-                      <span>Filed: <strong className="text-slate-700">{formatDate(app.createdAt)}</strong></span>
+                    <h3 className="font-display text-lg font-bold text-olive-950">{app.title}</h3>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-olive-700/70">
+                      <span>RTO: <strong className="text-olive-800">{app.rtoName}</strong></span>
+                      <span className="w-1 h-1 rounded-full bg-olive-300" />
+                      <span>Filed: <strong className="text-olive-800">{formatDate(app.createdAt)}</strong></span>
                     </div>
                     <div className="pt-1.5">
                       <div className="flex items-center justify-between text-[11px] mb-1.5">
-                        <span className={`font-bold inline-flex items-center gap-1 ${issued ? 'text-emerald-700' : 'text-sky-700'}`}>
+                        <span className={`font-bold inline-flex items-center gap-1 ${issued ? 'text-olive-700' : 'text-ashoka-700'}`}>
                           {issued && <CheckCircle2 className="w-3.5 h-3.5" />}
                           {issued ? 'Issued & ready' : 'In progress'}
                         </span>
-                        <span className="font-mono text-slate-500">{app.currentStepIndex}/{app.totalSteps} steps</span>
+                        <span className="font-mono text-olive-600">{app.currentStepIndex}/{app.totalSteps} steps</span>
                       </div>
-                      <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="w-full h-2 bg-olive-100 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full transition-all duration-700"
+                          className="h-full bg-gradient-to-r from-olive-600 to-ashoka-700 rounded-full transition-all duration-700"
                           style={{ width: `${pct}%` }}
                         />
                       </div>
@@ -245,7 +246,7 @@ export default function DashboardPage() {
           {[
             {
               tag: 'Primary Private EV',
-              tagTone: 'text-emerald-800 bg-emerald-100',
+              tagTone: 'text-olive-800 bg-olive-100',
               valid: 'Valid till Aug 2041',
               plate: 'KA 01 EK 4920',
               name: 'Tata Nexon.ev Empowered+ LR',
@@ -255,7 +256,7 @@ export default function DashboardPage() {
             },
             {
               tag: 'Secondary 2W Scooter',
-              tagTone: 'text-sky-800 bg-sky-100',
+              tagTone: 'text-ashoka-800 bg-ashoka-100',
               valid: 'Valid till Oct 2038',
               plate: 'KA 05 NB 1122',
               name: 'Ather 450X Gen 3',
@@ -267,21 +268,21 @@ export default function DashboardPage() {
             <div key={v.vin} className="card p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className={`text-xs font-bold px-3 py-1 rounded-full ${v.tagTone}`}>{v.tag}</span>
-                <span className="text-xs font-semibold text-slate-500">{v.valid}</span>
+                <span className="text-xs font-semibold text-olive-700/70">{v.valid}</span>
               </div>
               <div className="flex justify-center py-2">
                 <HsrpPlate plateText={v.plate} vehicleType="ev" size="md" />
               </div>
               <div className="space-y-1 text-xs">
-                <div className="font-bold text-slate-900 text-sm">{v.name}</div>
-                <div className="text-slate-500">{v.meta}</div>
-                <div className="text-[11px] text-emerald-700 font-medium">{v.note}</div>
+                <div className="font-bold text-olive-950 text-sm">{v.name}</div>
+                <div className="text-olive-700/70">{v.meta}</div>
+                <div className="text-[11px] text-olive-700 font-medium">{v.note}</div>
               </div>
               <div className="pt-3 border-t hairline flex items-center justify-between">
-                <Link href="/documents" className="text-xs font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1">
+                <Link href="/documents" className="text-xs font-bold text-ashoka-700 hover:text-ashoka-800 flex items-center gap-1">
                   View Smart RC <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
-                <span className="text-[10px] text-slate-400 font-mono">VIN: {v.vin}</span>
+                <span className="text-[10px] text-olive-500 font-mono">VIN: {v.vin}</span>
               </div>
             </div>
           ))}
@@ -296,21 +297,21 @@ export default function DashboardPage() {
               {[0, 1, 2].map((i) => <Skeleton key={i} className="h-16 rounded-2xl" />)}
             </div>
           ) : payments.length === 0 ? (
-            <div className="p-10 text-center text-sm text-slate-400">No simulated payments recorded yet.</div>
+            <div className="p-10 text-center text-sm text-olive-500">No simulated payments recorded yet.</div>
           ) : (
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-olive-100">
               {payments.map((p) => (
-                <div key={p.transactionId} className="p-5 flex items-center justify-between gap-4 hover:bg-slate-50/60 transition-colors">
+                <div key={p.transactionId} className="p-5 flex items-center justify-between gap-4 hover:bg-olive-50/60 transition-colors">
                   <div className="space-y-1 text-xs min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-slate-900 truncate">{p.transactionId}</span>
-                      <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full shrink-0">{p.status}</span>
+                      <span className="font-mono font-bold text-olive-950 truncate">{p.transactionId}</span>
+                      <span className="text-[10px] bg-olive-100 text-olive-800 font-bold px-2 py-0.5 rounded-full shrink-0">{p.status}</span>
                     </div>
-                    <div className="font-semibold text-slate-800 truncate">{p.serviceTitle}</div>
-                    <div className="text-[11px] text-slate-500 font-mono truncate">UTR: {p.utrNumber} • {formatDate(p.date)} • {p.paymentMethod}</div>
+                    <div className="font-semibold text-olive-800 truncate">{p.serviceTitle}</div>
+                    <div className="text-[11px] text-olive-700/70 font-mono truncate">UTR: {p.utrNumber} • {formatDate(p.date)} • {p.paymentMethod}</div>
                   </div>
                   <div className="flex items-center gap-4 shrink-0">
-                    <span className="text-base font-extrabold text-slate-900 font-mono">{formatINR(p.totalPaid)}</span>
+                    <span className="text-base font-extrabold text-olive-950 font-mono">{formatINR(p.totalPaid)}</span>
                     <button onClick={() => setSelectedReceipt(p)} className="btn btn-primary px-3.5 py-1.5 text-xs">
                       <Receipt className="w-3.5 h-3.5" /> Receipt
                     </button>
@@ -341,9 +342,9 @@ function EmptyState({
 }) {
   return (
     <div className="card p-12 text-center space-y-3">
-      <div className="w-14 h-14 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">{icon}</div>
-      <h3 className="font-display text-lg font-bold text-slate-900">{title}</h3>
-      <p className="text-sm text-slate-500 max-w-sm mx-auto leading-relaxed">{body}</p>
+      <div className="w-14 h-14 rounded-2xl bg-olive-100 text-olive-700 flex items-center justify-center mx-auto">{icon}</div>
+      <h3 className="font-display text-lg font-bold text-olive-950">{title}</h3>
+      <p className="text-sm text-olive-700/70 max-w-sm mx-auto leading-relaxed">{body}</p>
       <Link href={cta.href} className="btn btn-brand px-5 py-2.5 text-sm mt-1">
         {cta.label} <ArrowRight className="w-4 h-4" />
       </Link>
