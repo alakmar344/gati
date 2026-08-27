@@ -3,12 +3,14 @@
 import React from 'react';
 import { ShieldCheck, Truck, QrCode, Printer, MapPin, CheckCircle2 } from 'lucide-react';
 import { VehiclePermitApplication } from '@/lib/types';
+import { useLanguage } from '@/lib/i18n';
 
 interface DigitalPermitDocumentProps {
   data: VehiclePermitApplication;
 }
 
 export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ data }) => {
+  const { t } = useLanguage();
   const permit = data.digitalPermitDocument || {
     permitNumber: 'AITP-DL-2026-90184-AUTH',
     vehicleNumber: data.vehicleRegNumber || 'DL 01 AA 9481',
@@ -45,16 +47,16 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
           <div className="text-center border-b-2 border-slate-200 pb-4 mb-4">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-olive-100 text-olive-800 text-[10px] font-bold tracking-wider uppercase mb-2">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>FORM 47 • NATIONAL TRANSPORT PERMIT</span>
+              <span>{t('ddForm47Permit')}</span>
             </div>
             <h2 className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 uppercase">
               {permit.permitType}
             </h2>
             <p className="text-xs text-slate-600 font-medium">
-              Issued under Central Motor Vehicles Rules, 1989 (Rule 85-B)
+              {t('ddIssuedUnder')}
             </p>
             <div className="mt-2 text-xs font-mono font-bold text-ashoka-800 bg-ashoka-50 py-1 px-3 rounded-md inline-block border border-ashoka-200">
-              PERMIT NO: {permit.permitNumber}
+              {t('ddPermitNo')} {permit.permitNumber}
             </div>
           </div>
 
@@ -63,18 +65,18 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
             {/* Left side details */}
             <div className="col-span-8 space-y-2.5">
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-500 block">Permit Holder / Firm</span>
+                <span className="text-[10px] uppercase font-bold text-slate-500 block">{t('ddPermitHolder')}</span>
                 <span className="font-bold text-sm text-slate-900">{permit.permitHolder}</span>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-500 block">Vehicle Regn No</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-500 block">{t('ddVehicleRegnNo')}</span>
                   <span className="font-mono font-black text-xs text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-block">
                     {permit.vehicleNumber}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-500 block">Gross Weight / Seats</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-500 block">{t('ddGrossWeight')}</span>
                   <span className="font-semibold text-slate-800">
                     {data.grossVehicleWeightKg ? `${data.grossVehicleWeightKg} KG` : permit.goodsOrPassengersAllowed}
                   </span>
@@ -82,7 +84,7 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
               </div>
 
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-500 block">Authorized Corridors / States</span>
+                <span className="text-[10px] uppercase font-bold text-slate-500 block">{t('ddAuthCorridors')}</span>
                 <div className="flex flex-wrap gap-1 mt-1">
                   {permit.authorizedZones.map((z, i) => (
                     <span key={i} className="inline-flex items-center gap-1 text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-medium">
@@ -95,11 +97,11 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
 
               <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100">
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-500 block">Issue Date</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-500 block">{t('ddIssueDate')}</span>
                   <span className="font-mono text-slate-700">{permit.issueDate}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-500 block">Valid Upto</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-500 block">{t('ddValidUpto')}</span>
                   <span className="font-mono font-bold text-emerald-700">{permit.expiryDate}</span>
                 </div>
               </div>
@@ -110,7 +112,7 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
               <div className="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center">
                 <QrCode className="w-16 h-16 text-slate-900" />
                 <span className="text-[7px] font-mono font-bold text-slate-600 mt-1">
-                  NATIONAL GATEWAY AUTH
+                  {t('ddNationalGatewayAuth')}
                 </span>
               </div>
 
@@ -120,7 +122,7 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
                   <CheckCircle2 className="w-6 h-6 text-emerald-600" />
                 </div>
                 <span className="text-[8px] font-bold text-emerald-800 uppercase block mt-1">
-                  DIGITALLY CERTIFIED
+                  {t('ddDigitallyCertified')}
                 </span>
               </div>
             </div>
@@ -129,7 +131,7 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
           {/* Footer Disclaimer */}
           <div className="mt-4 pt-3 border-t border-slate-200 text-center">
             <span className="text-[9px] font-medium text-slate-400">
-              DEMO • NOT AN OFFICIAL GOVERNMENT DOCUMENT • GATI MOBILITY OS HACKATHON PROTOTYPE
+              {t('ddDemoDisclaimer')} • GATI MOBILITY OS HACKATHON PROTOTYPE
             </span>
           </div>
         </div>
@@ -142,7 +144,7 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
           className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold shadow-md shadow-emerald-700/20 transition-all"
         >
           <Printer className="w-4 h-4" />
-          <span>Print / Save as PDF</span>
+          <span>{t('ddPrintSave')}</span>
         </button>
       </div>
     </div>
