@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { QrCode, Cpu, ShieldCheck, Printer, Download, Sparkles } from 'lucide-react';
+import { QrCode, Cpu, ShieldCheck, Printer } from 'lucide-react';
 import { VehicleLicensingData } from '@/lib/types';
 
 interface DigitalRcSmartCardProps {
@@ -14,7 +14,7 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
   const rc = data.digitalRcCard || {
     rcNumber: data.registrationNumberAssigned || 'KA 01 EK 4920',
     ownerName: data.applicantName.toUpperCase(),
-    fatherName: 'RAMANATHA SHARMA',
+    fatherName: `${data.applicantName.trim().split(/\s+/).slice(-1)[0].toUpperCase()} (GUARDIAN)`,
     address: `${data.rtoName}, ${data.state}`,
     modelName: `${data.maker} ${data.model}`,
     cubicCapacityOrKw: isEV ? '106.4 kW (EV)' : '1498 CC',
@@ -152,17 +152,10 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
       <div className="flex items-center gap-3 w-full justify-center">
         <button
           onClick={handlePrint}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold shadow-sm transition-all hover:shadow"
-        >
-          <Printer className="w-4 h-4 text-slate-500" />
-          <span>Print / Save PDF</span>
-        </button>
-        <button
-          onClick={handlePrint}
           className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-md shadow-emerald-600/20 transition-all"
         >
-          <Download className="w-4 h-4" />
-          <span>Download Digital Smart RC</span>
+          <Printer className="w-4 h-4" />
+          <span>Print / Save as PDF</span>
         </button>
       </div>
     </div>

@@ -4,15 +4,21 @@ class SoundManager {
   private ctx: AudioContext | null = null;
   public isMuted: boolean = false;
 
+  /** Lazily creates a single shared AudioContext; repeated calls reuse it. */
   private init() {
     if (!this.ctx && typeof window !== 'undefined') {
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       if (AudioContextClass) {
-        this.ctx = new AudioContextClass();
+        try {
+          this.ctx = new AudioContextClass();
+        } catch {
+          this.ctx = null;
+        }
       }
     }
     if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
+      // Safe no-op if the browser blocks resume (e.g. before a user gesture)
+      this.ctx.resume().catch(() => {});
     }
   }
 

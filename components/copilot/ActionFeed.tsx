@@ -10,7 +10,7 @@ import {
   getFastagAccount,
   getApplicationsForUser,
 } from '@/lib/storage';
-import { useQuickAction } from './useQuickAction';
+import { useQuickAction, celebrate } from './useQuickAction';
 import { useMounted } from '@/components/ui/Toast';
 import { Skeleton } from '@/components/ui/Primitives';
 import { useLanguage } from '@/lib/i18n';
@@ -18,11 +18,9 @@ import { useLanguage } from '@/lib/i18n';
 export function ActionFeed({
   limit,
   showHandleAll = true,
-  dark = false,
 }: {
   limit?: number;
   showHandleAll?: boolean;
-  dark?: boolean;
 }) {
   const mounted = useMounted();
   const { t } = useLanguage();
@@ -71,7 +69,9 @@ export function ActionFeed({
     if (!actionable.length) return;
     setBusy('__all__');
     setTimeout(() => {
-      actionable.forEach((i) => run(i.action));
+      // Run each action silently, then celebrate once for the whole batch
+      actionable.forEach((i) => run(i.action, { silent: true }));
+      celebrate();
       setBusy(null);
       recompute();
     }, 300);

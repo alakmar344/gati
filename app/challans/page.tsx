@@ -141,15 +141,10 @@ export default function ChallansPage() {
           type="text"
           value={searchPlate}
           onChange={(e) => setSearchPlate(e.target.value)}
+          aria-label="Filter challans by vehicle plate"
           placeholder="Filter by vehicle plate e.g. KA 01 EK 4920..."
-          className="flex-1 bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 text-sm font-mono font-bold uppercase focus:outline-none px-2"
+          className="flex-1 bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm font-mono font-bold uppercase focus:outline-none px-2 py-2"
         />
-        <button
-          onClick={() => {}}
-          className="clay-btn clay-btn-primary min-h-[40px] px-5 py-2 text-xs text-white"
-        >
-          Filter
-        </button>
       </div>
 
       {/* Challans List Grid */}
@@ -297,12 +292,13 @@ export default function ChallansPage() {
       {/* ================= VIRTUAL COURT DISPUTE MODAL ================= */}
       {disputingChallan && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
-          <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-dialog-in">
+          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-dialog-in">
 
             {/* Header */}
-            <div className="p-6 bg-slate-900 text-white relative">
+            <div className="p-6 bg-slate-900 dark:bg-slate-950 text-white relative">
               <button
                 onClick={() => setDisputingChallan(null)}
+                aria-label="Close dispute dialog"
                 className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300"
               >
                 <X className="w-4 h-4" />
@@ -323,13 +319,13 @@ export default function ChallansPage() {
             <div className="p-6 space-y-4">
               {disputeSubmitted ? (
                 <div className="text-center py-6 space-y-3">
-                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                  <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
                     <CheckCircle className="w-8 h-8" />
                   </div>
-                  <h4 className="text-lg font-display font-extrabold tracking-tight text-slate-900">
+                  <h4 className="text-lg font-display font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
                     Appeal Filed Successfully
                   </h4>
-                  <p className="text-sm text-slate-600 max-w-xs mx-auto leading-relaxed">
+                  <p className="text-sm text-slate-600 dark:text-slate-300 max-w-xs mx-auto leading-relaxed">
                     Your representation has been submitted to the Virtual Court Registrar. Fine enforcement is frozen pending review.
                   </p>
                   <button
@@ -342,11 +338,11 @@ export default function ChallansPage() {
               ) : (
                 <form onSubmit={handleDisputeSubmit} className="space-y-4">
                   <div>
-                    <label className="text-sm font-bold text-slate-700 block mb-1.5">Select Grounds of Contest</label>
+                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-1.5">Select Grounds of Contest</label>
                     <select
                       value={disputeReason}
                       onChange={(e) => setDisputeReason(e.target.value)}
-                      className="field w-full px-3.5 py-2.5 text-sm font-medium text-slate-900"
+                      className="field w-full px-3.5 py-2.5 text-sm font-medium text-slate-900 dark:text-slate-100"
                     >
                       <option value="Erroneous camera trigger (Vehicle was stationary in traffic)">
                         Erroneous camera trigger (Vehicle was stationary in traffic)
@@ -364,8 +360,8 @@ export default function ChallansPage() {
                   </div>
 
                   <div>
-                    <label className="text-sm font-bold text-slate-700 block mb-1.5">Applicant Declaration</label>
-                    <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-slate-600 leading-relaxed text-xs">
+                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-1.5">Applicant Declaration</label>
+                    <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 leading-relaxed text-xs">
                       I hereby state under penalty of perjury that the vehicle was operated within CMVR guidelines and request judicial dismissal.
                     </div>
                   </div>

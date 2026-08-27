@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useCallback, useState, useEffect } from 'react';
+import React, { createContext, useContext, useCallback, useState, useEffect, useRef } from 'react';
 import { CheckCircle2, AlertTriangle, Info, X, Loader2 } from 'lucide-react';
 
 type ToastVariant = 'success' | 'error' | 'info' | 'loading';
@@ -29,8 +29,14 @@ let counter = 1;
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const timersRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
 
   const dismiss = useCallback((id: number) => {
+    const timer = timersRef.current.get(id);
+    if (timer) {
+      clearTimeout(timer);
+      timersRef.current.delete(id);
+    }
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
@@ -39,17 +45,30 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       const id = counter++;
       setToasts((prev) => [...prev, { id, title, description, variant, duration }]);
       if (variant !== 'loading' && duration > 0) {
-        setTimeout(() => dismiss(id), duration);
+        timersRef.current.set(id, setTimeout(() => dismiss(id), duration));
       }
       return id;
     },
     [dismiss]
   );
 
+  // Clear all pending auto-dismiss timers on unmount
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => {
+      timers.forEach(clearTimeout);
+      timers.clear();
+    };
+  }, []);
+
   return (
     <ToastContext.Provider value={{ toast, dismiss }}>
       {children}
-      <div className="fixed bottom-5 right-5 z-[100] flex flex-col gap-2.5 w-[min(92vw,22rem)] pointer-events-none">
+      <div
+        role="status"
+        aria-live="polite"
+        className="fixed bottom-5 right-5 z-[100] flex flex-col gap-2.5 w-[min(92vw,22rem)] pointer-events-none"
+      >
         {toasts.map((t) => (
           <ToastCard key={t.id} item={t} onClose={() => dismiss(t.id)} />
         ))}
@@ -59,10 +78,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 }
 
 const VARIANT = {
-  success: { icon: CheckCircle2, tint: 'text-emerald-600', ring: 'ring-emerald-500/20', bar: 'bg-emerald-500' },
-  error: { icon: AlertTriangle, tint: 'text-rose-600', ring: 'ring-rose-500/20', bar: 'bg-rose-500' },
-  info: { icon: Info, tint: 'text-sky-600', ring: 'ring-sky-500/20', bar: 'bg-sky-500' },
-  loading: { icon: Loader2, tint: 'text-slate-500', ring: 'ring-slate-500/10', bar: 'bg-slate-400' },
+  success: { icon: CheckCircle2, tint: 'text-emerald-600 dark:text-emerald-400', ring: 'ring-emerald-500/20', bar: 'bg-emerald-500' },
+  error: { icon: AlertTriangle, tint: 'text-rose-600 dark:text-rose-400', ring: 'ring-rose-500/20', bar: 'bg-rose-500' },
+  info: { icon: Info, tint: 'text-sky-600 dark:text-sky-400', ring: 'ring-sky-500/20', bar: 'bg-sky-500' },
+  loading: { icon: Loader2, tint: 'text-slate-500 dark:text-slate-400', ring: 'ring-slate-500/10', bar: 'bg-slate-400' },
 } as const;
 
 function ToastCard({ item, onClose }: { item: ToastItem; onClose: () => void }) {
@@ -71,21 +90,20 @@ function ToastCard({ item, onClose }: { item: ToastItem; onClose: () => void }) 
   return (
     <div
       className={`pointer-events-auto animate-toast-in glass-panel rounded-2xl p-3.5 pr-3 flex items-start gap-3 ring-1 ${cfg.ring} shadow-lg`}
-      role="status"
     >
       <div className={`shrink-0 mt-0.5 ${cfg.tint}`}>
         <Icon className={`w-5 h-5 ${item.variant === 'loading' ? 'animate-spin' : ''}`} />
       </div>
       <div className="min-w-0 flex-1">
-        <div className="text-sm font-bold text-slate-900 leading-snug">{item.title}</div>
+        <div className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-snug">{item.title}</div>
         {item.description && (
-          <div className="text-xs text-slate-500 mt-0.5 leading-snug">{item.description}</div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-snug">{item.description}</div>
         )}
       </div>
       {item.variant !== 'loading' && (
         <button
           onClick={onClose}
-          className="shrink-0 p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+          className="shrink-0 p-1 rounded-lg text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           aria-label="Dismiss"
         >
           <X className="w-4 h-4" />

@@ -6,9 +6,6 @@ import {
   CornerDownLeft,
   ArrowUp,
   ArrowDown,
-  Command as CmdIcon,
-  Sparkles,
-  Wand2,
   Zap,
 } from 'lucide-react';
 import { parseIntent, Suggestion, IntentRun } from '@/lib/intent';
@@ -128,21 +125,30 @@ export function CommandPalette() {
     return ctx.insights.slice(0, 5).map((i) => ({ type: 'insight', data: i }));
   }, [query, suggestions, ctx.insights]);
 
+  // One flat ordered list — same order as rendered (suggested, then actions, then nav) —
+  // used for BOTH rendering and keyboard navigation so highlight and Enter always agree.
+  const grouped = useMemo(() => {
+    const insight = rows.filter((r) => r.type === 'insight');
+    const doNow = rows.filter((r) => r.type === 'suggestion' && r.data.group === 'Do it now');
+    const goTo = rows.filter((r) => r.type === 'suggestion' && r.data.group === 'Go to');
+    return { insight, doNow, goTo, flat: [...insight, ...doNow, ...goTo] };
+  }, [rows]);
+
   const execute = useCallback(
     (row?: Row) => {
-      const r = row || rows[active];
+      const r = row || grouped.flat[active];
       if (!r) return;
       const action = r.type === 'suggestion' ? r.data.run : r.data.action;
       run(action as IntentRun);
       setOpen(false);
     },
-    [rows, active, run]
+    [grouped, active, run]
   );
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActive((a) => Math.min(a + 1, rows.length - 1));
+      setActive((a) => Math.min(a + 1, grouped.flat.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setActive((a) => Math.max(a - 1, 0));
@@ -154,19 +160,18 @@ export function CommandPalette() {
 
   useEffect(() => setActive(0), [query]);
 
+  // Keep the highlighted row visible while arrow-navigating
+  useEffect(() => {
+    if (!open) return;
+    document.getElementById(`gati-cmd-option-${active}`)?.scrollIntoView({ block: 'nearest' });
+  }, [active, open]);
+
   if (!open) return null;
 
-  const doNow = rows.filter((r) => (r.type === 'suggestion' ? r.data.group === 'Do it now' : false));
-  const goTo = rows.filter((r) => r.type === 'suggestion' && r.data.group === 'Go to');
-  const insightRows = rows.filter((r) => r.type === 'insight');
-
-  let idxCounter = -1;
-  const renderRow = (r: Row) => {
-    idxCounter++;
-    const idx = idxCounter;
+  const renderRow = (r: Row, idx: number) => {
     const isActive = idx === active;
-    const Icon = r.type === 'suggestion' ? r.data.icon : r.data.icon;
-    const title = r.type === 'suggestion' ? r.data.title : r.data.title;
+    const Icon = r.data.icon;
+    const title = r.data.title;
     const hint = r.type === 'suggestion' ? r.data.hint : r.data.subtitle;
     const tint = r.type === 'suggestion' ? r.data.tint : 'text-olive-800 dark:text-olive-300 bg-olive-100 dark:bg-olive-950/60';
     const canRunInline =
@@ -175,7 +180,10 @@ export function CommandPalette() {
         : r.data.action.kind !== 'nav' && r.data.action.kind !== 'resume';
     return (
       <button
-        key={r.type + (r.type === 'suggestion' ? r.data.id : r.data.id)}
+        key={r.type + r.data.id}
+        id={`gati-cmd-option-${idx}`}
+        role="option"
+        aria-selected={isActive}
         onMouseEnter={() => setActive(idx)}
         onClick={() => execute(r)}
         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left transition-colors ${
@@ -223,6 +231,10 @@ export function CommandPalette() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder={`${t('heroSearchPlaceholderPrefix')} “${examples[exampleIdx]}”`}
+            role="combobox"
+            aria-expanded="true"
+            aria-controls="gati-cmd-listbox"
+            aria-activedescendant={grouped.flat.length > 0 ? `gati-cmd-option-${active}` : undefined}
             className="flex-1 bg-transparent text-[15px] font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none"
           />
           <kbd className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md px-1.5 py-0.5">
@@ -231,8 +243,8 @@ export function CommandPalette() {
         </div>
 
         {/* Results */}
-        <div className="max-h-[54vh] overflow-y-auto p-2">
-          {rows.length === 0 ? (
+        <div id="gati-cmd-listbox" role="listbox" className="max-h-[54vh] overflow-y-auto p-2">
+          {grouped.flat.length === 0 ? (
             <div className="px-4 py-8 text-center">
               <p className="text-sm text-slate-400 dark:text-slate-500">
                 {query.trim() ? `No match for “${query}”. Try a service name or an action.` : 'Type what you need done.'}
@@ -240,11 +252,21 @@ export function CommandPalette() {
             </div>
           ) : (
             <>
-              {insightRows.length > 0 && (
-                <Group label={language === 'hi' ? 'आपके लिए सुझाव' : 'Suggested for you'}>{insightRows.map(renderRow)}</Group>
+              {grouped.insight.length > 0 && (
+                <Group label={language === 'hi' ? 'आपके लिए सुझाव' : 'Suggested for you'}>
+                  {grouped.insight.map((r, i) => renderRow(r, i))}
+                </Group>
               )}
-              {doNow.length > 0 && <Group label={language === 'hi' ? 'तुरंत करें' : 'Do it now'}>{doNow.map(renderRow)}</Group>}
-              {goTo.length > 0 && <Group label={language === 'hi' ? 'नेविगेट करें' : 'Go to'}>{goTo.map(renderRow)}</Group>}
+              {grouped.doNow.length > 0 && (
+                <Group label={language === 'hi' ? 'तुरंत करें' : 'Do it now'}>
+                  {grouped.doNow.map((r, i) => renderRow(r, grouped.insight.length + i))}
+                </Group>
+              )}
+              {grouped.goTo.length > 0 && (
+                <Group label={language === 'hi' ? 'नेविगेट करें' : 'Go to'}>
+                  {grouped.goTo.map((r, i) => renderRow(r, grouped.insight.length + grouped.doNow.length + i))}
+                </Group>
+              )}
             </>
           )}
         </div>

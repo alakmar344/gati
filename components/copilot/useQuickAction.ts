@@ -16,7 +16,13 @@ import { IntentRun } from '@/lib/intent';
 
 type AnyAction = QuickAction | IntentRun;
 
-function celebrate() {
+interface RunOptions {
+  /** Suppress confetti + sound for this action (used by batch loops that celebrate once at the end). */
+  silent?: boolean;
+}
+
+/** Single success celebration: one confetti burst + one fanfare. */
+export function celebrate() {
   try {
     confetti({ particleCount: 70, spread: 72, origin: { y: 0.55 }, disableForReducedMotion: true });
   } catch {}
@@ -32,11 +38,12 @@ export function useQuickAction() {
   const { toast } = useToast();
 
   return useCallback(
-    (action: AnyAction): boolean => {
+    (action: AnyAction, opts?: RunOptions): boolean => {
+      const silent = opts?.silent === true;
       switch (action.kind) {
         case 'topup': {
           const acct = topupFastagWallet(action.amount);
-          soundManager.playCheckpointChime();
+          if (!silent) soundManager.playCheckpointChime();
           toast({
             title: `FASTag topped up ₹${action.amount.toLocaleString('en-IN')}`,
             description: `New balance ₹${acct.walletBalance.toLocaleString('en-IN')} · ${acct.issuingBank}`,
@@ -47,7 +54,7 @@ export function useQuickAction() {
         case 'settleChallan': {
           const r = settleChallan(action.challanId);
           if (r) {
-            celebrate();
+            if (!silent) celebrate();
             toast({
               title: 'Challan settled',
               description: `₹${r.totalPaid.toLocaleString('en-IN')} paid · UTR ${r.utrNumber}`,
@@ -62,7 +69,7 @@ export function useQuickAction() {
           const receipts = settleAllChallans(action.challanIds);
           if (receipts.length) {
             const total = receipts.reduce((s, r) => s + r.totalPaid, 0);
-            celebrate();
+            if (!silent) celebrate();
             toast({
               title: `${receipts.length} challans cleared`,
               description: `₹${total.toLocaleString('en-IN')} settled in one tap`,
@@ -81,7 +88,7 @@ export function useQuickAction() {
           }
           const receipts = settleAllChallans(pending.map((c) => c.id));
           const total = receipts.reduce((s, r) => s + r.totalPaid, 0);
-          celebrate();
+          if (!silent) celebrate();
           toast({
             title: `${receipts.length} challans cleared`,
             description: `₹${total.toLocaleString('en-IN')} settled in one tap`,

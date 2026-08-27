@@ -9,7 +9,6 @@ import {
   ChevronDown,
   Command as CmdIcon,
   LayoutDashboard,
-  Wand2,
   Sun,
   Moon,
   Globe,
@@ -61,6 +60,27 @@ export const Navbar: React.FC = () => {
     document.addEventListener('mousedown', onClick);
     return () => document.removeEventListener('mousedown', onClick);
   }, []);
+
+  // Escape closes open dropdowns and the mobile sheet
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpenMenu(null);
+        setIsMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
+
+  // Lock body scroll while the mobile sheet is open
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
 
   const openCommand = () => window.dispatchEvent(new Event('gati_open_command'));
 
@@ -144,6 +164,7 @@ export const Navbar: React.FC = () => {
               onClick={toggleLanguage}
               className="flex items-center gap-1 px-3 py-2 rounded-full bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 transition-all shadow-xs active:scale-95 min-h-[40px]"
               title={`Switch language (Current: ${language === 'en' ? 'English' : 'हिन्दी'})`}
+              aria-label={language === 'en' ? 'Switch language to Hindi' : 'Switch language to English'}
             >
               <Globe className="w-3.5 h-3.5 text-olive-700 dark:text-olive-400" />
               <span>{language === 'en' ? 'हिन्दी' : 'EN'}</span>
@@ -164,6 +185,7 @@ export const Navbar: React.FC = () => {
               onClick={openCommand}
               className="hidden md:flex items-center gap-2 pl-3 pr-2.5 py-2 rounded-full bg-olive-50 dark:bg-olive-950/60 hover:bg-olive-100 dark:hover:bg-olive-900/60 border border-olive-200 dark:border-olive-800/60 text-olive-800 dark:text-olive-300 text-xs font-semibold transition-all shadow-xs min-h-[40px]"
               title={`${t('askGati')} (⌘K)`}
+              aria-label={`${t('askGati')} (Command K)`}
             >
               <CmdIcon className="w-3.5 h-3.5 text-saffron-600 dark:text-saffron-400" />
               <span className="hidden xl:inline">{t('askGati')}</span>
@@ -202,7 +224,8 @@ export const Navbar: React.FC = () => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-white/80 dark:bg-slate-800/80 hover:bg-white text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
-              aria-label="Menu"
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -296,6 +319,8 @@ function Dropdown({
     <div className="relative">
       <button
         onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
         className={`flex items-center gap-1 px-3.5 py-2 rounded-full transition-colors ${
           active || isOpen
             ? 'text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800'

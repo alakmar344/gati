@@ -2,17 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  Compass, 
-  Truck, 
-  MapPin, 
-  CheckCircle, 
-  ShieldCheck, 
-  ArrowRight, 
-  ArrowLeft, 
-  CreditCard,
-  FileCheck2,
-  AlertTriangle
+import {
+  Compass,
+  MapPin,
+  CheckCircle,
+  ArrowRight,
+  ArrowLeft,
+  CreditCard
 } from 'lucide-react';
 import { STATES_AND_RTOS } from '@/lib/mockData';
 import { VehiclePermitApplication, PaymentReceipt } from '@/lib/types';
@@ -195,21 +191,21 @@ export default function VehiclePermitPage() {
                   <div className="flex flex-col items-center gap-2 shrink-0 w-16 sm:w-24">
                     <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
                       active
-                        ? 'bg-olive-700 text-white ring-4 ring-olive-100'
+                        ? 'bg-olive-700 text-white ring-4 ring-olive-100 dark:ring-olive-900/60'
                         : done
                           ? 'bg-olive-700 text-white'
-                          : 'bg-slate-100 text-slate-400'
+                          : 'bg-slate-100 text-slate-400 border border-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700'
                     }`}>
                       {done ? <CheckCircle className="w-5 h-5" /> : step.num}
                     </div>
                     <span className={`text-[11px] font-semibold text-center leading-tight ${
-                      active ? 'text-olive-800 font-bold' : done ? 'text-slate-700' : 'text-slate-400'
+                      active ? 'text-olive-800 dark:text-olive-300 font-bold' : done ? 'text-slate-700 dark:text-slate-300' : 'text-slate-400 dark:text-slate-500'
                     }`}>
                       {step.label}
                     </span>
                   </div>
                   {i < 3 && (
-                    <div className="flex-1 h-1 mt-4 mx-0.5 sm:mx-1 rounded-full bg-slate-200 overflow-hidden">
+                    <div className="flex-1 h-1 mt-4 mx-0.5 sm:mx-1 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
                       <div className={`h-full rounded-full bg-olive-600 transition-all duration-500 ${done ? 'w-full' : 'w-0'}`} />
                     </div>
                   )}
@@ -316,7 +312,7 @@ export default function VehiclePermitPage() {
         {currentStep === 2 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700 dark:text-teal-400">Step 2 of 4</p>
+              <p className="eyebrow text-olive-800 dark:text-olive-400">Step 2 of 4</p>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Vehicle Specifications & Compliance</h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Automated validation with National Vehicle Registry (Vahan OS).</p>
             </div>
@@ -406,7 +402,7 @@ export default function VehiclePermitPage() {
         {currentStep === 3 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700 dark:text-teal-400">Step 3 of 4</p>
+              <p className="eyebrow text-olive-800 dark:text-olive-400">Step 3 of 4</p>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Interstate Corridors & Route Matrix</h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Select high-speed expressway corridors or pan-India single window coverage.</p>
             </div>
@@ -456,7 +452,7 @@ export default function VehiclePermitPage() {
         {currentStep === 4 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-teal-700 dark:text-teal-400">Step 4 of 4</p>
+              <p className="eyebrow text-olive-800 dark:text-olive-400">Step 4 of 4</p>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Composite Permit Fee Review</h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Unified single-window settlement under National Transport Agreement.</p>
             </div>

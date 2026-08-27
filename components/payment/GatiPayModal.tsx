@@ -1,17 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { 
-  ShieldCheck, 
-  CreditCard, 
-  Smartphone, 
-  Building2, 
-  Lock, 
-  CheckCircle2, 
-  Loader2, 
-  X, 
-  QrCode, 
-  Sparkles,
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import {
+  ShieldCheck,
+  CreditCard,
+  Smartphone,
+  Building2,
+  Lock,
+  CheckCircle2,
+  X,
+  QrCode,
   ArrowRight
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -49,6 +47,12 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStage, setProcessingStage] = useState<number>(0);
   const [receipt, setReceipt] = useState<PaymentReceipt | null>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearTimers = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  }, []);
 
   const stages = [
     'Initiating encrypted 256-bit handshake with NPCI...',
@@ -63,11 +67,29 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
 
   useEffect(() => {
     if (!isOpen) {
+      clearTimers();
       setIsProcessing(false);
       setProcessingStage(0);
       setReceipt(null);
     }
-  }, [isOpen]);
+  }, [isOpen, clearTimers]);
+
+  // Clear any in-flight timers on unmount so no setState/onPaymentSuccess fires after close
+  useEffect(() => clearTimers, [clearTimers]);
+
+  // Escape-key close (blocked mid-payment) + body scroll lock while open
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !isProcessing) onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, isProcessing, onClose]);
 
   if (!isOpen) return null;
 
@@ -76,17 +98,17 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
     setProcessingStage(0);
 
     // Stage 1
-    setTimeout(() => {
+    timersRef.current.push(setTimeout(() => {
       setProcessingStage(1);
-    }, 1200);
+    }, 1200));
 
     // Stage 2
-    setTimeout(() => {
+    timersRef.current.push(setTimeout(() => {
       setProcessingStage(2);
-    }, 2400);
+    }, 2400));
 
     // Stage 3 & Success
-    setTimeout(() => {
+    timersRef.current.push(setTimeout(() => {
       setProcessingStage(3);
       
       const newReceipt: PaymentReceipt = {
@@ -122,10 +144,10 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
       }
 
       // Finish flow after brief pause
-      setTimeout(() => {
+      timersRef.current.push(setTimeout(() => {
         onPaymentSuccess(newReceipt);
-      }, 1800);
-    }, 3600);
+      }, 1800));
+    }, 3600));
   };
 
   return (
@@ -135,13 +157,18 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Pay for ${serviceTitle}`}
         className="relative w-full max-w-lg clay-card dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[92vh] animate-dialog-in"
       >
         {/* Secure Top Header */}
         <div className="p-6 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white relative flex-shrink-0">
-          <button 
-            onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 transition-colors"
+          <button
+            onClick={() => !isProcessing && onClose()}
+            aria-label="Close payment window"
+            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            disabled={isProcessing}
           >
             <X className="w-4 h-4" />
           </button>

@@ -7,8 +7,6 @@ import {
   ArrowRight,
   Layers,
   Receipt,
-  Download,
-  Eye,
   Plus,
   User,
   Wallet,
@@ -31,7 +29,7 @@ type Tab = 'applications' | 'garage' | 'payments';
 
 export default function DashboardPage() {
   const mounted = useMounted();
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const [currentUser, setCurrentUser] = useState<DemoUser>(getCurrentUser());
   const [applications, setApplications] = useState<AnyApplication[]>([]);
   const [documents, setDocuments] = useState<StoredDocument[]>([]);
@@ -108,6 +106,7 @@ export default function DashboardPage() {
             </Link>
             <button
               onClick={() => setIsSwitcherOpen(true)}
+              aria-label={t('switchPersona')}
               className="clay-btn min-h-[44px] bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2 text-xs"
             >
               <User className="w-4 h-4 text-olive-700 dark:text-olive-400" />
@@ -185,7 +184,7 @@ export default function DashboardPage() {
             />
           ) : (
             applications.map((app) => {
-              const pct = Math.round((app.currentStepIndex / app.totalSteps) * 100);
+              const pct = app.totalSteps > 0 ? Math.round((app.currentStepIndex / app.totalSteps) * 100) : 0;
               const issued = app.status === 'card_generated';
               return (
                 <div key={app.id} className="clay-card clay-card-interactive p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -277,7 +276,7 @@ export default function DashboardPage() {
                 <Link href="/documents" className="text-xs font-bold text-olive-700 dark:text-olive-400 hover:underline flex items-center gap-1">
                   View Smart RC <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
-                <span className="text-[10px] text-slate-400 font-mono">VIN: {v.vin}</span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">VIN: {v.vin}</span>
               </div>
             </div>
           ))}
@@ -292,7 +291,7 @@ export default function DashboardPage() {
               {[0, 1, 2].map((i) => <Skeleton key={i} className="h-16 rounded-2xl" />)}
             </div>
           ) : payments.length === 0 ? (
-            <div className="p-10 text-center text-sm text-slate-400">No simulated payments recorded yet.</div>
+            <div className="p-10 text-center text-sm text-slate-400 dark:text-slate-500">No simulated payments recorded yet.</div>
           ) : (
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
               {payments.map((p) => (
