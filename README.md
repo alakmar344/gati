@@ -21,6 +21,16 @@ Underneath, it still combines **four complete interactive service journeys** wit
 
 ---
 
+## 🇮🇳 Fully Bilingual & Dark-Mode Native
+
+- **One-tap हिन्दी / English toggle** — not a translated landing page: every journey, the Autopilot feed, payment modals, receipts, toasts, empty states, and the command palette are localized end-to-end (180+ dictionary entries, live re-render on switch).
+- **True dark mode** — FOUC-free (blocking theme script), token-driven claymorphism surfaces, WCAG-conscious contrast in both themes.
+- **Demo-safe** — SSR/hydration-clean rendering, zero console errors, and a one-click **Reset sandbox** that restores a pristine demo state.
+
+> 🎬 Judging or presenting? See **[DEMO.md](./DEMO.md)** for a timed 3-minute demo script with Q&A ammunition.
+
+---
+
 ## 📸 Visual Design Language
 
 Inspired by cinematic landscape imagery and modern interface design:

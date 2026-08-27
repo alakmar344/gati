@@ -17,6 +17,7 @@ import { formatINR } from '@/lib/utils';
 import { MOCK_EXPRESSWAY_ROUTES } from '@/lib/mockData';
 import { SectionHeading, Pill, Skeleton } from '@/components/ui/Primitives';
 import { useToast, useMounted } from '@/components/ui/Toast';
+import { useLanguage } from '@/lib/i18n';
 
 const LOW_BALANCE_THRESHOLD = 300;
 
@@ -29,6 +30,7 @@ export default function FastagPage() {
 
   const mounted = useMounted();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const loadData = () => {
     setFastag(getFastagAccount());
@@ -48,8 +50,8 @@ export default function FastagPage() {
       setIsToppingUp(false);
       setRechargeSuccess(true);
       toast({
-        title: 'Wallet recharged',
-        description: `${formatINR(topupAmount)} credited — new balance ${formatINR(updated.walletBalance)}.`,
+        title: t('ftToastRecharged'),
+        description: `${formatINR(topupAmount)} ${t('ftToastCredited')} ${formatINR(updated.walletBalance)}.`,
         variant: 'success',
       });
       setTimeout(() => setRechargeSuccess(false), 3000);
@@ -64,10 +66,10 @@ export default function FastagPage() {
 
       {/* Header */}
       <SectionHeading
-        eyebrow="NETC National Electronic Toll Autopilot"
+        eyebrow={t('ftEyebrow')}
         icon={<Radio className="w-3.5 h-3.5 animate-pulse" />}
-        title="FASTag Autopilot & Expressway Toll Hub"
-        subtitle="Real-time balance telemetry, zero-surcharge instant recharges, and expressway toll route calculators."
+        title={t('ftTitle')}
+        subtitle={t('ftSubtitle')}
       />
 
       {/* Balance hero + quick recharge */}
@@ -90,12 +92,12 @@ export default function FastagPage() {
               </div>
             </div>
             <Pill tone={lowBalance ? 'amber' : 'emerald'} className="bg-white/10 border-white/15 text-white">
-              {lowBalance ? 'LOW BALANCE' : 'ACTIVE NETC'}
+              {lowBalance ? t('ftLowBalance') : t('ftActiveNetc')}
             </Pill>
           </div>
 
           <div>
-            <span className="eyebrow text-slate-400">Available Wallet Balance</span>
+            <span className="eyebrow text-slate-400">{t('ftWalletBalance')}</span>
             {mounted ? (
               <div
                 className={`font-display text-5xl sm:text-6xl font-extrabold tracking-tight mt-2 ${
@@ -110,11 +112,11 @@ export default function FastagPage() {
 
             <div className="mt-3">
               {lowBalance ? (
-                <Pill tone="rose">Top up now to avoid toll-lane declines</Pill>
+                <Pill tone="rose">{t('ftTopupWarning')}</Pill>
               ) : (
                 <span className="text-[12px] text-slate-400 inline-flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  Low-Balance Expressway Shield Active
+                  {t('ftShieldActive')}
                 </span>
               )}
             </div>
@@ -128,12 +130,12 @@ export default function FastagPage() {
         {/* Quick recharge */}
         <div className="md:col-span-5 clay-card p-6 sm:p-7 flex flex-col justify-between gap-5">
           <div>
-            <span className="eyebrow text-emerald-700 dark:text-emerald-400">Instant 1-Tap Top-up</span>
+            <span className="eyebrow text-emerald-700 dark:text-emerald-400">{t('ftInstantTopup')}</span>
             <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 dark:text-white mt-1.5">
-              Recharge without convenience fee
+              {t('ftNoFee')}
             </h3>
             <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-              Direct NPCI settlement ensures immediate balance reflection at all toll plazas nationwide.
+              {t('ftNpciNote')}
             </p>
           </div>
 
@@ -163,12 +165,12 @@ export default function FastagPage() {
             {rechargeSuccess ? (
               <>
                 <CheckCircle className="w-4 h-4 text-emerald-400" />
-                <span>Wallet credited!</span>
+                <span>{t('ftWalletCredited')}</span>
               </>
             ) : (
               <>
                 <Plus className="w-4 h-4 text-emerald-400" />
-                <span>{isToppingUp ? 'Crediting Wallet…' : `Recharge ${formatINR(topupAmount)}`}</span>
+                <span>{isToppingUp ? t('ftCrediting') : `${t('ftRecharge')} ${formatINR(topupAmount)}`}</span>
               </>
             )}
           </button>
@@ -181,13 +183,13 @@ export default function FastagPage() {
         <div>
           <span className="eyebrow text-sky-700 dark:text-sky-400 inline-flex items-center gap-1.5">
             <Route className="w-3.5 h-3.5" />
-            Expressway Cost & Route Engine
+            {t('ftRouteEngine')}
           </span>
           <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1.5">
-            Interactive Expressway Toll Calculator
+            {t('ftCalculator')}
           </h2>
           <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-            Select any major Indian expressway to calculate toll budget, distance, and FASTag savings.
+            {t('ftCalculatorDesc')}
           </p>
         </div>
 
@@ -216,7 +218,7 @@ export default function FastagPage() {
                 </div>
 
                 <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
-                  <Pill tone="emerald">{route.fastagDiscountPercent}% FASTag CashPass</Pill>
+                  <Pill tone="emerald">{route.fastagDiscountPercent}% {t('ftCashPass')}</Pill>
                   <span className="font-mono font-extrabold text-slate-900 dark:text-white text-sm">
                     {formatINR(route.totalTollCost)}
                   </span>
@@ -230,14 +232,14 @@ export default function FastagPage() {
         <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-5 space-y-4">
           <div className="flex items-center justify-between gap-3">
             <span className="font-bold text-slate-900 dark:text-white text-sm">{selectedRoute.name}</span>
-            <Pill tone="sky">Selected route</Pill>
+            <Pill tone="sky">{t('ftSelectedRoute')}</Pill>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4">
               <span className="eyebrow text-slate-400 dark:text-slate-500 inline-flex items-center gap-1.5">
                 <Navigation className="w-3.5 h-3.5" />
-                Distance
+                {t('ftDistance')}
               </span>
               <div className="font-display text-xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">
                 {selectedRoute.distanceKm} km
@@ -246,14 +248,14 @@ export default function FastagPage() {
             <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4">
               <span className="eyebrow text-slate-400 dark:text-slate-500 inline-flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5" />
-                Typical Time
+                {t('ftTypicalTime')}
               </span>
               <div className="font-display text-xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">
                 {selectedRoute.typicalTime}
               </div>
             </div>
             <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4">
-              <span className="eyebrow text-slate-400 dark:text-slate-500">One-Way Toll</span>
+              <span className="eyebrow text-slate-400 dark:text-slate-500">{t('ftOneWayToll')}</span>
               <div className="font-display text-xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1 font-mono">
                 {formatINR(selectedRoute.totalTollCost)}
               </div>
@@ -264,14 +266,14 @@ export default function FastagPage() {
             type="button"
             onClick={() =>
               toast({
-                title: 'Annual Corridor Pass activated',
-                description: `${selectedRoute.name} is now on your FASTag Annual Pass.`,
+                title: t('ftToastPassTitle'),
+                description: `${selectedRoute.name} ${t('ftToastPassDesc')}`,
                 variant: 'success',
               })
             }
             className="clay-btn clay-btn-primary min-h-[44px] w-full sm:w-auto px-6 py-2.5 text-sm text-white font-bold"
           >
-            Activate Annual Pass
+            {t('ftActivatePass')}
           </button>
         </div>
       </section>
@@ -280,7 +282,7 @@ export default function FastagPage() {
       <section className="clay-card p-6 sm:p-8 space-y-4 animate-rise">
         <div className="flex items-center gap-2">
           <Receipt className="w-4 h-4 text-slate-500 dark:text-slate-400" />
-          <h3 className="eyebrow text-slate-600 dark:text-slate-400">Recent NETC Toll Plaza Deductions</h3>
+          <h3 className="eyebrow text-slate-600 dark:text-slate-400">{t('ftRecentDeductions')}</h3>
         </div>
 
         <div className="divide-y divide-slate-100 dark:divide-slate-800">

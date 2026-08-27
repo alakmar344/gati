@@ -2,19 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  CreditCard, 
-  Calendar, 
-  Clock, 
-  MapPin, 
-  Heart, 
-  CheckCircle, 
-  ArrowRight, 
-  ArrowLeft, 
-  ShieldCheck, 
-  FileText,
-  UserCheck,
-  AlertCircle
+import {
+  CreditCard,
+  Calendar,
+  Clock,
+  MapPin,
+  Heart,
+  CheckCircle,
+  ArrowRight,
+  ArrowLeft
 } from 'lucide-react';
 import { STATES_AND_RTOS } from '@/lib/mockData';
 import { DriverLicenceApplication, PaymentReceipt } from '@/lib/types';
@@ -23,7 +19,7 @@ import { formatINR, generateReferenceNumber } from '@/lib/utils';
 import { GatiPayModal } from '@/components/payment/GatiPayModal';
 import { DigitalDrivingLicenceCard } from '@/components/documents/DigitalDrivingLicenceCard';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
-import { Field, TextInput, MoneyInput, OptionGrid, SelectInput, VerifiedChip, amountInWords } from '@/components/ui/Form';
+import { Field, OptionGrid, SelectInput, VerifiedChip } from '@/components/ui/Form';
 import { useToast } from '@/components/ui/Toast';
 
 const STEPS = [
@@ -145,8 +141,8 @@ export default function DriverLicencePage() {
       digitalLicenceCard: {
         dlNumber: randomDlNo,
         holderName: currentUser.name.toUpperCase(),
-        fatherName: 'SURENDRA DESHMUKH',
-        dob: '14-MAY-1998',
+        fatherName: `${currentUser.name.trim().split(/\s+/).slice(-1)[0].toUpperCase()} (GUARDIAN)`,
+        dob: new Date(dob).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(),
         bloodGroup: bloodGroup,
         validFrom: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(),
         validTill: '24-AUG-2046',
@@ -212,8 +208,8 @@ export default function DriverLicencePage() {
       {currentStep <= 4 && (
         <div className="card p-5 sm:p-6 mb-6 animate-rise">
           <div className="flex items-center justify-between mb-4">
-            <span className="eyebrow text-ashoka-800">Step {currentStep} of 4</span>
-            <span className="text-[11px] font-bold text-slate-500">
+            <span className="eyebrow text-ashoka-800 dark:text-ashoka-300">Step {currentStep} of 4</span>
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
               {STEPS[currentStep - 1].label}
             </span>
           </div>
@@ -227,10 +223,10 @@ export default function DriverLicencePage() {
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                         isCurrent
-                          ? 'bg-ashoka-800 text-white ring-4 ring-ashoka-100'
+                          ? 'bg-ashoka-800 text-white ring-4 ring-ashoka-100 dark:ring-ashoka-900/60'
                           : isCompleted
                             ? 'bg-olive-700 text-white'
-                            : 'bg-slate-100 text-slate-400 border border-slate-200'
+                            : 'bg-slate-100 text-slate-400 border border-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700'
                       }`}
                     >
                       {isCompleted ? <CheckCircle className="w-5 h-5" /> : step.num}
@@ -238,17 +234,17 @@ export default function DriverLicencePage() {
                     <span
                       className={`hidden sm:block text-[11px] font-semibold text-center leading-tight ${
                         isCurrent
-                          ? 'text-ashoka-800'
+                          ? 'text-ashoka-800 dark:text-ashoka-300'
                           : isCompleted
-                            ? 'text-slate-700'
-                            : 'text-slate-400'
+                            ? 'text-slate-700 dark:text-slate-300'
+                            : 'text-slate-400 dark:text-slate-500'
                       }`}
                     >
                       {step.label}
                     </span>
                   </div>
                   {i < STEPS.length - 1 && (
-                    <div className="flex-1 h-0.5 mx-2 sm:mx-3 -mt-6 sm:mt-0 rounded-full overflow-hidden bg-slate-200">
+                    <div className="flex-1 h-0.5 mx-2 sm:mx-3 -mt-6 sm:mt-0 rounded-full overflow-hidden bg-slate-200 dark:bg-slate-700">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${
                           currentStep > step.num ? 'w-full bg-olive-600' : 'w-0 bg-olive-600'
@@ -667,7 +663,7 @@ export default function DriverLicencePage() {
 
             {/* 3D Flippable Digital Driving Licence Component */}
             <DigitalDrivingLicenceCard data={completedApplication} />
-            <p className="text-center text-[11px] text-slate-400 -mt-3">Tap the card to flip and view the reverse side.</p>
+            <p className="text-center text-[11px] text-slate-400 dark:text-slate-500 -mt-3">Tap the card to flip and view the reverse side.</p>
 
             {/* Next Links */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2 hairline border-t border-slate-100 dark:border-slate-800">

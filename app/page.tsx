@@ -19,7 +19,7 @@ import {
   ScanLine,
   Layers,
 } from 'lucide-react';
-import { CORE_SERVICES, SPEED_TOOLS, NavItem } from '@/lib/nav';
+import { CORE_SERVICES, SPEED_TOOLS, NavItem, navItemName, navItemDesc } from '@/lib/nav';
 import { ActionFeed } from '@/components/copilot/ActionFeed';
 import { computeTimeSaved } from '@/lib/insights';
 import { getCurrentUser, getApplicationsForUser } from '@/lib/storage';
@@ -103,10 +103,15 @@ export default function HomePage() {
     return allItems.filter((item) => {
       const matchesCat = activeCategory === 'ALL' || item.category === activeCategory;
       const q = searchQuery.trim().toLowerCase();
-      const matchesQuery = !q || item.name.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
+      const matchesQuery =
+        !q ||
+        item.name.toLowerCase().includes(q) ||
+        item.desc.toLowerCase().includes(q) ||
+        navItemName(item, t).toLowerCase().includes(q) ||
+        navItemDesc(item, t).toLowerCase().includes(q);
       return matchesCat && matchesQuery;
     });
-  }, [allItems, activeCategory, searchQuery]);
+  }, [allItems, activeCategory, searchQuery, t]);
 
   return (
     <div className="flex flex-col space-y-10 sm:space-y-14 pb-16">
@@ -198,7 +203,7 @@ export default function HomePage() {
                 className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-rose-500/20 hover:bg-rose-500/30 border border-rose-400/40 text-rose-200 transition-colors backdrop-blur-sm min-h-[34px] flex items-center gap-1.5 shadow-sm"
               >
                 <CreditCard className="w-3.5 h-3.5 text-rose-400" />
-                <span>Pay Challans</span>
+                <span>{t('payChallans')}</span>
               </Link>
 
               <Link
@@ -206,14 +211,14 @@ export default function HomePage() {
                 className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/40 text-sky-200 transition-colors backdrop-blur-sm min-h-[34px] flex items-center gap-1.5 shadow-sm"
               >
                 <Zap className="w-3.5 h-3.5 text-sky-400" />
-                <span>Recharge FASTag</span>
+                <span>{t('rechargeFastag')}</span>
               </Link>
 
               {[
-                { label: 'Smart RC', href: '/vehicle-licensing' },
-                { label: 'Online ADTT Test', href: '/adtt-simulator' },
-                { label: 'VIP Number Studio', href: '/fancy-numbers' },
-                { label: 'FastPass 10s', href: '/fastpass' },
+                { label: t('chipSmartRc'), href: '/vehicle-licensing' },
+                { label: t('chipAdtt'), href: '/adtt-simulator' },
+                { label: t('chipVip'), href: '/fancy-numbers' },
+                { label: t('chipFastpass'), href: '/fastpass' },
               ].map((chip) => (
                 <Link
                   key={chip.href}
@@ -257,7 +262,7 @@ export default function HomePage() {
               {t('allActions')}
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              All statutory vehicle registrations, driver credentials, and instant mobility tools in one centralized hub.
+              {t('serviceMatrixSubtitle')}
             </p>
           </div>
 
@@ -312,10 +317,10 @@ export default function HomePage() {
                   </div>
 
                   <h3 className="font-display font-extrabold text-[15px] text-slate-900 dark:text-white tracking-tight">
-                    {item.name}
+                    {navItemName(item, t)}
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-                    {item.desc}
+                    {navItemDesc(item, t)}
                   </p>
                 </div>
 
@@ -324,7 +329,7 @@ export default function HomePage() {
                     {item.category === 'VEHICLE' ? 'MoRTH • VAHAN' : item.category === 'DRIVER' ? 'MoRTH • SARATHI' : item.category === 'TOLLS' ? 'NPCI • NETC' : 'Gati Platform'}
                   </span>
                   <span className="font-semibold text-olive-700 dark:text-olive-400">
-                    Instant FastTrack
+                    {t('instantFastTrack')}
                   </span>
                 </div>
               </Link>

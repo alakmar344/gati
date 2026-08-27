@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ShieldCheck, Truck, QrCode, Printer, Download, MapPin, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Truck, QrCode, Printer, MapPin, CheckCircle2 } from 'lucide-react';
 import { VehiclePermitApplication } from '@/lib/types';
 
 interface DigitalPermitDocumentProps {
@@ -139,17 +139,10 @@ export const DigitalPermitDocument: React.FC<DigitalPermitDocumentProps> = ({ da
       <div className="flex items-center gap-3 w-full justify-center">
         <button
           onClick={() => window.print()}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold shadow-sm transition-all hover:shadow"
-        >
-          <Printer className="w-4 h-4 text-slate-500" />
-          <span>Print Permit</span>
-        </button>
-        <button
-          onClick={() => window.print()}
           className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold shadow-md shadow-emerald-700/20 transition-all"
         >
-          <Download className="w-4 h-4" />
-          <span>Save Form 47 PDF</span>
+          <Printer className="w-4 h-4" />
+          <span>Print / Save as PDF</span>
         </button>
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Shield, RotateCw, Heart, QrCode, Cpu, Printer, Download, CheckCircle } from 'lucide-react';
+import { Shield, RotateCw, Heart, QrCode, Cpu, Printer, CheckCircle } from 'lucide-react';
 import { DriverLicenceApplication } from '@/lib/types';
 
 interface DigitalDrivingLicenceCardProps {
@@ -14,7 +14,7 @@ export const DigitalDrivingLicenceCard: React.FC<DigitalDrivingLicenceCardProps>
   const dl = data.digitalLicenceCard || {
     dlNumber: 'MH 12 2026 0094821',
     holderName: data.applicantName.toUpperCase(),
-    fatherName: 'SURENDRA DESHMUKH',
+    fatherName: `${data.applicantName.trim().split(/\s+/).slice(-1)[0].toUpperCase()} (GUARDIAN)`,
     dob: '14-MAY-2002',
     bloodGroup: data.bloodGroup || 'O+ve',
     validFrom: '25-AUG-2026',
@@ -31,14 +31,14 @@ export const DigitalDrivingLicenceCard: React.FC<DigitalDrivingLicenceCardProps>
   return (
     <div className="flex flex-col items-center gap-5 w-full max-w-xl mx-auto">
       {/* Flip Prompt */}
-      <div className="flex items-center justify-between w-full px-2 text-xs text-slate-500">
-        <span className="flex items-center gap-1.5 text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+      <div className="flex items-center justify-between w-full px-2 text-xs text-slate-500 dark:text-slate-400">
+        <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-300 font-semibold bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800/60">
           <CheckCircle className="w-3.5 h-3.5" />
           Verified Cryptographic PVC Smart Card
         </span>
         <button
           onClick={() => setIsFlipped(!isFlipped)}
-          className="flex items-center gap-1.5 font-medium text-sky-600 hover:text-sky-700 transition-colors"
+          className="flex items-center gap-1.5 font-medium text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 transition-colors"
         >
           <RotateCw className="w-3.5 h-3.5 animate-spin-slow" />
           <span>Click card to flip (Side {isFlipped ? '2 of 2' : '1 of 2'})</span>
@@ -203,17 +203,10 @@ export const DigitalDrivingLicenceCard: React.FC<DigitalDrivingLicenceCardProps>
       <div className="flex items-center gap-3 w-full justify-center">
         <button
           onClick={() => window.print()}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold shadow-sm transition-all hover:shadow"
-        >
-          <Printer className="w-4 h-4 text-slate-500" />
-          <span>Print Card</span>
-        </button>
-        <button
-          onClick={() => window.print()}
           className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold shadow-md shadow-sky-600/20 transition-all"
         >
-          <Download className="w-4 h-4" />
-          <span>Save Digital PVC Card</span>
+          <Printer className="w-4 h-4" />
+          <span>Print / Save as PDF</span>
         </button>
       </div>
     </div>

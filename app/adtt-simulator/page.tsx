@@ -2,21 +2,15 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { 
-  RotateCcw, 
-  CheckCircle, 
-  AlertTriangle, 
-  Trophy, 
-  ArrowRight, 
-  Clock, 
-  ShieldCheck, 
+import {
+  RotateCcw,
+  AlertTriangle,
+  ShieldCheck,
   QrCode,
   Printer,
   Volume2,
   VolumeX,
   Award,
-  FileCheck2,
-  ChevronRight,
   Info
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -680,7 +674,11 @@ export default function AdttSimulatorPage() {
 
       ctx.restore();
 
-      animationFrameId = requestAnimationFrame(render);
+      // Keep the loop alive only while a test is actively running; otherwise this
+      // pass has painted the final idle frame and we stop scheduling repaints.
+      if (isPlaying && !isPassed && !isFailed) {
+        animationFrameId = requestAnimationFrame(render);
+      }
     };
 
     render();

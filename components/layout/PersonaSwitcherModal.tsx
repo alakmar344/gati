@@ -48,12 +48,16 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={t('switchPersona')}
         className="relative w-full max-w-2xl clay-card dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[88vh] animate-dialog-in"
       >
         {/* Header */}
         <div className="p-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white relative flex-shrink-0">
-          <button 
+          <button
             onClick={onClose}
+            aria-label="Close persona switcher"
             className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 transition-colors"
           >
             <X className="w-4 h-4" />
@@ -80,10 +84,11 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
             {DEMO_USERS.map((user) => {
               const isCurrent = user.id === currentUser.id;
               return (
-                <div
+                <button
                   key={user.id}
+                  type="button"
                   onClick={() => handleSelect(user)}
-                  className={`clay-card p-4 transition-all cursor-pointer text-left relative flex flex-col justify-between ${
+                  className={`clay-card w-full p-4 transition-all cursor-pointer text-left relative flex flex-col justify-between ${
                     isCurrent
                       ? 'bg-olive-50/80 dark:bg-olive-950/70 border-olive-500 ring-2 ring-olive-500/20 shadow-sm'
                       : 'bg-white dark:bg-slate-900/90 border-slate-200 dark:border-slate-800 hover:border-olive-400 hover:shadow-md'
@@ -134,14 +139,14 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
                       {user.vehiclesCount} {user.vehiclesCount === 1 ? 'vehicle' : 'vehicles'}
                     </span>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-slate-50 dark:bg-slate-850 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 flex-shrink-0">
+        <div className="p-4 bg-slate-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 flex-shrink-0">
           <span className="text-[11px]">
             {language === 'hi' ? 'सक्रिय सत्र ब्राउज़र मेमोरी में स्वतः सहेजा जाता है।' : 'Active session auto-persists in browser storage.'}
           </span>

@@ -363,6 +363,22 @@ body {
   box-shadow: 0 0 0 4px rgba(66, 90, 53, 0.15);
   outline: none;
 }
+.dark .glass-input,
+.dark .field {
+  background: rgba(15, 24, 16, 0.92);
+  color: var(--ink);
+  border-color: var(--line);
+}
+.dark .glass-input:focus,
+.dark .field:focus {
+  background: #0f1810;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px rgba(123, 168, 103, 0.2);
+}
+.field::placeholder,
+.glass-input::placeholder {
+  color: var(--ink-faint);
+}
 
 /* ------------------------------------------------------------
    Buttons — one consistent interaction language (44px min touch)
@@ -427,6 +443,16 @@ body {
   color: var(--ink);
   border-color: var(--brand);
 }
+.dark .btn-ghost {
+  background: rgba(26, 41, 31, 0.85);
+  border-color: var(--line-strong);
+  color: var(--ink-soft);
+}
+.dark .btn-ghost:hover {
+  background: var(--surface-raised);
+  color: var(--ink);
+  border-color: var(--brand);
+}
 .glass-button {
   min-height: 44px;
   transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
@@ -441,8 +467,11 @@ body {
 /* Focus ring — accessible & consistent */
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(66, 90, 53, 0.55);
+  box-shadow: 0 0 0 2px var(--canvas), 0 0 0 4px rgba(66, 90, 53, 0.55);
   border-radius: 8px;
+}
+.dark *:focus-visible {
+  box-shadow: 0 0 0 2px var(--canvas), 0 0 0 4px rgba(123, 168, 103, 0.65);
 }
 
 /* ------------------------------------------------------------
@@ -566,6 +595,9 @@ body {
   overflow: hidden;
   background: #eef2f7;
   border-radius: 0.75rem;
+}
+.dark .skeleton {
+  background: #1a291f;
 }
 .skeleton::after {
   content: '';

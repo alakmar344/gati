@@ -1,19 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Zap,
-  Clock,
-  CheckCircle,
-  ShieldCheck,
-  Download,
   Printer,
   QrCode,
-  ArrowRight,
-  Sparkles,
-  Flame,
-  FileCheck2
+  ArrowRight
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { getCurrentUser, saveDocument } from '@/lib/storage';
@@ -39,6 +31,17 @@ export default function FastPassPage() {
     elapsedSeconds: number;
     qrData: string;
   } | null>(null);
+
+  const stopwatchRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const issuanceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clear the stopwatch interval and issuance timeout if the page unmounts mid-processing
+  useEffect(() => {
+    return () => {
+      if (stopwatchRef.current) clearInterval(stopwatchRef.current);
+      if (issuanceTimeoutRef.current) clearTimeout(issuanceTimeoutRef.current);
+    };
+  }, []);
 
   const services = [
     {
@@ -75,25 +78,29 @@ export default function FastPassPage() {
     setCompletedPass(null);
 
     const startTime = Date.now();
-    const timer = setInterval(() => {
+    stopwatchRef.current = setInterval(() => {
       const elapsed = ((Date.now() - startTime) / 1000);
       setCountdown(Number(elapsed.toFixed(1)));
     }, 100);
 
-    setTimeout(() => {
-      clearInterval(timer);
+    issuanceTimeoutRef.current = setTimeout(() => {
+      if (stopwatchRef.current) clearInterval(stopwatchRef.current);
       setIsProcessing(false);
 
       const passId = `FP-${Date.now().toString().slice(-6)}`;
       const elapsedSeconds = Number(((Date.now() - startTime) / 1000).toFixed(1));
+      const issuedAt = new Date();
+      const validTillDate = new Date(issuedAt.getTime() + 30 * 24 * 60 * 60 * 1000);
+      const formatPassDate = (d: Date) =>
+        d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
       const newPass = {
         passId,
         title: currentServiceObj.title,
         vehicleNumber: vehicleNumber.toUpperCase(),
         holderName: currentUser.name.toUpperCase(),
         amount: currentServiceObj.fee,
-        issueDate: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(),
-        validTill: '24-SEP-2026',
+        issueDate: formatPassDate(issuedAt),
+        validTill: formatPassDate(validTillDate),
         elapsedSeconds,
         qrData: `GATI-FASTPASS:${passId}:${vehicleNumber}:VALID`
       };
@@ -107,8 +114,8 @@ export default function FastPassPage() {
         title: `FastPass: ${currentServiceObj.title}`,
         documentNumber: passId,
         holderName: currentUser.name,
-        issueDate: new Date().toISOString(),
-        expiryDate: '2026-09-24',
+        issueDate: issuedAt.toISOString(),
+        expiryDate: validTillDate.toISOString(),
         status: 'VALID',
         referenceId: passId,
         details: {

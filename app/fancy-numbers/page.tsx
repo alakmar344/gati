@@ -2,23 +2,15 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { 
-  Sparkles, 
-  Search, 
-  Filter, 
-  Flame, 
-  Award, 
-  Clock, 
-  ShieldCheck, 
-  CheckCircle, 
-  ArrowRight, 
+import {
+  Sparkles,
+  Search,
+  Clock,
+  ArrowRight,
   CreditCard,
-  Hash,
-  SlidersHorizontal,
-  ChevronDown
 } from 'lucide-react';
 import { HsrpPlate } from '@/components/plates/HsrpPlate';
-import { MOCK_FANCY_NUMBERS, STATES_AND_RTOS } from '@/lib/mockData';
+import { MOCK_FANCY_NUMBERS } from '@/lib/mockData';
 import { FancyNumberItem, FancyNumberApplication, PaymentReceipt } from '@/lib/types';
 import { getCurrentUser, saveApplication, saveDocument } from '@/lib/storage';
 import { formatINR, generateReferenceNumber } from '@/lib/utils';
@@ -177,15 +169,15 @@ export default function FancyNumbersPage() {
         /* Completed Allotment View */
         <div className="card p-8 sm:p-12 max-w-3xl mx-auto space-y-8 animate-rise">
           <div className="text-center">
-            <div className="w-14 h-14 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-4 shadow-inner">
+            <div className="w-14 h-14 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center mx-auto mb-4 shadow-inner">
               <Sparkles className="w-8 h-8" />
             </div>
-            <div className="eyebrow text-amber-700">Allotment Confirmed</div>
-            <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-1.5">
+            <div className="eyebrow text-amber-700 dark:text-amber-400">Allotment Confirmed</div>
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1.5">
               VIP Number Allocated Successfully
             </h2>
-            <p className="text-sm text-slate-500 mt-2">
-              Allotment ID: <strong className="font-mono text-amber-700">{completedApplication.allotmentCertificate?.allotmentId}</strong>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
+              Allotment ID: <strong className="font-mono text-amber-700 dark:text-amber-400">{completedApplication.allotmentCertificate?.allotmentId}</strong>
             </p>
           </div>
 
@@ -203,7 +195,7 @@ export default function FancyNumbersPage() {
             </Link>
             <Link
               href="/documents"
-              className="btn px-6 py-2.5 text-sm bg-amber-50 border border-amber-200 text-amber-900 hover:bg-amber-100"
+              className="btn px-6 py-2.5 text-sm bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950/60"
             >
               View in GatiLocker
             </Link>
@@ -361,14 +353,19 @@ export default function FancyNumbersPage() {
               return (
                 <div
                   key={item.id}
-                  onClick={() => setSelectedNumber(item)}
-                  className={`clay-card clay-card-interactive p-6 cursor-pointer flex flex-col justify-between group ${
+                  className={`clay-card clay-card-interactive p-6 flex flex-col justify-between group ${
                     isSelected
                       ? 'border-amber-500 ring-2 ring-amber-500/30 bg-amber-50/40 dark:bg-amber-950/30'
                       : ''
                   }`}
                 >
-                  <div>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedNumber(item)}
+                    aria-pressed={isSelected}
+                    aria-label={`Preview plate ${item.fullPlateText}`}
+                    className="w-full text-left rounded-2xl"
+                  >
                     {/* Top Row: Category & Sum */}
                     <div className="flex items-center justify-between gap-2 mb-4">
                       <Pill tone="amber">{item.category}</Pill>
@@ -394,7 +391,7 @@ export default function FancyNumbersPage() {
                       <div className="text-sm font-medium text-slate-600 dark:text-slate-300 mt-1">{item.tag}</div>
                       <div className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">{item.rto}</div>
                     </div>
-                  </div>
+                  </button>
 
                   {/* Bottom: Price & Quick Action */}
                   <div className="mt-6 pt-4 hairline border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
@@ -405,10 +402,7 @@ export default function FancyNumbersPage() {
 
                     <button
                       type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSelectToBuy(item);
-                      }}
+                      onClick={() => handleSelectToBuy(item)}
                       className="clay-btn clay-btn-saffron min-h-[40px] px-4 py-2 text-xs text-white shadow-sm font-bold flex items-center gap-1.5"
                     >
                       <CreditCard className="w-3.5 h-3.5" />

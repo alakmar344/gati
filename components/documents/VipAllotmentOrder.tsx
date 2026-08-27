@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Award, QrCode, Printer, Download, Sparkles, CheckCircle } from 'lucide-react';
+import { QrCode, Printer, Sparkles, CheckCircle } from 'lucide-react';
 import { FancyNumberApplication } from '@/lib/types';
 import { HsrpPlate } from '../plates/HsrpPlate';
 
@@ -103,17 +103,10 @@ export const VipAllotmentOrder: React.FC<VipAllotmentOrderProps> = ({ data }) =>
       <div className="flex items-center gap-3 w-full justify-center">
         <button
           onClick={() => window.print()}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold shadow-sm transition-all hover:shadow"
-        >
-          <Printer className="w-4 h-4 text-slate-500" />
-          <span>Print Allotment Order</span>
-        </button>
-        <button
-          onClick={() => window.print()}
           className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shadow-md shadow-amber-600/20 transition-all"
         >
-          <Download className="w-4 h-4" />
-          <span>Download Certificate</span>
+          <Printer className="w-4 h-4" />
+          <span>Print / Save as PDF</span>
         </button>
       </div>
     </div>

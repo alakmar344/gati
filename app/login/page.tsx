@@ -12,7 +12,6 @@ import {
   ShieldCheck,
   Sparkles,
   Loader2,
-  AlertCircle,
   MapPin,
   Car,
 } from 'lucide-react';
@@ -20,35 +19,34 @@ import { DEMO_USERS } from '@/lib/mockData';
 import { setCurrentUser } from '@/lib/storage';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { useToast } from '@/components/ui/Toast';
+import { useLanguage } from '@/lib/i18n';
 
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [email, setEmail] = useState(DEMO_USERS[0].email);
   const [password, setPassword] = useState('demo123');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState(DEMO_USERS[0]);
-  const [errorMsg, setErrorMsg] = useState('');
 
   const handlePersonaQuickFill = (u: typeof DEMO_USERS[0]) => {
     setSelectedUser(u);
     setEmail(u.email);
     setPassword('demo123');
-    setErrorMsg('');
   };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMsg('');
 
     setTimeout(() => {
       setIsLoading(false);
       const matched = DEMO_USERS.find(u => u.email.toLowerCase() === email.toLowerCase()) || selectedUser;
       setCurrentUser(matched);
       toast({
-        title: `Signed in as ${matched.name}`,
+        title: [t('loginSignedInPrefix'), matched.name, t('loginSignedInSuffix')].filter(Boolean).join(' '),
         description: `${matched.role} · ${matched.city}`,
         variant: 'success',
       });
@@ -64,24 +62,24 @@ export default function LoginPage() {
         <div className="lg:col-span-5 space-y-8 lg:sticky lg:top-24">
           <SectionHeading
             align="left"
-            eyebrow="Prototype demo"
+            eyebrow={t('loginEyebrow')}
             icon={<ShieldCheck className="w-3.5 h-3.5" />}
-            title={<>Choose your demo citizen</>}
-            subtitle="Gati is a working prototype. Pick a persona to explore their credentials, active applications, and vehicle garage — no real accounts, no passwords to remember."
+            title={<>{t('loginTitle')}</>}
+            subtitle={t('loginSubtitle')}
           />
 
           <form onSubmit={handleLogin} className="card p-6 sm:p-7 space-y-5">
             <div className="space-y-1.5">
-              <span className="eyebrow text-slate-500">Selected persona</span>
+              <span className="eyebrow text-slate-500 dark:text-slate-400">{t('loginSelectedPersona')}</span>
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-olive-600 to-olive-800 text-white flex items-center justify-center font-display font-extrabold text-sm shrink-0 shadow-sm">
                   {selectedUser.avatar}
                 </div>
                 <div className="min-w-0">
-                  <div className="font-display font-extrabold tracking-tight text-slate-900 truncate">
+                  <div className="font-display font-extrabold tracking-tight text-slate-900 dark:text-slate-100 truncate">
                     {selectedUser.name}
                   </div>
-                  <div className="text-[12px] text-olive-800 font-semibold truncate">
+                  <div className="text-[12px] text-olive-800 dark:text-olive-300 font-semibold truncate">
                     {selectedUser.role}
                   </div>
                 </div>
@@ -89,53 +87,46 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[12px] font-bold text-slate-700 block">
-                Citizen email / user ID
+              <label className="text-[12px] font-bold text-slate-700 dark:text-slate-300 block">
+                {t('loginEmailLabel')}
               </label>
               <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-3 field text-[13px] font-medium text-slate-900"
+                  className="w-full pl-10 pr-4 py-3 field text-[13px] font-medium text-slate-900 dark:text-slate-100"
                   placeholder="name@demo.gati.in"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[12px] font-bold text-slate-700 block">
-                Demo password
+              <label className="text-[12px] font-bold text-slate-700 dark:text-slate-300 block">
+                {t('loginPasswordLabel')}
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full pl-10 pr-11 py-3 field text-[13px] font-medium text-slate-900"
+                  className="w-full pl-10 pr-11 py-3 field text-[13px] font-medium text-slate-900 dark:text-slate-100"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
-
-            {errorMsg && (
-              <div className="flex items-center gap-2 text-[12px] font-semibold text-rose-600">
-                <AlertCircle className="w-4 h-4 shrink-0" />
-                <span>{errorMsg}</span>
-              </div>
-            )}
 
             <button
               type="submit"
@@ -145,20 +136,20 @@ export default function LoginPage() {
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Verifying sandbox credentials…</span>
+                  <span>{t('loginVerifying')}</span>
                 </>
               ) : (
                 <>
-                  <span>Continue as {selectedUser.name.split(' ')[0]}</span>
+                  <span>{[t('loginContinuePrefix'), selectedUser.name.split(' ')[0], t('loginContinueSuffix')].filter(Boolean).join(' ')}</span>
                   <ArrowRight className="w-4 h-4 text-saffron-400" />
                 </>
               )}
             </button>
 
-            <div className="flex items-start gap-2.5 hairline border-t pt-4 text-[12px] text-slate-500 leading-relaxed">
+            <div className="flex items-start gap-2.5 hairline border-t pt-4 text-[12px] text-slate-500 dark:text-slate-400 leading-relaxed">
               <Sparkles className="w-4 h-4 text-saffron-500 shrink-0 mt-0.5" />
               <p>
-                <strong className="text-slate-800 font-semibold">Demo authentication sandbox.</strong>{' '}
+                <strong className="text-slate-800 dark:text-slate-200 font-semibold">Demo authentication sandbox.</strong>{' '}
                 Pick any profile on the right to instantly fill credentials for 1-click testing.
               </p>
             </div>
@@ -168,8 +159,8 @@ export default function LoginPage() {
         {/* Right — persona directory grid */}
         <div className="lg:col-span-7 space-y-5">
           <div className="flex items-center justify-between px-1">
-            <span className="eyebrow text-slate-500">Demo profiles</span>
-            <Pill tone="olive">{DEMO_USERS.length} personas</Pill>
+            <span className="eyebrow text-slate-500 dark:text-slate-400">{t('demoProfiles')}</span>
+            <Pill tone="olive">{DEMO_USERS.length} {t('loginPersonasSuffix')}</Pill>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 stagger">
@@ -192,32 +183,32 @@ export default function LoginPage() {
                       className={`w-12 h-12 rounded-2xl flex items-center justify-center font-display font-extrabold text-sm shrink-0 ${
                         isSelected
                           ? 'bg-gradient-to-br from-olive-600 to-olive-800 text-white shadow-sm'
-                          : 'bg-slate-100 text-slate-700'
+                          : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
                       }`}
                     >
                       {user.avatar}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="font-display font-extrabold tracking-tight text-slate-900 truncate">
+                      <div className="font-display font-extrabold tracking-tight text-slate-900 dark:text-slate-100 truncate">
                         {user.name}
                       </div>
-                      <div className="text-[12px] text-olive-800 font-semibold truncate">
+                      <div className="text-[12px] text-olive-800 dark:text-olive-300 font-semibold truncate">
                         {user.role}
                       </div>
                     </div>
                     {isSelected && (
-                      <CheckCircle className="w-5 h-5 text-olive-700 shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-olive-700 dark:text-olive-400 shrink-0" />
                     )}
                   </div>
 
                   <div className="flex items-center justify-between gap-2 hairline border-t pt-4">
-                    <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-slate-500">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                    <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-slate-500 dark:text-slate-400">
+                      <MapPin className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                       {user.city}
                     </span>
                     <Pill tone={isSelected ? 'olive' : 'slate'}>
                       <Car className="w-3 h-3" />
-                      {user.vehiclesCount} {user.vehiclesCount === 1 ? 'vehicle' : 'vehicles'}
+                      {user.vehiclesCount} {user.vehiclesCount === 1 ? t('loginVehicleOne') : t('loginVehicleMany')}
                     </Pill>
                   </div>
                 </button>

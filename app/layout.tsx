@@ -43,6 +43,14 @@ export default function RootLayout({
       className={`scroll-smooth ${inter.variable} ${sora.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Apply saved theme before first paint to avoid dark-mode flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem('gati_theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col bg-canvas text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-olive-600 selection:text-white transition-colors duration-200">
         {/* Ambient background wash — subtle, single system */}
         <div className="app-aurora" aria-hidden="true" />

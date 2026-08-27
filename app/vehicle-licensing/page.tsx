@@ -2,21 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  Car, 
-  Zap, 
-  ShieldCheck, 
-  FileText, 
-  Upload, 
-  CheckCircle, 
-  ArrowRight, 
-  ArrowLeft, 
-  Info, 
+import {
+  Car,
+  Zap,
+  ShieldCheck,
+  CheckCircle,
+  ArrowRight,
+  ArrowLeft,
   CreditCard,
-  Building,
-  User,
-  Sparkles,
-  ExternalLink
+  ScanLine
 } from 'lucide-react';
 import { STATES_AND_RTOS } from '@/lib/mockData';
 import { VehicleLicensingData, PaymentReceipt } from '@/lib/types';
@@ -27,7 +21,6 @@ import { DigitalRcSmartCard } from '@/components/documents/DigitalRcSmartCard';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { useToast } from '@/components/ui/Toast';
 import { Field, TextInput, MoneyInput, OptionGrid, SelectInput, VerifiedChip, amountInWords } from '@/components/ui/Form';
-import { ScanLine } from 'lucide-react';
 
 const WIZARD_STEPS = [
   { num: 1, label: 'Vehicle Specs' },
@@ -155,7 +148,7 @@ export default function VehicleLicensingPage() {
       digitalRcCard: {
         rcNumber: randomAssignedNumber,
         ownerName: ownerName.toUpperCase(),
-        fatherName: 'RAMANATHA SHARMA',
+        fatherName: `${ownerName.trim().split(/\s+/).slice(-1)[0].toUpperCase()} (GUARDIAN)`,
         address: address,
         modelName: `${maker} ${model}`.toUpperCase(),
         cubicCapacityOrKw: isEV ? '106.4 kW (EV)' : '1498 CC',
@@ -219,7 +212,7 @@ export default function VehicleLicensingPage() {
       {currentStep <= 4 && (
         <div className="mb-8 animate-rise">
           <div className="flex items-center justify-between gap-3 mb-4">
-            <p className="eyebrow text-olive-800">
+            <p className="eyebrow text-olive-800 dark:text-olive-300">
               Step {currentStep} of 5 — {WIZARD_STEPS[currentStep - 1].label}
             </p>
             <Pill tone="olive">Paperless FastTrack</Pill>
@@ -237,8 +230,8 @@ export default function VehicleLicensingPage() {
                         done
                           ? 'bg-olive-700 text-white shadow-sm'
                           : active
-                            ? 'bg-olive-700 text-white ring-4 ring-olive-100'
-                            : 'bg-white border-2 border-slate-200 text-slate-400'
+                            ? 'bg-olive-700 text-white ring-4 ring-olive-100 dark:ring-olive-900/60'
+                            : 'bg-white border-2 border-slate-200 text-slate-400 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-500'
                       }`}
                     >
                       {done ? <CheckCircle className="w-5 h-5" /> : step.num}
@@ -246,17 +239,17 @@ export default function VehicleLicensingPage() {
                     <span
                       className={`text-[11px] leading-tight text-center ${
                         active
-                          ? 'text-olive-800 font-bold'
+                          ? 'text-olive-800 dark:text-olive-300 font-bold'
                           : done
-                            ? 'text-slate-700 font-semibold'
-                            : 'text-slate-400 font-medium'
+                            ? 'text-slate-700 dark:text-slate-300 font-semibold'
+                            : 'text-slate-400 dark:text-slate-500 font-medium'
                       }`}
                     >
                       {step.label}
                     </span>
                   </div>
                   {i < WIZARD_STEPS.length - 1 && (
-                    <div className="flex-1 h-0.5 mt-4 rounded-full bg-slate-200 overflow-hidden">
+                    <div className="flex-1 h-0.5 mt-4 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
                       <div
                         className={`h-full rounded-full bg-olive-600 transition-all duration-500 ${
                           currentStep > step.num ? 'w-full' : 'w-0'
@@ -494,7 +487,7 @@ export default function VehicleLicensingPage() {
                   maxLength={17}
                   placeholder="MAT629482NZ91024"
                   suffix={
-                    <Link href="/scan" className="p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 transition-colors" title="Scan with Smart Lens">
+                    <Link href="/scan" className="p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 transition-colors" title="Scan with Smart Lens" aria-label="Scan chassis number with Smart Lens">
                       <ScanLine className="w-4 h-4" />
                     </Link>
                   }

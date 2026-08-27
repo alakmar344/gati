@@ -59,7 +59,7 @@ export function parseIntent(query: string, ctx: IntentCtx = {}): Suggestion[] {
       hint: ctx.fastagBalance !== undefined ? `Balance ₹${ctx.fastagBalance.toLocaleString('en-IN')}` : 'Instant',
       group: 'Do it now',
       run: { kind: 'topup', amount: amt },
-      tint: 'text-sky-700 bg-sky-100',
+      tint: 'text-sky-700 bg-sky-100 dark:text-sky-300 dark:bg-sky-950/60',
       score: 100,
     });
   }
@@ -74,7 +74,7 @@ export function parseIntent(query: string, ctx: IntentCtx = {}): Suggestion[] {
       hint: ctx.pendingChallanTotal ? `₹${ctx.pendingChallanTotal.toLocaleString('en-IN')}` : 'UPI',
       group: 'Do it now',
       run: { kind: 'payAll' },
-      tint: 'text-rose-700 bg-rose-100',
+      tint: 'text-rose-700 bg-rose-100 dark:text-rose-300 dark:bg-rose-950/60',
       score: 100,
     });
   }
@@ -87,7 +87,7 @@ export function parseIntent(query: string, ctx: IntentCtx = {}): Suggestion[] {
       hint: '0.3s OCR',
       group: 'Do it now',
       run: { kind: 'nav', href: '/scan' },
-      tint: 'text-emerald-700 bg-emerald-100',
+      tint: 'text-emerald-700 bg-emerald-100 dark:text-emerald-300 dark:bg-emerald-950/60',
       score: 90,
     });
   }
@@ -100,7 +100,7 @@ export function parseIntent(query: string, ctx: IntentCtx = {}): Suggestion[] {
       hint: 'Instant',
       group: 'Do it now',
       run: { kind: 'nav', href: '/fastpass' },
-      tint: 'text-amber-700 bg-amber-100',
+      tint: 'text-amber-700 bg-amber-100 dark:text-amber-300 dark:bg-amber-950/60',
       score: 90,
     });
   }

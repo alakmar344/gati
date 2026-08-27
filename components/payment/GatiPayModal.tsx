@@ -1,23 +1,22 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { 
-  ShieldCheck, 
-  CreditCard, 
-  Smartphone, 
-  Building2, 
-  Lock, 
-  CheckCircle2, 
-  Loader2, 
-  X, 
-  QrCode, 
-  Sparkles,
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import {
+  ShieldCheck,
+  CreditCard,
+  Smartphone,
+  Building2,
+  Lock,
+  CheckCircle2,
+  X,
+  QrCode,
   ArrowRight
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { PaymentReceipt, ServiceType } from '@/lib/types';
 import { formatINR, generateUTR, generateTransactionId } from '@/lib/utils';
 import { savePayment } from '@/lib/storage';
+import { useLanguage } from '@/lib/i18n';
 
 interface GatiPayModalProps {
   isOpen: boolean;
@@ -44,17 +43,24 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
   payerEmail,
   onPaymentSuccess,
 }) => {
+  const { t } = useLanguage();
   const [method, setMethod] = useState<PaymentMethod>('UPI');
   const [upiApp, setUpiApp] = useState<'gpay' | 'phonepe' | 'paytm' | 'qr'>('qr');
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStage, setProcessingStage] = useState<number>(0);
   const [receipt, setReceipt] = useState<PaymentReceipt | null>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearTimers = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  }, []);
 
   const stages = [
-    'Initiating encrypted 256-bit handshake with NPCI...',
-    'Allocating statutory treasury credit to State RTO...',
-    'Validating cryptographic settlement ledger...',
-    'Payment verified & digital receipt minted!'
+    t('payStage1'),
+    t('payStage2'),
+    t('payStage3'),
+    t('payStage4')
   ];
 
   const convenienceFee = 0; // ₹0 convenience fee for modern digital public service
@@ -63,11 +69,29 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
 
   useEffect(() => {
     if (!isOpen) {
+      clearTimers();
       setIsProcessing(false);
       setProcessingStage(0);
       setReceipt(null);
     }
-  }, [isOpen]);
+  }, [isOpen, clearTimers]);
+
+  // Clear any in-flight timers on unmount so no setState/onPaymentSuccess fires after close
+  useEffect(() => clearTimers, [clearTimers]);
+
+  // Escape-key close (blocked mid-payment) + body scroll lock while open
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !isProcessing) onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, isProcessing, onClose]);
 
   if (!isOpen) return null;
 
@@ -76,17 +100,17 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
     setProcessingStage(0);
 
     // Stage 1
-    setTimeout(() => {
+    timersRef.current.push(setTimeout(() => {
       setProcessingStage(1);
-    }, 1200);
+    }, 1200));
 
     // Stage 2
-    setTimeout(() => {
+    timersRef.current.push(setTimeout(() => {
       setProcessingStage(2);
-    }, 2400);
+    }, 2400));
 
     // Stage 3 & Success
-    setTimeout(() => {
+    timersRef.current.push(setTimeout(() => {
       setProcessingStage(3);
       
       const newReceipt: PaymentReceipt = {
@@ -122,10 +146,10 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
       }
 
       // Finish flow after brief pause
-      setTimeout(() => {
+      timersRef.current.push(setTimeout(() => {
         onPaymentSuccess(newReceipt);
-      }, 1800);
-    }, 3600);
+      }, 1800));
+    }, 3600));
   };
 
   return (
@@ -135,20 +159,25 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Pay for ${serviceTitle}`}
         className="relative w-full max-w-lg clay-card dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[92vh] animate-dialog-in"
       >
         {/* Secure Top Header */}
         <div className="p-6 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white relative flex-shrink-0">
-          <button 
-            onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 transition-colors"
+          <button
+            onClick={() => !isProcessing && onClose()}
+            aria-label="Close payment window"
+            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            disabled={isProcessing}
           >
             <X className="w-4 h-4" />
           </button>
 
           <div className="flex items-center gap-2 text-olive-400 text-xs font-semibold tracking-wider uppercase mb-1">
             <ShieldCheck className="w-4 h-4" />
-            <span>Encrypted Treasury Gateway • Bharat e-Pay</span>
+            <span>{t('payGatewayTag')}</span>
           </div>
 
           <h3 className="text-xl font-bold tracking-tight text-white">
@@ -156,9 +185,9 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
           </h3>
 
           <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/10 text-xs text-slate-300">
-            <span>Ref: <strong className="font-mono text-ashoka-300">{applicationNumber}</strong></span>
+            <span>{t('payRef')} <strong className="font-mono text-ashoka-300">{applicationNumber}</strong></span>
             <span className="text-sm font-black text-olive-400 font-mono">
-              Total: {formatINR(totalAmount)}
+              {t('payTotal')} {formatINR(totalAmount)}
             </span>
           </div>
         </div>
@@ -182,7 +211,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
               )}
 
               <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                {processingStage < 3 ? 'Securing Transaction...' : 'Payment Successful!'}
+                {processingStage < 3 ? t('paySecuring') : t('paySuccess')}
               </h4>
 
               <p className="text-xs text-slate-600 dark:text-slate-400 font-medium max-w-xs transition-all duration-300 h-10 flex items-center justify-center">
@@ -202,7 +231,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
               </div>
 
               <div className="mt-6 text-[11px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-mono">
-                SIMULATED RBI / NPCI FASTPAY PROTOCOL • ZERO ACTUAL CHARGE
+                {t('paySimProtocol')}
               </div>
             </div>
           ) : (
@@ -220,7 +249,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   }`}
                 >
                   <Smartphone className="w-4 h-4 mb-0.5 text-olive-600 dark:text-olive-400" />
-                  <span>UPI Instant</span>
+                  <span>{t('payUpiTab')}</span>
                 </button>
 
                 <button
@@ -233,7 +262,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   }`}
                 >
                   <CreditCard className="w-4 h-4 mb-0.5 text-ashoka-600 dark:text-ashoka-400" />
-                  <span>Cards / RuPay</span>
+                  <span>{t('payCardsTab')}</span>
                 </button>
 
                 <button
@@ -246,7 +275,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                   }`}
                 >
                   <Building2 className="w-4 h-4 mb-0.5 text-sky-600 dark:text-sky-400" />
-                  <span>Net Banking</span>
+                  <span>{t('payNetBankingTab')}</span>
                 </button>
               </div>
 
@@ -254,15 +283,15 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
               {method === 'UPI' && (
                 <div className="p-4 bg-olive-50/70 dark:bg-olive-950/40 rounded-2xl border border-olive-200 dark:border-olive-800/60 space-y-3">
                   <div className="flex items-center justify-between text-xs text-olive-950 dark:text-olive-200 font-medium">
-                    <span>Select Simulated UPI App:</span>
+                    <span>{t('paySelectUpiApp')}</span>
                     <span className="text-[11px] text-olive-800 dark:text-olive-300 bg-olive-200/80 dark:bg-olive-900/80 px-2.5 py-0.5 rounded-full font-bold">
-                      Zero Surcharge
+                      {t('payZeroSurcharge')}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-4 gap-2">
                     {[
-                      { id: 'qr', label: 'Scan QR', icon: <QrCode className="w-5 h-5 text-slate-800 dark:text-slate-200" /> },
+                      { id: 'qr', label: t('payScanQr'), icon: <QrCode className="w-5 h-5 text-slate-800 dark:text-slate-200" /> },
                       { id: 'gpay', label: 'Google Pay', icon: <span className="font-bold text-ashoka-700 dark:text-ashoka-300 text-xs">GPay</span> },
                       { id: 'phonepe', label: 'PhonePe', icon: <span className="font-bold text-ashoka-900 dark:text-ashoka-200 text-xs">PhonePe</span> },
                       { id: 'paytm', label: 'Paytm', icon: <span className="font-bold text-sky-700 dark:text-sky-300 text-xs">Paytm</span> },
@@ -289,8 +318,8 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                         <QrCode className="w-12 h-12 text-white" />
                       </div>
                       <div className="text-xs">
-                        <div className="font-bold text-slate-900 dark:text-white">Scan via any UPI App</div>
-                        <div className="text-slate-500 dark:text-slate-400 text-[11px]">Instant 1-click authorization ready</div>
+                        <div className="font-bold text-slate-900 dark:text-white">{t('payScanViaUpi')}</div>
+                        <div className="text-slate-500 dark:text-slate-400 text-[11px]">{t('payInstantAuth')}</div>
                         <div className="font-mono text-[11px] text-olive-800 dark:text-olive-300 font-semibold mt-0.5">gati.rto@npci.simulated</div>
                       </div>
                     </div>
@@ -300,10 +329,10 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
 
               {method === 'RuPay Card' && (
                 <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
-                  <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">Pre-filled Demo Test Card:</div>
+                  <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">{t('payDemoCard')}</div>
                   <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-3.5 rounded-xl text-xs space-y-1 shadow-inner">
                     <div className="flex justify-between items-center text-[11px] text-slate-400">
-                      <span>RuPay Platinum Debit</span>
+                      <span>{t('payRupayDebit')}</span>
                       <span className="text-amber-400 font-bold">NPCI TEST</span>
                     </div>
                     <div className="font-mono text-sm tracking-wider font-bold text-ashoka-200">
@@ -319,7 +348,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
 
               {method === 'Net Banking' && (
                 <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
-                  <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">Select Instant Simulated Bank:</div>
+                  <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">{t('paySelectBank')}</div>
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     {['State Bank of India', 'HDFC Bank', 'ICICI Bank', 'Axis Bank'].map((bank, i) => (
                       <div key={i} className="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-medium text-slate-700 dark:text-slate-200 text-center hover:border-olive-500 cursor-pointer">
@@ -333,15 +362,15 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
               {/* Fee Breakdown Summary */}
               <div className="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-1 text-xs text-slate-600 dark:text-slate-400">
                 <div className="flex justify-between">
-                  <span>RTO Statutory Processing Fee</span>
+                  <span>{t('payRtoFee')}</span>
                   <span className="font-mono font-medium text-slate-900 dark:text-slate-200">{formatINR(amount)}</span>
                 </div>
                 <div className="flex justify-between text-olive-700 dark:text-olive-400">
-                  <span>Convenience &amp; FastTrack Cess</span>
-                  <span className="font-mono font-bold">FREE (₹0)</span>
+                  <span>{t('payConvenienceCess')}</span>
+                  <span className="font-mono font-bold">{t('payFree')}</span>
                 </div>
                 <div className="flex justify-between pt-1 border-t border-slate-200 dark:border-slate-800 font-bold text-slate-900 dark:text-white text-sm">
-                  <span>Total Payable</span>
+                  <span>{t('payTotalPayable')}</span>
                   <span className="font-mono text-olive-700 dark:text-olive-400">{formatINR(totalAmount)}</span>
                 </div>
               </div>
@@ -358,7 +387,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                 onClick={onClose}
                 className="clay-btn min-h-[48px] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 w-1/3 py-3 text-xs font-bold"
               >
-                Cancel
+                {t('payCancel')}
               </button>
               <button
                 type="button"
@@ -366,14 +395,14 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
                 className="clay-btn clay-btn-saffron min-h-[48px] w-2/3 py-3 text-sm text-white font-black shadow-xl flex items-center justify-center gap-2"
               >
                 <CreditCard className="w-4 h-4" />
-                <span>Pay {formatINR(totalAmount)} via {method === 'UPI' ? 'UPI' : method}</span>
+                <span>{t('payCtaPay')} {formatINR(totalAmount)} {t('payCtaVia')} {method === 'UPI' ? 'UPI' : method}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
 
             <div className="text-center">
               <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
-                🔒 100% simulated sandbox transaction • zero actual monetary deduction
+                🔒 {t('paySimHelper')}
               </span>
             </div>
           </div>

@@ -1,21 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   Camera,
-  Upload,
   ScanLine,
   CheckCircle,
-  FileText,
-  CreditCard,
-  Car,
   AlertTriangle,
   ArrowRight,
-  Sparkles,
   Zap,
-  RotateCw
 } from 'lucide-react';
 import { HsrpPlate } from '@/components/plates/HsrpPlate';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
@@ -37,12 +30,19 @@ interface ScannedResult {
 }
 
 export default function ScanPage() {
-  const router = useRouter();
   const { toast } = useToast();
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
   const [activeResult, setActiveResult] = useState<ScannedResult | null>(null);
   const [selectedSample, setSelectedSample] = useState<string>('rc-nexon');
+  const scanIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Clear any in-flight scan timer on unmount
+  useEffect(() => {
+    return () => {
+      if (scanIntervalRef.current) clearInterval(scanIntervalRef.current);
+    };
+  }, []);
 
   const samplePresets: Record<string, ScannedResult> = {
     'rc-nexon': {
@@ -119,10 +119,12 @@ export default function ScanPage() {
     setScanProgress(0);
     setActiveResult(null);
 
-    const interval = setInterval(() => {
+    if (scanIntervalRef.current) clearInterval(scanIntervalRef.current);
+    scanIntervalRef.current = setInterval(() => {
       setScanProgress((prev) => {
         if (prev >= 100) {
-          clearInterval(interval);
+          if (scanIntervalRef.current) clearInterval(scanIntervalRef.current);
+          scanIntervalRef.current = null;
           setIsScanning(false);
           setActiveResult(samplePresets[presetKey]);
           toast({
@@ -155,7 +157,7 @@ export default function ScanPage() {
         <div className="lg:col-span-6 card p-6 sm:p-8 flex flex-col justify-between gap-6">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                 <Camera className="w-4 h-4 text-emerald-600" />
                 <span>Camera / OCR Viewport</span>
               </span>
