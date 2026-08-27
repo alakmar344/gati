@@ -19,10 +19,12 @@ import { DEMO_USERS } from '@/lib/mockData';
 import { setCurrentUser } from '@/lib/storage';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { useToast } from '@/components/ui/Toast';
+import { useLanguage } from '@/lib/i18n';
 
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [email, setEmail] = useState(DEMO_USERS[0].email);
   const [password, setPassword] = useState('demo123');
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +46,7 @@ export default function LoginPage() {
       const matched = DEMO_USERS.find(u => u.email.toLowerCase() === email.toLowerCase()) || selectedUser;
       setCurrentUser(matched);
       toast({
-        title: `Signed in as ${matched.name}`,
+        title: [t('loginSignedInPrefix'), matched.name, t('loginSignedInSuffix')].filter(Boolean).join(' '),
         description: `${matched.role} · ${matched.city}`,
         variant: 'success',
       });
@@ -60,15 +62,15 @@ export default function LoginPage() {
         <div className="lg:col-span-5 space-y-8 lg:sticky lg:top-24">
           <SectionHeading
             align="left"
-            eyebrow="Prototype demo"
+            eyebrow={t('loginEyebrow')}
             icon={<ShieldCheck className="w-3.5 h-3.5" />}
-            title={<>Choose your demo citizen</>}
-            subtitle="Gati is a working prototype. Pick a persona to explore their credentials, active applications, and vehicle garage — no real accounts, no passwords to remember."
+            title={<>{t('loginTitle')}</>}
+            subtitle={t('loginSubtitle')}
           />
 
           <form onSubmit={handleLogin} className="card p-6 sm:p-7 space-y-5">
             <div className="space-y-1.5">
-              <span className="eyebrow text-slate-500 dark:text-slate-400">Selected persona</span>
+              <span className="eyebrow text-slate-500 dark:text-slate-400">{t('loginSelectedPersona')}</span>
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-olive-600 to-olive-800 text-white flex items-center justify-center font-display font-extrabold text-sm shrink-0 shadow-sm">
                   {selectedUser.avatar}
@@ -86,7 +88,7 @@ export default function LoginPage() {
 
             <div className="space-y-1.5">
               <label className="text-[12px] font-bold text-slate-700 dark:text-slate-300 block">
-                Citizen email / user ID
+                {t('loginEmailLabel')}
               </label>
               <div className="relative">
                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
@@ -103,7 +105,7 @@ export default function LoginPage() {
 
             <div className="space-y-1.5">
               <label className="text-[12px] font-bold text-slate-700 dark:text-slate-300 block">
-                Demo password
+                {t('loginPasswordLabel')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
@@ -134,11 +136,11 @@ export default function LoginPage() {
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Verifying sandbox credentials…</span>
+                  <span>{t('loginVerifying')}</span>
                 </>
               ) : (
                 <>
-                  <span>Continue as {selectedUser.name.split(' ')[0]}</span>
+                  <span>{[t('loginContinuePrefix'), selectedUser.name.split(' ')[0], t('loginContinueSuffix')].filter(Boolean).join(' ')}</span>
                   <ArrowRight className="w-4 h-4 text-saffron-400" />
                 </>
               )}
@@ -157,8 +159,8 @@ export default function LoginPage() {
         {/* Right — persona directory grid */}
         <div className="lg:col-span-7 space-y-5">
           <div className="flex items-center justify-between px-1">
-            <span className="eyebrow text-slate-500 dark:text-slate-400">Demo profiles</span>
-            <Pill tone="olive">{DEMO_USERS.length} personas</Pill>
+            <span className="eyebrow text-slate-500 dark:text-slate-400">{t('demoProfiles')}</span>
+            <Pill tone="olive">{DEMO_USERS.length} {t('loginPersonasSuffix')}</Pill>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 stagger">
@@ -206,7 +208,7 @@ export default function LoginPage() {
                     </span>
                     <Pill tone={isSelected ? 'olive' : 'slate'}>
                       <Car className="w-3 h-3" />
-                      {user.vehiclesCount} {user.vehiclesCount === 1 ? 'vehicle' : 'vehicles'}
+                      {user.vehiclesCount} {user.vehiclesCount === 1 ? t('loginVehicleOne') : t('loginVehicleMany')}
                     </Pill>
                   </div>
                 </button>

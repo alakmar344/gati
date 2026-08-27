@@ -121,7 +121,7 @@ export const Navbar: React.FC = () => {
               isOpen={openMenu === 'services'}
               onToggle={() => setOpenMenu(openMenu === 'services' ? null : 'services')}
             >
-              <MegaMenu items={CORE_SERVICES} pathname={pathname} note="End-to-end guided journeys" />
+              <MegaMenu items={CORE_SERVICES} pathname={pathname} note={t('navServicesNote')} />
             </Dropdown>
 
             <Dropdown
@@ -130,7 +130,7 @@ export const Navbar: React.FC = () => {
               isOpen={openMenu === 'tools'}
               onToggle={() => setOpenMenu(openMenu === 'tools' ? null : 'tools')}
             >
-              <MegaMenu items={SPEED_TOOLS} pathname={pathname} note="One-tap power utilities" />
+              <MegaMenu items={SPEED_TOOLS} pathname={pathname} note={t('navToolsNote')} />
             </Dropdown>
 
             <Link
@@ -248,7 +248,7 @@ export const Navbar: React.FC = () => {
                 className="px-4 py-2 rounded-2xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5"
               >
                 {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
-                <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+                <span>{theme === 'dark' ? t('themeLight') : t('themeDark')}</span>
               </button>
             </div>
 
@@ -261,7 +261,7 @@ export const Navbar: React.FC = () => {
                 className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-olive-50 dark:bg-olive-950/60 text-olive-800 dark:text-olive-300 text-xs font-bold border border-olive-200 dark:border-olive-800/60"
               >
                 <CmdIcon className="w-3.5 h-3.5 text-saffron-600 dark:text-saffron-400" />
-                <span>FastTrack ⌘K</span>
+                <span>{t('askGati')} ⌘K</span>
               </button>
 
               <Link
@@ -276,7 +276,7 @@ export const Navbar: React.FC = () => {
 
             <MobileGroup title={t('services')} items={CORE_SERVICES} pathname={pathname} onNav={() => setIsMobileMenuOpen(false)} />
             <MobileGroup title={t('speedTools')} items={SPEED_TOOLS} pathname={pathname} onNav={() => setIsMobileMenuOpen(false)} />
-            <MobileGroup title="Account" items={ACCOUNT_LINKS} pathname={pathname} onNav={() => setIsMobileMenuOpen(false)} />
+            <MobileGroup title={t('navAccount')} items={ACCOUNT_LINKS} pathname={pathname} onNav={() => setIsMobileMenuOpen(false)} />
 
             <button
               onClick={() => {

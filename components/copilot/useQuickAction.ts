@@ -13,6 +13,7 @@ import {
 } from '@/lib/storage';
 import { QuickAction } from '@/lib/insights';
 import { IntentRun } from '@/lib/intent';
+import { useLanguage } from '@/lib/i18n';
 
 type AnyAction = QuickAction | IntentRun;
 
@@ -36,17 +37,25 @@ export function celebrate() {
 export function useQuickAction() {
   const router = useRouter();
   const { toast } = useToast();
+  const { language } = useLanguage();
 
   return useCallback(
     (action: AnyAction, opts?: RunOptions): boolean => {
       const silent = opts?.silent === true;
+      const L = (en: string, hi: string) => (language === 'hi' ? hi : en);
       switch (action.kind) {
         case 'topup': {
           const acct = topupFastagWallet(action.amount);
           if (!silent) soundManager.playCheckpointChime();
           toast({
-            title: `FASTag topped up ₹${action.amount.toLocaleString('en-IN')}`,
-            description: `New balance ₹${acct.walletBalance.toLocaleString('en-IN')} · ${acct.issuingBank}`,
+            title: L(
+              `FASTag topped up ₹${action.amount.toLocaleString('en-IN')}`,
+              `FASTag में ₹${action.amount.toLocaleString('en-IN')} टॉप-अप हुआ`
+            ),
+            description: L(
+              `New balance ₹${acct.walletBalance.toLocaleString('en-IN')} · ${acct.issuingBank}`,
+              `नया बैलेंस ₹${acct.walletBalance.toLocaleString('en-IN')} · ${acct.issuingBank}`
+            ),
             variant: 'success',
           });
           return true;
@@ -56,12 +65,15 @@ export function useQuickAction() {
           if (r) {
             if (!silent) celebrate();
             toast({
-              title: 'Challan settled',
-              description: `₹${r.totalPaid.toLocaleString('en-IN')} paid · UTR ${r.utrNumber}`,
+              title: L('Challan settled', 'चालान चुका दिया गया'),
+              description: L(
+                `₹${r.totalPaid.toLocaleString('en-IN')} paid · UTR ${r.utrNumber}`,
+                `₹${r.totalPaid.toLocaleString('en-IN')} का भुगतान हुआ · UTR ${r.utrNumber}`
+              ),
               variant: 'success',
             });
           } else {
-            toast({ title: 'Already settled', variant: 'info' });
+            toast({ title: L('Already settled', 'पहले ही चुकाया जा चुका है'), variant: 'info' });
           }
           return true;
         }
@@ -71,27 +83,41 @@ export function useQuickAction() {
             const total = receipts.reduce((s, r) => s + r.totalPaid, 0);
             if (!silent) celebrate();
             toast({
-              title: `${receipts.length} challans cleared`,
-              description: `₹${total.toLocaleString('en-IN')} settled in one tap`,
+              title: L(`${receipts.length} challans cleared`, `${receipts.length} चालान चुका दिए गए`),
+              description: L(
+                `₹${total.toLocaleString('en-IN')} settled in one tap`,
+                `एक टैप में ₹${total.toLocaleString('en-IN')} का निपटान`
+              ),
               variant: 'success',
             });
           } else {
-            toast({ title: 'Nothing pending', description: 'All challans are already clear.', variant: 'info' });
+            toast({
+              title: L('Nothing pending', 'कुछ भी बकाया नहीं'),
+              description: L('All challans are already clear.', 'सभी चालान पहले ही चुकाए जा चुके हैं।'),
+              variant: 'info',
+            });
           }
           return true;
         }
         case 'payAll': {
           const pending = getAllChallans().filter((c) => c.status === 'PENDING');
           if (!pending.length) {
-            toast({ title: 'All clear', description: 'No pending challans to pay.', variant: 'info' });
+            toast({
+              title: L('All clear', 'सब क्लियर'),
+              description: L('No pending challans to pay.', 'भुगतान के लिए कोई बकाया चालान नहीं है।'),
+              variant: 'info',
+            });
             return true;
           }
           const receipts = settleAllChallans(pending.map((c) => c.id));
           const total = receipts.reduce((s, r) => s + r.totalPaid, 0);
           if (!silent) celebrate();
           toast({
-            title: `${receipts.length} challans cleared`,
-            description: `₹${total.toLocaleString('en-IN')} settled in one tap`,
+            title: L(`${receipts.length} challans cleared`, `${receipts.length} चालान चुका दिए गए`),
+            description: L(
+              `₹${total.toLocaleString('en-IN')} settled in one tap`,
+              `एक टैप में ₹${total.toLocaleString('en-IN')} का निपटान`
+            ),
             variant: 'success',
           });
           return true;
@@ -105,6 +131,6 @@ export function useQuickAction() {
           return false;
       }
     },
-    [router, toast]
+    [router, toast, language]
   );
 }

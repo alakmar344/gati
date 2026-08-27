@@ -64,8 +64,11 @@ export function computeInsights(params: {
   fastag: FastagAccount;
   apps: AnyApplication[];
   now?: Date;
+  language?: 'en' | 'hi';
 }): ActionItem[] {
   const { user, challans, fastag, apps } = params;
+  const language = params.language ?? 'en';
+  const L = (en: string, hi: string) => (language === 'hi' ? hi : en);
   const now = params.now ?? new Date();
   const items: ActionItem[] = [];
 
@@ -77,12 +80,15 @@ export function computeInsights(params: {
       id: 'challans-all',
       urgency: 'critical',
       icon: AlertTriangle,
-      kicker: 'Challans',
-      title: `Clear ${pending.length} traffic challans`,
-      subtitle: `Across your fleet — one tap settles every pending fine with UPI.`,
+      kicker: L('Challans', 'चालान'),
+      title: L(`Clear ${pending.length} traffic challans`, `${pending.length} ट्रैफ़िक चालान चुकाएँ`),
+      subtitle: L(
+        `Across your fleet — one tap settles every pending fine with UPI.`,
+        `आपके पूरे बेड़े में — एक टैप से हर बकाया जुर्माना UPI से चुक जाएगा।`
+      ),
       amount: total,
-      meta: `${pending.length} violations`,
-      actionLabel: `Pay all ${formatShort(total)}`,
+      meta: L(`${pending.length} violations`, `${pending.length} उल्लंघन`),
+      actionLabel: L(`Pay all ${formatShort(total)}`, `सभी ${formatShort(total)} चुकाएँ`),
       action: { kind: 'settleAll', challanIds: pending.map((c) => c.id) },
     });
   } else if (pending.length === 1) {
@@ -91,12 +97,14 @@ export function computeInsights(params: {
       id: `challan-${c.id}`,
       urgency: 'critical',
       icon: AlertTriangle,
-      kicker: 'Challan',
+      kicker: L('Challan', 'चालान'),
       title: c.violationType.replace(/\s*\(.*\)/, ''),
       subtitle: `${c.vehicleNumber} · ${c.city}`,
       amount: c.amount,
-      meta: c.detectedSpeed ? `${c.detectedSpeed} in ${c.speedLimit} zone` : c.actSection,
-      actionLabel: `Pay ${formatShort(c.amount)}`,
+      meta: c.detectedSpeed
+        ? L(`${c.detectedSpeed} in ${c.speedLimit} zone`, `${c.speedLimit} ज़ोन में ${c.detectedSpeed}`)
+        : c.actSection,
+      actionLabel: L(`Pay ${formatShort(c.amount)}`, `${formatShort(c.amount)} चुकाएँ`),
       action: { kind: 'settleChallan', challanId: c.id },
     });
   }
@@ -109,11 +117,14 @@ export function computeInsights(params: {
       urgency: fastag.walletBalance < 250 ? 'critical' : 'soon',
       icon: Radio,
       kicker: 'FASTag',
-      title: 'FASTag balance running low',
-      subtitle: `${fastag.vehicleNumber} · ${fastag.issuingBank}. Avoid blacklisting at toll plazas.`,
+      title: L('FASTag balance running low', 'FASTag बैलेंस कम हो रहा है'),
+      subtitle: L(
+        `${fastag.vehicleNumber} · ${fastag.issuingBank}. Avoid blacklisting at toll plazas.`,
+        `${fastag.vehicleNumber} · ${fastag.issuingBank}। टोल प्लाज़ा पर ब्लैकलिस्ट होने से बचें।`
+      ),
       amount: fastag.walletBalance,
-      meta: `Balance ${formatShort(fastag.walletBalance)}`,
-      actionLabel: 'Top up ₹1,000',
+      meta: L(`Balance ${formatShort(fastag.walletBalance)}`, `बैलेंस ${formatShort(fastag.walletBalance)}`),
+      actionLabel: L('Top up ₹1,000', '₹1,000 टॉप-अप करें'),
       action: { kind: 'topup', amount: 1000 },
     });
   }
@@ -126,11 +137,11 @@ export function computeInsights(params: {
         id: `resume-${a.id}`,
         urgency: 'soon',
         icon: FileClock,
-        kicker: 'In progress',
+        kicker: L('In progress', 'प्रगति पर'),
         title: a.title,
-        subtitle: `${a.nextActionLabel || 'Continue application'} · ${a.estimatedCompletion}`,
-        meta: `Step ${a.currentStepIndex}/${a.totalSteps}`,
-        actionLabel: 'Resume',
+        subtitle: `${a.nextActionLabel || L('Continue application', 'आवेदन जारी रखें')} · ${a.estimatedCompletion}`,
+        meta: L(`Step ${a.currentStepIndex}/${a.totalSteps}`, `चरण ${a.currentStepIndex}/${a.totalSteps}`),
+        actionLabel: L('Resume', 'जारी रखें'),
         action: { kind: 'resume', href: `/track?ref=${a.referenceNumber}` },
       });
     });
@@ -138,10 +149,10 @@ export function computeInsights(params: {
   // 4) Document/compliance expiries from real application fields (within 120 days)
   apps.forEach((a) => {
     if (a.serviceType !== 'vehicle-permit') return;
-    const checks: { label: string; date?: string }[] = [
-      { label: 'PUC certificate', date: (a as any).puccValidTill },
-      { label: 'Fitness certificate', date: (a as any).fitnessValidTill },
-      { label: 'Insurance', date: (a as any).insuranceValidTill },
+    const checks: { key: string; label: string; date?: string }[] = [
+      { key: 'PUC certificate', label: L('PUC certificate', 'PUC प्रमाणपत्र'), date: (a as any).puccValidTill },
+      { key: 'Fitness certificate', label: L('Fitness certificate', 'फिटनेस प्रमाणपत्र'), date: (a as any).fitnessValidTill },
+      { key: 'Insurance', label: L('Insurance', 'बीमा'), date: (a as any).insuranceValidTill },
     ];
     checks.forEach((chk) => {
       if (!chk.date) return;
@@ -149,14 +160,17 @@ export function computeInsights(params: {
       const days = daysBetween(now, d);
       if (days >= 0 && days <= 120) {
         items.push({
-          id: `expiry-${a.id}-${chk.label}`,
+          id: `expiry-${a.id}-${chk.key}`,
           urgency: days <= 30 ? 'critical' : 'soon',
           icon: ShieldAlert,
-          kicker: 'Renewal',
-          title: `${chk.label} expiring`,
-          subtitle: `${(a as any).vehicleRegNumber || a.title} — renew before it lapses.`,
-          meta: `in ${days} days`,
-          actionLabel: 'Renew',
+          kicker: L('Renewal', 'नवीनीकरण'),
+          title: L(`${chk.label} expiring`, `${chk.label} की अवधि समाप्त हो रही है`),
+          subtitle: L(
+            `${(a as any).vehicleRegNumber || a.title} — renew before it lapses.`,
+            `${(a as any).vehicleRegNumber || a.title} — समाप्त होने से पहले नवीनीकरण करा लें।`
+          ),
+          meta: L(`in ${days} days`, `${days} दिनों में`),
+          actionLabel: L('Renew', 'नवीनीकरण करें'),
           action: { kind: 'nav', href: '/vehicle-permit' },
         });
       }
@@ -171,12 +185,15 @@ export function computeInsights(params: {
       id: 'predicted-insurance',
       urgency: days <= 20 ? 'soon' : 'ok',
       icon: RefreshCw,
-      kicker: 'Predicted',
+      kicker: L('Predicted', 'पूर्वानुमान'),
       predicted: true,
-      title: 'Motor insurance renewal coming up',
-      subtitle: `Gati spotted this from your ${user.vehiclesCount > 1 ? 'garage' : 'vehicle'} records. Lock this year’s rate early.`,
-      meta: `in ${days} days`,
-      actionLabel: 'Review',
+      title: L('Motor insurance renewal coming up', 'मोटर बीमा नवीनीकरण नज़दीक है'),
+      subtitle: L(
+        `Gati spotted this from your ${user.vehiclesCount > 1 ? 'garage' : 'vehicle'} records. Lock this year’s rate early.`,
+        `गति ने आपके ${user.vehiclesCount > 1 ? 'गैराज' : 'वाहन'} रिकॉर्ड से यह पहचाना। इस साल की दर पहले ही लॉक करें।`
+      ),
+      meta: L(`in ${days} days`, `${days} दिनों में`),
+      actionLabel: L('Review', 'देखें'),
       action: { kind: 'nav', href: '/documents' },
     });
   }
@@ -187,11 +204,14 @@ export function computeInsights(params: {
       id: 'suggest-vip',
       urgency: 'ok',
       icon: Sparkles,
-      kicker: 'For you',
+      kicker: L('For you', 'आपके लिए'),
       predicted: true,
-      title: 'A signature VIP plate is up for grabs',
-      subtitle: 'Rare choice numbers are live in the auction studio right now.',
-      actionLabel: 'Explore',
+      title: L('A signature VIP plate is up for grabs', 'एक ख़ास VIP नंबर प्लेट आपका इंतज़ार कर रही है'),
+      subtitle: L(
+        'Rare choice numbers are live in the auction studio right now.',
+        'दुर्लभ पसंदीदा नंबर अभी नीलामी स्टूडियो में लाइव हैं।'
+      ),
+      actionLabel: L('Explore', 'एक्सप्लोर करें'),
       action: { kind: 'nav', href: '/fancy-numbers' },
     });
   }
@@ -213,12 +233,13 @@ function formatShort(n: number): string {
 
 export const URGENCY_STYLES: Record<
   Urgency,
-  { chip: string; dot: string; label: string; ring: string; badge: string }
+  { chip: string; dot: string; label: string; labelHi: string; ring: string; badge: string }
 > = {
   critical: {
     chip: 'bg-rose-100 text-rose-700 dark:bg-rose-950/70 dark:text-rose-400 border-rose-200 dark:border-rose-800/80',
     dot: 'bg-rose-500',
     label: 'Action Required',
+    labelHi: 'कार्रवाई आवश्यक',
     ring: 'ring-rose-500/20',
     badge: 'bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-800',
   },
@@ -226,6 +247,7 @@ export const URGENCY_STYLES: Record<
     chip: 'bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-400 border-amber-200 dark:border-amber-800/80',
     dot: 'bg-amber-500',
     label: 'Coming Up',
+    labelHi: 'आगामी',
     ring: 'ring-amber-500/20',
     badge: 'bg-amber-50 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-800',
   },
@@ -233,6 +255,7 @@ export const URGENCY_STYLES: Record<
     chip: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/80',
     dot: 'bg-emerald-500',
     label: 'Recommended',
+    labelHi: 'अनुशंसित',
     ring: 'ring-emerald-500/15',
     badge: 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
   },

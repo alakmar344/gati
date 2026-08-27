@@ -15,11 +15,13 @@ import { getApplicationByRef } from '@/lib/storage';
 import { formatDate, formatINR } from '@/lib/utils';
 import { SectionHeading, Pill, Skeleton } from '@/components/ui/Primitives';
 import { useMounted } from '@/components/ui/Toast';
+import { useLanguage } from '@/lib/i18n';
 
 function TrackContent() {
   const searchParams = useSearchParams();
   const initialRef = searchParams.get('ref') || 'GATI-VL-2026-89421';
   const mounted = useMounted();
+  const { t } = useLanguage();
 
   const [searchRef, setSearchRef] = useState(initialRef);
   const [activeApp, setActiveApp] = useState<AnyApplication | null>(null);
@@ -63,11 +65,11 @@ function TrackContent() {
             type="text"
             value={searchRef}
             onChange={(e) => setSearchRef(e.target.value)}
-            placeholder="Enter reference number (e.g. GATI-VL-2026-89421)"
+            placeholder={t('trkSearchPlaceholder')}
             className="flex-1 bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 text-sm font-mono font-medium focus:outline-none px-1 uppercase"
           />
           <button type="submit" className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm text-white shrink-0 font-bold">
-            Track Status
+            {t('track')}
           </button>
         </form>
       </div>
@@ -75,7 +77,7 @@ function TrackContent() {
       {/* Quick sample references */}
       <div className="flex flex-wrap items-center justify-center gap-2">
         <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-          Try a sample
+          {t('trkTrySample')}
         </span>
         {sampleRefs.map((s) => (
           <button
@@ -124,10 +126,10 @@ function TrackContent() {
             </div>
 
             <div className="text-left sm:text-right shrink-0">
-              <span className="eyebrow text-slate-400 dark:text-slate-500 block mb-1.5">Current State</span>
+              <span className="eyebrow text-slate-400 dark:text-slate-500 block mb-1.5">{t('trkCurrentState')}</span>
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 px-3 py-1.5 rounded-full">
                 <CheckCircle className="w-3.5 h-3.5" />
-                {activeApp.status === 'card_generated' ? 'Issued & Active' : 'Under Review'}
+                {activeApp.status === 'card_generated' ? t('issued') : t('trkUnderReview')}
               </span>
               <div className="text-[11px] text-slate-400 dark:text-slate-500 mt-2">
                 Updated {formatDate(activeApp.updatedAt)}
@@ -140,7 +142,7 @@ function TrackContent() {
             <div className="space-y-1.5">
               <div className="font-bold flex items-center gap-2 text-emerald-900 dark:text-emerald-200 text-sm">
                 <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Next Recommended Action</span>
+                <span>{t('trkNextAction')}</span>
               </div>
               <p className="text-xs leading-relaxed text-emerald-800 dark:text-emerald-300 max-w-xl">
                 {activeApp.status === 'card_generated'
@@ -150,14 +152,14 @@ function TrackContent() {
             </div>
 
             <Link href="/documents" className="clay-btn clay-btn-primary min-h-[44px] px-5 py-2.5 text-xs text-white shrink-0 font-bold">
-              <span>{activeApp.nextActionLabel || 'Open GatiLocker'}</span>
+              <span>{activeApp.nextActionLabel || t('trkOpenLocker')}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* Milestone timeline */}
           <div className="space-y-5">
-            <h3 className="eyebrow text-slate-400 dark:text-slate-500">Application Milestones</h3>
+            <h3 className="eyebrow text-slate-400 dark:text-slate-500">{t('trkMilestones')}</h3>
 
             <div className="relative">
               {/* Connecting rail */}
@@ -238,12 +240,12 @@ function TrackContent() {
           </div>
           <div className="space-y-1.5">
             <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">
-              No application found
+              {t('trkNoAppTitle')}
             </h3>
             <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto leading-relaxed">
-              We couldn&rsquo;t locate an application for{' '}
-              <span className="font-mono font-semibold text-slate-700 dark:text-slate-300">{searchRef}</span>. Double-check the
-              reference number, or try one of the samples above.
+              {t('trkNoAppBodyPrefix')}{' '}
+              <span className="font-mono font-semibold text-slate-700 dark:text-slate-300">{searchRef}</span>
+              {t('trkNoAppBodySuffix')}
             </p>
           </div>
           <Pill tone="slate" className="font-mono">
@@ -256,13 +258,14 @@ function TrackContent() {
 }
 
 export default function TrackPage() {
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen py-10 px-4 sm:px-8 max-w-4xl mx-auto space-y-10">
       <SectionHeading
-        eyebrow="Real-Time Public Service Tracker"
+        eyebrow={t('trkEyebrow')}
         icon={<Search className="w-3.5 h-3.5" />}
-        title="Track Application Status"
-        subtitle="Instant status, milestone progression, and next-action guidance for all transport requests."
+        title={t('trkTitle')}
+        subtitle={t('trkSubtitle')}
       />
 
       <Suspense

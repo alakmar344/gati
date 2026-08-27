@@ -15,6 +15,7 @@ import { getAllDocuments, getAllApplications } from '@/lib/storage';
 import { formatDate } from '@/lib/utils';
 import { SectionHeading, Pill, Skeleton } from '@/components/ui/Primitives';
 import { useMounted } from '@/components/ui/Toast';
+import { useLanguage, TranslationKey } from '@/lib/i18n';
 import { DigitalRcSmartCard } from '@/components/documents/DigitalRcSmartCard';
 import { DigitalDrivingLicenceCard } from '@/components/documents/DigitalDrivingLicenceCard';
 import { VipAllotmentOrder } from '@/components/documents/VipAllotmentOrder';
@@ -23,14 +24,15 @@ import { DigitalPermitDocument } from '@/components/documents/DigitalPermitDocum
 type Tone = 'slate' | 'emerald' | 'olive' | 'saffron' | 'ashoka' | 'sky' | 'amber' | 'rose';
 
 const TYPE_META: Record<string, { badge: string; tone: Tone }> = {
-  'vehicle-licensing': { badge: 'Smart RC', tone: 'olive' },
-  'fancy-numbers': { badge: 'VIP Plate', tone: 'saffron' },
-  'driver-licence': { badge: 'PVC DL', tone: 'ashoka' },
-  'vehicle-permit': { badge: 'National Permit', tone: 'olive' },
+  'vehicle-licensing': { badge: 'docBadgeSmartRc', tone: 'olive' },
+  'fancy-numbers': { badge: 'docBadgeVipPlate', tone: 'saffron' },
+  'driver-licence': { badge: 'docBadgePvcDl', tone: 'ashoka' },
+  'vehicle-permit': { badge: 'docBadgeNationalPermit', tone: 'olive' },
 };
 
 export default function DocumentsPage() {
   const mounted = useMounted();
+  const { t } = useLanguage();
   const [documents, setDocuments] = useState<StoredDocument[]>([]);
   const [applications, setApplications] = useState<AnyApplication[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>('ALL');
@@ -70,11 +72,11 @@ export default function DocumentsPage() {
   });
 
   const filters = [
-    { id: 'ALL', label: 'All' },
-    { id: 'RC', label: 'Smart RCs' },
-    { id: 'VIP', label: 'VIP Allotments' },
-    { id: 'DL', label: 'PVC Licences' },
-    { id: 'PERMIT', label: 'National Permits' },
+    { id: 'ALL', label: t('docFilterAll') },
+    { id: 'RC', label: t('docFilterRc') },
+    { id: 'VIP', label: t('docFilterVip') },
+    { id: 'DL', label: t('docFilterDl') },
+    { id: 'PERMIT', label: t('docFilterPermit') },
   ];
 
   return (
@@ -82,10 +84,10 @@ export default function DocumentsPage() {
 
       {/* Header */}
       <SectionHeading
-        eyebrow="GatiLocker Cryptographic Vault"
+        eyebrow={t('docEyebrow')}
         icon={<FileCheck2 className="w-4 h-4" />}
-        title="Digital Document Center"
-        subtitle="Access, verify, print, and download your authentic Smart RCs, PVC Driving Licences, VIP Allotment Orders, and National Permits."
+        title={t('docCenterTitle')}
+        subtitle={t('docCenterSubtitle')}
       />
 
       {/* Filter Tabs */}
@@ -130,13 +132,13 @@ export default function DocumentsPage() {
             <FileCheck2 className="w-7 h-7" />
           </div>
           <h3 className="text-lg font-display font-extrabold tracking-tight text-slate-900 dark:text-white">
-            Your wallet is empty
+            {t('docEmptyTitle')}
           </h3>
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-            Complete a service workflow to generate and securely store your digital smart cards and permits here.
+            {t('docEmptyBody')}
           </p>
           <Link href="/dashboard" className="clay-btn clay-btn-primary min-h-[44px] inline-flex items-center gap-1.5 mx-auto text-white">
-            Start a service
+            {t('docStartService')}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -151,10 +153,10 @@ export default function DocumentsPage() {
                 <div>
                   {/* Top Badges */}
                   <div className="flex items-center justify-between mb-4">
-                    <Pill tone={meta.tone}>{meta.badge}</Pill>
+                    <Pill tone={meta.tone}>{t(meta.badge as TranslationKey)}</Pill>
                     <Pill tone={isActive ? 'emerald' : 'amber'}>
                       <ShieldCheck className="w-3 h-3" />
-                      {isActive ? 'VALID' : 'IN REVIEW'}
+                      {isActive ? t('docValid') : t('docInReview')}
                     </Pill>
                   </div>
 
@@ -164,19 +166,19 @@ export default function DocumentsPage() {
 
                   <dl className="text-[13px] text-slate-500 dark:text-slate-400 space-y-1.5 mb-5">
                     <div className="flex justify-between gap-3">
-                      <dt>Holder</dt>
+                      <dt>{t('docHolder')}</dt>
                       <dd className="font-semibold text-slate-800 dark:text-slate-200 text-right">{app.applicantName}</dd>
                     </div>
                     <div className="flex justify-between gap-3">
-                      <dt>RTO</dt>
+                      <dt>{t('docRto')}</dt>
                       <dd className="font-semibold text-slate-800 dark:text-slate-200 text-right">{app.rtoName}</dd>
                     </div>
                     <div className="flex justify-between gap-3">
-                      <dt>Issued</dt>
+                      <dt>{t('docIssuedOn')}</dt>
                       <dd className="font-semibold text-slate-800 dark:text-slate-200 text-right">{formatDate(app.createdAt)}</dd>
                     </div>
                     <div className="flex justify-between gap-3 border-t border-slate-100 dark:border-slate-800 pt-2 mt-2">
-                      <dt>Ref No.</dt>
+                      <dt>{t('docRefNo')}</dt>
                       <dd className="font-mono text-[12px] font-semibold text-sky-700 dark:text-sky-400 text-right">
                         {app.referenceNumber}
                       </dd>
@@ -191,7 +193,7 @@ export default function DocumentsPage() {
                     className="clay-btn clay-btn-primary min-h-[40px] flex-1 gap-1.5 text-xs text-white"
                   >
                     <Eye className="w-4 h-4" />
-                    View &amp; Inspect
+                    {t('docViewInspect')}
                   </button>
 
                   <button
@@ -217,7 +219,7 @@ export default function DocumentsPage() {
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
               <div>
-                <span className="eyebrow text-emerald-700 dark:text-emerald-400">GatiLocker Verified Document</span>
+                <span className="eyebrow text-emerald-700 dark:text-emerald-400">{t('docVerifiedDoc')}</span>
                 <h3 className="font-display font-extrabold tracking-tight text-slate-900 dark:text-white text-lg sm:text-xl mt-1">
                   {previewApp.title}
                 </h3>

@@ -20,11 +20,13 @@ import { formatINR } from '@/lib/utils';
 import { GatiPayModal } from '@/components/payment/GatiPayModal';
 import { SectionHeading, Pill, Skeleton } from '@/components/ui/Primitives';
 import { useToast, useMounted } from '@/components/ui/Toast';
+import { useLanguage } from '@/lib/i18n';
 
 export default function ChallansPage() {
   const currentUser = getCurrentUser();
   const mounted = useMounted();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [challans, setChallans] = useState<ChallanRecord[]>([]);
   const [searchPlate, setSearchPlate] = useState('KA 01 EK 4920');
   const [selectedChallanForPay, setSelectedChallanForPay] = useState<ChallanRecord | null>(null);
@@ -52,8 +54,8 @@ export default function ChallansPage() {
     if (selectedChallanForPay) {
       updateChallanStatus(selectedChallanForPay.id, 'PAID', receipt.transactionId);
       toast({
-        title: 'Challan settled',
-        description: `Fine paid via UPI • Txn ${receipt.transactionId}`,
+        title: t('chToastSettledTitle'),
+        description: `${t('chToastSettledDescPrefix')} ${receipt.transactionId}`,
         variant: 'success',
       });
       setSelectedChallanForPay(null);
@@ -66,8 +68,8 @@ export default function ChallansPage() {
       updateChallanStatus(disputingChallan.id, 'DISPUTED');
       setDisputeSubmitted(true);
       toast({
-        title: 'Appeal filed',
-        description: `Challan #${disputingChallan.challanNumber} sent to Virtual Court`,
+        title: t('chToastAppealTitle'),
+        description: `${t('chChallanNoPrefix')}${disputingChallan.challanNumber} ${t('chToastAppealDescSuffix')}`,
         variant: 'success',
       });
     }
@@ -79,9 +81,9 @@ export default function ChallansPage() {
     .reduce((acc, curr) => acc + curr.amount, 0);
 
   const statusPill = (status: ChallanRecord['status']) => {
-    if (status === 'PAID') return <Pill tone="emerald">PAID</Pill>;
-    if (status === 'DISPUTED') return <Pill tone="slate">DISPUTED</Pill>;
-    return <Pill tone="rose">PENDING</Pill>;
+    if (status === 'PAID') return <Pill tone="emerald">{t('chStatusPaid')}</Pill>;
+    if (status === 'DISPUTED') return <Pill tone="slate">{t('chStatusDisputed')}</Pill>;
+    return <Pill tone="rose">{t('chStatusPending')}</Pill>;
   };
 
   return (
@@ -89,10 +91,10 @@ export default function ChallansPage() {
 
       {/* Header */}
       <SectionHeading
-        eyebrow="National Traffic Violation Radar"
+        eyebrow={t('chEyebrow')}
         icon={<AlertTriangle className="w-4 h-4" />}
-        title="E-Challan Radar & Court Dispute"
-        subtitle="Inspect camera evidence photos, settle traffic fines in 1-tap UPI, or contest wrong automated penalties before the Virtual Court."
+        title={t('chTitle')}
+        subtitle={t('chSubtitle')}
       />
 
       {/* Summary Banner */}
@@ -102,16 +104,16 @@ export default function ChallansPage() {
             <ShieldAlert className="w-6 h-6" />
           </div>
           <div>
-            <span className="eyebrow text-slate-400 dark:text-slate-500">Fleet Radar Status</span>
+            <span className="eyebrow text-slate-400 dark:text-slate-500">{t('chFleetRadarStatus')}</span>
             <div className="text-lg font-display font-extrabold tracking-tight text-slate-900 dark:text-white">
-              {pendingCount} Pending Challans Across Fleet
+              {pendingCount} {t('chPendingChallansSuffix')}
             </div>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="text-center sm:text-right">
-            <span className="text-xs text-slate-400 dark:text-slate-500 font-semibold block">Total Outstanding Fines</span>
+            <span className="text-xs text-slate-400 dark:text-slate-500 font-semibold block">{t('chTotalOutstanding')}</span>
             <span className="text-2xl font-display font-extrabold tracking-tight text-rose-700 dark:text-rose-400 font-mono">
               {formatINR(totalPendingAmount)}
             </span>
@@ -126,7 +128,7 @@ export default function ChallansPage() {
               className="clay-btn clay-btn-saffron min-h-[44px] px-5 py-2.5 text-xs text-white font-extrabold shadow-lg flex items-center gap-2"
             >
               <CreditCard className="w-4 h-4" />
-              <span>Pay Dues (1-Tap UPI)</span>
+              <span>{t('chPayDues')}</span>
             </button>
           )}
         </div>
@@ -142,7 +144,7 @@ export default function ChallansPage() {
           value={searchPlate}
           onChange={(e) => setSearchPlate(e.target.value)}
           aria-label="Filter challans by vehicle plate"
-          placeholder="Filter by vehicle plate e.g. KA 01 EK 4920..."
+          placeholder={t('chFilterPlaceholder')}
           className="flex-1 bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm font-mono font-bold uppercase focus:outline-none px-2 py-2"
         />
       </div>
@@ -172,8 +174,8 @@ export default function ChallansPage() {
         ) : filteredChallans.length === 0 ? (
           <div className="clay-card p-12 text-center space-y-3">
             <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto" />
-            <h3 className="text-lg font-display font-extrabold tracking-tight text-slate-900 dark:text-white">Zero Violations Found</h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Your vehicle has a 100% clean driving and compliance record.</p>
+            <h3 className="text-lg font-display font-extrabold tracking-tight text-slate-900 dark:text-white">{t('chZeroViolations')}</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('chZeroViolationsSub')}</p>
           </div>
         ) : (
           filteredChallans.map((ch) => (
@@ -199,11 +201,11 @@ export default function ChallansPage() {
                   />
                   <div className="absolute top-2 left-2 px-2 py-1 rounded-md bg-black/60 backdrop-blur-md text-[11px] font-mono text-white flex items-center gap-1">
                     <Camera className="w-3.5 h-3.5 text-rose-400" />
-                    <span>RLVD / SPEED CAM</span>
+                    <span>{t('chCamBadge')}</span>
                   </div>
                   {ch.detectedSpeed && (
                     <div className="absolute bottom-2 left-2 px-2 py-1 rounded-md bg-rose-950/80 text-[11px] font-mono text-rose-200 border border-rose-500/40">
-                      Speed: {ch.detectedSpeed} (Limit: {ch.speedLimit})
+                      {t('chSpeedLabel')} {ch.detectedSpeed} ({t('chLimitLabel')} {ch.speedLimit})
                     </div>
                   )}
                 </div>
@@ -231,7 +233,7 @@ export default function ChallansPage() {
                       <span>{ch.date}</span>
                     </div>
                     <div className="text-[11px] font-mono text-slate-400 dark:text-slate-500">
-                      {ch.actSection} • Challan #{ch.challanNumber}
+                      {ch.actSection} • {t('chChallanNoPrefix')}{ch.challanNumber}
                     </div>
                   </div>
                 </div>
@@ -239,7 +241,7 @@ export default function ChallansPage() {
                 {/* Right Actions & Settlement */}
                 <div className="lg:col-span-3 flex flex-col items-start lg:items-end justify-between gap-3 border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-100 dark:border-slate-800">
                   <div className="text-left lg:text-right">
-                    <span className="eyebrow text-slate-400 dark:text-slate-500 block">Fine Amount</span>
+                    <span className="eyebrow text-slate-400 dark:text-slate-500 block">{t('chFineAmount')}</span>
                     <span className="text-xl font-display font-extrabold tracking-tight text-slate-900 dark:text-white font-mono">
                       {formatINR(ch.amount)}
                     </span>
@@ -252,7 +254,7 @@ export default function ChallansPage() {
                         className="clay-btn min-h-[44px] w-full py-2.5 text-xs bg-rose-600 hover:bg-rose-700 text-white shadow-md font-bold"
                       >
                         <CreditCard className="w-3.5 h-3.5" />
-                        <span>1-Tap UPI Settle</span>
+                        <span>{t('chUpiSettle')}</span>
                       </button>
 
                       <button
@@ -263,7 +265,7 @@ export default function ChallansPage() {
                         className="clay-btn min-h-[40px] w-full py-2 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold"
                       >
                         <Scale className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                        <span>Contest / Dispute</span>
+                        <span>{t('chContestDispute')}</span>
                       </button>
                     </div>
                   )}
@@ -271,14 +273,14 @@ export default function ChallansPage() {
                   {ch.status === 'PAID' && (
                     <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/60 px-3 py-1.5 rounded-full">
                       <CheckCircle className="w-3.5 h-3.5" />
-                      Fine Settled
+                      {t('chFineSettled')}
                     </span>
                   )}
 
                   {ch.status === 'DISPUTED' && (
                     <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">
                       <Scale className="w-3.5 h-3.5" />
-                      Under Virtual Court Review
+                      {t('chUnderReview')}
                     </span>
                   )}
                 </div>
@@ -305,13 +307,13 @@ export default function ChallansPage() {
               </button>
               <div className="inline-flex items-center gap-1.5 text-amber-400 eyebrow mb-1">
                 <Scale className="w-4 h-4" />
-                <span>Virtual Traffic Court Appeal</span>
+                <span>{t('chVirtualCourtAppeal')}</span>
               </div>
               <h3 className="text-xl font-display font-extrabold tracking-tight">
-                Contest Traffic Challan
+                {t('chContestChallan')}
               </h3>
               <p className="text-xs text-slate-300 mt-1">
-                Challan #{disputingChallan.challanNumber} • {disputingChallan.vehicleNumber}
+                {t('chChallanNoPrefix')}{disputingChallan.challanNumber} • {disputingChallan.vehicleNumber}
               </p>
             </div>
 
@@ -323,46 +325,46 @@ export default function ChallansPage() {
                     <CheckCircle className="w-8 h-8" />
                   </div>
                   <h4 className="text-lg font-display font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
-                    Appeal Filed Successfully
+                    {t('chAppealFiledTitle')}
                   </h4>
                   <p className="text-sm text-slate-600 dark:text-slate-300 max-w-xs mx-auto leading-relaxed">
-                    Your representation has been submitted to the Virtual Court Registrar. Fine enforcement is frozen pending review.
+                    {t('chAppealFiledBody')}
                   </p>
                   <button
                     onClick={() => setDisputingChallan(null)}
                     className="btn btn-primary px-6 py-2.5 text-sm"
                   >
-                    Done
+                    {t('chDone')}
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleDisputeSubmit} className="space-y-4">
                   <div>
-                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-1.5">Select Grounds of Contest</label>
+                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-1.5">{t('chSelectGrounds')}</label>
                     <select
                       value={disputeReason}
                       onChange={(e) => setDisputeReason(e.target.value)}
                       className="field w-full px-3.5 py-2.5 text-sm font-medium text-slate-900 dark:text-slate-100"
                     >
                       <option value="Erroneous camera trigger (Vehicle was stationary in traffic)">
-                        Erroneous camera trigger (Vehicle was stationary in traffic)
+                        {t('chReasonCameraTrigger')}
                       </option>
                       <option value="Cloned / Counterfeit plate match error">
-                        Cloned / Counterfeit plate match error (Different vehicle make)
+                        {t('chReasonClonedPlate')}
                       </option>
                       <option value="Emergency corridor clearance for hospital vehicle">
-                        Emergency corridor clearance for hospital vehicle
+                        {t('chReasonEmergencyCorridor')}
                       </option>
                       <option value="Obstruction by heavy vehicle blocking traffic light visibility">
-                        Obstruction by heavy vehicle blocking traffic light visibility
+                        {t('chReasonObstruction')}
                       </option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-1.5">Applicant Declaration</label>
+                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-1.5">{t('chDeclarationLabel')}</label>
                     <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 leading-relaxed text-xs">
-                      I hereby state under penalty of perjury that the vehicle was operated within CMVR guidelines and request judicial dismissal.
+                      {t('chDeclarationText')}
                     </div>
                   </div>
 
@@ -372,13 +374,13 @@ export default function ChallansPage() {
                       onClick={() => setDisputingChallan(null)}
                       className="btn btn-ghost w-1/2 py-2.5 text-sm"
                     >
-                      Cancel
+                      {t('chCancel')}
                     </button>
                     <button
                       type="submit"
                       className="btn w-1/2 py-2.5 text-sm bg-amber-600 hover:bg-amber-700 text-white shadow-md"
                     >
-                      Submit Legal Contest
+                      {t('chSubmitContest')}
                     </button>
                   </div>
                 </form>
@@ -395,7 +397,7 @@ export default function ChallansPage() {
           isOpen={!!selectedChallanForPay}
           onClose={() => setSelectedChallanForPay(null)}
           serviceType="challans"
-          serviceTitle={`E-Challan Settlement (#${selectedChallanForPay.challanNumber})`}
+          serviceTitle={`${t('chSettlementTitle')} (#${selectedChallanForPay.challanNumber})`}
           applicationNumber={selectedChallanForPay.challanNumber}
           amount={selectedChallanForPay.amount}
           payerName={currentUser.name}

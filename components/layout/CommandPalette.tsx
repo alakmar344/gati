@@ -103,12 +103,12 @@ export function CommandPalette() {
     const apps = getApplicationsForUser(user.id);
     const pending = challans.filter((c) => c.status === 'PENDING');
     return {
-      insights: computeInsights({ user, challans, fastag, apps }),
+      insights: computeInsights({ user, challans, fastag, apps, language }),
       pendingTotal: pending.reduce((s, c) => s + c.amount, 0),
       pendingCount: pending.length,
       balance: fastag.walletBalance,
     };
-  }, [open]);
+  }, [open, language]);
 
   const suggestions = useMemo(
     () =>
@@ -247,7 +247,7 @@ export function CommandPalette() {
           {grouped.flat.length === 0 ? (
             <div className="px-4 py-8 text-center">
               <p className="text-sm text-slate-400 dark:text-slate-500">
-                {query.trim() ? `No match for “${query}”. Try a service name or an action.` : 'Type what you need done.'}
+                {query.trim() ? `${t('cpNoMatchPrefix')} “${query}”. ${t('cpNoMatchSuffix')}` : t('cpEmptyHint')}
               </p>
             </div>
           ) : (
@@ -276,14 +276,14 @@ export function CommandPalette() {
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
               <ArrowUp className="w-3 h-3" />
-              <ArrowDown className="w-3 h-3" /> navigate
+              <ArrowDown className="w-3 h-3" /> {t('cpNavigate')}
             </span>
             <span className="flex items-center gap-1">
-              <CornerDownLeft className="w-3 h-3" /> execute
+              <CornerDownLeft className="w-3 h-3" /> {t('cpExecute')}
             </span>
           </div>
           <span className="flex items-center gap-1 font-semibold text-olive-800 dark:text-olive-300">
-            <Zap className="w-3 h-3 text-saffron-500" /> FastTrack Instant Execution
+            <Zap className="w-3 h-3 text-saffron-500" /> {t('cpInstantExec')}
           </span>
         </div>
       </div>

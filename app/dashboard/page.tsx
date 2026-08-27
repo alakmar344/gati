@@ -81,18 +81,28 @@ export default function DashboardPage() {
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-olive-700 to-olive-900 text-white flex items-center justify-center font-display font-black text-xl shadow-md border-2 border-white/20">
-              {currentUser.avatar}
+              {mounted ? currentUser.avatar : ''}
             </div>
             <div>
-              <div className="text-xs font-semibold text-olive-800 dark:text-olive-400">
-                {getGreeting()}, {currentUser.name.split(' ')[0]}
-              </div>
-              <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mt-0.5">
-                {currentUser.name}
-              </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                {currentUser.role} • {currentUser.city}, {currentUser.state}
-              </p>
+              {mounted ? (
+                <>
+                  <div className="text-xs font-semibold text-olive-800 dark:text-olive-400">
+                    {getGreeting()}, {currentUser.name.split(' ')[0]}
+                  </div>
+                  <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mt-0.5">
+                    {currentUser.name}
+                  </h1>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    {currentUser.role} • {currentUser.city}, {currentUser.state}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Skeleton className="h-4 w-36" />
+                  <Skeleton className="h-8 w-52 mt-1.5" />
+                  <Skeleton className="h-4 w-44 mt-1.5" />
+                </>
+              )}
             </div>
           </div>
 

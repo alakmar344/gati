@@ -23,7 +23,7 @@ export function ActionFeed({
   showHandleAll?: boolean;
 }) {
   const mounted = useMounted();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [items, setItems] = useState<ActionItem[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
   const run = useQuickAction();
@@ -36,9 +36,10 @@ export function ActionFeed({
         challans: getAllChallans(),
         fastag: getFastagAccount(),
         apps: getApplicationsForUser(user.id),
+        language,
       })
     );
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     recompute();
@@ -173,7 +174,7 @@ export function ActionFeed({
                     </div>
 
                     <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${u.badge}`}>
-                      {u.label}
+                      {language === 'hi' ? u.labelHi : u.label}
                     </span>
                   </div>
 
