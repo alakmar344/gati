@@ -21,18 +21,20 @@ import { DigitalDrivingLicenceCard } from '@/components/documents/DigitalDriving
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { Field, OptionGrid, SelectInput, VerifiedChip } from '@/components/ui/Form';
 import { useToast } from '@/components/ui/Toast';
-
-const STEPS = [
-  { num: 1, label: 'Licence Category' },
-  { num: 2, label: 'Applicant & Health' },
-  { num: 3, label: 'ADTT Sensor Slot' },
-  { num: 4, label: 'Review & Payment' },
-];
+import { useLanguage } from '@/lib/i18n';
 
 export default function DriverLicencePage() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [currentUser, setCurrentUser] = useState(getCurrentUser());
+
+  const STEPS = [
+    { num: 1, label: t('dlStep1') },
+    { num: 2, label: t('dlStep2') },
+    { num: 3, label: t('dlStep3') },
+    { num: 4, label: t('dlStep4') },
+  ];
 
   // Form State
   const [licenceType, setLicenceType] = useState<'Learner Licence (LL)' | 'Permanent DL (New)' | 'DL Renewal' | 'International Driving Permit (IDP)'>('Permanent DL (New)');
@@ -181,8 +183,8 @@ export default function DriverLicencePage() {
     setCurrentStep(5);
 
     toast({
-      title: 'Digital Driving Licence issued',
-      description: `DL ${randomDlNo} minted and saved to GatiLocker.`,
+      title: t('dlToastIssued'),
+      description: `DL ${randomDlNo} ${t('dlToastDesc')}`,
       variant: 'success',
     });
   };
@@ -195,12 +197,12 @@ export default function DriverLicencePage() {
         <div className="flex justify-center mb-3">
           <Pill tone="ashoka">
             <CreditCard className="w-3.5 h-3.5" />
-            <span>Driver Licensing & Slot Booking</span>
+            <span>{t('dlEyebrow')}</span>
           </Pill>
         </div>
         <SectionHeading
-          title="Driving Licence Portal"
-          subtitle="Apply for new licences, renew existing credentials, or book Automated Driving Test Track (ADTT) slots."
+          title={t('dlTitle')}
+          subtitle={t('dlSubtitle')}
         />
       </div>
 
@@ -208,7 +210,7 @@ export default function DriverLicencePage() {
       {currentStep <= 4 && (
         <div className="card p-5 sm:p-6 mb-6 animate-rise">
           <div className="flex items-center justify-between mb-4">
-            <span className="eyebrow text-ashoka-800 dark:text-ashoka-300">Step {currentStep} of 4</span>
+            <span className="eyebrow text-ashoka-800 dark:text-ashoka-300">{t('dlStepOf')} {currentStep} {t('dlStepOfTotal')}</span>
             <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
               {STEPS[currentStep - 1].label}
             </span>
@@ -267,15 +269,15 @@ export default function DriverLicencePage() {
           <div className="clay-card p-6 sm:p-8 space-y-6 animate-rise">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                Select service &amp; vehicle classes
+                {t('dlSelectService')}
               </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Choose your application type and authorized vehicle classes.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('dlSelectServiceDesc')}</p>
             </div>
 
             {/* Service Type */}
             <Field
-              label="Licence Service Type"
-              hint="Determines the applicable statutory fee and whether a driving test slot is required."
+              label={t('dlLicenceServiceType')}
+              hint={t('dlLicenceServiceTypeHint')}
             >
               <OptionGrid
                 tone="sky"
@@ -283,18 +285,18 @@ export default function DriverLicencePage() {
                 value={licenceType}
                 onChange={(v) => setLicenceType(v as any)}
                 options={[
-                  { value: 'Learner Licence (LL)', label: 'Learner Licence (LL)' },
-                  { value: 'Permanent DL (New)', label: 'Permanent DL (New)' },
-                  { value: 'DL Renewal', label: 'DL Renewal' },
-                  { value: 'International Driving Permit (IDP)', label: 'International Driving Permit (IDP)' },
+                  { value: 'Learner Licence (LL)', label: t('dlLearnerLicence') },
+                  { value: 'Permanent DL (New)', label: t('dlPermanentDL') },
+                  { value: 'DL Renewal', label: t('dlRenewal') },
+                  { value: 'International Driving Permit (IDP)', label: t('dlIDP') },
                 ]}
               />
             </Field>
 
             {/* Vehicle Classes (Multi-select) */}
             <Field
-              label="Authorised Vehicle Classes (COV)"
-              hint="Select every class of vehicle you want endorsed on your licence — at least one is required."
+              label={t('dlVehicleClasses')}
+              hint={t('dlVehicleClassesHint')}
             >
               <OptionGrid
                 multi
@@ -303,9 +305,9 @@ export default function DriverLicencePage() {
                 selectedValues={vehicleClasses}
                 onChange={(v) => toggleClass(v)}
                 options={[
-                  { value: 'MCWG (Motorcycle with Gear)', label: 'MCWG', icon: '🏍️', desc: 'Two-wheelers with manual or auto transmission' },
-                  { value: 'LMV (Light Motor Vehicle)', label: 'LMV', icon: '🚗', desc: 'Private passenger cars, SUVs, and sedans' },
-                  { value: 'TRANS (Transport Goods/Pass)', label: 'TRANS', icon: '🚐', desc: 'Commercial taxis, logistics delivery vans' },
+                  { value: 'MCWG (Motorcycle with Gear)', label: 'MCWG', icon: '🏍️', desc: t('dlMCWGDesc') },
+                  { value: 'LMV (Light Motor Vehicle)', label: 'LMV', icon: '🚗', desc: t('dlLMVDesc') },
+                  { value: 'TRANS (Transport Goods/Pass)', label: 'TRANS', icon: '🚐', desc: t('dlTRANSDesc') },
                 ]}
               />
             </Field>
@@ -313,8 +315,8 @@ export default function DriverLicencePage() {
             {/* RTO State */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5 pt-1">
               <Field
-                label="State / UT Jurisdiction"
-                hint="Where your licence will be registered and issued."
+                label={t('dlState')}
+                hint={t('dlStateHint')}
               >
                 <SelectInput
                   value={selectedState}
@@ -331,8 +333,8 @@ export default function DriverLicencePage() {
               </Field>
 
               <Field
-                label="Issuing Authority RTO"
-                hint="The Regional Transport Office that will process your application."
+                label={t('dlRTO')}
+                hint={t('dlRTOHint')}
               >
                 <SelectInput value={selectedRtoCode} onValue={setSelectedRtoCode}>
                   {rtoList.map((rto) => (
@@ -348,7 +350,7 @@ export default function DriverLicencePage() {
                 onClick={handleNext}
                 className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm mt-4 text-white"
               >
-                <span>Continue to Health &amp; KYC</span>
+                <span>{t('dlContinueHealth')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -360,9 +362,9 @@ export default function DriverLicencePage() {
           <div className="clay-card p-6 sm:p-8 space-y-6 animate-rise">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                Applicant information &amp; medical declaration
+                {t('dlApplicantInfo')}
               </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Form 1A statutory self-health certification and biometric verification.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('dlApplicantInfoDesc')}</p>
             </div>
 
             {/* Autofill user pill */}
@@ -374,33 +376,33 @@ export default function DriverLicencePage() {
                 <div>
                   <div className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
                     {currentUser.name}
-                    <VerifiedChip label="From Aadhaar" />
+                    <VerifiedChip label={t('dlFromAadhaar')} />
                   </div>
                   <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Aadhaar: {currentUser.aadhaarMasked} (e-KYC Linked)</div>
                 </div>
               </div>
-              <Pill tone="emerald">Auto-Verified</Pill>
+              <Pill tone="emerald">{t('dlAutoVerified')}</Pill>
             </div>
 
             {/* Autofill banner */}
             <div className="p-3.5 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 flex items-center justify-between gap-3">
               <p className="text-xs text-sky-900 dark:text-sky-200 leading-snug">
-                <span className="font-bold">Autofilled from your Gati profile</span> — edit any field below if it differs.
+                <span className="font-bold">{t('dlAutofilled')}</span> — {t('dlAutofilledEdit')}
               </p>
               <button
                 type="button"
                 onClick={resetHealthToProfile}
                 className="clay-btn min-h-[36px] px-3.5 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
-                Reset
+                {t('dlReset')}
               </button>
             </div>
 
             {/* Health & Blood Group Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
               <Field
-                label="Blood Group"
-                hint="Printed on your DL for use by first responders in a medical emergency."
+                label={t('dlBloodGroup')}
+                hint={t('dlBloodGroupHint')}
                 adornment={<VerifiedChip label="From profile" />}
               >
                 <SelectInput value={bloodGroup} onValue={setBloodGroup}>
@@ -411,8 +413,8 @@ export default function DriverLicencePage() {
               </Field>
 
               <Field
-                label="Date of Birth"
-                hint="Must match your Aadhaar; you must be 18+ (16+ for a gearless two-wheeler LL)."
+                label={t('dlDOB')}
+                hint={t('dlDOBHint')}
                 adornment={<VerifiedChip label="From profile" />}
               >
                 <input
@@ -436,8 +438,8 @@ export default function DriverLicencePage() {
                   <Heart className="w-5 h-5 fill-rose-500" />
                 </div>
                 <div>
-                  <div className="font-bold text-sm text-rose-950 dark:text-rose-200">Organ Donor Pledge</div>
-                  <div className="text-[11px] text-rose-700 dark:text-rose-400">Pledge to donate organs in event of emergency (Badge on Smart DL)</div>
+                  <div className="font-bold text-sm text-rose-950 dark:text-rose-200">{t('dlOrganDonor')}</div>
+                  <div className="text-[11px] text-rose-700 dark:text-rose-400">{t('dlOrganDonorDesc')}</div>
                 </div>
               </div>
               <input
@@ -462,8 +464,8 @@ export default function DriverLicencePage() {
                 className="w-4 h-4 text-sky-600 rounded mt-0.5 shrink-0"
               />
               <div className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                <strong className="text-slate-900 dark:text-white block font-semibold mb-0.5 text-[13px]">Form 1A Medical Self-Declaration</strong>
-                I hereby declare that I do not suffer from epilepsy, night blindness, or loss of consciousness, and possess standard visual acuity.
+                <strong className="text-slate-900 dark:text-white block font-semibold mb-0.5 text-[13px]">{t('dlForm1A')}</strong>
+                {t('dlForm1ADesc')}
               </div>
             </div>
 
@@ -481,7 +483,7 @@ export default function DriverLicencePage() {
                 onClick={handleNext}
                 className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm mt-4 text-white"
               >
-                <span>Continue to Track Slot</span>
+                <span>{t('dlContinueSlot')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -493,15 +495,15 @@ export default function DriverLicencePage() {
           <div className="clay-card p-6 sm:p-8 space-y-6 animate-rise">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                Book your Online ADTT sensor track slot
+                {t('dlBookSlot')}
               </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Pick a convenient sensor test track slot with real-time biometric turnstile check-in.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('dlBookSlotDesc')}</p>
             </div>
 
             {/* Test Track Location */}
             <div>
               <label className="eyebrow text-slate-500 dark:text-slate-400 block mb-2.5">
-                Automated Sensor Track Facility
+                {t('dlSensorTrack')}
               </label>
               <div className="p-4 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 flex items-center justify-center shrink-0">
@@ -516,8 +518,8 @@ export default function DriverLicencePage() {
 
             {/* Date Selector */}
             <Field
-              label="Preferred Test Date"
-              hint="Choose any working day — turnstile check-in opens 30 minutes before your slot."
+              label={t('dlTestDate')}
+              hint={t('dlTestDateHint')}
               adornment={<Calendar className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />}
               className="max-w-xs"
             >
@@ -531,8 +533,8 @@ export default function DriverLicencePage() {
 
             {/* Time Window */}
             <Field
-              label="Time Window"
-              hint="Each slot is a one-hour biometric check-in window at the automated track."
+              label={t('dlTimeWindow')}
+              hint={t('dlTimeWindowHint')}
               adornment={<Clock className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />}
             >
               <OptionGrid
@@ -541,10 +543,10 @@ export default function DriverLicencePage() {
                 value={selectedTimeSlot}
                 onChange={setSelectedTimeSlot}
                 options={[
-                  { value: '09:30 AM - 10:30 AM', label: '09:30 AM - 10:30 AM', desc: 'Morning Slot A' },
-                  { value: '10:30 AM - 11:30 AM', label: '10:30 AM - 11:30 AM', desc: 'Morning Slot B' },
-                  { value: '02:00 PM - 03:00 PM', label: '02:00 PM - 03:00 PM', desc: 'Afternoon Slot C' },
-                  { value: '03:30 PM - 04:30 PM', label: '03:30 PM - 04:30 PM', desc: 'Evening Slot D' },
+                  { value: '09:30 AM - 10:30 AM', label: '09:30 AM - 10:30 AM', desc: t('dlMorningA') },
+                  { value: '10:30 AM - 11:30 AM', label: '10:30 AM - 11:30 AM', desc: t('dlMorningB') },
+                  { value: '02:00 PM - 03:00 PM', label: '02:00 PM - 03:00 PM', desc: t('dlAfternoonC') },
+                  { value: '03:30 PM - 04:30 PM', label: '03:30 PM - 04:30 PM', desc: t('dlEveningD') },
                 ]}
               />
             </Field>
@@ -553,8 +555,8 @@ export default function DriverLicencePage() {
             <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs text-emerald-900 dark:text-emerald-200 flex items-start gap-3">
               <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <div className="leading-relaxed">
-                <strong className="font-bold block text-[13px]">Instant Digital Entry Pass Included</strong>
-                Upon checkout, you will receive an encrypted QR entry pass for contactless entry at the RTO automated sensor gates.
+                <strong className="font-bold block text-[13px]">{t('dlEntryPass')}</strong>
+                {t('dlEntryPassDesc')}
               </div>
             </div>
 
@@ -572,7 +574,7 @@ export default function DriverLicencePage() {
                 onClick={handleNext}
                 className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm mt-4 text-white"
               >
-                <span>Continue to Review</span>
+                <span>{t('dlContinueReview')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -584,27 +586,27 @@ export default function DriverLicencePage() {
           <div className="clay-card p-6 sm:p-8 space-y-6 animate-rise">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                Review &amp; statutory fee
+                {t('dlReview')}
               </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Government prescribed smart card and driving test fees.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('dlReviewDesc')}</p>
             </div>
 
             {/* Summary */}
             <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-3 text-[13px]">
               <div className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2.5">
-                <span className="text-slate-500 dark:text-slate-400">Applicant Name</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('dlApplicantName')}</span>
                 <span className="font-bold text-slate-900 dark:text-white">{currentUser.name}</span>
               </div>
               <div className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2.5">
-                <span className="text-slate-500 dark:text-slate-400">Service Category</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('dlServiceCategory')}</span>
                 <span className="font-bold text-slate-900 dark:text-white">{licenceType}</span>
               </div>
               <div className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2.5">
-                <span className="text-slate-500 dark:text-slate-400">Authorized Classes</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('dlAuthorizedClasses')}</span>
                 <span className="font-bold text-sky-700 dark:text-sky-400 font-mono">{vehicleClasses.map(c => c.split(' ')[0]).join(' + ')}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">ADTT Slot</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('dlADTTSlot')}</span>
                 <span className="font-semibold text-slate-900 dark:text-white">{selectedDate} ({selectedTimeSlot})</span>
               </div>
             </div>
@@ -612,15 +614,15 @@ export default function DriverLicencePage() {
             {/* Fee Breakdown */}
             <div className="space-y-2.5 p-5 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 text-[13px]">
               <div className="flex justify-between text-slate-700 dark:text-slate-300">
-                <span>Form 2 Statutory Application &amp; Test Fee</span>
+                <span>{t('dlForm2Fee')}</span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(totalFee - 350)}</span>
               </div>
               <div className="flex justify-between text-slate-700 dark:text-slate-300">
-                <span>Cryptographic Smart PVC Card Fee</span>
+                <span>{t('dlSmartCardFee')}</span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(350)}</span>
               </div>
               <div className="flex justify-between pt-3 border-t border-sky-200 dark:border-sky-800/60 text-sm font-extrabold text-sky-950 dark:text-sky-200">
-                <span>Total Amount Payable</span>
+                <span>{t('dlTotalAmount')}</span>
                 <span className="font-mono text-lg text-sky-700 dark:text-sky-400">{formatINR(totalFee)}</span>
               </div>
             </div>
@@ -640,7 +642,7 @@ export default function DriverLicencePage() {
                 className="clay-btn clay-btn-saffron min-h-[44px] px-7 py-3 text-sm text-white order-1 sm:order-2 mt-4"
               >
                 <CreditCard className="w-4 h-4" />
-                <span>Pay {formatINR(totalFee)} &amp; Mint DL</span>
+                <span>{t('pay')} {formatINR(totalFee)} &amp; Mint DL</span>
               </button>
             </div>
           </div>
@@ -654,7 +656,7 @@ export default function DriverLicencePage() {
                 <CheckCircle className="w-8 h-8" />
               </div>
               <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                Driving Licence issued successfully
+                {t('dlIssued')}
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-300 mt-1.5">
                 Ref No: <strong className="font-mono text-sky-700 dark:text-sky-400">{completedApplication.referenceNumber}</strong>
@@ -663,7 +665,7 @@ export default function DriverLicencePage() {
 
             {/* 3D Flippable Digital Driving Licence Component */}
             <DigitalDrivingLicenceCard data={completedApplication} />
-            <p className="text-center text-[11px] text-slate-400 dark:text-slate-500 -mt-3">Tap the card to flip and view the reverse side.</p>
+            <p className="text-center text-[11px] text-slate-400 dark:text-slate-500 -mt-3">{t('dlFlipCard')}</p>
 
             {/* Next Links */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2 hairline border-t border-slate-100 dark:border-slate-800">
@@ -671,19 +673,19 @@ export default function DriverLicencePage() {
                 href="/dashboard"
                 className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm mt-6 text-white"
               >
-                Go to Dashboard
+                {t('dlGoDashboard')}
               </Link>
               <Link
                 href={`/track?ref=${completedApplication.referenceNumber}`}
                 className="clay-btn min-h-[44px] px-6 py-2.5 text-sm mt-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
-                Track Live Status
+                {t('dlTrackStatus')}
               </Link>
               <Link
                 href="/documents"
                 className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 text-sky-800 dark:text-sky-300 mt-6"
               >
-                View in GatiLocker
+                {t('dlViewLocker')}
               </Link>
             </div>
           </div>

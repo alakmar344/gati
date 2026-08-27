@@ -153,7 +153,7 @@ export const Navbar: React.FC = () => {
               }`}
             >
               <CreditCard className="w-3.5 h-3.5 text-rose-500" />
-              <span>{language === 'hi' ? 'भुगतान / चालान' : 'Pay Fines & Tolls'}</span>
+                <span>{language === 'hi' ? t('navPayFinesTolls') : 'Pay Fines & Tolls'}</span>
             </Link>
           </nav>
 
@@ -241,7 +241,7 @@ export const Navbar: React.FC = () => {
                 className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-2xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200"
               >
                 <Globe className="w-4 h-4 text-olive-700 dark:text-olive-400" />
-                <span>{language === 'en' ? 'हिन्दी में बदलें' : 'Switch to English'}</span>
+                <span>{language === 'en' ? t('navSwitchToHindi') : t('navSwitchToEnglish')}</span>
               </button>
               <button
                 onClick={toggleTheme}
@@ -270,7 +270,7 @@ export const Navbar: React.FC = () => {
                 className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 text-xs font-bold border border-rose-200 dark:border-rose-800 shadow-xs"
               >
                 <CreditCard className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
-                <span>{language === 'hi' ? 'भुगतान / चालान' : 'Pay Fines & Tolls'}</span>
+              <span>{language === 'hi' ? t('navPayFinesTolls') : 'Pay Fines & Tolls'}</span>
               </Link>
             </div>
 
