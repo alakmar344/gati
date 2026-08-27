@@ -105,8 +105,8 @@ export function ActionFeed({
           <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
             {critical > 0 ? (
               <>
-                {critical} action{critical > 1 ? 's' : ''} pending —{' '}
-                <span className="text-saffron-600 dark:text-saffron-400">FastTrack Settle</span>
+                {critical} {critical > 1 ? t('actionPendingSuffixMany') : t('actionPendingSuffixOne')} —{' '}
+                <span className="text-saffron-600 dark:text-saffron-400">{t('fastTrackSettle')}</span>
               </>
             ) : (
               <>{t('resolved')}</>
@@ -120,7 +120,7 @@ export function ActionFeed({
             className="clay-btn clay-btn-saffron min-h-[44px] px-5 py-2.5 text-xs shrink-0 disabled:opacity-60 text-white font-bold shadow-md self-start sm:self-auto"
           >
             {busy === '__all__' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
-            <span>Resolve all pending</span>
+            <span>{t('resolveAllPending')}</span>
           </button>
         )}
       </div>
@@ -133,7 +133,7 @@ export function ActionFeed({
           </div>
           <div className="font-display font-extrabold text-lg text-slate-900 dark:text-white">{t('noActions')}</div>
           <div className="text-xs sm:text-sm mt-1 text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-            Gati Autopilot is actively watching your vehicle registrations, challans, FASTag, and upcoming compliance renewals.
+            {t('autopilotWatching')}
           </div>
         </div>
       ) : (

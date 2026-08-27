@@ -102,6 +102,35 @@ export const DICTIONARY = {
     payments: 'Payment Receipts',
     smartCards: 'Issued Smart Cards',
     newApplication: 'New Service Application',
+    garageVehicles: 'Garage Vehicles',
+    payFinesDues: 'Pay Fines & Dues',
+    noApplicationsTitle: 'No applications yet',
+    noApplicationsBody: 'Start your first vehicle registration, VIP number, driving licence, or permit application.',
+    startVehicleReg: 'Start Vehicle Registration',
+    issuedReady: 'Issued & ready',
+    steps: 'steps',
+    viewSmartCard: 'View Smart Card',
+    viewSmartRc: 'View Smart RC',
+    filedOn: 'Filed',
+    noPayments: 'No simulated payments recorded yet.',
+    receipt: 'Receipt',
+
+    // Home quick chips & matrix
+    payChallans: 'Pay Challans',
+    rechargeFastag: 'Recharge FASTag',
+    chipSmartRc: 'Smart RC',
+    chipAdtt: 'Online ADTT Test',
+    chipVip: 'VIP Number Studio',
+    chipFastpass: 'FastPass 10s',
+    serviceMatrixSubtitle: 'All statutory vehicle registrations, driver credentials, and instant mobility tools in one centralized hub.',
+    instantFastTrack: 'Instant FastTrack',
+
+    // Action feed extras
+    resolveAllPending: 'Resolve all pending',
+    actionPendingSuffixOne: 'action pending',
+    actionPendingSuffixMany: 'actions pending',
+    fastTrackSettle: 'FastTrack Settle',
+    autopilotWatching: 'Gati Autopilot is actively watching your vehicle registrations, challans, FASTag, and upcoming compliance renewals.',
   },
   hi: {
     // Brand & App
@@ -200,6 +229,35 @@ export const DICTIONARY = {
     payments: 'भुगतान रसीदें',
     smartCards: 'जारी स्मार्ट कार्ड्स',
     newApplication: 'नया सेवा आवेदन',
+    garageVehicles: 'गैरेज वाहन',
+    payFinesDues: 'जुर्माना व बकाया भरें',
+    noApplicationsTitle: 'अभी कोई आवेदन नहीं',
+    noApplicationsBody: 'अपना पहला वाहन पंजीकरण, वीआईपी नंबर, ड्राइविंग लाइसेंस या परमिट आवेदन शुरू करें।',
+    startVehicleReg: 'वाहन पंजीकरण शुरू करें',
+    issuedReady: 'जारी व तैयार',
+    steps: 'चरण',
+    viewSmartCard: 'स्मार्ट कार्ड देखें',
+    viewSmartRc: 'स्मार्ट आरसी देखें',
+    filedOn: 'दायर',
+    noPayments: 'अभी कोई सिम्युलेटेड भुगतान दर्ज नहीं है।',
+    receipt: 'रसीद',
+
+    // Home quick chips & matrix
+    payChallans: 'चालान भरें',
+    rechargeFastag: 'फास्टैग रीचार्ज',
+    chipSmartRc: 'स्मार्ट आरसी',
+    chipAdtt: 'ऑनलाइन एडीटीटी टेस्ट',
+    chipVip: 'वीआईपी नंबर स्टूडियो',
+    chipFastpass: '10-सेकंड फास्टपास',
+    serviceMatrixSubtitle: 'सभी वैधानिक वाहन पंजीकरण, चालक क्रेडेंशियल और त्वरित मोबिलिटी टूल्स — एक केंद्रीकृत हब में।',
+    instantFastTrack: 'त्वरित फास्टट्रैक',
+
+    // Action feed extras
+    resolveAllPending: 'सभी लंबित निपटाएं',
+    actionPendingSuffixOne: 'कार्रवाई लंबित',
+    actionPendingSuffixMany: 'कार्रवाइयां लंबित',
+    fastTrackSettle: 'फास्टट्रैक निपटान',
+    autopilotWatching: 'गति ऑटोपायलट आपके वाहन पंजीकरण, चालान, फास्टैग और आगामी अनुपालन नवीनीकरण पर सक्रिय नज़र रख रहा है।',
   },
 } as const;
 

@@ -62,7 +62,7 @@ export default function DashboardPage() {
 
   const stats = [
     { label: t('applications'), value: applications.length, tone: 'text-slate-900 dark:text-white', icon: Layers },
-    { label: 'Garage vehicles', value: currentUser.vehiclesCount, tone: 'text-olive-800 dark:text-olive-400', icon: Car },
+    { label: t('garageVehicles'), value: currentUser.vehiclesCount, tone: 'text-olive-800 dark:text-olive-400', icon: Car },
     { label: t('smartCards'), value: documents.length, tone: 'text-ashoka-800 dark:text-ashoka-400', icon: FolderLock },
     { label: t('payments'), value: payments.length, tone: 'text-slate-900 dark:text-white', icon: Wallet },
   ];
@@ -102,7 +102,7 @@ export default function DashboardPage() {
               className="clay-btn min-h-[44px] bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 px-4 py-2 text-xs font-bold shadow-xs"
             >
               <CreditCard className="w-4 h-4 text-rose-600 dark:text-rose-400" />
-              <span>Pay Fines &amp; Dues</span>
+              <span>{t('payFinesDues')}</span>
             </Link>
             <button
               onClick={() => setIsSwitcherOpen(true)}
@@ -178,9 +178,9 @@ export default function DashboardPage() {
           ) : applications.length === 0 ? (
             <EmptyState
               icon={<Layers className="w-6 h-6" />}
-              title="No applications yet"
-              body="Start your first vehicle registration, VIP number, driving licence, or permit application."
-              cta={{ href: '/vehicle-licensing', label: 'Start Vehicle Registration' }}
+              title={t('noApplicationsTitle')}
+              body={t('noApplicationsBody')}
+              cta={{ href: '/vehicle-licensing', label: t('startVehicleReg') }}
             />
           ) : (
             applications.map((app) => {
@@ -199,15 +199,15 @@ export default function DashboardPage() {
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
                       <span>RTO: <strong className="text-slate-700 dark:text-slate-200">{app.rtoName}</strong></span>
                       <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
-                      <span>Filed: <strong className="text-slate-700 dark:text-slate-200">{formatDate(app.createdAt)}</strong></span>
+                      <span>{t('filedOn')}: <strong className="text-slate-700 dark:text-slate-200">{formatDate(app.createdAt)}</strong></span>
                     </div>
                     <div className="pt-1.5">
                       <div className="flex items-center justify-between text-[11px] mb-1.5">
                         <span className={`font-bold inline-flex items-center gap-1 ${issued ? 'text-olive-800 dark:text-olive-400' : 'text-ashoka-800 dark:text-ashoka-400'}`}>
                           {issued && <CheckCircle2 className="w-3.5 h-3.5" />}
-                          {issued ? 'Issued & ready' : 'In progress'}
+                          {issued ? t('issuedReady') : t('inProgress')}
                         </span>
-                        <span className="font-mono text-slate-500 dark:text-slate-400">{app.currentStepIndex}/{app.totalSteps} steps</span>
+                        <span className="font-mono text-slate-500 dark:text-slate-400">{app.currentStepIndex}/{app.totalSteps} {t('steps')}</span>
                       </div>
                       <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                         <div
@@ -223,7 +223,7 @@ export default function DashboardPage() {
                       href={issued ? '/documents' : `/${app.serviceType}`}
                       className="clay-btn clay-btn-primary min-h-[40px] px-4 py-2 text-xs text-white"
                     >
-                      <span>{issued ? 'View Smart Card' : 'Continue'}</span>
+                      <span>{issued ? t('viewSmartCard') : t('continue')}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
@@ -274,7 +274,7 @@ export default function DashboardPage() {
               </div>
               <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                 <Link href="/documents" className="text-xs font-bold text-olive-700 dark:text-olive-400 hover:underline flex items-center gap-1">
-                  View Smart RC <ArrowRight className="w-3.5 h-3.5" />
+                  {t('viewSmartRc')} <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">VIN: {v.vin}</span>
               </div>
@@ -291,7 +291,7 @@ export default function DashboardPage() {
               {[0, 1, 2].map((i) => <Skeleton key={i} className="h-16 rounded-2xl" />)}
             </div>
           ) : payments.length === 0 ? (
-            <div className="p-10 text-center text-sm text-slate-400 dark:text-slate-500">No simulated payments recorded yet.</div>
+            <div className="p-10 text-center text-sm text-slate-400 dark:text-slate-500">{t('noPayments')}</div>
           ) : (
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
               {payments.map((p) => (
@@ -307,7 +307,7 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-4 shrink-0">
                     <span className="text-base font-extrabold text-slate-900 dark:text-white font-mono">{formatINR(p.totalPaid)}</span>
                     <button onClick={() => setSelectedReceipt(p)} className="clay-btn min-h-[38px] bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3.5 py-1.5 text-xs">
-                      <Receipt className="w-3.5 h-3.5" /> Receipt
+                      <Receipt className="w-3.5 h-3.5" /> {t('receipt')}
                     </button>
                   </div>
                 </div>

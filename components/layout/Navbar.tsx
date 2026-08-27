@@ -17,7 +17,7 @@ import {
 import { DemoUser } from '@/lib/types';
 import { getCurrentUser } from '@/lib/storage';
 import { PersonaSwitcherModal } from './PersonaSwitcherModal';
-import { CORE_SERVICES, SPEED_TOOLS, ACCOUNT_LINKS, NavItem } from '@/lib/nav';
+import { CORE_SERVICES, SPEED_TOOLS, ACCOUNT_LINKS, NavItem, navItemName, navItemDesc } from '@/lib/nav';
 import { useTheme } from '@/lib/theme';
 import { useLanguage } from '@/lib/i18n';
 
@@ -340,6 +340,7 @@ function Dropdown({
 }
 
 function MegaMenu({ items, pathname, note }: { items: NavItem[]; pathname: string; note: string }) {
+  const { t } = useLanguage();
   return (
     <div>
       <div className="grid grid-cols-2 gap-1">
@@ -363,10 +364,10 @@ function MegaMenu({ items, pathname, note }: { items: NavItem[]; pathname: strin
               </span>
               <span className="min-w-0">
                 <span className={`block text-[13px] font-bold ${isActive ? 'text-white' : 'text-slate-900 dark:text-slate-100'}`}>
-                  {item.name}
+                  {navItemName(item, t)}
                 </span>
                 <span className={`block text-[11px] leading-snug ${isActive ? 'text-white/70' : 'text-slate-500 dark:text-slate-400'}`}>
-                  {item.desc}
+                  {navItemDesc(item, t)}
                 </span>
               </span>
             </Link>
@@ -391,6 +392,7 @@ function MobileGroup({
   pathname: string;
   onNav: () => void;
 }) {
+  const { t } = useLanguage();
   return (
     <div className="mb-3">
       <div className="px-2 pb-1.5 eyebrow text-slate-400 dark:text-slate-500">{title}</div>
@@ -410,7 +412,7 @@ function MobileGroup({
               <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-white/15 text-white' : item.tint}`}>
                 <Icon className="w-4 h-4" />
               </span>
-              <span className={`text-sm font-bold ${isActive ? 'text-white' : 'text-slate-800 dark:text-slate-200'}`}>{item.name}</span>
+              <span className={`text-sm font-bold ${isActive ? 'text-white' : 'text-slate-800 dark:text-slate-200'}`}>{navItemName(item, t)}</span>
             </Link>
           );
         })}
