@@ -47,10 +47,10 @@ function TrackContent() {
   };
 
   const sampleRefs = [
-    { label: 'Vehicle Registration', ref: 'GATI-VL-2026-89421' },
-    { label: 'VIP Number', ref: 'GATI-FN-2026-10492' },
-    { label: 'Driver Licence (ADTT)', ref: 'GATI-DL-2026-44912' },
-    { label: 'National Tourist Permit', ref: 'GATI-VP-2026-90184' },
+    { label: t('trkSampleVL'), ref: 'GATI-VL-2026-89421' },
+    { label: t('trkSampleFN'), ref: 'GATI-FN-2026-10492' },
+    { label: t('trkSampleDL'), ref: 'GATI-DL-2026-44912' },
+    { label: t('trkSampleVP'), ref: 'GATI-VP-2026-90184' },
   ];
 
   return (
@@ -120,8 +120,8 @@ function TrackContent() {
                 {activeApp.title}
               </h2>
               <div className="text-sm text-slate-500 dark:text-slate-400">
-                Applicant <strong className="text-slate-800 dark:text-slate-200 font-semibold">{activeApp.applicantName}</strong>
-                {' '}&middot; RTO <strong className="text-slate-800 dark:text-slate-200 font-semibold">{activeApp.rtoName}</strong>
+                {t('citizenProfile')} <strong className="text-slate-800 dark:text-slate-200 font-semibold">{activeApp.applicantName}</strong>
+                {' '}&middot; {t('docRto')} <strong className="text-slate-800 dark:text-slate-200 font-semibold">{activeApp.rtoName}</strong>
               </div>
             </div>
 
@@ -132,7 +132,7 @@ function TrackContent() {
                 {activeApp.status === 'card_generated' ? t('issued') : t('trkUnderReview')}
               </span>
               <div className="text-[11px] text-slate-400 dark:text-slate-500 mt-2">
-                Updated {formatDate(activeApp.updatedAt)}
+                {t('trkUpdated')} {formatDate(activeApp.updatedAt)}
               </div>
             </div>
           </div>
@@ -146,8 +146,8 @@ function TrackContent() {
               </div>
               <p className="text-xs leading-relaxed text-emerald-800 dark:text-emerald-300 max-w-xl">
                 {activeApp.status === 'card_generated'
-                  ? 'Your digital credential has been cryptographically signed and minted. You can immediately download or print it from GatiLocker.'
-                  : 'Your application documents have cleared scrutiny. Please arrive at the test facility 15 minutes before your scheduled slot.'}
+                  ? t('trkCredentialIssued')
+                  : t('trkDocumentsCleared')}
               </p>
             </div>
 
@@ -218,13 +218,13 @@ function TrackContent() {
           {activeApp.payment && (
             <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-4">
               <div className="space-y-1">
-                <span className="eyebrow text-slate-400 dark:text-slate-500 block">Payment Reference</span>
+                <span className="eyebrow text-slate-400 dark:text-slate-500 block">{t('trkPaymentRef')}</span>
                 <div className="font-mono font-bold text-slate-900 dark:text-white text-sm">{activeApp.payment.transactionId}</div>
                 <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Bank UTR: {activeApp.payment.utrNumber}</div>
               </div>
 
               <div className="text-right">
-                <span className="eyebrow text-slate-400 dark:text-slate-500 block">Settled Amount</span>
+                <span className="eyebrow text-slate-400 dark:text-slate-500 block">{t('trkSettledAmount')}</span>
                 <div className="text-lg font-mono font-extrabold text-emerald-700 dark:text-emerald-400 mt-0.5">
                   {formatINR(activeApp.payment.totalPaid)}
                 </div>

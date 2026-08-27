@@ -3,6 +3,7 @@
 import React from 'react';
 import { QrCode, Cpu, ShieldCheck, Printer } from 'lucide-react';
 import { VehicleLicensingData } from '@/lib/types';
+import { useLanguage } from '@/lib/i18n';
 
 interface DigitalRcSmartCardProps {
   data: VehicleLicensingData;
@@ -11,6 +12,7 @@ interface DigitalRcSmartCardProps {
 
 export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, onPrint }) => {
   const isEV = data.fuelType === 'Electric';
+  const { t } = useLanguage();
   const rc = data.digitalRcCard || {
     rcNumber: data.registrationNumberAssigned || 'KA 01 EK 4920',
     ownerName: data.applicantName.toUpperCase(),
@@ -61,10 +63,10 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
             </div>
             <div>
               <div className="text-[10px] sm:text-xs font-semibold tracking-wider text-olive-300 uppercase flex items-center gap-1.5">
-                <span>CERTIFICATE OF REGISTRATION</span>
+                <span>{t('ddCertOfReg')}</span>
                 {isEV && (
                   <span className="px-1.5 py-0.5 rounded-full bg-olive-400/20 text-olive-200 text-[8px] font-bold">
-                    ZERO EMISSION EV
+                    {t('ddZeroEmissionEV')}
                   </span>
                 )}
               </div>
@@ -75,7 +77,7 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
           </div>
 
           <div className="text-right">
-            <div className="text-[9px] uppercase tracking-widest text-slate-400">SMART CARD UID</div>
+            <div className="text-[9px] uppercase tracking-widest text-slate-400">{t('ddSmartCardUID')}</div>
             <div className="text-[10px] sm:text-xs font-mono font-bold text-ashoka-300">{rc.chipUid}</div>
           </div>
         </div>
@@ -94,7 +96,7 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
 
           {/* Registration Number Pill */}
           <div className="px-4 py-1.5 rounded-xl bg-black/40 backdrop-blur-md border border-white/20 shadow-inner">
-            <span className="text-xs text-slate-300 mr-2 uppercase tracking-wider">REGN NO:</span>
+            <span className="text-xs text-slate-300 mr-2 uppercase tracking-wider">{t('ddRegnNo')}</span>
             <span className="text-base sm:text-xl font-mono font-black tracking-widest text-white">
               {rc.rcNumber}
             </span>
@@ -105,16 +107,16 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
         <div className="grid grid-cols-12 gap-2 sm:gap-3 text-xs relative z-10">
           <div className="col-span-8 space-y-1">
             <div>
-              <div className="text-[9px] uppercase tracking-wider text-slate-300">Registered Owner</div>
+              <div className="text-[9px] uppercase tracking-wider text-slate-300">{t('ddRegisteredOwner')}</div>
               <div className="font-bold text-sm tracking-wide text-white truncate">{rc.ownerName}</div>
             </div>
             <div className="grid grid-cols-2 gap-2 pt-0.5">
               <div>
-                <div className="text-[8px] uppercase tracking-wider text-slate-300">Make / Model</div>
+                <div className="text-[8px] uppercase tracking-wider text-slate-300">{t('ddMakeModel')}</div>
                 <div className="font-semibold text-[11px] text-slate-100 truncate">{rc.modelName}</div>
               </div>
               <div>
-                <div className="text-[8px] uppercase tracking-wider text-slate-300">Fuel & Power</div>
+                <div className="text-[8px] uppercase tracking-wider text-slate-300">{t('ddFuelPower')}</div>
                 <div className="font-semibold text-[11px] text-emerald-300 truncate">
                   {data.fuelType} ({rc.cubicCapacityOrKw})
                 </div>
@@ -122,11 +124,11 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
             </div>
             <div className="grid grid-cols-2 gap-2 pt-0.5">
               <div>
-                <div className="text-[8px] uppercase tracking-wider text-slate-300">Issue Date</div>
+                <div className="text-[8px] uppercase tracking-wider text-slate-300">{t('ddIssueDate')}</div>
                 <div className="font-mono text-[10px] text-slate-200">{rc.issueDate}</div>
               </div>
               <div>
-                <div className="text-[8px] uppercase tracking-wider text-slate-300">Valid Upto</div>
+                <div className="text-[8px] uppercase tracking-wider text-slate-300">{t('ddValidUpto')}</div>
                 <div className="font-mono text-[10px] text-emerald-300 font-bold">{rc.validUpto}</div>
               </div>
             </div>
@@ -136,15 +138,15 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
           <div className="col-span-4 flex flex-col items-center justify-center bg-white/90 rounded-2xl p-2 text-slate-900 shadow-inner">
             <QrCode className="w-14 h-14 sm:w-16 sm:h-16 text-slate-900" />
             <span className="text-[8px] font-mono font-bold text-slate-700 tracking-tighter mt-1">
-              DIGITAL VERIFIED
+              {t('ddDigitalVerified')}
             </span>
           </div>
         </div>
 
         {/* Footer Hackathon Disclaimer Strip */}
         <div className="absolute bottom-2 left-6 right-6 flex items-center justify-between text-[8px] text-white/50 border-t border-white/10 pt-1.5">
-          <span>FORM 23 • CMVR 1989 COMPLIANT SPECIFICATION</span>
-          <span className="font-semibold text-emerald-300">DEMO • NOT AN OFFICIAL GOVERNMENT DOCUMENT</span>
+          <span>{t('ddForm23Compliant')}</span>
+          <span className="font-semibold text-emerald-300">{t('ddDemoDisclaimer')}</span>
         </div>
       </div>
 
@@ -155,7 +157,7 @@ export const DigitalRcSmartCard: React.FC<DigitalRcSmartCardProps> = ({ data, on
           className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-md shadow-emerald-600/20 transition-all"
         >
           <Printer className="w-4 h-4" />
-          <span>Print / Save as PDF</span>
+          <span>{t('ddPrintSave')}</span>
         </button>
       </div>
     </div>

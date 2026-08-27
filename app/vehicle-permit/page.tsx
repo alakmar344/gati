@@ -19,9 +19,11 @@ import { DigitalPermitDocument } from '@/components/documents/DigitalPermitDocum
 import { SectionHeading } from '@/components/ui/Primitives';
 import { Field, TextInput, OptionGrid, SelectInput } from '@/components/ui/Form';
 import { useToast } from '@/components/ui/Toast';
+import { useLanguage } from '@/lib/i18n';
 
 export default function VehiclePermitPage() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [currentUser, setCurrentUser] = useState(getCurrentUser());
 
@@ -156,8 +158,8 @@ export default function VehiclePermitPage() {
     setCurrentStep(5);
 
     toast({
-      title: 'National Permit granted',
-      description: `Form 47 permit ${permitNumber} is now live and saved to GatiLocker.`,
+      title: t('vpToastIssued'),
+      description: `Form 47 permit ${permitNumber} ${t('vpToastDesc')}`,
       variant: 'success',
     });
   };
@@ -167,10 +169,10 @@ export default function VehiclePermitPage() {
 
       {/* Header */}
       <SectionHeading
-        eyebrow="National Single-Window Transport Hub"
+        eyebrow={t('vpEyebrow')}
         icon={<Compass className="w-3.5 h-3.5" />}
-        title="Vehicle Permit Portal"
-        subtitle="Instant digital authorizations for All India Tourist Permits (AITP), Goods Carriers, and Interstate Corridors."
+        title={t('vpTitle')}
+        subtitle={t('vpSubtitle')}
         className="mb-8"
       />
 
@@ -179,10 +181,10 @@ export default function VehiclePermitPage() {
         <div className="card p-5 sm:p-6 mb-8 animate-rise">
           <div className="flex items-start">
             {[
-              { num: 1, label: 'Permit Type' },
-              { num: 2, label: 'Vehicle Details' },
-              { num: 3, label: 'Route Corridors' },
-              { num: 4, label: 'Tax & Payment' }
+              { num: 1, label: t('vpStep1') },
+              { num: 2, label: t('vpStep2') },
+              { num: 3, label: t('vpStep3') },
+              { num: 4, label: t('vpStep4') }
             ].map((step, i) => {
               const done = currentStep > step.num;
               const active = currentStep === step.num;
@@ -223,14 +225,14 @@ export default function VehiclePermitPage() {
         {currentStep === 1 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-olive-800 dark:text-olive-400">Step 1 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Select Permit Classification</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Unified under Central Motor Vehicles Rules 1989 (Rule 85-B).</p>
+              <p className="eyebrow text-olive-800 dark:text-olive-400">{t('vpStepOf')} {currentStep} {t('vpStepOfTotal')}</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">{t('vpPermitType')}</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('vpPermitTypeDesc')}</p>
             </div>
 
             <Field
-              label="Permit Classification"
-              hint="Choose the statutory category that matches your vehicle and operation. Fees and route rights adapt automatically."
+              label={t('vpPermitClassification')}
+              hint={t('vpPermitClassificationHint')}
             >
               <OptionGrid
                 tone="olive"
@@ -240,27 +242,27 @@ export default function VehiclePermitPage() {
                 options={[
                   {
                     value: 'All India Tourist Permit (AITP)',
-                    label: 'All India Tourist Permit (AITP)',
-                    desc: 'Unrestricted passenger transit across all 28 States & 8 UTs with zero border taxes',
-                    badge: 'Most Popular',
+                    label: t('vpAITP'),
+                    desc: t('vpAITPDesc'),
+                    badge: t('vpAITPBadge'),
                   },
                   {
                     value: 'National Goods Carrier',
-                    label: 'National Goods Carrier',
-                    desc: 'Interstate commercial freight transport for heavy trucks and multi-axle trailers',
-                    badge: 'Freight',
+                    label: t('vpNationalGoods'),
+                    desc: t('vpNationalGoodsDesc'),
+                    badge: t('vpNationalGoodsBadge'),
                   },
                   {
                     value: 'Interstate Stage Carriage',
-                    label: 'Interstate Stage Carriage',
-                    desc: 'Scheduled route bus permit between designated origin and destination stations',
-                    badge: 'Public Transit',
+                    label: t('vpInterstateStage'),
+                    desc: t('vpInterstateStageDesc'),
+                    badge: t('vpInterstateStageBadge'),
                   },
                   {
                     value: 'Temporary Interstate Pass (30 Days)',
-                    label: 'Temporary Interstate Pass (30 Days)',
-                    desc: 'Short-term corridor authorization for temporary event or project deployment',
-                    badge: 'Short Term',
+                    label: t('vpTempPass'),
+                    desc: t('vpTempPassDesc'),
+                    badge: t('vpTempPassBadge'),
                   },
                 ]}
               />
@@ -268,7 +270,7 @@ export default function VehiclePermitPage() {
 
             {/* Jurisdiction */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5 pt-2">
-              <Field label="Origin State Authority" hint="State whose Transport Authority issues the permit.">
+              <Field label={t('vpOriginState')} hint={t('vpOriginStateHint')}>
                 <SelectInput
                   value={selectedState}
                   onValue={(st) => {
@@ -283,7 +285,7 @@ export default function VehiclePermitPage() {
                 </SelectInput>
               </Field>
 
-              <Field label="State Transport Authority (STA)" hint="Regional office (RTO) processing your single-window clearance.">
+              <Field label={t('vpSTA')} hint={t('vpSTAHint')}>
                 <SelectInput
                   value={selectedRtoCode}
                   onValue={(v) => setSelectedRtoCode(v)}
@@ -301,7 +303,7 @@ export default function VehiclePermitPage() {
                 onClick={handleNext}
                 className="clay-btn clay-btn-primary min-h-[44px] px-7 py-3 text-sm text-white font-bold"
               >
-                <span>Continue to Vehicle Specs</span>
+                <span>{t('vpContinueVehicle')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -312,13 +314,13 @@ export default function VehiclePermitPage() {
         {currentStep === 2 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-olive-800 dark:text-olive-400">Step 2 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Vehicle Specifications & Compliance</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Automated validation with National Vehicle Registry (Vahan OS).</p>
+              <p className="eyebrow text-olive-800 dark:text-olive-400">{t('vpStepOf')} {currentStep} {t('vpStepOfTotal')}</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">{t('vpVehicleSpecs')}</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('vpVehicleSpecsDesc')}</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
-              <Field label="Vehicle Registration Number" hint="Format e.g. DL 01 AA 9481 — as issued by the RTO.">
+              <Field label={t('vpRegNumber')} hint={t('vpRegNumberHint')}>
                 <TextInput
                   value={vehicleRegNumber}
                   onValue={setVehicleRegNumber}
@@ -328,7 +330,7 @@ export default function VehiclePermitPage() {
                 />
               </Field>
 
-              <Field label="Seating / Body Configuration" hint="Passenger seating layout or goods body type, matching the fitness certificate.">
+              <Field label={t('vpSeatingConfig')} hint={t('vpSeatingConfigHint')}>
                 <TextInput
                   value={seatingOrPayload}
                   onValue={setSeatingOrPayload}
@@ -337,9 +339,9 @@ export default function VehiclePermitPage() {
               </Field>
 
               <Field
-                label="Gross Vehicle Weight (GVW)"
+                label={t('vpGVW')}
                 adornment="in kg"
-                hint="Gross Vehicle Weight in kg, from the fitness certificate."
+                hint={t('vpGVWHint')}
               >
                 <TextInput
                   value={grossVehicleWeightKg ? String(grossVehicleWeightKg) : ''}
@@ -351,14 +353,14 @@ export default function VehiclePermitPage() {
                 />
               </Field>
 
-              <Field label="Permit Validity Term" hint="Longer terms reduce renewal frequency; 5 years is the standard national term.">
+              <Field label={t('vpPermitValidity')} hint={t('vpPermitValidityHint')}>
                 <SelectInput
                   value={String(permitPeriodYears)}
                   onValue={(v) => setPermitPeriodYears(Number(v))}
                 >
-                  <option value={5}>5 Years (Recommended National Term)</option>
-                  <option value={3}>3 Years</option>
-                  <option value={1}>1 Year Annual</option>
+                  <option value={5}>{t('vp5Years')}</option>
+                  <option value={3}>{t('vp3Years')}</option>
+                  <option value={1}>{t('vp1Year')}</option>
                 </SelectInput>
               </Field>
             </div>
@@ -367,13 +369,13 @@ export default function VehiclePermitPage() {
             <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 space-y-3">
               <div className="text-sm font-bold text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5">
                 <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Real-Time Statutory Compliance Verification</span>
+                <span>{t('vpCompliance')}</span>
               </div>
-              <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80">Auto-verified from Vahan OS — dates are as printed on each certificate.</p>
+              <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80">{t('vpComplianceDesc')}</p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-emerald-900 dark:text-emerald-200">
-                <div>Fitness: <span className="font-semibold">Valid (Aug 2027)</span></div>
-                <div>Insurance: <span className="font-semibold">Active Comprehensive</span></div>
-                <div>PUCC: <span className="font-semibold">Emission Green Pass</span></div>
+                <div>{t('vpFitness')} <span className="font-semibold">Valid (Aug 2027)</span></div>
+                <div>{t('vpInsurance')} <span className="font-semibold">Active Comprehensive</span></div>
+                <div>{t('vpPUCC')} <span className="font-semibold">Emission Green Pass</span></div>
               </div>
             </div>
 
@@ -391,7 +393,7 @@ export default function VehiclePermitPage() {
                 onClick={handleNext}
                 className="clay-btn clay-btn-primary min-h-[44px] px-7 py-3 text-sm text-white font-bold"
               >
-                <span>Continue to Corridors</span>
+                <span>{t('vpContinueCorridors')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -402,15 +404,15 @@ export default function VehiclePermitPage() {
         {currentStep === 3 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-olive-800 dark:text-olive-400">Step 3 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Interstate Corridors & Route Matrix</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Select high-speed expressway corridors or pan-India single window coverage.</p>
+              <p className="eyebrow text-olive-800 dark:text-olive-400">{t('vpStepOf')} {currentStep} {t('vpStepOfTotal')}</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">{t('vpCorridors')}</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('vpCorridorsDesc')}</p>
             </div>
 
             <Field
-              label="Authorized Route Corridors"
+              label={t('vpAuthorizedCorridors')}
               adornment={`${selectedCorridors.length} selected`}
-              hint="Select one or more corridors — at least one is required. Pan-India coverage includes every state, UT, and border checkpost."
+              hint={t('vpAuthorizedCorridorsHint')}
             >
               <OptionGrid
                 tone="teal"
@@ -419,10 +421,10 @@ export default function VehiclePermitPage() {
                 selectedValues={selectedCorridors}
                 onChange={toggleCorridor}
                 options={[
-                  { value: 'All Indian States & UTs (National Green Corridor)', label: 'All Indian States & UTs (National Green Corridor)', icon: <MapPin className="w-4 h-4" />, desc: 'Complete unrestricted transit across all National Highways, expressways, and border checkposts' },
-                  { value: 'Delhi - Mumbai Expressway Freight Corridor', label: 'Delhi - Mumbai Expressway Freight Corridor', icon: <MapPin className="w-4 h-4" />, desc: 'Fast-track priority electronic toll pass for the NE-4 expressway corridor' },
-                  { value: 'Golden Quadrilateral Transit Belt', label: 'Golden Quadrilateral Transit Belt', icon: <MapPin className="w-4 h-4" />, desc: 'Connecting Delhi, Mumbai, Chennai, and Kolkata arterial industrial corridors' },
-                  { value: 'Western Coastal Tourist Highway', label: 'Western Coastal Tourist Highway', icon: <MapPin className="w-4 h-4" />, desc: 'Mumbai, Goa, Mangalore, Kochi coastal tourist route coverage' },
+                  { value: 'All Indian States & UTs (National Green Corridor)', label: t('vpAllStates'), icon: <MapPin className="w-4 h-4" />, desc: t('vpAllStatesDesc') },
+                  { value: 'Delhi - Mumbai Expressway Freight Corridor', label: t('vpDelhiMumbai'), icon: <MapPin className="w-4 h-4" />, desc: t('vpDelhiMumbaiDesc') },
+                  { value: 'Golden Quadrilateral Transit Belt', label: t('vpGoldenQuad'), icon: <MapPin className="w-4 h-4" />, desc: t('vpGoldenQuadDesc') },
+                  { value: 'Western Coastal Tourist Highway', label: t('vpWesternCoast'), icon: <MapPin className="w-4 h-4" />, desc: t('vpWesternCoastDesc') },
                 ]}
               />
             </Field>
@@ -441,7 +443,7 @@ export default function VehiclePermitPage() {
                 onClick={handleNext}
                 className="clay-btn clay-btn-primary min-h-[44px] px-7 py-3 text-sm text-white font-bold"
               >
-                <span>Continue to Fee Review</span>
+                <span>{t('vpContinueFee')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -452,27 +454,27 @@ export default function VehiclePermitPage() {
         {currentStep === 4 && (
           <div className="space-y-6">
             <div>
-              <p className="eyebrow text-olive-800 dark:text-olive-400">Step 4 of 4</p>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">Composite Permit Fee Review</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Unified single-window settlement under National Transport Agreement.</p>
+              <p className="eyebrow text-olive-800 dark:text-olive-400">{t('vpStepOf')} {currentStep} {t('vpStepOfTotal')}</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">{t('vpFeeReview')}</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('vpFeeReviewDesc')}</p>
             </div>
 
             {/* Summary */}
             <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-3 text-sm">
               <div className="flex justify-between gap-4 border-b border-slate-200 dark:border-slate-700 pb-2">
-                <span className="text-slate-500 dark:text-slate-400">Applicant / Fleet Entity</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('vpApplicantFleet')}</span>
                 <span className="font-bold text-slate-900 dark:text-white text-right">{currentUser.name}</span>
               </div>
               <div className="flex justify-between gap-4 border-b border-slate-200 dark:border-slate-700 pb-2">
-                <span className="text-slate-500 dark:text-slate-400">Vehicle Registration</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('vpVehicleReg')}</span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white text-right">{vehicleRegNumber}</span>
               </div>
               <div className="flex justify-between gap-4 border-b border-slate-200 dark:border-slate-700 pb-2">
-                <span className="text-slate-500 dark:text-slate-400">Permit Classification</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('vpPermitClass')}</span>
                 <span className="font-bold text-teal-700 dark:text-teal-400 text-right">{permitCategory}</span>
               </div>
               <div className="flex justify-between gap-4">
-                <span className="text-slate-500 dark:text-slate-400">Authorized Validity</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('vpAuthValidity')}</span>
                 <span className="font-semibold text-slate-900 dark:text-white text-right">{permitPeriodYears} Years National Multi-Entry</span>
               </div>
             </div>
@@ -480,15 +482,15 @@ export default function VehiclePermitPage() {
             {/* Fee Breakdown */}
             <div className="space-y-2 p-5 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800/60 text-sm">
               <div className="flex justify-between gap-4 text-slate-700 dark:text-slate-300">
-                <span>National Composite Permit Fee (Central Single Window)</span>
+                <span>{t('vpNationalFee')}</span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(totalFee)}</span>
               </div>
               <div className="flex justify-between gap-4 text-teal-800 dark:text-teal-300">
-                <span>Border Checkpost Multi-Entry Surcharges</span>
-                <span className="font-mono font-bold">INCLUDED (₹0)</span>
+                <span>{t('vpBorderSurcharges')}</span>
+                <span className="font-mono font-bold">{t('vpIncluded')}</span>
               </div>
               <div className="flex justify-between gap-4 pt-3 border-t border-teal-200 dark:border-teal-800/60 font-extrabold text-teal-950 dark:text-teal-100">
-                <span>Total Composite Amount</span>
+                <span>{t('vpTotalComposite')}</span>
                 <span className="font-mono text-lg text-teal-700 dark:text-teal-400">{formatINR(totalFee)}</span>
               </div>
             </div>
@@ -522,10 +524,10 @@ export default function VehiclePermitPage() {
                 <CheckCircle className="w-8 h-8" />
               </div>
               <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                National Permit Granted
+                {t('vpPermitGranted')}
               </h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">
-                Permit Number: <strong className="font-mono text-teal-700 dark:text-teal-400">{completedApplication.digitalPermitDocument?.permitNumber}</strong>
+                {t('vpPermitNumber')} <strong className="font-mono text-teal-700 dark:text-teal-400">{completedApplication.digitalPermitDocument?.permitNumber}</strong>
               </p>
             </div>
 
@@ -538,19 +540,19 @@ export default function VehiclePermitPage() {
                 href="/dashboard"
                 className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm text-white font-bold"
               >
-                Go to Dashboard
+                {t('vpGoDashboard')}
               </Link>
               <Link
                 href={`/track?ref=${completedApplication.referenceNumber}`}
                 className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
-                Track Live Status
+                {t('vpTrackStatus')}
               </Link>
               <Link
                 href="/documents"
                 className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
               >
-                View in GatiLocker
+                {t('vpViewLocker')}
               </Link>
             </div>
           </div>
