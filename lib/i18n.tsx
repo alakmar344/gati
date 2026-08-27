@@ -515,6 +515,12 @@ export const DICTIONARY = {
     fnPayReserve: "Pay & Reserve",
     fnToastIssued: "VIP number allotted",
     fnToastDesc: "reserved — certificate saved to GatiLocker.",
+    fnEndsIn: "Ends in",
+    fnHighProfile: "High-profile allocation in",
+    fnImmediateReserve: "Immediate reserve deposit locks the number for vehicle registration.",
+    fnReserve: "Reserve",
+    fnFor: "for",
+    fnSumLabel: "Sum",
 
     // ── Vehicle Permit page
     vpEyebrow: "National Single-Window Transport Hub",
@@ -705,6 +711,7 @@ export const DICTIONARY = {
     trkSampleVP: "National Tourist Permit",
     trkCredentialIssued: "Your digital credential has been cryptographically signed and minted. You can immediately download or print it from GatiLocker.",
     trkDocumentsCleared: "Your application documents have cleared scrutiny. Please arrive at the test facility 15 minutes before your scheduled slot.",
+    trkUpdated: "Updated",
 
     // ── Digital Document components
     ddVerifiedPVC: "Verified Cryptographic PVC Smart Card",
@@ -1283,6 +1290,12 @@ export const DICTIONARY = {
     fnPayReserve: "भुगतान करें एवं आरक्षित करें",
     fnToastIssued: "वीआईपी नंबर आवंटित",
     fnToastDesc: "आरक्षित — प्रमाणपत्र गति लॉकर में सुरक्षित।",
+    fnEndsIn: "समाप्ति",
+    fnHighProfile: "उच्च-प्रोफाइल आवंटन",
+    fnImmediateReserve: "तत्काल आरक्षित जमा वाहन पंजीकरण के लिए नंबर लॉक कर देता है।",
+    fnReserve: "आरक्षित करें",
+    fnFor: "के लिए",
+    fnSumLabel: "योग",
 
     // ── Vehicle Permit page
     vpEyebrow: "राष्ट्रीय एकल-विंडो परिवहन हब",
@@ -1473,6 +1486,7 @@ export const DICTIONARY = {
     trkSampleVP: "राष्ट्रीय पर्यटक परमिट",
     trkCredentialIssued: "आपका डिजिटल क्रेडेंशियल क्रिप्टोग्राफिक रूप से हस्ताक्षरित और जारी किया गया है। आप इसे गति लॉकर से तुरंत डाउनलोड या प्रिंट कर सकते हैं।",
     trkDocumentsCleared: "आपके आवेदन दस्तावेज़ों ने जांच पास कर ली है। कृपया अपने निर्धारित स्लॉट से 15 मिनट पहले परीक्षण सुविधा पर पहुंचें।",
+    trkUpdated: "अपडेट",
 
     // ── Digital Document components
     ddVerifiedPVC: "सत्यापित क्रिप्टोग्राफिक पीवीसी स्मार्ट कार्ड",

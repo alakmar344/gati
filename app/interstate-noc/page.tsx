@@ -12,9 +12,11 @@ import { formatINR } from '@/lib/utils';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { useToast } from '@/components/ui/Toast';
 import { Field, TextInput, MoneyInput, SelectInput, VerifiedChip, amountInWords } from '@/components/ui/Form';
+import { useLanguage } from '@/lib/i18n';
 
 export default function InterstateNocPage() {
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const [originState, setOriginState] = useState<'KA' | 'MH' | 'DL' | 'TN' | 'TS' | 'GJ'>('KA');
   const [destState, setDestState] = useState<'MH' | 'KA' | 'DL' | 'TN' | 'TS' | 'GJ'>('MH');
@@ -55,8 +57,8 @@ export default function InterstateNocPage() {
   const handleGeneratePacket = () => {
     setPacketGenerated(true);
     toast({
-      title: 'Form 28 NOC dossier generated',
-      description: `Refund claim of ${formatINR(refundFromOriginState)} attached and digitally signed.`,
+      title: t('nocToastGenerated'),
+      description: `${t('nocToastDesc')} ${formatINR(refundFromOriginState)}`,
       variant: 'success',
     });
   };
@@ -66,10 +68,10 @@ export default function InterstateNocPage() {
 
       {/* Header */}
       <SectionHeading
-        eyebrow="Interstate Relocation & Tax Refund Engine"
+        eyebrow={t('nocEyebrow')}
         icon={<Compass className="w-3.5 h-3.5" />}
-        title="Interstate NOC & Tax Calculator"
-        subtitle="Calculate pro-rata road tax refunds from your origin state and auto-generate Form 28 (NOC) packets in one click."
+        title={t('nocTitle')}
+        subtitle={t('nocSubtitle')}
       />
 
       {/* Main Interactive Calculator Form */}
@@ -78,9 +80,9 @@ export default function InterstateNocPage() {
         {/* Journey: Origin → Destination */}
         <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-start gap-4">
           <Field
-            label="Origin State"
+            label={t('nocOriginState')}
             adornment="Current registration"
-            hint="Where the vehicle is currently registered — its RTO issues the NOC and the pro-rata road-tax refund."
+            hint={t('nocOriginStateHint')}
           >
             <SelectInput value={originState} onValue={(v) => setOriginState(v as any)}>
               {Object.entries(stateTaxRates).map(([k, v]) => (
@@ -94,9 +96,9 @@ export default function InterstateNocPage() {
           </div>
 
           <Field
-            label="Destination State"
+            label={t('nocDestState')}
             adornment="Relocation target"
-            hint="Where the vehicle is being newly registered — its rate sets the fresh road tax payable."
+            hint={t('nocDestStateHint')}
           >
             <SelectInput value={destState} onValue={(v) => setDestState(v as any)}>
               {Object.entries(stateTaxRates).map(([k, v]) => (
@@ -109,9 +111,9 @@ export default function InterstateNocPage() {
         {/* Vehicle particulars */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
           <Field
-            label="Vehicle Registration Number"
+            label={t('nocVehicleReg')}
             adornment={<VerifiedChip label="From profile" />}
-            hint="Appears on the generated Form 28 (NOC) and Form 27 (Re-Registration)."
+            hint={t('nocVehicleRegHint')}
           >
             <TextInput
               value={vehicleNumber}
@@ -123,9 +125,9 @@ export default function InterstateNocPage() {
           </Field>
 
           <Field
-            label="Vehicle Age"
+            label={t('nocVehicleAge')}
             adornment="Months"
-            hint="Used to pro-rate the refund over the 180-month (15-year) tax lifespan and to depreciate the valuation."
+            hint={t('nocVehicleAgeHint')}
           >
             <TextInput
               value={vehicleAgeMonths ? String(vehicleAgeMonths) : ''}
@@ -138,11 +140,11 @@ export default function InterstateNocPage() {
           </Field>
 
           <Field
-            label="Original Invoice Value"
+            label={t('nocInvoiceValue')}
             className="sm:col-span-2"
             hint={amountInWords(invoiceValue)
               ? amountInWords(invoiceValue).charAt(0).toUpperCase() + amountInWords(invoiceValue).slice(1)
-              : 'Ex-showroom purchase price — depreciated to value the new-state tax.'}
+              : t('nocInvoiceValueHint')}
           >
             <MoneyInput
               value={invoiceValue}
@@ -162,14 +164,14 @@ export default function InterstateNocPage() {
           <div className="p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-900/25 border border-emerald-200 dark:border-emerald-800/60 flex flex-col justify-between">
             <div>
               <span className="eyebrow text-emerald-800 dark:text-emerald-300 block">
-                Refund from {stateTaxRates[originState].name} RTO
+                {t('nocRefundFrom')} {stateTaxRates[originState].name} {t('nocRTO')}
               </span>
               <div className="text-2xl font-display font-extrabold tracking-tight text-emerald-700 dark:text-emerald-400 mt-1.5">
                 {formatINR(refundFromOriginState)}
               </div>
             </div>
             <p className="text-[11px] text-emerald-800/90 dark:text-emerald-300/90 mt-3 leading-relaxed">
-              Pro-rata refund for {remainingMonths} remaining unexpired months.
+              {t('nocProRataRefund')} {remainingMonths} {t('nocRemainingMonths')}
             </p>
           </div>
 
@@ -177,14 +179,14 @@ export default function InterstateNocPage() {
           <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
             <div>
               <span className="eyebrow text-slate-500 dark:text-slate-400 block">
-                New Tax in {stateTaxRates[destState].name}
+                {t('nocNewTax')} {stateTaxRates[destState].name}
               </span>
               <div className="text-2xl font-display font-extrabold tracking-tight text-slate-900 dark:text-slate-100 mt-1.5">
                 {formatINR(newTaxPayable)}
               </div>
             </div>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">
-              Based on depreciated vehicle valuation ({formatINR(depreciatedVehicleValue)}).
+              {t('nocBasedOnDepreciated')} ({formatINR(depreciatedVehicleValue)}).
             </p>
           </div>
 
@@ -192,17 +194,17 @@ export default function InterstateNocPage() {
           <div className="p-5 rounded-2xl bg-olive-50 dark:bg-olive-900/25 border border-olive-200 dark:border-olive-800/60 flex flex-col justify-between">
             <div>
               <span className="eyebrow text-olive-800 dark:text-olive-300 block">
-                Net Out-of-Pocket Balance
+                {t('nocNetBalance')}
               </span>
               <div className={`text-2xl font-display font-extrabold tracking-tight mt-1.5 ${netDifferential > 0 ? 'text-slate-900 dark:text-slate-100' : 'text-emerald-700 dark:text-emerald-400'}`}>
                 {formatINR(Math.abs(netDifferential))}
               </div>
               <span className={`text-[11px] font-bold ${netDifferential > 0 ? 'text-slate-500 dark:text-slate-400' : 'text-emerald-700 dark:text-emerald-400'}`}>
-                {netDifferential > 0 ? 'Payable' : 'Cashback Surplus'}
+                {netDifferential > 0 ? t('nocPayable') : t('nocCashbackSurplus')}
               </span>
             </div>
             <p className="text-[11px] text-olive-800/90 dark:text-olive-300/90 mt-3 leading-relaxed">
-              Calculated under Section 47 of Motor Vehicles Act 1988.
+              {t('nocSection47')}
             </p>
           </div>
 
@@ -212,7 +214,7 @@ export default function InterstateNocPage() {
         <div className="hairline" />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-            Auto-generates official <strong className="text-slate-700 dark:text-slate-200">Form 27 (Re-Registration)</strong> and <strong className="text-slate-700 dark:text-slate-200">Form 28 (No-Objection Certificate)</strong>.
+            {t('nocForm27Form28')}
           </div>
 
           <button
@@ -221,7 +223,7 @@ export default function InterstateNocPage() {
             className="btn btn-brand w-full sm:w-auto shrink-0"
           >
             <FileText className="w-4 h-4" />
-            <span>Generate Official Form 28 NOC Packet</span>
+            <span>{t('nocGenerateNOC')}</span>
           </button>
         </div>
 
@@ -235,32 +237,32 @@ export default function InterstateNocPage() {
               <CheckCircle className="w-6 h-6" />
             </div>
             <h3 className="font-display text-xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
-              Form 28 NOC & Tax Refund Dossier Ready
+              {t('nocNOCDossierReady')}
             </h3>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-1">
-              DOSSIER ID: GATI-NOC-{originState}-{destState}-2026-9810
+              {t('nocDossierID')} GATI-NOC-{originState}-{destState}-2026-9810
             </p>
           </div>
 
           <div className="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs space-y-3 text-slate-700 dark:text-slate-300">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <span className="font-bold text-slate-900 dark:text-slate-100">Form 28 No-Objection Certificate (NOC)</span>
-              <Pill tone="emerald">Digitally Signed</Pill>
+              <span className="font-bold text-slate-900 dark:text-slate-100">{t('nocForm28NOC')}</span>
+              <Pill tone="emerald">{t('nocDigitallySigned')}</Pill>
             </div>
             <div className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <span>Vehicle Registration</span>
+              <span>{t('nocVehicleRegLabel')}</span>
               <span className="font-mono font-bold text-slate-900 dark:text-slate-100">{vehicleNumber}</span>
             </div>
             <div className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <span>Origin State RTO</span>
+              <span>{t('nocOriginRTOLabel')}</span>
               <span className="font-semibold text-slate-900 dark:text-slate-100">{stateTaxRates[originState].name} RTO</span>
             </div>
             <div className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <span>Target RTO Jurisdiction</span>
+              <span>{t('nocTargetRTOLabel')}</span>
               <span className="font-semibold text-slate-900 dark:text-slate-100">{stateTaxRates[destState].name} RTO</span>
             </div>
             <div className="flex justify-between">
-              <span>Pro-Rata Road Tax Refund Claim</span>
+              <span>{t('nocProRataRefundLabel')}</span>
               <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">{formatINR(refundFromOriginState)} Attached</span>
             </div>
           </div>
@@ -271,7 +273,7 @@ export default function InterstateNocPage() {
               className="btn btn-primary w-full sm:w-auto"
             >
               <Printer className="w-4 h-4" />
-              <span>Print / Save NOC Packet (PDF)</span>
+              <span>{t('nocPrintSave')}</span>
             </button>
           </div>
         </div>

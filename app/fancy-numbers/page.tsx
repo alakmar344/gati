@@ -19,31 +19,33 @@ import { VipAllotmentOrder } from '@/components/documents/VipAllotmentOrder';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { Field, TextInput, OptionGrid } from '@/components/ui/Form';
 import { useToast } from '@/components/ui/Toast';
-
-const CATEGORY_OPTIONS = [
-  { value: 'ALL', label: 'All Patterns' },
-  { value: 'Super VIP', label: '👑 Super VIP' },
-  { value: 'Quad Mirror', label: '✨ Quad Mirrors' },
-  { value: 'Auspicious', label: '🕊️ Auspicious' },
-  { value: 'Sequence', label: '📈 Sequence' },
-  { value: 'Milestone', label: '🎯 Milestone' },
-];
-
-const SUM_OPTIONS = [
-  { value: 'ALL', label: 'All sums' },
-  { value: '1', label: 'Sum 1' },
-  { value: '3', label: 'Sum 3' },
-  { value: '7', label: 'Sum 7' },
-  { value: '9', label: 'Sum 9' },
-];
+import { useLanguage } from '@/lib/i18n';
 
 export default function FancyNumbersPage() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [currentUser] = useState(getCurrentUser());
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [selectedSum, setSelectedSum] = useState<number | null>(null);
   const [selectedPlateTheme, setSelectedPlateTheme] = useState<'private' | 'luxury' | 'ev' | 'commercial'>('luxury');
+
+  const CATEGORY_OPTIONS = [
+    { value: 'ALL', label: t('fnAllPatterns') },
+    { value: 'Super VIP', label: `👑 ${t('fnSuperVIP')}` },
+    { value: 'Quad Mirror', label: `✨ ${t('fnQuadMirrors')}` },
+    { value: 'Auspicious', label: `🕊️ ${t('fnAuspicious')}` },
+    { value: 'Sequence', label: `📈 ${t('fnSequence')}` },
+    { value: 'Milestone', label: `🎯 ${t('fnMilestone')}` },
+  ];
+
+  const SUM_OPTIONS = [
+    { value: 'ALL', label: t('fnAllSums') },
+    { value: '1', label: t('fnSum1') },
+    { value: '3', label: t('fnSum3') },
+    { value: '7', label: t('fnSum7') },
+    { value: '9', label: t('fnSum9') },
+  ];
   
   // Active Selected Number for Detail & Modal
   const [selectedNumber, setSelectedNumber] = useState<FancyNumberItem>(MOCK_FANCY_NUMBERS[1]); // default to 0007
@@ -97,7 +99,7 @@ export default function FancyNumbersPage() {
       status: 'card_generated',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      estimatedCompletion: 'Allotment Confirmed',
+      estimatedCompletion: t('fnAllotmentConfirmed'),
       currentStepIndex: 4,
       totalSteps: 4,
       nextActionLabel: 'View Allotment Order',
@@ -147,8 +149,8 @@ export default function FancyNumbersPage() {
     setCompletedApplication(newApp);
 
     toast({
-      title: 'VIP number allotted',
-      description: `${selectedNumber.fullPlateText} reserved — certificate saved to GatiLocker.`,
+      title: t('fnToastIssued'),
+      description: `${selectedNumber.fullPlateText} ${t('fnToastDesc')}`,
       variant: 'success',
     });
   };
@@ -158,10 +160,10 @@ export default function FancyNumbersPage() {
       
       {/* Header */}
       <SectionHeading
-        eyebrow="E-Auction & Priority Allocations"
+        eyebrow={t('fnEyebrow')}
         icon={<Sparkles className="w-3.5 h-3.5 text-amber-600" />}
-        title="VIP & Choice Plate Studio"
-        subtitle="Discover, simulate, and reserve prestigious Indian registration series with instant allotment certificate generation."
+        title={t('fnTitle')}
+        subtitle={t('fnSubtitle')}
         className="mb-10 animate-rise"
       />
 
@@ -172,12 +174,12 @@ export default function FancyNumbersPage() {
             <div className="w-14 h-14 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center mx-auto mb-4 shadow-inner">
               <Sparkles className="w-8 h-8" />
             </div>
-            <div className="eyebrow text-amber-700 dark:text-amber-400">Allotment Confirmed</div>
+            <div className="eyebrow text-amber-700 dark:text-amber-400">{t('fnAllotmentConfirmed')}</div>
             <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1.5">
-              VIP Number Allocated Successfully
+              {t('fnVIPAllocated')}
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-              Allotment ID: <strong className="font-mono text-amber-700 dark:text-amber-400">{completedApplication.allotmentCertificate?.allotmentId}</strong>
+              {t('fnAllotmentID')} <strong className="font-mono text-amber-700 dark:text-amber-400">{completedApplication.allotmentCertificate?.allotmentId}</strong>
             </p>
           </div>
 
@@ -188,16 +190,16 @@ export default function FancyNumbersPage() {
               onClick={() => setCompletedApplication(null)}
               className="btn btn-primary px-6 py-2.5 text-sm"
             >
-              Browse More Numbers
+              {t('fnBrowseMore')}
             </button>
             <Link href="/dashboard" className="btn btn-ghost px-6 py-2.5 text-sm">
-              Go to Dashboard
+              {t('fnGoDashboard')}
             </Link>
             <Link
               href="/documents"
               className="btn px-6 py-2.5 text-sm bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950/60"
             >
-              View in GatiLocker
+              {t('fnViewLocker')}
             </Link>
           </div>
         </div>
@@ -215,12 +217,12 @@ export default function FancyNumbersPage() {
 
                 {/* Plate Style Toggle Pills */}
                 <div className="flex flex-wrap items-center justify-center gap-2 mb-6 z-10 text-[11px] font-bold">
-                  <span className="text-slate-400 uppercase tracking-widest mr-1 hidden sm:inline">Theme</span>
+                  <span className="text-slate-400 uppercase tracking-widest mr-1 hidden sm:inline">{t('fnTheme')}</span>
                   {[
-                    { id: 'luxury', label: 'Luxury Black' },
-                    { id: 'private', label: 'White Private' },
-                    { id: 'ev', label: 'EV Green' },
-                    { id: 'commercial', label: 'Commercial' },
+                    { id: 'luxury', label: t('fnLuxuryBlack') },
+                    { id: 'private', label: t('fnWhitePrivate') },
+                    { id: 'ev', label: t('fnEVGreen') },
+                    { id: 'commercial', label: t('fnCommercial') },
                   ].map((thm) => (
                     <button
                       key={thm.id}
@@ -248,9 +250,9 @@ export default function FancyNumbersPage() {
 
                 {/* Sub-bar */}
                 <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 w-full max-w-sm mt-6 pt-4 border-t border-white/10 text-[11px] text-slate-400 z-10">
-                  <span>State <strong className="text-slate-200">{selectedNumber.state}</strong></span>
-                  <span>Sum <strong className="text-amber-400 font-mono">#{selectedNumber.numerologySum}</strong></span>
-                  <span>Tag <strong className="text-emerald-400">{selectedNumber.tag}</strong></span>
+                  <span>{t('fnState')} <strong className="text-slate-200">{selectedNumber.state}</strong></span>
+                  <span>{t('fnSum')} <strong className="text-amber-400 font-mono">#{selectedNumber.numerologySum}</strong></span>
+                  <span>{t('fnTag')} <strong className="text-emerald-400">{selectedNumber.tag}</strong></span>
                 </div>
               </div>
 
@@ -260,7 +262,7 @@ export default function FancyNumbersPage() {
                   <Pill tone="amber">{selectedNumber.category}</Pill>
                   <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                    Ends in {selectedNumber.auctionEndsIn}
+                    {t('fnEndsIn')} {selectedNumber.auctionEndsIn}
                   </span>
                 </div>
 
@@ -269,22 +271,22 @@ export default function FancyNumbersPage() {
                 </h3>
 
                 <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                  High-profile allocation in {selectedNumber.rto}. Immediate reserve deposit locks the number for vehicle registration.
+                  {t('fnHighProfile')} {selectedNumber.rto}. {t('fnImmediateReserve')}
                 </p>
 
                 {/* Price Display */}
                 <div className="p-4 rounded-2xl bg-amber-50/60 dark:bg-amber-950/40 border border-amber-200/70 dark:border-amber-800/60 flex items-center justify-between gap-3">
                   <div>
-                    <span className="text-[11px] uppercase font-bold tracking-wide text-amber-700/80 dark:text-amber-400 block">Reserve Price / Buy Now</span>
+                    <span className="text-[11px] uppercase font-bold tracking-wide text-amber-700/80 dark:text-amber-400 block">{t('fnReservePrice')}</span>
                     <span className="text-2xl font-black text-slate-900 dark:text-white font-mono">{formatINR(selectedNumber.price)}</span>
                   </div>
-                  <Pill tone="emerald">{selectedNumber.bidsCount} Active Bids</Pill>
+                  <Pill tone="emerald">{selectedNumber.bidsCount} {t('fnActiveBids')}</Pill>
                 </div>
 
                 {/* Target Vehicle Input */}
                 <Field
-                  label="Target Vehicle for Allocation"
-                  hint="The vehicle this plate will be assigned to"
+                  label={t('fnTargetVehicle')}
+                  hint={t('fnTargetVehicleHint')}
                 >
                   <TextInput
                     value={targetVehicle}
@@ -302,7 +304,7 @@ export default function FancyNumbersPage() {
                   className="clay-btn clay-btn-saffron w-full min-h-[44px] py-3 text-sm text-white shadow-lg"
                 >
                   <CreditCard className="w-4 h-4" />
-                  <span>Reserve {selectedNumber.number} for {formatINR(selectedNumber.price)}</span>
+                  <span>{t('fnReserve')} {selectedNumber.number} {t('fnFor')} {formatINR(selectedNumber.price)}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -314,7 +316,7 @@ export default function FancyNumbersPage() {
           <div className="clay-card p-5 sm:p-6 space-y-6">
 
             {/* Search Box */}
-            <Field label="Search plates" hint="Search by number, series, or RTO">
+            <Field label={t('fnSearchPlates')} hint={t('fnSearchPlatesHint')}>
               <TextInput
                 value={searchQuery}
                 onValue={setSearchQuery}
@@ -324,7 +326,7 @@ export default function FancyNumbersPage() {
             </Field>
 
             {/* Category Filter Chips */}
-            <Field label="Pattern category">
+            <Field label={t('fnPatternCategory')}>
               <OptionGrid
                 tone="amber"
                 columns="grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
@@ -335,7 +337,7 @@ export default function FancyNumbersPage() {
             </Field>
 
             {/* Numerology Lucky Sum Filter */}
-            <Field label="Lucky sum" hint="Numerology total of the digits">
+            <Field label={t('fnLuckySum')} hint={t('fnLuckySumHint')}>
               <OptionGrid
                 tone="amber"
                 columns="grid-cols-3 sm:grid-cols-5"
@@ -370,7 +372,7 @@ export default function FancyNumbersPage() {
                     <div className="flex items-center justify-between gap-2 mb-4">
                       <Pill tone="amber">{item.category}</Pill>
                       <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-                        <span className="font-mono font-bold text-amber-700 dark:text-amber-400">Sum {item.numerologySum}</span>
+                        <span className="font-mono font-bold text-amber-700 dark:text-amber-400">{t('fnSumLabel')} {item.numerologySum}</span>
                         <span className="text-slate-300 dark:text-slate-600">•</span>
                         <span>{item.state.split(' ')[0]}</span>
                       </div>
@@ -396,7 +398,7 @@ export default function FancyNumbersPage() {
                   {/* Bottom: Price & Quick Action */}
                   <div className="mt-6 pt-4 hairline border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
                     <div>
-                      <span className="text-[11px] uppercase tracking-wide text-slate-400 dark:text-slate-500 block font-bold">Reserve Price</span>
+                      <span className="text-[11px] uppercase tracking-wide text-slate-400 dark:text-slate-500 block font-bold">{t('fnReservePrice')}</span>
                       <span className="text-base font-extrabold text-slate-900 dark:text-white font-mono">{formatINR(item.price)}</span>
                     </div>
 
@@ -406,7 +408,7 @@ export default function FancyNumbersPage() {
                       className="clay-btn clay-btn-saffron min-h-[40px] px-4 py-2 text-xs text-white shadow-sm font-bold flex items-center gap-1.5"
                     >
                       <CreditCard className="w-3.5 h-3.5" />
-                      <span>Pay &amp; Reserve</span>
+                      <span>{t('fnPayReserve')}</span>
                     </button>
                   </div>
                 </div>

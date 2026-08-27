@@ -13,6 +13,7 @@ import {
 import { HsrpPlate } from '@/components/plates/HsrpPlate';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { useToast } from '@/components/ui/Toast';
+import { useLanguage } from '@/lib/i18n';
 
 interface ScannedResult {
   docType: 'RC' | 'DL' | 'PLATE' | 'INSURANCE';
@@ -36,6 +37,7 @@ export default function ScanPage() {
   const [activeResult, setActiveResult] = useState<ScannedResult | null>(null);
   const [selectedSample, setSelectedSample] = useState<string>('rc-nexon');
   const scanIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const { t } = useLanguage();
 
   // Clear any in-flight scan timer on unmount
   useEffect(() => {
@@ -128,8 +130,8 @@ export default function ScanPage() {
           setIsScanning(false);
           setActiveResult(samplePresets[presetKey]);
           toast({
-            title: 'Extraction complete',
-            description: `${samplePresets[presetKey].confidence}% confidence match`,
+            title: t('scToastExtraction'),
+            description: `${samplePresets[presetKey].confidence}${t('scPercent')} ${t('scToastConfidence')}`,
             variant: 'success',
           });
           return 100;
@@ -144,10 +146,10 @@ export default function ScanPage() {
 
       {/* Header */}
       <SectionHeading
-        eyebrow="Sub-Second OCR & Diagnostic Engine"
+        eyebrow={t('scEyebrow')}
         icon={<ScanLine className="w-3.5 h-3.5" />}
-        title="Gati Smart Lens"
-        subtitle="Scan any physical Indian Registration Card, Driving Licence, or HSRP Number Plate to extract fields with 100% precision."
+        title={t('scTitle')}
+        subtitle={t('scSubtitle')}
       />
 
       {/* Interactive Lens Studio */}
@@ -159,9 +161,9 @@ export default function ScanPage() {
             <div className="flex items-center justify-between mb-4">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                 <Camera className="w-4 h-4 text-emerald-600" />
-                <span>Camera / OCR Viewport</span>
+                <span>{t('scCameraViewport')}</span>
               </span>
-              <Pill tone="emerald">Live Ready</Pill>
+              <Pill tone="emerald">{t('scLiveReady')}</Pill>
             </div>
 
             {/* Viewfinder Screen */}
@@ -188,14 +190,14 @@ export default function ScanPage() {
               <div className="text-center z-10 space-y-3">
                 {selectedSample === 'rc-nexon' && (
                   <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-xs">
-                    <div className="font-mono font-bold text-emerald-400">CERTIFICATE OF REGISTRATION</div>
+                    <div className="font-mono font-bold text-emerald-400">{t('scCertOfReg')}</div>
                     <div className="font-mono text-[11px] text-slate-200 mt-1">KA 01 EK 4920 • TATA NEXON EV</div>
                   </div>
                 )}
 
                 {selectedSample === 'dl-ananya' && (
                   <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-xs">
-                    <div className="font-mono font-bold text-sky-400">UNION OF INDIA DRIVING LICENCE</div>
+                    <div className="font-mono font-bold text-sky-400">{t('scUnionDL')}</div>
                     <div className="font-mono text-[11px] text-slate-200 mt-1">MH 12 2026 0094821 • ANANYA D</div>
                   </div>
                 )}
@@ -207,7 +209,7 @@ export default function ScanPage() {
                 )}
 
                 <div className="text-[11px] text-slate-400 uppercase tracking-widest font-mono">
-                  {isScanning ? `DECODING CHIP & OCR MATRIX (${scanProgress}%)...` : 'DOCUMENT IN FOCUS'}
+                  {isScanning ? t('scDecodingChip') + ' (' + scanProgress + t('scPercent') + ')...' : t('scDocInFocus')}
                 </div>
               </div>
             </div>
@@ -216,7 +218,7 @@ export default function ScanPage() {
           {/* Preset Buttons for Instant 1-Tap Test */}
           <div className="space-y-3">
             <span className="eyebrow text-slate-500 dark:text-slate-400 block">
-              1-Tap Test Documents
+              {t('sc1TapTest')}
             </span>
             <div className="grid grid-cols-3 gap-2 text-xs">
               <button
@@ -228,7 +230,7 @@ export default function ScanPage() {
                     : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60'
                 }`}
               >
-                🚗 Smart RC
+                🚗 {t('scSmartRC')}
               </button>
 
               <button
@@ -240,7 +242,7 @@ export default function ScanPage() {
                     : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60'
                 }`}
               >
-                💳 PVC Licence
+                💳 {t('scPVCLicence')}
               </button>
 
               <button
@@ -252,7 +254,7 @@ export default function ScanPage() {
                     : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60'
                 }`}
               >
-                👑 VIP HSRP
+                👑 {t('scVIPHSRP')}
               </button>
             </div>
           </div>
@@ -267,16 +269,16 @@ export default function ScanPage() {
               <div className="flex items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
                 <div>
                   <span className="eyebrow text-emerald-700 dark:text-emerald-400 block">
-                    Instant Extraction Completed
+                    {t('scExtractionComplete')}
                   </span>
                   <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">
-                    {activeResult.docType === 'RC' && 'Vehicle Registration Verified'}
-                    {activeResult.docType === 'DL' && 'Driving Licence Credentials Extracted'}
-                    {activeResult.docType === 'PLATE' && 'HSRP Plate Telemetry Match'}
+                    {activeResult.docType === 'RC' && t('scRCVerified')}
+                    {activeResult.docType === 'DL' && t('scDLExtracted')}
+                    {activeResult.docType === 'PLATE' && t('scPlateMatch')}
                   </h3>
                 </div>
                 <Pill tone="emerald" className="font-mono shrink-0">
-                  {activeResult.confidence}% Match
+                  {activeResult.confidence}{t('scPercent')} {t('scMatch')}
                 </Pill>
               </div>
 
@@ -293,7 +295,7 @@ export default function ScanPage() {
               {/* Health Flags Audit */}
               <div className="space-y-2.5">
                 <span className="eyebrow text-slate-600 dark:text-slate-400 block">
-                  Statutory Health & Radar Flags
+                  {t('scStatutoryHealth')}
                 </span>
                 <div className="space-y-2">
                   {activeResult.healthFlags.map((flag, idx) => (
@@ -336,9 +338,9 @@ export default function ScanPage() {
                 <ScanLine className="w-7 h-7 animate-pulse" />
               </div>
               <div>
-                <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">Ready to Scan</h3>
+                <h3 className="font-display text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">{t('scReadyToScan')}</h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400 max-w-xs mx-auto mt-1.5 leading-relaxed">
-                  Click any of the 1-tap test documents on the left to simulate instant sub-second OCR extraction.
+                  {t('scReadyDesc')}
                 </p>
               </div>
               <button
@@ -346,7 +348,7 @@ export default function ScanPage() {
                 className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm text-white font-bold"
               >
                 <Zap className="w-4 h-4" />
-                <span>Scan Sample RC Now</span>
+                <span>{t('scScanSampleRC')}</span>
               </button>
             </div>
           )}
