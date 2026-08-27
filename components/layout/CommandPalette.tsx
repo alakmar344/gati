@@ -203,7 +203,7 @@ export function CommandPalette() {
               isActive ? 'bg-olive-500/40 text-olive-100' : 'bg-olive-100 dark:bg-olive-900/60 text-olive-800 dark:text-olive-300'
             }`}
           >
-            <Zap className="w-3 h-3 inline -mt-0.5" /> run
+            <Zap className="w-3 h-3 inline -mt-0.5" /> {t('cpRun')}
           </span>
         )}
         {isActive && <CornerDownLeft className="w-4 h-4 text-white/70 shrink-0" />}
@@ -253,17 +253,17 @@ export function CommandPalette() {
           ) : (
             <>
               {grouped.insight.length > 0 && (
-                <Group label={language === 'hi' ? 'आपके लिए सुझाव' : 'Suggested for you'}>
+                <Group label={t('cpSuggestedForYou')}>
                   {grouped.insight.map((r, i) => renderRow(r, i))}
                 </Group>
               )}
               {grouped.doNow.length > 0 && (
-                <Group label={language === 'hi' ? 'तुरंत करें' : 'Do it now'}>
+                <Group label={t('cpDoItNow')}>
                   {grouped.doNow.map((r, i) => renderRow(r, grouped.insight.length + i))}
                 </Group>
               )}
               {grouped.goTo.length > 0 && (
-                <Group label={language === 'hi' ? 'नेविगेट करें' : 'Go to'}>
+                <Group label={t('cpGoTo')}>
                   {grouped.goTo.map((r, i) => renderRow(r, grouped.insight.length + grouped.doNow.length + i))}
                 </Group>
               )}

@@ -3,6 +3,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Check, AlertCircle } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n';
 
 /* ============================================================
    Form primitives — tactile clay inputs, consistent validation,
@@ -32,13 +33,14 @@ export function Field({
   className?: string;
   children: React.ReactNode;
 }) {
+  const { t } = useLanguage();
   return (
     <div className={className}>
       <div className="flex items-baseline justify-between gap-2 mb-1.5">
         <label htmlFor={htmlFor} className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide flex items-center gap-1">
           {label}
           {required && <span className="text-rose-500">*</span>}
-          {optional && <span className="text-slate-400 dark:text-slate-500 font-medium normal-case tracking-normal">(optional)</span>}
+          {optional && <span className="text-slate-400 dark:text-slate-500 font-medium normal-case tracking-normal">{t('formOptional')}</span>}
         </label>
         {adornment && <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500 shrink-0">{adornment}</span>}
       </div>

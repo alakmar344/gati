@@ -21,6 +21,7 @@ import { DigitalRcSmartCard } from '@/components/documents/DigitalRcSmartCard';
 import { SectionHeading, Pill } from '@/components/ui/Primitives';
 import { useToast } from '@/components/ui/Toast';
 import { Field, TextInput, MoneyInput, OptionGrid, SelectInput, VerifiedChip, amountInWords } from '@/components/ui/Form';
+import { useLanguage } from '@/lib/i18n';
 
 const WIZARD_STEPS = [
   { num: 1, label: 'Vehicle Specs' },
@@ -32,8 +33,17 @@ const WIZARD_STEPS = [
 
 export default function VehicleLicensingPage() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [currentUser, setCurrentUser] = useState(getCurrentUser());
+
+  const WIZARD_STEPS = [
+    { num: 1, label: t('vlStep1') },
+    { num: 2, label: t('vlStep2') },
+    { num: 3, label: t('vlStep3') },
+    { num: 4, label: t('vlStep4') },
+    { num: 5, label: t('vlStep5') },
+  ];
 
   // Form State
   const [registrationCategory, setRegistrationCategory] = useState<'New Private Vehicle' | 'Ownership Transfer' | 'Commercial Green Fleet' | 'Vintage / Classic'>('New Private Vehicle');
@@ -190,7 +200,7 @@ export default function VehicleLicensingPage() {
     setCurrentStep(5); // Completion step
 
     toast({
-      title: 'Smart RC issued successfully',
+      title: t('vlToastIssued'),
       description: `${randomAssignedNumber} · Ref ${refNo}`,
       variant: 'success',
     });
@@ -202,10 +212,10 @@ export default function VehicleLicensingPage() {
       {/* Header */}
       <SectionHeading
         className="mb-8 animate-rise"
-        eyebrow="Vehicle Registration Portal"
+        eyebrow={t('vlEyebrow')}
         icon={<Car className="w-3.5 h-3.5" />}
-        title="Vehicle Licensing & RC"
-        subtitle="Complete paperless registration for new vehicles, ownership transfers, and EV green fleets."
+        title={t('vlTitle')}
+        subtitle={t('vlSubtitle')}
       />
 
       {/* Horizontal Stepper */}
@@ -213,9 +223,9 @@ export default function VehicleLicensingPage() {
         <div className="mb-8 animate-rise">
           <div className="flex items-center justify-between gap-3 mb-4">
             <p className="eyebrow text-olive-800 dark:text-olive-300">
-              Step {currentStep} of 5 — {WIZARD_STEPS[currentStep - 1].label}
+              {t('vlStepOf')} {currentStep} {t('vlStepOfTotal')} — {WIZARD_STEPS[currentStep - 1].label}
             </p>
-            <Pill tone="olive">Paperless FastTrack</Pill>
+            <Pill tone="olive">{t('vlPaperlessFastTrack')}</Pill>
           </div>
 
           <div className="flex items-start">
@@ -269,26 +279,26 @@ export default function VehicleLicensingPage() {
         {currentStep === 1 && (
           <div className="clay-card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Vehicle Specifications</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Select the registration type and vehicle details.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">{t('vlVehicleSpecs')}</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('vlVehicleSpecsDesc')}</p>
             </div>
 
             {/* Registration Category */}
-            <Field label="Registration Category" hint="Pick the transaction type — this determines which forms and fees apply.">
+            <Field label={t('vlRegCategory')} hint={t('vlRegCategoryHint')}>
               <OptionGrid
                 value={registrationCategory}
                 onChange={(v) => setRegistrationCategory(v as any)}
                 options={[
-                  { value: 'New Private Vehicle', label: 'New Private', desc: 'First registration' },
-                  { value: 'Ownership Transfer', label: 'Transfer', desc: 'Change of owner' },
-                  { value: 'Commercial Green Fleet', label: 'Green Fleet', desc: 'Commercial EV' },
-                  { value: 'Vintage / Classic', label: 'Vintage', desc: 'Period plate' },
+                  { value: 'New Private Vehicle', label: t('vlNewPrivate'), desc: t('vlNewPrivateDesc') },
+                  { value: 'Ownership Transfer', label: t('vlTransfer'), desc: t('vlTransferDesc') },
+                  { value: 'Commercial Green Fleet', label: t('vlGreenFleet'), desc: t('vlGreenFleetDesc') },
+                  { value: 'Vintage / Classic', label: t('vlVintage'), desc: t('vlVintageDesc') },
                 ]}
               />
             </Field>
 
             {/* Vehicle Type */}
-            <Field label="Vehicle Type">
+            <Field label={t('vlVehicleType')}>
               <OptionGrid
                 value={vehicleType}
                 onChange={(v) => {
@@ -296,25 +306,25 @@ export default function VehicleLicensingPage() {
                   if (v === 'Electric Vehicle (EV)') setFuelType('Electric');
                 }}
                 options={[
-                  { value: '2W Motorcycle / Scooter', label: '2-Wheeler', icon: '🛵' },
-                  { value: '4W Passenger Car', label: '4-Wheeler', icon: '🚗' },
-                  { value: 'Electric Vehicle (EV)', label: 'Electric', icon: '⚡', badge: '0% tax' },
-                  { value: 'Heavy Commercial', label: 'Commercial', icon: '🚚' },
+                  { value: '2W Motorcycle / Scooter', label: t('vl2Wheeler'), icon: '🛵' },
+                  { value: '4W Passenger Car', label: t('vl4Wheeler'), icon: '🚗' },
+                  { value: 'Electric Vehicle (EV)', label: t('vlElectric'), icon: '⚡', badge: '0% tax' },
+                  { value: 'Heavy Commercial', label: t('vlCommercial'), icon: '🚚' },
                 ]}
               />
             </Field>
 
             {/* Make / Model / Fuel / Invoice Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5 pt-1">
-              <Field label="Manufacturer / Make" hint="As printed on the Form 21 sale invoice.">
+              <Field label={t('vlManufacturer')} hint={t('vlManufacturerHint')}>
                 <TextInput value={maker} onValue={setMaker} placeholder="e.g. Tata Motors, Ather" />
               </Field>
 
-              <Field label="Model & Variant" hint="Include the exact trim (e.g. LR, ZX+).">
+              <Field label={t('vlModel')} hint={t('vlModelHint')}>
                 <TextInput value={model} onValue={setModel} placeholder="e.g. Nexon EV Empowered+" />
               </Field>
 
-              <Field label="Fuel Type" hint={isEV ? 'Electric vehicles are road-tax exempt.' : 'Determines road tax & green cess.'}>
+              <Field label={t('vlFuelType')} hint={isEV ? t('vlFuelTypeHintEV') : t('vlFuelTypeHint')}>
                 <SelectInput value={fuelType} onValue={(v) => setFuelType(v as any)}>
                   <option value="Electric">⚡ Electric — 100% tax exemption</option>
                   <option value="Petrol">Petrol</option>
@@ -325,8 +335,8 @@ export default function VehicleLicensingPage() {
               </Field>
 
               <Field
-                label="Ex-Showroom Invoice Value"
-                hint={invoiceValue > 0 ? <span className="capitalize">{amountInWords(invoiceValue)}</span> : 'Price before taxes, insurance & accessories.'}
+                label={t('vlInvoiceValue')}
+                hint={invoiceValue > 0 ? <span className="capitalize">{amountInWords(invoiceValue)}</span> : t('vlInvoiceValueHint')}
               >
                 <MoneyInput
                   value={invoiceValue}
@@ -342,8 +352,8 @@ export default function VehicleLicensingPage() {
               <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-[13px] text-emerald-900 dark:text-emerald-200 flex items-start gap-3">
                 <Zap className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                 <div className="leading-relaxed">
-                  <strong className="font-bold block">Green Mobility Incentive Applied</strong>
-                  Under State Clean Vehicle Policy, electric vehicles receive <strong>0% Road Tax</strong> and exemption from green cess.
+                  <strong className="font-bold block">{t('vlGreenIncentive')}</strong>
+                  {t('vlGreenIncentiveDesc')}
                 </div>
               </div>
             )}
@@ -354,7 +364,7 @@ export default function VehicleLicensingPage() {
                 onClick={handleNext}
                 className="clay-btn clay-btn-primary min-h-[44px] px-7 py-3 text-sm text-white"
               >
-                <span>Continue to RTO Selection</span>
+                <span>{t('vlContinueRTO')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -365,12 +375,12 @@ export default function VehicleLicensingPage() {
         {currentStep === 2 && (
           <div className="clay-card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">State & RTO Jurisdiction</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Select the transport office under whose jurisdiction the vehicle will be registered.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">{t('vlStateRTO')}</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('vlStateRTODesc')}</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <Field label="State / Union Territory" hint="Defaults to your profile state.">
+              <Field label={t('vlStateUT')} hint={t('vlStateUTHint')}>
                 <SelectInput
                   value={selectedState}
                   onValue={(st) => {
@@ -386,7 +396,7 @@ export default function VehicleLicensingPage() {
                 </SelectInput>
               </Field>
 
-              <Field label="Assigned RTO Office" hint={`${rtoList.length} offices available in ${stateData.name}.`}>
+              <Field label={t('vlAssignedRTO')} hint={`${rtoList.length} offices available in ${stateData.name}.`}>
                 <SelectInput value={selectedRtoCode} onValue={setSelectedRtoCode}>
                   {rtoList.map((rto) => (
                     <option key={rto.code} value={rto.code}>
@@ -409,7 +419,7 @@ export default function VehicleLicensingPage() {
                 </div>
               </div>
 
-              <Pill tone="emerald">Paperless FastTrack</Pill>
+              <Pill tone="emerald">{t('vlPaperlessFastTrack')}</Pill>
             </div>
 
             <div className="flex justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
@@ -426,7 +436,7 @@ export default function VehicleLicensingPage() {
                 onClick={handleNext}
                 className="clay-btn clay-btn-primary min-h-[44px] px-7 py-2.5 text-sm text-white"
               >
-                <span>Continue to Owner Details</span>
+                <span>{t('vlContinueOwner')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -437,15 +447,15 @@ export default function VehicleLicensingPage() {
         {currentStep === 3 && (
           <div className="clay-card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Ownership & VIN Specs</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Owner details are pre-filled from your verified Aadhaar & DigiLocker — just confirm.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">{t('vlOwnershipVIN')}</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('vlOwnershipVINDesc')}</p>
             </div>
 
             {/* Autofill banner */}
             <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60">
               <div className="flex items-center gap-2.5 text-[13px] text-sky-900 dark:text-sky-200">
                 <ShieldCheck className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0" />
-                <span><strong className="font-bold">Autofilled from your Gati profile.</strong> Edit any field if it differs from your papers.</span>
+                <span><strong className="font-bold">{t('vlAutofilled')}</strong> {t('vlAutofilledEdit')}</span>
               </div>
               <button
                 type="button"
@@ -457,22 +467,22 @@ export default function VehicleLicensingPage() {
                 }}
                 className="clay-btn min-h-[36px] px-3.5 py-1.5 text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sky-700 dark:text-sky-300 shrink-0"
               >
-                Reset
+                {t('vlReset')}
               </button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
-              <Field label="Registered Owner Name" adornment={ownerName === currentUser.name ? <VerifiedChip label="From Aadhaar" /> : undefined}>
+              <Field label={t('vlOwnerName')} adornment={ownerName === currentUser.name ? <VerifiedChip label="From Aadhaar" /> : undefined}>
                 <TextInput value={ownerName} onValue={setOwnerName} autoComplete="name" />
               </Field>
 
-              <Field label="Mobile (Linked to Aadhaar)" hint="OTP-verified · +91 format" adornment={ownerPhone === currentUser.phone ? <VerifiedChip /> : undefined}>
+              <Field label={t('vlMobile')} hint={t('vlMobileHint')} adornment={ownerPhone === currentUser.phone ? <VerifiedChip /> : undefined}>
                 <TextInput value={ownerPhone} onValue={setOwnerPhone} mono inputMode="tel" autoComplete="tel" />
               </Field>
 
               <Field
-                label="Chassis / VIN Number"
-                hint="17-character VIN, laser-etched on the chassis plate."
+                label={t('vlChassisVIN')}
+                hint={t('vlChassisVINHint')}
                 adornment={
                   <span className={chassisNumber.replace(/\s/g, '').length === 17 ? 'text-emerald-600 dark:text-emerald-400 font-bold' : ''}>
                     {chassisNumber.replace(/\s/g, '').length}/17
@@ -494,11 +504,11 @@ export default function VehicleLicensingPage() {
                 />
               </Field>
 
-              <Field label="Engine / Motor Serial" hint="Stamped on the engine or EV motor casing.">
+              <Field label={t('vlEngineSerial')} hint={t('vlEngineSerialHint')}>
                 <TextInput value={engineNumber} onValue={setEngineNumber} transform="upper" mono placeholder="EV40KWH928104" />
               </Field>
 
-              <Field className="sm:col-span-2" label="Residential Registration Address" hint="Where the RC smart card will be posted; must match address proof.">
+              <Field className="sm:col-span-2" label={t('vlAddress')} hint={t('vlAddressHint')}>
                 <TextInput value={address} onValue={setAddress} autoComplete="street-address" />
               </Field>
             </div>
@@ -506,14 +516,14 @@ export default function VehicleLicensingPage() {
             {/* Document Checklist */}
             <div className="pt-1">
               <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wide block mb-2.5">
-                DigiLocker Auto-Attached Documents
+                {t('vlDigiLockerDocs')}
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 {[
-                  { key: 'invoice', label: 'Form 21 Sale Invoice' },
-                  { key: 'insurance', label: 'Valid Motor Insurance' },
-                  { key: 'form21', label: 'Roadworthiness Cert' },
-                  { key: 'aadhaarKyc', label: 'Aadhaar e-KYC Pass' }
+                  { key: 'invoice', label: t('vlForm21') },
+                  { key: 'insurance', label: t('vlInsurance') },
+                  { key: 'form21', label: t('vlRoadworthiness') },
+                  { key: 'aadhaarKyc', label: t('vlAadhaarKYC') }
                 ].map((doc) => (
                   <div key={doc.key} className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-200 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
@@ -537,7 +547,7 @@ export default function VehicleLicensingPage() {
                 onClick={handleNext}
                 className="clay-btn clay-btn-primary min-h-[44px] px-7 py-2.5 text-sm text-white"
               >
-                <span>Continue to Fee Review</span>
+                <span>{t('vlContinueFee')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -548,47 +558,47 @@ export default function VehicleLicensingPage() {
         {currentStep === 4 && (
           <div className="clay-card p-6 sm:p-8 space-y-7 animate-overlay-in">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Statutory Fee Breakdown & Review</h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Transparent calculation with zero hidden government surcharges.</p>
+              <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">{t('vlFeeReview')}</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('vlFeeReviewDesc')}</p>
             </div>
 
             {/* Application Summary Card */}
             <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-3 text-[13px]">
               <div className="flex justify-between gap-3 border-b border-slate-200 dark:border-slate-700 pb-2.5">
-                <span className="text-slate-500 dark:text-slate-400">Applicant / Owner</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('vlApplicantOwner')}</span>
                 <span className="font-bold text-slate-900 dark:text-white text-right">{ownerName}</span>
               </div>
               <div className="flex justify-between gap-3 border-b border-slate-200 dark:border-slate-700 pb-2.5">
-                <span className="text-slate-500 dark:text-slate-400">Vehicle Model</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('vlVehicleModel')}</span>
                 <span className="font-bold text-slate-900 dark:text-white text-right">{maker} {model} ({fuelType})</span>
               </div>
               <div className="flex justify-between gap-3 border-b border-slate-200 dark:border-slate-700 pb-2.5">
-                <span className="text-slate-500 dark:text-slate-400">RTO Jurisdiction</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('vlRTOJurisdiction')}</span>
                 <span className="font-bold text-slate-900 dark:text-white text-right">{currentRto.code} - {currentRto.name}</span>
               </div>
               <div className="flex justify-between gap-3">
-                <span className="text-slate-500 dark:text-slate-400">Ex-Showroom Price</span>
+                <span className="text-slate-500 dark:text-slate-400">{t('vlExShowroom')}</span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(invoiceValue)}</span>
               </div>
             </div>
 
             {/* Fee Table — highlighted summary */}
             <div className="space-y-3 p-5 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-[13px]">
-              <div className="eyebrow text-emerald-700 dark:text-emerald-400 mb-1">Statutory Fee Summary</div>
+              <div className="eyebrow text-emerald-700 dark:text-emerald-400 mb-1">{t('vlStatutoryFeeSummary')}</div>
               <div className="flex justify-between gap-3 text-slate-700 dark:text-slate-300">
-                <span>State Motor Vehicle Road Tax ({isEV ? '0% EV Policy' : '14% Standard'})</span>
+                <span>{t('vlRoadTax')} ({isEV ? '0% EV Policy' : '14% Standard'})</span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(roadTax)}</span>
               </div>
               <div className="flex justify-between gap-3 text-slate-700 dark:text-slate-300">
-                <span>Green Environment Cess</span>
+                <span>{t('vlGreenCess')}</span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(greenCess)}</span>
               </div>
               <div className="flex justify-between gap-3 text-slate-700 dark:text-slate-300">
-                <span>Microchip Smart Card & User Fee</span>
+                <span>{t('vlSmartCardFeeLabel')}</span>
                 <span className="font-mono font-bold text-slate-900 dark:text-white">{formatINR(smartCardFee)}</span>
               </div>
               <div className="flex justify-between items-center gap-3 pt-3 border-t border-emerald-200 dark:border-emerald-800/60">
-                <span className="text-sm font-extrabold text-emerald-950 dark:text-emerald-200">Total Statutory Amount</span>
+                <span className="text-sm font-extrabold text-emerald-950 dark:text-emerald-200">{t('vlTotalStatutory')}</span>
                 <span className="font-display font-extrabold text-2xl text-emerald-700 dark:text-emerald-400">{formatINR(totalFee)}</span>
               </div>
             </div>
@@ -609,7 +619,7 @@ export default function VehicleLicensingPage() {
                 className="clay-btn clay-btn-saffron min-h-[44px] px-8 py-3 text-sm text-white"
               >
                 <CreditCard className="w-4 h-4" />
-                <span>Pay {formatINR(totalFee)} & Issue Smart RC</span>
+                <span>{t('pay')} {formatINR(totalFee)} & Issue Smart RC</span>
               </button>
             </div>
           </div>
@@ -623,7 +633,7 @@ export default function VehicleLicensingPage() {
                 <CheckCircle className="w-9 h-9" />
               </div>
               <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                Vehicle Registration Successful!
+                {t('vlRegSuccessful')}
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
                 Ref No: <strong className="font-mono text-sky-700 dark:text-sky-400">{completedApplication.referenceNumber}</strong>
@@ -636,16 +646,16 @@ export default function VehicleLicensingPage() {
             {/* Next Links */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
               <Link href="/dashboard" className="clay-btn clay-btn-primary min-h-[44px] px-6 py-2.5 text-sm text-white">
-                Go to Dashboard
+                {t('vlGoDashboard')}
               </Link>
               <Link href={`/track?ref=${completedApplication.referenceNumber}`} className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">
-                Track Live Status
+                {t('vlTrackStatus')}
               </Link>
               <Link
                 href="/documents"
                 className="clay-btn min-h-[44px] px-6 py-2.5 text-sm bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300"
               >
-                View in GatiLocker
+                {t('vlViewLocker')}
               </Link>
             </div>
           </div>
