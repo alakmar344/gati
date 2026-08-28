@@ -1,61 +1,74 @@
-# 🎬 GATI — 3-Minute Judge Demo Script
+# 🎬 GATI — 2-Minute Submission Video Script
 
-> Goal: in 180 seconds, prove that GATI replaces *navigation* with *intent + autopilot*, works in two languages, and ships four complete statutory journeys — not mockups.
+> Format required by the hackathon: **max 2 minutes** — first minute demo the project **as a citizen**, second minute explain **how you built it and why you made those choices**. Both teammates may present.
 
-## Before you go on stage (30 seconds of prep)
+## Before recording (30 seconds of prep)
 
-1. Open the app, click **Reset sandbox** in the footer → confirms a clean, deterministic demo state.
-2. Set **Light mode** and **English** (you'll flip both live — that's part of the wow).
-3. Keep one browser tab, full screen. Nothing else.
-
----
-
-## The script
-
-### 0:00 — The hook (say this over the homepage)
-> "Every Indian transport portal makes you *navigate* — find a form, fill 40 fields, wait. GATI inverts that. It already knows what's due on your vehicles and fixes it in one tap."
-
-Point at the **Active Compliance Radar** on the home page — live pending challans, low FASTag balance, in-progress applications, all computed from state, not hardcoded.
-
-### 0:20 — The killer moment: Ask Gati
-- Press **⌘K** (or click the search dock).
-- Type: `pay all my challans` → hit Enter.
-- **Fines settle, confetti fires, a signed receipt appears, and the radar clears itself live.**
-> "I didn't navigate anywhere. I said what I wanted; the system executed it."
-
-- Press ⌘K again, type `top up fastag 1000` → executed instantly, wallet balance updates.
-
-### 0:50 — Bilingual, instantly
-- Click the **हिन्दी** toggle in the navbar.
-- **The entire OS flips to Hindi** — navigation, the autopilot feed, buttons, the payment modal, receipts, every page. Flip the **dark mode** toggle in the same breath.
-> "Digital public infrastructure has to speak the citizen's language. This isn't a translated landing page — every flow, every toast, every receipt is bilingual."
-
-### 1:10 — A complete statutory journey (pick ONE)
-**Option A — VIP Number Plates** (most visual): open *VIP Number Studio* → browse rare numbers → reserve one → pay via the simulated **Bharat e-Pay** UPI modal → watch the **live HSRP plate render** with Ashoka Chakra hologram.
-
-**Option B — E-Challan Virtual Court**: open *Challans* → show **camera evidence photo** → click *Contest / Dispute* → file a virtual-court appeal → fine enforcement freezes with a judicial notice.
-
-### 1:50 — Speed tools blitz (20 seconds each, pick two)
-- **Smart Lens OCR** (`/scan`): scan an RC → VIN extracted, expired PUCC flagged.
-- **10-Second FastPass** (`/fastpass`): mint a green EV pass against a live stopwatch.
-- **ADTT Simulator** (`/adtt-simulator`): the automated driving-track test with live sensor tracking.
-
-### 2:30 — The close (over the dashboard)
-> "Four complete statutory journeys, six speed tools, a natural-language command bar that *executes*, full Hindi + dark mode, zero backend — 100% client-side and deployable anywhere. This is what Parivahan 2.0 should feel like: the citizen states an intent, and the state machine does the paperwork."
+1. Open the app, click **Reset sandbox** in the footer → clean, deterministic demo state.
+2. Record on a **phone-width viewport** (or resize the browser) for at least part of minute 1 — judges care about mobile users.
+3. Start in **Light mode + English**; you'll flip both live.
+4. One tab, full screen, screen-record at 1080p. Rehearse once against a timer.
 
 ---
 
-## Q&A ammunition
+## Minute 1 — The citizen journey (0:00–1:00)
+
+### 0:00 — The hook (over the homepage)
+> "Paying a traffic fine or topping up FASTag today means hunting across portals and 40-field forms. Gati inverts that: it already knows what's due and fixes it in one tap."
+
+Point at the **Autopilot feed** — pending challans, low FASTag balance, an in-progress application, all computed live from state.
+
+### 0:12 — The killer moment: Ask Gati
+- Press **⌘K**, type `pay all my challans`, hit Enter.
+- **Fines settle, confetti fires, a receipt appears, the feed clears itself live.**
+> "I didn't navigate anywhere. I said what I wanted — the system executed it."
+- Press ⌘K again, tap the **🎙️ mic**, *say* "top up fastag 1000" → wallet updates.
+
+### 0:32 — Bilingual + mobile, instantly
+- Tap the **हिन्दी** toggle → the entire OS flips: feed, buttons, receipts, everything. Flip **dark mode** in the same breath.
+- Show the phone-width view scrolling smoothly.
+> "Every flow speaks the citizen's language, on the device citizens actually have."
+
+### 0:42 — One complete journey, start to finish
+Open **Challans** → show the camera-evidence photo → settle one fine through the simulated UPI modal → downloadable receipt with UTR. (Alternative: contest a fine and show the virtual-court freeze notice.)
+
+> "Every journey here ends in a verifiable artifact — a receipt, a card, a certificate. Nothing is a dead-end mockup."
+
+---
+
+## Minute 2 — How & why we built it (1:00–2:00)
+
+### 1:00 — How it's built
+> "We built Gati with **Codex** as a core part of the workflow — scaffolding each journey, generating the 180-entry bilingual dictionary, and iterating on the intent parser — on Next.js and TypeScript, 100% client-side."
+
+Show the repo / architecture for a few seconds:
+- `lib/intent.ts` — natural language → **typed actions** (`settleAll`, `topup`, `resume`…)
+- `lib/storage.ts` — **one storage layer** every mutation flows through
+- `lib/mockData.ts` — all synthetic data in one clearly-labelled place
+
+### 1:20 — Why these choices
+> "Three deliberate choices. **One:** intent-first, because the hardest part of every sarkari portal is *finding* the right screen — so we deleted that step. **Two:** bilingual and mobile-first from day one, because that's who the real user is. **Three:** honest simulation — Vahan, Sarathi, DigiLocker and UPI are mocked and labelled as mocked, in-app, in both languages. No real Aadhaar, OTPs or payments anywhere."
+
+### 1:40 — Scale path + close
+> "To go real, you swap the storage layer for real API clients — the UI and the action bus don't change. Four statutory journeys, six speed tools, one command bar that executes. This is what Parivahan could feel like: the citizen states an intent, and the state machine does the paperwork."
+
+**— cut at ≤ 2:00.**
+
+---
+
+## Q&A ammunition (for mentorship week & the live finale)
 
 | Likely question | Answer |
 |---|---|
-| "Is the data real?" | Simulated Vahan 4.0 / Sarathi / NPCI APIs, clearly labeled a sandbox — the UX and state machine are the product. |
+| "Is the data real?" | No — simulated Vahan 4.0 / Sarathi / NPCI APIs, clearly labelled a sandbox in-app. The UX and state machine are the product. |
 | "How would this integrate?" | Every mutation goes through one storage layer (`lib/storage.ts`); swap it for real API clients without touching UI. |
-| "Why does the copilot matter?" | `lib/intent.ts` parses natural language into typed actions (`topup`, `settleAll`, `resume`…) — the same action bus the autopilot feed uses. One execution engine, two front doors. |
-| "Accessibility?" | Focus rings, aria labels, min 44px touch targets, dark mode, bilingual — audited pass in commit history. |
-| "What breaks under a hard refresh?" | Nothing — SSR-safe storage guards + hydration-safe rendering everywhere; open the console: zero errors. |
+| "Why does the copilot matter?" | `lib/intent.ts` parses natural language into typed actions — the same action bus the autopilot feed uses. One execution engine, two front doors. |
+| "Accessibility?" | Focus rings, aria labels, 44px touch targets, dark mode, bilingual, mobile-first. |
+| "Slow connections?" | No external APIs or database after first load; fully client-side and instant thereafter. |
+| "What breaks under a hard refresh?" | Nothing — SSR-safe storage guards + hydration-safe rendering; console shows zero errors. |
 
-## Failure drills (just in case)
-- Anything looks stale → footer **Reset sandbox** returns to pristine state in one click.
-- Confetti/sound blocked by browser → the toasts and receipts still prove the action; keep talking.
-- Offline venue Wi-Fi → irrelevant: the app is 100% client-side after first load.
+## Failure drills (live demo insurance)
+
+- Anything looks stale → footer **Reset sandbox** restores a pristine state in one click.
+- Confetti/sound blocked → toasts and receipts still prove the action; keep talking.
+- Bad venue Wi-Fi → irrelevant: the app is 100% client-side after first load.
