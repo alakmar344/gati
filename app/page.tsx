@@ -234,7 +234,7 @@ export default function HomePage() {
       {/* ================= CENTRALIZED UNIFIED SERVICE MATRIX ================= */}
       <section className="px-4 sm:px-8 max-w-6xl mx-auto w-full">
         {/* Category Filter Tabs */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div className="flex flex-col gap-4 mb-6">
           <div>
             <h2 className="font-display text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
               {t('allActions')}
@@ -244,8 +244,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
-            <label className="relative block sm:w-48">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 w-full">
+            <label className="relative block sm:w-60">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
               <input
                 value={searchQuery}
@@ -258,11 +258,11 @@ export default function HomePage() {
           {/* Centralized Category Switcher Pills */}
           <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-200/60 dark:bg-slate-800/80 w-fit overflow-x-auto max-w-full">
             {[
-              { id: 'ALL', label: t('allActions'), icon: Layers },
-              { id: 'VEHICLE', label: t('vehicleRc'), icon: Car },
-              { id: 'DRIVER', label: t('driverLicence'), icon: CreditCard },
-              { id: 'TOLLS', label: t('tollsPasses'), icon: Truck },
-              { id: 'TOOLS', label: t('instantTools'), icon: Zap },
+              { id: 'ALL', label: t('catAll'), icon: Layers },
+              { id: 'VEHICLE', label: t('catVehicle'), icon: Car },
+              { id: 'DRIVER', label: t('catDriver'), icon: CreditCard },
+              { id: 'TOLLS', label: t('catTolls'), icon: Truck },
+              { id: 'TOOLS', label: t('catTools'), icon: Zap },
             ].map((cat) => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.id;

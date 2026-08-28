@@ -28,8 +28,9 @@ export default function ChallansPage() {
   const { toast } = useToast();
   const { t } = useLanguage();
   const [challans, setChallans] = useState<ChallanRecord[]>([]);
-  const [searchPlate, setSearchPlate] = useState('KA 01 EK 4920');
+  const [searchPlate, setSearchPlate] = useState('');
   const [selectedChallanForPay, setSelectedChallanForPay] = useState<ChallanRecord | null>(null);
+  const [isPayAllOpen, setIsPayAllOpen] = useState(false);
 
   // Virtual Court Dispute Modal State
   const [disputingChallan, setDisputingChallan] = useState<ChallanRecord | null>(null);
@@ -100,8 +101,14 @@ export default function ChallansPage() {
       {/* Summary Banner */}
       <div className="clay-card p-6 flex flex-col sm:flex-row items-center justify-between gap-5">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 flex items-center justify-center shrink-0">
-            <ShieldAlert className="w-6 h-6" />
+          <div
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
+              pendingCount > 0
+                ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400'
+                : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400'
+            }`}
+          >
+            {pendingCount > 0 ? <ShieldAlert className="w-6 h-6" /> : <CheckCircle className="w-6 h-6" />}
           </div>
           <div>
             <span className="eyebrow text-slate-400 dark:text-slate-500">{t('chFleetRadarStatus')}</span>
@@ -114,7 +121,11 @@ export default function ChallansPage() {
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="text-center sm:text-right">
             <span className="text-xs text-slate-400 dark:text-slate-500 font-semibold block">{t('chTotalOutstanding')}</span>
-            <span className="text-2xl font-display font-extrabold tracking-tight text-rose-700 dark:text-rose-400 font-mono">
+            <span
+              className={`text-2xl font-display font-extrabold tracking-tight font-mono ${
+                pendingCount > 0 ? 'text-rose-700 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'
+              }`}
+            >
               {formatINR(totalPendingAmount)}
             </span>
           </div>
@@ -122,8 +133,12 @@ export default function ChallansPage() {
           {pendingCount > 0 && (
             <button
               onClick={() => {
-                const firstPending = challans.find(c => c.status === 'PENDING');
-                if (firstPending) setSelectedChallanForPay(firstPending);
+                if (pendingCount === 1) {
+                  const firstPending = challans.find(c => c.status === 'PENDING');
+                  if (firstPending) setSelectedChallanForPay(firstPending);
+                } else {
+                  setIsPayAllOpen(true);
+                }
               }}
               className="clay-btn clay-btn-saffron min-h-[44px] px-5 py-2.5 text-xs text-white font-extrabold shadow-lg flex items-center gap-2"
             >
@@ -389,6 +404,31 @@ export default function ChallansPage() {
 
           </div>
         </div>
+      )}
+
+      {/* Pay-all Gateway Modal */}
+      {isPayAllOpen && (
+        <GatiPayModal
+          isOpen={isPayAllOpen}
+          onClose={() => setIsPayAllOpen(false)}
+          serviceType="challans"
+          serviceTitle={`${t('chSettleAllTitle')} (${pendingCount})`}
+          applicationNumber={`${pendingCount} × E-CHALLAN`}
+          amount={totalPendingAmount}
+          payerName={currentUser.name}
+          payerEmail={currentUser.email}
+          onPaymentSuccess={(receipt) => {
+            challans
+              .filter((c) => c.status === 'PENDING')
+              .forEach((c) => updateChallanStatus(c.id, 'PAID', receipt.transactionId));
+            toast({
+              title: t('chAllToastSettledTitle'),
+              description: t('chAllToastSettledDesc'),
+              variant: 'success',
+            });
+            setIsPayAllOpen(false);
+          }}
+        />
       )}
 
       {/* Payment Gateway Modal */}

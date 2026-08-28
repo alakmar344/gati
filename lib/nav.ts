@@ -29,6 +29,7 @@ export interface NavItem {
   /** i18n dictionary keys so surfaces can localise name/desc */
   nameKey?: TranslationKey;
   descKey?: TranslationKey;
+  shortKey?: TranslationKey;
 }
 
 type Translator = (key: TranslationKey, fallback?: string) => string;
@@ -43,11 +44,18 @@ export function navItemDesc(item: NavItem, t: Translator): string {
   return item.descKey ? t(item.descKey, item.desc) : item.desc;
 }
 
+/** Localised compact name for tight surfaces like the footer. */
+export function navItemShort(item: NavItem, t: Translator): string {
+  if (item.shortKey) return t(item.shortKey, item.short || item.name);
+  return item.short || navItemName(item, t);
+}
+
 /** The four flagship end-to-end service journeys. */
 export const CORE_SERVICES: NavItem[] = [
   {
     name: 'Vehicle Registration',
     short: 'Registration',
+    shortKey: 'shortVehicleLicensing',
     href: '/vehicle-licensing',
     nameKey: 'svcVehicleLicensing',
     descKey: 'svcVehicleLicensingDesc',
@@ -59,6 +67,7 @@ export const CORE_SERVICES: NavItem[] = [
   {
     name: 'VIP Number Plates',
     short: 'VIP Plates',
+    shortKey: 'shortFancyNumbers',
     href: '/fancy-numbers',
     nameKey: 'svcFancyNumbers',
     descKey: 'svcFancyNumbersDesc',
@@ -70,6 +79,7 @@ export const CORE_SERVICES: NavItem[] = [
   {
     name: 'Driver Licence',
     short: 'Driver Licence',
+    shortKey: 'shortDriverLicence',
     href: '/driver-licence',
     nameKey: 'svcDriverLicence',
     descKey: 'svcDriverLicenceDesc',
@@ -81,6 +91,7 @@ export const CORE_SERVICES: NavItem[] = [
   {
     name: 'Vehicle Permits',
     short: 'Permits',
+    shortKey: 'shortVehiclePermit',
     href: '/vehicle-permit',
     nameKey: 'svcVehiclePermit',
     descKey: 'svcVehiclePermitDesc',
@@ -96,6 +107,7 @@ export const SPEED_TOOLS: NavItem[] = [
   {
     name: 'Smart Lens OCR',
     short: 'Lens OCR',
+    shortKey: 'shortScan',
     href: '/scan',
     nameKey: 'toolScan',
     descKey: 'toolScanDesc',
@@ -107,6 +119,7 @@ export const SPEED_TOOLS: NavItem[] = [
   {
     name: '10-Second FastPass',
     short: 'FastPass',
+    shortKey: 'shortFastpass',
     href: '/fastpass',
     nameKey: 'toolFastpass',
     descKey: 'toolFastpassDesc',
@@ -118,6 +131,7 @@ export const SPEED_TOOLS: NavItem[] = [
   {
     name: 'E-Challan Radar',
     short: 'Challans',
+    shortKey: 'shortChallans',
     href: '/challans',
     nameKey: 'toolChallans',
     descKey: 'toolChallansDesc',
@@ -129,6 +143,7 @@ export const SPEED_TOOLS: NavItem[] = [
   {
     name: 'FASTag Hub',
     short: 'FASTag',
+    shortKey: 'shortFastag',
     href: '/fastag',
     nameKey: 'toolFastag',
     descKey: 'toolFastagDesc',
@@ -165,6 +180,8 @@ export const SPEED_TOOLS: NavItem[] = [
 export const ACCOUNT_LINKS: NavItem[] = [
   {
     name: 'Dashboard',
+    nameKey: 'acctDashboard',
+    descKey: 'acctDashboardDesc',
     href: '/dashboard',
     icon: LayoutDashboard,
     desc: 'Applications, digital garage & payment history.',
@@ -173,6 +190,8 @@ export const ACCOUNT_LINKS: NavItem[] = [
   },
   {
     name: 'Track Application',
+    nameKey: 'acctTrack',
+    descKey: 'acctTrackDesc',
     href: '/track',
     icon: Search,
     desc: 'Live status timeline for any reference number.',
@@ -181,6 +200,8 @@ export const ACCOUNT_LINKS: NavItem[] = [
   },
   {
     name: 'GatiLocker Documents',
+    nameKey: 'acctDocuments',
+    descKey: 'acctDocumentsDesc',
     href: '/documents',
     icon: FolderLock,
     desc: 'All issued smart cards, licences & permits.',
@@ -189,6 +210,8 @@ export const ACCOUNT_LINKS: NavItem[] = [
   },
   {
     name: 'Demo Personas',
+    nameKey: 'acctPersonas',
+    descKey: 'acctPersonasDesc',
     href: '/login',
     icon: Users,
     desc: 'Browse the 10 demo citizen profiles.',

@@ -40,7 +40,7 @@ export default function RootLayout({
           <LanguageProvider>
             <ToastProvider>
               <Navbar />
-              <main className="app-main flex-1 pt-24 pb-24 lg:pb-0">{children}</main>
+              <main className="app-main flex-1 pt-24 pb-8 lg:pb-0">{children}</main>
               <Footer />
               <MobileDock />
               <CommandPalette />

@@ -506,8 +506,6 @@ body {
     display: none !important;
   }
 }
- codex/polish-gati-for-final-submission-rx1nc0}
-
 /* Page enter animation for routed content */
 .app-main {
   animation: page-enter 0.35s var(--ease) both;
@@ -522,9 +520,15 @@ body {
 a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 640px) {
   .app-aurora { background: var(--canvas); }
-
 }
 
-  .clay-card-interactive:hover { transform: none; } 
+/* Touch devices: suppress hover lifts that would stick after tap */
+@media (hover: none) {
+  .clay-card-interactive:hover,
+  .card-hover:hover,
+  .btn:hover,
+  .clay-btn:hover {
+    transform: none;
+  }
 }
 
