@@ -506,6 +506,7 @@ body {
     display: none !important;
   }
 }
+ codex/polish-gati-for-final-submission-rx1nc0}
 
 /* Page enter animation for routed content */
 .app-main {
@@ -521,5 +522,9 @@ body {
 a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 640px) {
   .app-aurora { background: var(--canvas); }
-  .clay-card-interactive:hover { transform: none; }
+
 }
+
+  .clay-card-interactive:hover { transform: none; } 
+}
+
