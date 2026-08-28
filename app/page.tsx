@@ -196,38 +196,16 @@ export default function HomePage() {
               </span>
             </button>
 
-            {/* Quick Transport Service Chips */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mt-4 max-w-xl animate-rise" style={{ animationDelay: '0.11s' }}>
-              <Link
-                href="/challans"
-                className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-rose-500/20 hover:bg-rose-500/30 border border-rose-400/40 text-rose-200 transition-colors backdrop-blur-sm min-h-[34px] flex items-center gap-1.5 shadow-sm"
-              >
-                <CreditCard className="w-3.5 h-3.5 text-rose-400" />
+            {/* Two decisive shortcuts; everything else is discoverable below. */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-4 animate-rise" style={{ animationDelay: '0.11s' }}>
+              <Link href="/challans" className="px-3.5 py-2 rounded-xl text-xs font-bold bg-rose-500/20 hover:bg-rose-500/30 border border-rose-400/40 text-rose-100 transition-colors backdrop-blur-sm min-h-[36px] flex items-center gap-1.5">
+                <CreditCard className="w-3.5 h-3.5 text-rose-300" />
                 <span>{t('payChallans')}</span>
               </Link>
-
-              <Link
-                href="/fastag"
-                className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/40 text-sky-200 transition-colors backdrop-blur-sm min-h-[34px] flex items-center gap-1.5 shadow-sm"
-              >
-                <Zap className="w-3.5 h-3.5 text-sky-400" />
+              <Link href="/fastag" className="px-3.5 py-2 rounded-xl text-xs font-bold bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/40 text-sky-100 transition-colors backdrop-blur-sm min-h-[36px] flex items-center gap-1.5">
+                <Zap className="w-3.5 h-3.5 text-sky-300" />
                 <span>{t('rechargeFastag')}</span>
               </Link>
-
-              {[
-                { label: t('chipSmartRc'), href: '/vehicle-licensing' },
-                { label: t('chipAdtt'), href: '/adtt-simulator' },
-                { label: t('chipVip'), href: '/fancy-numbers' },
-                { label: t('chipFastpass'), href: '/fastpass' },
-              ].map((chip) => (
-                <Link
-                  key={chip.href}
-                  href={chip.href}
-                  className="px-3 py-1 rounded-full text-xs font-semibold bg-white/10 hover:bg-white/20 border border-white/15 text-slate-200 transition-colors backdrop-blur-sm min-h-[32px] flex items-center"
-                >
-                  {chip.label}
-                </Link>
-              ))}
             </div>
 
             {/* Live Metrics */}
@@ -266,8 +244,19 @@ export default function HomePage() {
             </p>
           </div>
 
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
+            <label className="relative block sm:w-48">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+              <input
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                className="clay-input w-full pl-8 pr-3 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400"
+                placeholder={language === 'hi' ? 'सेवा खोजें' : 'Find a service'}
+                aria-label={language === 'hi' ? 'सेवा खोजें' : 'Find a service'}
+              />
+            </label>
           {/* Centralized Category Switcher Pills */}
-          <div className="flex items-center gap-1.5 p-1 rounded-full bg-slate-200/60 dark:bg-slate-800/80 w-fit self-start sm:self-auto overflow-x-auto max-w-full">
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-200/60 dark:bg-slate-800/80 w-fit overflow-x-auto max-w-full">
             {[
               { id: 'ALL', label: t('allActions'), icon: Layers },
               { id: 'VEHICLE', label: t('vehicleRc'), icon: Car },
@@ -293,9 +282,17 @@ export default function HomePage() {
               );
             })}
           </div>
+          </div>
         </div>
 
         {/* Clean, Decluttered Clay Cards Matrix */}
+        {filteredItems.length === 0 ? (
+          <div className="clay-card p-10 text-center">
+            <Search className="w-5 h-5 text-olive-700 dark:text-olive-400 mx-auto mb-3" />
+            <p className="font-display font-bold text-slate-900 dark:text-white">{language === 'hi' ? 'कोई सेवा नहीं मिली' : 'No services found'}</p>
+            <button onClick={() => { setSearchQuery(''); setActiveCategory('ALL'); }} className="mt-3 text-xs font-bold text-olive-700 dark:text-olive-400 hover:underline">{language === 'hi' ? 'सभी सेवाएं देखें' : 'Show all services'}</button>
+          </div>
+        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredItems.map((item) => {
             const Icon = item.icon;
@@ -336,6 +333,7 @@ export default function HomePage() {
             );
           })}
         </div>
+        )}
       </section>
     </div>
   );
