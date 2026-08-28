@@ -723,17 +723,17 @@ export default function AdttSimulatorPage() {
             { id: 'parking', label: `🅿️ ${t('adttTrackParking')}` },
             { id: 'reverse_s', label: `🔄 ${t('adttTrackReverse')}` },
             { id: 'gradient', label: `⛰️ ${t('adttTrackGradient')}` },
-          ].map((t) => (
+          ].map((track) => (
             <button
-              key={t.id}
-              onClick={() => startTrack(t.id as TrackType)}
+              key={track.id}
+              onClick={() => startTrack(track.id as TrackType)}
               className={`min-h-[44px] px-4 py-2 rounded-2xl transition-all flex-1 md:flex-none flex items-center justify-center gap-1.5 text-xs font-bold ${
-                selectedTrack === t.id
+                selectedTrack === track.id
                   ? 'clay-btn-navy text-white shadow-md'
                   : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/60'
               }`}
             >
-              {t.label}
+              {track.label}
             </button>
           ))}
         </div>

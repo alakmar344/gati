@@ -23,14 +23,6 @@ import { useToast } from '@/components/ui/Toast';
 import { Field, TextInput, MoneyInput, OptionGrid, SelectInput, VerifiedChip, amountInWords } from '@/components/ui/Form';
 import { useLanguage } from '@/lib/i18n';
 
-const WIZARD_STEPS = [
-  { num: 1, label: 'Vehicle Specs' },
-  { num: 2, label: 'RTO & Region' },
-  { num: 3, label: 'Owner & KYC' },
-  { num: 4, label: 'Tax & Review' },
-  { num: 5, label: 'Smart RC' },
-];
-
 export default function VehicleLicensingPage() {
   const { toast } = useToast();
   const { t } = useLanguage();
