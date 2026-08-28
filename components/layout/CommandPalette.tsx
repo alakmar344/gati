@@ -7,6 +7,8 @@ import {
   ArrowUp,
   ArrowDown,
   Zap,
+  Mic,
+  Square,
 } from 'lucide-react';
 import { parseIntent, Suggestion, IntentRun } from '@/lib/intent';
 import { computeInsights, ActionItem } from '@/lib/insights';
@@ -17,6 +19,7 @@ import {
   getApplicationsForUser,
 } from '@/lib/storage';
 import { useQuickAction } from '@/components/copilot/useQuickAction';
+import { useSpeechToText } from '@/components/copilot/useSpeechToText';
 import { useLanguage } from '@/lib/i18n';
 
 const EXAMPLES_EN = [
@@ -49,6 +52,15 @@ export function CommandPalette() {
   const [exampleIdx, setExampleIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const run = useQuickAction();
+
+  // Browser speech-to-text — speak a command instead of typing it
+  const speech = useSpeechToText({
+    lang: language === 'hi' ? 'hi-IN' : 'en-IN',
+    onResult: (transcript, isFinal) => {
+      setQuery(transcript);
+      if (isFinal) requestAnimationFrame(() => inputRef.current?.focus());
+    },
+  });
 
   const examples = language === 'hi' ? EXAMPLES_HI : EXAMPLES_EN;
 
@@ -87,6 +99,7 @@ export function CommandPalette() {
       document.body.style.overflow = 'hidden';
     } else {
       setQuery('');
+      speech.stop();
       document.body.style.overflow = '';
     }
     return () => {
@@ -230,13 +243,36 @@ export function CommandPalette() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder={`${t('heroSearchPlaceholderPrefix')} “${examples[exampleIdx]}”`}
+            placeholder={
+              speech.listening
+                ? t('cpListening')
+                : `${t('heroSearchPlaceholderPrefix')} “${examples[exampleIdx]}”`
+            }
             role="combobox"
             aria-expanded="true"
             aria-controls="gati-cmd-listbox"
             aria-activedescendant={grouped.flat.length > 0 ? `gati-cmd-option-${active}` : undefined}
             className="flex-1 bg-transparent text-[15px] font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none"
           />
+          {speech.supported && (
+            <button
+              type="button"
+              onClick={() => {
+                speech.toggle();
+                inputRef.current?.focus();
+              }}
+              aria-label={speech.listening ? t('cpVoiceStop') : t('cpVoiceStart')}
+              aria-pressed={speech.listening}
+              title={speech.listening ? t('cpVoiceStop') : t('cpVoiceStart')}
+              className={`w-9 h-9 flex items-center justify-center rounded-full shrink-0 transition-all active:scale-95 ${
+                speech.listening
+                  ? 'bg-rose-600 text-white shadow-md animate-pulse-subtle'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-olive-100 dark:hover:bg-olive-950/60 hover:text-olive-800 dark:hover:text-olive-300'
+              }`}
+            >
+              {speech.listening ? <Square className="w-3.5 h-3.5 fill-current" /> : <Mic className="w-4 h-4" />}
+            </button>
+          )}
           <kbd className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md px-1.5 py-0.5">
             ESC
           </kbd>

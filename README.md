@@ -15,6 +15,7 @@ Traditional transport portals are plagued by 40-field bureaucratic forms, unclea
 - **Autopilot feed** — Gati continuously reads your live state (pending challans, low FASTag balance, in-progress applications, upcoming renewals) and surfaces a **prioritised list of things that need you**, each **resolvable in a single tap** — pay a fine, *pay every fine at once*, top up, or resume a flow. The feed **updates live** as work clears.
 - **“Handle everything”** — one button settles all pending challans *and* restores your FASTag balance simultaneously.
 - **Ask Gati (⌘K)** — a natural-language command bar that **executes**, not just navigates. Type *“top up fastag 1000”*, *“pay all my challans”*, or *“renew my licence”* and Gati does it (with confetti + a receipt), or deep-links you into a prefilled flow.
+- **Voice commands 🎙️** — tap the mic in Ask Gati and just say it. Built-in browser speech-to-text (Web Speech API, zero extra dependencies) streams a live transcript in **English or हिन्दी** (`en-IN` / `hi-IN` follows the language toggle), and the same intent engine executes the spoken command. Gracefully hidden on browsers without speech support.
 - **Proactive & predictive** — Gati infers upcoming insurance/PUC renewals from your records before you think to ask.
 
 Underneath, it still combines **four complete interactive service journeys** with **six breakthrough speed tools** — but they're now the *depth beneath the simplicity*, reached from the feed or the command bar instead of a cluttered menu.
