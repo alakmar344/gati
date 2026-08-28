@@ -513,4 +513,4 @@ a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
   .app-aurora { background: var(--canvas); }
   .clay-card-interactive:hover { transform: none; }
 }
-}
+
