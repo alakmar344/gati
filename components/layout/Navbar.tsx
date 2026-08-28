@@ -114,7 +114,7 @@ export const Navbar: React.FC = () => {
           </Link>
 
           {/* Center nav — grouped & centralized */}
-          <nav className="hidden lg:flex items-center gap-1 text-sm font-semibold text-slate-600 dark:text-slate-300">
+          <nav className="hidden lg:flex items-center gap-1 text-sm font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
             <Dropdown
               label={t('services')}
               active={isServiceActive}
@@ -135,7 +135,7 @@ export const Navbar: React.FC = () => {
 
             <Link
               href="/track"
-              className={`px-3.5 py-2 rounded-full transition-colors ${
+              className={`px-3.5 py-2 rounded-full whitespace-nowrap transition-colors ${
                 pathname === '/track'
                   ? 'text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800'
                   : 'hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
@@ -146,14 +146,14 @@ export const Navbar: React.FC = () => {
 
             <Link
               href="/challans"
-              className={`px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 text-xs font-bold ${
+              className={`px-3 py-1.5 rounded-full whitespace-nowrap transition-all flex items-center gap-1.5 text-xs font-bold ${
                 pathname === '/challans'
                   ? 'clay-pill bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
                   : 'text-slate-700 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-slate-200 dark:border-slate-700'
               }`}
             >
               <CreditCard className="w-3.5 h-3.5 text-rose-500" />
-                <span>{language === 'hi' ? t('navPayFinesTolls') : 'Pay Fines & Tolls'}</span>
+              <span>{t('navPayFinesTolls')}</span>
             </Link>
           </nav>
 
@@ -183,7 +183,7 @@ export const Navbar: React.FC = () => {
             {/* Command search */}
             <button
               onClick={openCommand}
-              className="hidden md:flex items-center gap-2 pl-3 pr-2.5 py-2 rounded-full bg-olive-50 dark:bg-olive-950/60 hover:bg-olive-100 dark:hover:bg-olive-900/60 border border-olive-200 dark:border-olive-800/60 text-olive-800 dark:text-olive-300 text-xs font-semibold transition-all shadow-xs min-h-[40px]"
+              className="hidden md:flex items-center gap-2 pl-3 pr-2.5 py-2 rounded-full whitespace-nowrap bg-olive-50 dark:bg-olive-950/60 hover:bg-olive-100 dark:hover:bg-olive-900/60 border border-olive-200 dark:border-olive-800/60 text-olive-800 dark:text-olive-300 text-xs font-semibold transition-all shadow-xs min-h-[40px]"
               title={`${t('askGati')} (⌘K)`}
               aria-label={`${t('askGati')} (Command K)`}
             >
@@ -270,7 +270,7 @@ export const Navbar: React.FC = () => {
                 className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 text-xs font-bold border border-rose-200 dark:border-rose-800 shadow-xs"
               >
                 <CreditCard className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
-              <span>{language === 'hi' ? t('navPayFinesTolls') : 'Pay Fines & Tolls'}</span>
+                <span>{t('navPayFinesTolls')}</span>
               </Link>
             </div>
 
@@ -321,7 +321,7 @@ function Dropdown({
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        className={`flex items-center gap-1 px-3.5 py-2 rounded-full transition-colors ${
+        className={`flex items-center gap-1 px-3.5 py-2 rounded-full whitespace-nowrap transition-colors ${
           active || isOpen
             ? 'text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800'
             : 'hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'

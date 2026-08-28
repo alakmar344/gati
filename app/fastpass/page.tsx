@@ -267,9 +267,9 @@ export default function FastPassPage() {
                       <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{s.desc}</p>
                     </div>
 
-                    <div className="flex items-center justify-between pt-3 mt-3 border-t border-slate-100 dark:border-slate-800">
+                    <div className="flex items-center justify-between gap-2 pt-3 mt-3 border-t border-slate-100 dark:border-slate-800">
                       <Pill tone={active ? 'amber' : 'slate'}>{s.tag}</Pill>
-                      <span className="font-mono font-bold text-sm text-slate-900 dark:text-white">
+                      <span className="font-mono font-bold text-sm text-slate-900 dark:text-white shrink-0">
                         {s.fee === 0 ? t('fpFREE') : formatINR(s.fee)}
                       </span>
                     </div>

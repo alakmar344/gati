@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ShieldAlert, RotateCcw } from 'lucide-react';
 import { resetDemoState } from '@/lib/storage';
-import { CORE_SERVICES, SPEED_TOOLS, ACCOUNT_LINKS } from '@/lib/nav';
+import { CORE_SERVICES, SPEED_TOOLS, ACCOUNT_LINKS, navItemShort } from '@/lib/nav';
 import { useToast } from '@/components/ui/Toast';
 import { useLanguage } from '@/lib/i18n';
 
@@ -29,7 +29,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="relative w-full bg-slate-950 text-slate-400 mt-24">
       <div className="tiranga-top-bar opacity-80" />
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-16 pb-10">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-16 pb-28 lg:pb-10">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-x-8 gap-y-10 pb-12 border-b border-slate-800">
           {/* Brand */}
           <div className="col-span-2 space-y-4">
@@ -63,7 +63,7 @@ export const Footer: React.FC = () => {
                 {col.items.map((item) => (
                   <li key={item.href}>
                     <Link href={item.href} className="text-slate-400 hover:text-white transition-colors">
-                      {item.short || item.name}
+                      {navItemShort(item, t)}
                     </Link>
                   </li>
                 ))}

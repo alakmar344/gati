@@ -13,9 +13,9 @@ export function MobileDock() {
   const pathname = usePathname();
   const { t } = useLanguage();
   const items = [
-    { href: '/', label: t('appName'), icon: House, matches: (path: string) => path === '/' },
-    { href: '/track', label: t('track'), icon: MapPin, matches: (path: string) => path === '/track' },
-    { href: '/challans', label: t('payChallans'), icon: ReceiptText, matches: (path: string) => path === '/challans' },
+    { href: '/', label: t('dockHome'), icon: House, matches: (path: string) => path === '/' },
+    { href: '/track', label: t('dockTrack'), icon: MapPin, matches: (path: string) => path === '/track' },
+    { href: '/challans', label: t('dockFines'), icon: ReceiptText, matches: (path: string) => path === '/challans' },
     { href: '/dashboard', label: t('dashboard'), icon: LayoutDashboard, matches: (path: string) => path === '/dashboard' },
   ];
 
@@ -56,7 +56,7 @@ function DockLink({ href, label, icon: Icon, active }: { href: string; label: st
       <span className={`flex h-6 w-8 items-center justify-center rounded-lg ${active ? 'bg-olive-100 dark:bg-olive-950/70' : ''}`}>
         <Icon className="h-4 w-4" strokeWidth={active ? 2.5 : 2} />
       </span>
-      <span className="max-w-[58px] truncate">{label}</span>
+      <span className="max-w-[68px] truncate">{label}</span>
     </Link>
   );
 }
