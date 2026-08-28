@@ -59,10 +59,15 @@ export default function DashboardPage() {
     return t('goodEvening');
   };
 
+  const issuedCards = Math.max(
+    documents.length,
+    applications.filter((a) => a.status === 'card_generated').length
+  );
+
   const stats = [
     { label: t('applications'), value: applications.length, tone: 'text-slate-900 dark:text-white', icon: Layers },
     { label: t('garageVehicles'), value: currentUser.vehiclesCount, tone: 'text-olive-800 dark:text-olive-400', icon: Car },
-    { label: t('smartCards'), value: documents.length, tone: 'text-ashoka-800 dark:text-ashoka-400', icon: FolderLock },
+    { label: t('smartCards'), value: issuedCards, tone: 'text-ashoka-800 dark:text-ashoka-400', icon: FolderLock },
     { label: t('payments'), value: payments.length, tone: 'text-slate-900 dark:text-white', icon: Wallet },
   ];
 
