@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Inter, Sora, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -7,24 +6,7 @@ import { CommandPalette } from '@/components/layout/CommandPalette';
 import { ToastProvider } from '@/components/ui/Toast';
 import { ThemeProvider } from '@/lib/theme';
 import { LanguageProvider } from '@/lib/i18n';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-});
-
-const sora = Sora({
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
+import { MobileDock } from '@/components/layout/MobileDock';
 
 export const metadata: Metadata = {
   title: 'Gati (गति) — Modern Indian Vehicle & Driving Services',
@@ -40,7 +22,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`scroll-smooth ${inter.variable} ${sora.variable} ${jetbrains.variable}`}
+      className="scroll-smooth"
       suppressHydrationWarning
     >
       <head>
@@ -58,8 +40,9 @@ export default function RootLayout({
           <LanguageProvider>
             <ToastProvider>
               <Navbar />
-              <main className="flex-1 pt-24">{children}</main>
+              <main className="app-main flex-1 pt-24 pb-24 lg:pb-0">{children}</main>
               <Footer />
+              <MobileDock />
               <CommandPalette />
             </ToastProvider>
           </LanguageProvider>

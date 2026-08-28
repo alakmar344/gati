@@ -286,16 +286,16 @@ export default function FastagPage() {
         </div>
 
         <div className="divide-y divide-slate-100 dark:divide-slate-800">
-          {fastag.recentTolls.map((t, idx) => (
+          {fastag.recentTolls.map((toll, idx) => (
             <div key={idx} className="py-3.5 flex items-center justify-between gap-4">
               <div>
-                <div className="font-bold text-slate-900 dark:text-white text-[13px]">{t.plazaName}</div>
+                <div className="font-bold text-slate-900 dark:text-white text-[13px]">{toll.plazaName}</div>
                 <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
-                  {t.date} • {t.lane}
+                  {toll.date} • {toll.lane}
                 </div>
               </div>
               <span className="font-mono font-bold text-rose-600 dark:text-rose-400 text-sm shrink-0">
-                -{formatINR(t.amount)}
+                -{formatINR(toll.amount)}
               </span>
             </div>
           ))}
