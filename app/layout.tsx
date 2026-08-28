@@ -7,6 +7,7 @@ import { CommandPalette } from '@/components/layout/CommandPalette';
 import { ToastProvider } from '@/components/ui/Toast';
 import { ThemeProvider } from '@/lib/theme';
 import { LanguageProvider } from '@/lib/i18n';
+import { MobileDock } from '@/components/layout/MobileDock';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -58,8 +59,9 @@ export default function RootLayout({
           <LanguageProvider>
             <ToastProvider>
               <Navbar />
-              <main className="flex-1 pt-24">{children}</main>
+              <main className="app-main flex-1 pt-24 pb-24 lg:pb-0">{children}</main>
               <Footer />
+              <MobileDock />
               <CommandPalette />
             </ToastProvider>
           </LanguageProvider>
