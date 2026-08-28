@@ -44,6 +44,11 @@ export const DICTIONARY = {
 
     // Command Dock / Action Hub
     allActions: 'All Parivahan Services',
+    catAll: 'All',
+    catVehicle: 'Vehicle & RC',
+    catDriver: 'Licence & ADTT',
+    catTolls: 'FASTag & Tolls',
+    catTools: 'Speed Tools',
     vehicleRc: 'Vehicle & RC (VAHAN)',
     driverLicence: 'Licence & ADTT (SARATHI)',
     tollsPasses: 'FASTag & Corridor Tolls',
@@ -889,6 +894,11 @@ export const DICTIONARY = {
 
     // Command Dock / Action Hub
     allActions: 'सभी परिवहन सेवाएं',
+    catAll: 'सभी',
+    catVehicle: 'वाहन व RC',
+    catDriver: 'लाइसेंस व ADTT',
+    catTolls: 'फास्टैग व टोल',
+    catTools: 'त्वरित टूल्स',
     vehicleRc: 'वाहन एवं आरसी (वाहन)',
     driverLicence: 'लाइसेंस एवं टेस्ट (सारथी)',
     tollsPasses: 'फास्टैग एवं टोल',

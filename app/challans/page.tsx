@@ -101,8 +101,14 @@ export default function ChallansPage() {
       {/* Summary Banner */}
       <div className="clay-card p-6 flex flex-col sm:flex-row items-center justify-between gap-5">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 flex items-center justify-center shrink-0">
-            <ShieldAlert className="w-6 h-6" />
+          <div
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
+              pendingCount > 0
+                ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400'
+                : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400'
+            }`}
+          >
+            {pendingCount > 0 ? <ShieldAlert className="w-6 h-6" /> : <CheckCircle className="w-6 h-6" />}
           </div>
           <div>
             <span className="eyebrow text-slate-400 dark:text-slate-500">{t('chFleetRadarStatus')}</span>
@@ -115,7 +121,11 @@ export default function ChallansPage() {
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="text-center sm:text-right">
             <span className="text-xs text-slate-400 dark:text-slate-500 font-semibold block">{t('chTotalOutstanding')}</span>
-            <span className="text-2xl font-display font-extrabold tracking-tight text-rose-700 dark:text-rose-400 font-mono">
+            <span
+              className={`text-2xl font-display font-extrabold tracking-tight font-mono ${
+                pendingCount > 0 ? 'text-rose-700 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'
+              }`}
+            >
               {formatINR(totalPendingAmount)}
             </span>
           </div>
