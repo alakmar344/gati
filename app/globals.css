@@ -506,9 +506,13 @@ body {
     display: none !important;
   }
 }
-/* Page enter animation for routed content */
+/* Page enter animation for routed content.
+   Use `backwards` (not `both`) fill-mode so the element does NOT retain a
+   `transform` after the animation ends. A lingering transform would turn
+   <main> into the containing block for every position:fixed descendant
+   (modals/overlays), pushing them off-screen relative to the scrolled page. */
 .app-main {
-  animation: page-enter 0.35s var(--ease) both;
+  animation: page-enter 0.35s var(--ease) backwards;
 }
 @keyframes page-enter {
   from { opacity: 0; transform: translateY(8px); }

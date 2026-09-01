@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import {
   ShieldCheck,
   CreditCard,
@@ -44,12 +45,16 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
   onPaymentSuccess,
 }) => {
   const { t } = useLanguage();
+  const [mounted, setMounted] = useState(false);
   const [method, setMethod] = useState<PaymentMethod>('UPI');
   const [upiApp, setUpiApp] = useState<'gpay' | 'phonepe' | 'paytm' | 'qr'>('qr');
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStage, setProcessingStage] = useState<number>(0);
   const [receipt, setReceipt] = useState<PaymentReceipt | null>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  // Portal target only exists on the client
+  useEffect(() => setMounted(true), []);
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach(clearTimeout);
@@ -93,7 +98,7 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
     };
   }, [isOpen, isProcessing, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const handleStartPayment = () => {
     setIsProcessing(true);
@@ -152,17 +157,18 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
     }, 3600));
   };
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-md animate-overlay-in"
+      className="fixed inset-0 z-[80] overflow-y-auto overscroll-contain bg-slate-950/50 backdrop-blur-md animate-overlay-in"
       onClick={() => !isProcessing && onClose()}
     >
+      <div className="flex min-h-full items-center justify-center p-4">
       <div
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label={`Pay for ${serviceTitle}`}
-        className="relative w-full max-w-lg clay-card dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[92vh] animate-dialog-in"
+        className="relative w-full max-w-lg clay-card dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[calc(100dvh-2rem)] my-auto animate-dialog-in"
       >
         {/* Secure Top Header */}
         <div className="p-6 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white relative flex-shrink-0">
@@ -408,6 +414,8 @@ export const GatiPayModal: React.FC<GatiPayModalProps> = ({
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </div>,
+    document.body
   );
 };

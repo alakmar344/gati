@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { User, Check, X, MapPin, Car } from 'lucide-react';
 import { DemoUser } from '@/lib/types';
 import { DEMO_USERS } from '@/lib/mockData';
@@ -19,6 +20,8 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
   onSelectUser,
 }) => {
   const { language, t } = useLanguage();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -31,7 +34,7 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const currentUser = getCurrentUser();
 
@@ -41,17 +44,18 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
     onClose();
   };
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-md animate-overlay-in"
+      className="fixed inset-0 z-[80] overflow-y-auto overscroll-contain bg-slate-950/50 backdrop-blur-md animate-overlay-in"
       onClick={onClose}
     >
+      <div className="flex min-h-full items-center justify-center p-4">
       <div
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label={t('switchPersona')}
-        className="relative w-full max-w-2xl clay-card dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[88vh] animate-dialog-in"
+        className="relative w-full max-w-2xl my-auto clay-card dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[calc(100dvh-2rem)] animate-dialog-in"
       >
         {/* Header */}
         <div className="p-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white relative flex-shrink-0">
@@ -158,6 +162,8 @@ export const PersonaSwitcherModal: React.FC<PersonaSwitcherModalProps> = ({
           </button>
         </div>
       </div>
-    </div>
+      </div>
+    </div>,
+    document.body
   );
 };

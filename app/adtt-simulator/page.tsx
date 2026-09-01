@@ -951,8 +951,9 @@ export default function AdttSimulatorPage() {
           OFFICIAL RTO TEST CLEARANCE CERTIFICATE MODAL
           ========================================== */}
       {showCertificate && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-700 relative space-y-6 animate-dialog-in">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md overflow-y-auto overscroll-contain">
+          <div className="flex min-h-full items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full my-auto p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-700 relative space-y-6 animate-dialog-in">
             
             {/* Top Tiranga Stripe */}
             <div className="tiranga-top-bar absolute top-0 left-0 right-0 rounded-t-2xl" />
@@ -1040,6 +1041,7 @@ export default function AdttSimulatorPage() {
               </button>
             </div>
 
+          </div>
           </div>
         </div>
       )}
