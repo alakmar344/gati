@@ -308,8 +308,9 @@ export default function ChallansPage() {
 
       {/* ================= VIRTUAL COURT DISPUTE MODAL ================= */}
       {disputingChallan && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
-          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-dialog-in">
+        <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-slate-900/60 backdrop-blur-md">
+          <div className="flex min-h-full items-center justify-center p-4">
+          <div className="relative w-full max-w-lg my-auto bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-dialog-in">
 
             {/* Header */}
             <div className="p-6 bg-slate-900 dark:bg-slate-950 text-white relative">
@@ -402,6 +403,7 @@ export default function ChallansPage() {
               )}
             </div>
 
+          </div>
           </div>
         </div>
       )}

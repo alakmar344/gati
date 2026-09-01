@@ -84,6 +84,27 @@ export const Footer: React.FC = () => {
             </button>
           </div>
         </div>
+
+        <div className="pt-5 mt-5 border-t border-slate-800/70 text-center text-[11px] text-slate-500 leading-relaxed">
+          Made for the{' '}
+          <a
+            href="https://buildwhatmovesindia.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-slate-300 hover:text-white transition-colors"
+          >
+            buildwhatmovesindia.com
+          </a>{' '}
+          hackathon · by{' '}
+          <a
+            href="https://esamz.me"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-olive-400 hover:text-olive-300 transition-colors"
+          >
+            Alakmar Teenwala
+          </a>
+        </div>
       </div>
     </footer>
   );
