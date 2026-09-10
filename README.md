@@ -1,5 +1,9 @@
 # Gati (गति) — Modern Indian Mobility & Vehicle Services OS
 
+[![Live](https://img.shields.io/badge/live-gati--rho.vercel.app-brightgreen?style=for-the-badge)](https://gati-rho.vercel.app)
+
+**→ Try it live: [gati-rho.vercel.app](https://gati-rho.vercel.app)** — one of the eSAMz Worlds from [esamz.me](https://esamz.me).
+
 > **A radically better digital public service experience for Indian vehicle and driving services.**  
 > Inspired by serene landscape aesthetics, frosted glassmorphism, bold editorial typography, and 10x-speed everyday mobility workflows.
 
